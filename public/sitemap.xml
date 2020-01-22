@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/tags/macos/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/posts/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/tags/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/tags/tools/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/tags/vim/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/posts/vim-install-plugin/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/categories/</loc>
+  </url>
+  
+</urlset>

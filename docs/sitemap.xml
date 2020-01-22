@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://drkbl.com/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://drkbl.com/tags/macos/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://drkbl.com/posts/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://drkbl.com/tags/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://drkbl.com/tags/tools/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://drkbl.com/tags/vim/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://drkbl.com/posts/vim-install-plugin/</loc>
+    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://drkbl.com/categories/</loc>
+  </url>
+  
+</urlset>

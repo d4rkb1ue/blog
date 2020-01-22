@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vim on d4rkb1ue&#39;s Blog</title>
+    <link>http://drkbl.com/tags/vim/</link>
+    <description>Recent content in Vim on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Jul 2016 00:50:35 +0000</lastBuildDate>
+    
+	<atom:link href="http://drkbl.com/tags/vim/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Vim 安装自动缩进插件</title>
+      <link>http://drkbl.com/posts/vim-install-plugin/</link>
+      <pubDate>Wed, 20 Jul 2016 00:50:35 +0000</pubDate>
+      
+      <guid>http://drkbl.com/posts/vim-install-plugin/</guid>
+      <description>以 vim-javascript v0.10.0 (为JS提供自动缩进) 为例
+安装 Vundle vundle让管理插件变得更清晰、智能。
+vundle 会接管 .vim/ 下的所有原生目录，所以先清空该目录，再通过如下命令安装 vundle：
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim 配置 Vundle 新建 vi ~/.vimrc vim配置文件
+&amp;quot; vundle 环境设置 filetype off set rtp+=~/.vim/bundle/Vundle.vim &amp;quot; vundle 管理的插件列表必须位于 vundle#begin() 和 vundle#end() 之间 call vundle#begin() Plugin &#39;VundleVim/Vundle.vim&#39; Plugin &#39;pangloss/vim-javascript&#39; &amp;quot; 插件列表结束 call vundle#end() filetype plugin indent on 配置文件中Plugin &#39;pangloss/vim-javascript&#39;就是要安装的这个插件。
+执行安装插件 进入vi，执行
+:PluginInstall 最下面一行显示 Done 。完成。
+测试 进入vi，执行
+gg=G 成功的indent了。
+ 参考  像 IDE 一样使用 vim  </description>
+    </item>
+    
+  </channel>
+</rss>
