@@ -1,4 +1,6 @@
 #!/bin/bash
 
 hugo -d docs
-git push origin
+git add content/** docs/**
+git commit
+git push
