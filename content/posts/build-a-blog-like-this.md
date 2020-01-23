@@ -38,6 +38,8 @@ Create a repo on Github.
 >
 > If you want to use "user or organization sites", you need another way to manage your raw contents and public static website.
 
+Change `baseURL` in `config.toml` to `https://d4rkb1ue.github.io/blog`
+
 Press Ctrl+C to stop server.
 
 Publish to a new Github Repo.
@@ -64,10 +66,11 @@ Test your blog in your browser,
 
 *Optionally, you can also change to a custom domain,
 
-1. In `GitHub Pages` setting, type your apex domain or subdomain, for ex, `drkbl.com`
-2. Go to your Domain DNS provider, add/change the record for the domain you choose to `d4rkb1ue.github.io` (`d4rkb1ue` should be changed to your Github username)
+1. Go to your Domain DNS provider, add/change the record for the domain you choose to `d4rkb1ue.github.io` (`d4rkb1ue` should be changed to your Github username)
    - For apex domain, make a CNAME record with Name `drkbl.com`, and Content `d4rkb1ue.github.io`
    - For subdomain, make a CNAME record with Name `blog`(anything you want), and Content `d4rkb1ue.github.io`.
+2. edit `baseURL` in `config.toml`
+3. In `GitHub Pages` setting, type your apex domain or subdomain, for ex, `drkbl.com`
 
 
 # Ref.
