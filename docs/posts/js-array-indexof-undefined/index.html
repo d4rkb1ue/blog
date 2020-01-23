@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Why array.indexOf(undefined) doesn&#39;t work if array is sparse - d4rkb1ue&#39;s Blog</title>
+  <meta content='Why array.indexOf(undefined) doesn&#39;t work if array is sparse - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Why array.indexOf(undefined) doesn&#39;t work if array is sparse - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="var firstMissingPositive = function (nums) { let arr = [true]; nums.forEach((val) =&gt; { if (val &gt; 0) { arr[val] = true; } }); return [arr, arr.indexOf(undefined)]; }; Why this doesn&#39;t work?!
+firstMissingPositive([2]) // [[true, undefined, true], -1] Why -1 !?
+but if just run [true, undefined, true].indexOf(undefined) in chrome dev tools it returns 1.
+原因 主要是 chrome 的打印问题， sparse (稀疏) 的 array 在没有定义的项目上，chrome 会打印出来 undefined 。但是这个其实是真的没有定义过的，对于 indexOf 来说，不像 console.log 会将没有定义的元素补全为 undefined ，indexOf 是看不到这个元素的。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/js-array-indexof-undefined/" />
+
+
+<meta property="article:published_time" content="2017-06-15T11:50:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-06-15T11:50:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Why array.indexOf(undefined) doesn&#39;t work if array is sparse</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>15 Jun 2017</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/javascript' class="link silver">JavaScript</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">firstMissingPositive</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">nums</span>) {
+  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">arr</span> <span style="color:#f92672">=</span> [<span style="color:#66d9ef">true</span>];
+  <span style="color:#a6e22e">nums</span>.<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">val</span>) =&gt; {
+  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">val</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+    <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">val</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+  }
+  });
+  <span style="color:#66d9ef">return</span> [<span style="color:#a6e22e">arr</span>, <span style="color:#a6e22e">arr</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#66d9ef">undefined</span>)];
+};
+</code></pre></div><p>Why this doesn't work?!</p>
+<pre><code>firstMissingPositive([2]) // [[true, undefined, true], -1]
+</code></pre><p>Why <code>-1</code> !?</p>
+<p>but if just run <code>[true, undefined, true].indexOf(undefined)</code> in chrome dev tools it returns <code>1</code>.</p>
+<h1 id="原因">原因</h1>
+<p>主要是 chrome 的打印问题， <strong>sparse (稀疏)</strong> 的 array 在没有定义的项目上，chrome 会打印出来 <code>undefined</code> 。但是这个其实是真的没有定义过的，对于 <code>indexOf</code> 来说，不像 <code>console.log</code> 会将没有定义的元素补全为 <code>undefined</code> ，<code>indexOf</code> 是看不到这个元素的。</p>
+<h1 id="解决办法">解决办法</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">arr</span>.<span style="color:#a6e22e">findIndex</span>(<span style="color:#a6e22e">val</span> =&gt; <span style="color:#f92672">!</span><span style="color:#a6e22e">val</span>); <span style="color:#75715e">// ~= arr.indexOf(undefined)
+</span></code></pre></div><p><code>findIndex()</code> 是真的会去从 0 开始遍历的。就像 <code>for</code> 循环一样。</p>
+<h1 id="参考">参考</h1>
+<ul>
+<li><a href="https://stackoverflow.com/questions/35949699/why-array-indexofundefined-doesnt-work-if-array-is-sparse">Why array.indexOf(undefined) doesn't work if array is sparse - Stack Overflow</a></li>
+</ul>
+<blockquote>
+<p>The reason this actually works unlike indexOf is that a[i] will evaluate to undefined if:</p>
+<ol>
+<li>The element exists and it has the value undefined, or</li>
+<li>The element doesn't exist at all. indexOf however will skip these &ldquo;gaps&rdquo; in the array.</li>
+</ol>
+</blockquote>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/fucking-isnan-in-javascript/">prev post</a>
+  <a href="https://drkbl.com/posts/div-not-response-to-keyboard-event-without-tabindex/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Mac OS (OS X) 系统级快捷键重载 - d4rkb1ue&#39;s Blog</title>
+  <meta content='Mac OS (OS X) 系统级快捷键重载 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Mac OS (OS X) 系统级快捷键重载 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="meta Mac 系统默认的所有程序退出快捷键是 Command &#43; Q 有的时候按快了而没注意焦点位置，容易误操作。以下用 Sublime 为例将默认的退出快捷键由 Command &#43; Q 改为 Control &#43; Command &#43; Q。
+环境 Mac OS Sierra 10.12
+步骤   System Preference(系统设置) -&gt; Keyboard(键盘) -&gt; Shortcut(快捷键)，在左侧列表的最后一项，应用快捷键。
+  点击 &#43; 添加新快捷键。
+  在程序列表中选择 Sublime Text.app， 菜单标题照抄原快捷键说明：Quit Sublime Text (注意大小写，空格，都不能差)
+  键盘快捷键录入新快捷键。
+  结果如图。
+  结果 在 Sublime 中使用 Command &#43; Q 没有任何效果。新快捷键 Control &#43; Command &#43; Q 生效。完全覆盖。
+Trouble shooting   快捷键说明注意大小写，空格，都不能差。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/mac-os-system-shortcut-override/" />
+
+
+<meta property="article:published_time" content="2016-10-20T23:14:22&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-10-20T23:14:22&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Mac OS (OS X) 系统级快捷键重载</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>20 Oct 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/macos' class="link silver">macOS</a> <a href='/tags/tools' class="link silver">Tools</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="meta">meta</h1>
+<p>Mac 系统默认的所有程序退出快捷键是 <code>Command + Q</code> 有的时候按快了而没注意焦点位置，容易误操作。以下用 Sublime 为例将默认的退出快捷键由 <code>Command + Q</code> 改为 <code>Control + Command + Q</code>。</p>
+<h1 id="环境">环境</h1>
+<p>Mac OS Sierra 10.12</p>
+<h1 id="步骤">步骤</h1>
+<ol>
+<li>
+<p>System Preference(系统设置) -&gt; Keyboard(键盘) -&gt; Shortcut(快捷键)，在左侧列表的最后一项，应用快捷键。</p>
+</li>
+<li>
+<p>点击 <code>+</code> 添加新快捷键。</p>
+</li>
+<li>
+<p>在程序列表中选择 Sublime Text.app， 菜单标题照抄原快捷键说明：<code>Quit Sublime Text</code>  <em>(注意大小写，空格，都不能差)</em></p>
+<p><img src="/images/system-shortcut-override-sublime-1.png" alt="system-shortcut-override-sublime-1"></p>
+</li>
+<li>
+<p>键盘快捷键录入新快捷键。</p>
+</li>
+<li>
+<p>结果如图。</p>
+<p><img src="/images/system-shortcut-override-sublime-2.png" alt="system-shortcut-override-sublime-2"></p>
+</li>
+</ol>
+<h1 id="结果">结果</h1>
+<p>在 Sublime 中使用 <code>Command + Q</code> 没有任何效果。新快捷键 <code>Control + Command + Q</code> 生效。完全覆盖。</p>
+<h1 id="trouble-shooting">Trouble shooting</h1>
+<ol>
+<li>
+<p>快捷键说明注意大小写，空格，都不能差。</p>
+</li>
+<li>
+<p>注意避开已被软件指定的快捷键。比如 <code>Option + Command + Q</code> 默认在 Sublime 中就被占用了。</p>
+</li>
+</ol>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/quote-avoid-backwash-in-percolation/">prev post</a>
+  <a href="https://drkbl.com/posts/algorithms-part-1-note-2/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

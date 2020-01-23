@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Hexo 初始化笔记 - d4rkb1ue&#39;s Blog</title>
+  <meta content='Hexo 初始化笔记 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Hexo 初始化笔记 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="TODO   NexT说明
+  添加About Me
+  RSS订阅
+  头部添加tag和图片的尝试
+  Sitemap站点地图
+  使用了NexT主题。执行主题的安装说明。轻松的添加多说！
+流程注意  push前先 hexo g 生成静态文件 安装hexo-deployer-git, 部署方式见官方网站, hexo d 部署 更换主题后需要先 hexo clean 清除静态文件，再g, d d,g命令可以合为一行 hexo d -g  问题和解决 无法git CNAME文件 CNAME文件不会被上传。
+解决 CNAME需放在source文件夹下。事实上，所有放在source/根目录的文件都会原样上传。
+不支持 #Title (无空格)渲染 解决方式 对存在无空格使用#标记的md，用Sublime或VS Code执行全局替换：
+Find:
+^(#&#43;)
+Replace:
+$1 
+注意$1之后有空格.
+说明 可以匹配所有#,##,###,… 并且在之后加上一个” “(空格)。
+应对不支持”#Title”(无空格)渲染的垃圾引擎比如hexo用的。
+^(#&#43;) 用 () 括上的部分在Replace里面经$引用。第一个()就是$1
+界面为德语 _config.yml: language: zh-Hans 而不是 language: zh-CN CN 会导致界面为德语。“Veröffentlicht“" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/hexo-init/" />
+
+
+<meta property="article:published_time" content="2016-04-22T06:32:48&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-04-22T06:32:48&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Hexo 初始化笔记</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>22 Apr 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/tools' class="link silver">Tools</a> <a href='/tags/blog' class="link silver">Blog</a> <a href='/tags/hexo' class="link silver">Hexo</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="todo">TODO</h1>
+<ul>
+<li>
+<p><a href="http://theme-next.iissnan.com/theme-settings.html#reward">NexT说明</a></p>
+</li>
+<li>
+<p>添加About Me</p>
+</li>
+<li>
+<p>RSS订阅</p>
+</li>
+<li>
+<p>头部添加tag和图片的尝试</p>
+</li>
+<li>
+<p>Sitemap站点地图</p>
+</li>
+</ul>
+<p>使用了<a href="http://theme-next.iissnan.com/getting-started.html">NexT</a>主题。执行主题的安装说明。轻松的添加多说！</p>
+<h1 id="流程注意">流程注意</h1>
+<ol>
+<li>push前先 <code>hexo g</code> 生成静态文件</li>
+<li>安装hexo-deployer-git, 部署方式见官方网站, <code>hexo d</code> 部署</li>
+<li>更换主题后需要先 <code>hexo clean</code> 清除静态文件，再<code>g</code>, <code>d</code></li>
+<li><code>d</code>,<code>g</code>命令可以合为一行 <code>hexo d -g</code></li>
+</ol>
+<h1 id="问题和解决">问题和解决</h1>
+<h2 id="无法git-cname文件">无法git CNAME文件</h2>
+<p>CNAME文件不会被上传。</p>
+<h3 id="解决">解决</h3>
+<p>CNAME需放在source文件夹下。事实上，所有放在source/根目录的文件都会原样上传。</p>
+<h2 id="不支持-title-无空格渲染">不支持 <code>#Title</code> (无空格)渲染</h2>
+<h3 id="解决方式">解决方式</h3>
+<p>对存在无空格使用#标记的md，用Sublime或VS Code执行全局替换：</p>
+<p>Find:</p>
+<p><code>^(#+)</code></p>
+<p>Replace:</p>
+<p><code>$1 </code></p>
+<p>注意$1之后有空格.</p>
+<h3 id="说明">说明</h3>
+<p>可以匹配所有#,##,###,… 并且在之后加上一个” “(空格)。</p>
+<p>应对不支持”#Title”(无空格)渲染的<del>垃圾</del>引擎比如hexo用的。</p>
+<p><code>^(#+)</code> 用 <code>()</code> 括上的部分在Replace里面经<code>$</code>引用。第一个<code>()</code>就是<code>$1</code></p>
+<h2 id="界面为德语">界面为德语</h2>
+<p>_config.yml: <code>language: zh-Hans</code> 而不是 <code>language: zh-CN</code>
+<code>CN</code> 会导致界面为德语。“Veröffentlicht“</p>
+<p>尝试使用<a href="https://github.com/celsomiranda/hexo-renderer-markdown-it">hexo-renderer-markdown-it</a>来代替原先的hexo-renderer-marked, 然而并不能解决问题</p>
+<h2 id="太长的description">太长的Description</h2>
+<p>NexT默认每个文章都在主页里完整显示，如果需要自定义显示的内容。可在front-matter头中定义description。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+title: JavaScript Array.prototype.sort() 可以 call 哪些对象？
+date: <span style="color:#e6db74">2016-04-18 05:51:34</span>
+description: 对于从document中获取的nodeList,想要对它进行排序，实时显示出来。
+---
+</code></pre></div><p>偷懒的方式：
+在文章合适的位置插入</p>
+<pre><code>&lt;!-- more --&gt;
+</code></pre><p>即可！</p>
+<p><strong>需要注意头部不支持markdown语法！</strong></p>
+<hr>
+<h1 id="参考">参考</h1>
+<ul>
+<li>
+<p><a href="http://mattshma.github.io/2015/05/15/github_hexo/">使用Github与Hexo搭建blog</a></p>
+</li>
+<li>
+<p><a href="http://wsgzao.github.io/post/hexo-guide/">使用GitHub和Hexo搭建免费静态Blog</a></p>
+</li>
+<li>
+<p><a href="http://code.wileam.com/build-a-hexo-blog-and-optimize/">hexo搭建静态博客以及优化</a></p>
+</li>
+</ul>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/array-prototype-sort-call-cannot-apply-on-dom/">prev post</a>
+  <a href="https://drkbl.com/posts/use-github-as-dns/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

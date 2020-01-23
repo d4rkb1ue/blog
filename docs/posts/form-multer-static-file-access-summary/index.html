@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>nswbmw/N-blog 学习-8-文件上传 Multer, 静态文件访问权限, 感触和总结 - d4rkb1ue&#39;s Blog</title>
+  <meta content='nswbmw/N-blog 学习-8-文件上传 Multer, 静态文件访问权限, 感触和总结 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='nswbmw/N-blog 学习-8-文件上传 Multer, 静态文件访问权限, 感触和总结 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="做起文件上传，就突然想起来访问权限问题。之前在apache服务器里，/var/www里面的文件是通过linux的权限管理来决定是否可以访问。那么express是怎么样的呢？
+现在的访问权限 好像通过app.use(express.static(path.join(__dirname, &#39;public&#39;)));定义之后，直接访问 /some-url 就是在访问 public/文件夹下的文件。
+使用Multer 安装： $ npm install --save multer header.ejs 在 &lt;span&gt;&lt;a title=&quot;发表&quot; href=&quot;/post&quot;&gt;post&lt;/a&gt;&lt;/span&gt; 前添加一行代码：
+&lt;span&gt;&lt;a title=&quot;上传&quot; href=&quot;/upload&quot;&gt;upload&lt;/a&gt;&lt;/span&gt; index.js 在 app.get(&#39;/logout&rsquo;) 函数后添加如下代码：
+app.get(&#39;/upload&#39;, checkLogin); app.get(&#39;/upload&#39;, function (req, res) { res.render(&#39;upload&#39;, { title: &#39;文件上传&#39;, user: req.session.user, success: req.flash(&#39;success&#39;).toString(), error: req.flash(&#39;error&#39;).toString() }); }); views/upload.ejs &lt;%- include header %&gt; &lt;form method=&#39;post&#39; action=&#39;/upload&#39; enctype=&#39;multipart/form-data&#39; &gt; &lt;input type=&quot;file&quot; name=&#39;file&#39;/&gt;&lt;br&gt; &lt;input type=&quot;file&quot; name=&#39;file&#39;/&gt;&lt;br&gt; &lt;input type=&quot;file&quot; name=&#39;file&#39;/&gt;&lt;br&gt; &lt;input type=&quot;file&quot; name=&#39;file&#39;/&gt;&lt;br&gt; &lt;input type=&quot;file&quot; name=&#39;file&#39;/&gt;&lt;br&gt; &lt;input type=&quot;submit&quot; /&gt; &lt;/form&gt; &lt;%- include footer %&gt; 现在我们就可以访问文件上传页面了。 有一点和教程不同，我这5个name都是相同的，这样以备后面的设定。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/form-multer-static-file-access-summary/" />
+
+
+<meta property="article:published_time" content="2016-04-07T00:13:40&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-04-07T00:13:40&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">nswbmw/N-blog 学习-8-文件上传 Multer, 静态文件访问权限, 感触和总结</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>07 Apr 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/nblog' class="link silver">Nblog</a> <a href='/tags/node.js' class="link silver">Node.js</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><p>做起文件上传，就突然想起来访问权限问题。之前在apache服务器里，/var/www里面的文件是通过linux的权限管理来决定是否可以访问。那么express是怎么样的呢？</p>
+<h1 id="现在的访问权限">现在的访问权限</h1>
+<p>好像通过<code>app.use(express.static(path.join(__dirname, 'public')));</code>定义之后，直接访问 <code>/some-url</code> 就是在访问 <code>public/</code>文件夹下的文件。</p>
+<h1 id="使用multer">使用Multer</h1>
+<h2 id="安装">安装：</h2>
+<pre><code>$ npm install --save multer
+</code></pre><h2 id="headerejs">header.ejs</h2>
+<p>在 <code>&lt;span&gt;&lt;a title=&quot;发表&quot; href=&quot;/post&quot;&gt;post&lt;/a&gt;&lt;/span&gt;</code> 前添加一行代码：</p>
+<pre><code>&lt;span&gt;&lt;a title=&quot;上传&quot; href=&quot;/upload&quot;&gt;upload&lt;/a&gt;&lt;/span&gt;
+</code></pre><h2 id="indexjs">index.js</h2>
+<p>在 app.get('/logout&rsquo;) 函数后添加如下代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/upload&#39;</span>, <span style="color:#a6e22e">checkLogin</span>);
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/upload&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
+  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">render</span>(<span style="color:#e6db74">&#39;upload&#39;</span>, {
+    <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;文件上传&#39;</span>,
+    <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">user</span>,
+    <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;success&#39;</span>).<span style="color:#a6e22e">toString</span>(),
+    <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;error&#39;</span>).<span style="color:#a6e22e">toString</span>()
+});
+});
+</code></pre></div><h2 id="viewsuploadejs">views/upload.ejs</h2>
+<pre><code>&lt;%- include header %&gt;
+&lt;form method='post' action='/upload' enctype='multipart/form-data' &gt;
+  &lt;input type=&quot;file&quot; name='file'/&gt;&lt;br&gt;
+  &lt;input type=&quot;file&quot; name='file'/&gt;&lt;br&gt;
+  &lt;input type=&quot;file&quot; name='file'/&gt;&lt;br&gt;
+  &lt;input type=&quot;file&quot; name='file'/&gt;&lt;br&gt;
+  &lt;input type=&quot;file&quot; name='file'/&gt;&lt;br&gt;
+  &lt;input type=&quot;submit&quot; /&gt;
+&lt;/form&gt;
+&lt;%- include footer %&gt;
+</code></pre><p>现在我们就可以访问文件上传页面了。
+有一点和教程不同，我这5个name都是相同的，这样以备后面的设定。</p>
+<h2 id="routesindexjs">routes/index.js</h2>
+<p>教程里把multer的设定放在了app.js。不过他使用的版本比较老旧，对于新版本的multer，那个代码已经失效了。我把所有的逻辑都转移到了routes里。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">multer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;multer&#39;</span>);
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">storage</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">multer</span>.<span style="color:#a6e22e">diskStorage</span>({
+  <span style="color:#a6e22e">destination</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">cb</span>) {
+      <span style="color:#a6e22e">cb</span>(<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;./public/uploads&#39;</span>)
+  },
+  <span style="color:#a6e22e">filename</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">cb</span>) {
+      <span style="color:#a6e22e">cb</span>(<span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">originalname</span>)
+  }
+})
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">upload</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">multer</span>({ <span style="color:#a6e22e">storage</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">storage</span> });
+
+...
+
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/upload&#39;</span>,<span style="color:#a6e22e">checkLogin</span>);
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/upload&#39;</span>,<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">req</span>,<span style="color:#a6e22e">res</span>){
+    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">render</span>(<span style="color:#e6db74">&#39;upload&#39;</span>,
+    {<span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;文件上传&#39;</span>,
+    <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">user</span>,
+    <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;success&#39;</span>).<span style="color:#a6e22e">toString</span>(),
+    <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;error&#39;</span>).<span style="color:#a6e22e">toString</span>()
+});
+});
+
+
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/upload&#39;</span>, <span style="color:#a6e22e">checkLogin</span>);
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/upload&#39;</span>,<span style="color:#a6e22e">upload</span>.<span style="color:#a6e22e">fields</span>([{<span style="color:#a6e22e">name</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#39;file&#39;</span>,<span style="color:#a6e22e">maxCound</span><span style="color:#f92672">:</span><span style="color:#ae81ff">5</span>}]), <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
+    <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;success&#39;</span>, <span style="color:#e6db74">&#39;文件上传成功!&#39;</span>);
+    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/upload&#39;</span>);
+});
+
+</code></pre></div><p><code>upload.fields([{name:'file',maxCound:5}])</code>:  req.files 里面的所有filedname都叫<code>file</code>，直接统一解决。
+<code>file.originalname</code>: 保存的名字就是原来的文件名字。这个选项是必选的，否则上传的文件名都是随机乱码。</p>
+<p><a href="https://github.com/expressjs/multer">Muler API</a></p>
+<hr>
+<h1 id="感触">感触</h1>
+<p>使用express.node.js的一个爽快之处就是整个框架的结构非常简洁，我可以从http请求处理到程序逻辑，几乎没有黑盒。
+都很平面化，而且全部的插件都是通过 中间件 的形式出现。调用的逻辑也很统一: <code>app.use</code></p>
+<p>一切都尽在掌控的感觉。不用什么都去google一下，什么都在代码里。</p>
+<p>太喜欢这种一切都按照逻辑来的感觉。
+和人交往就不同，仿佛每个人都是一个随机数发生器。
+想到一个梗，<code>#define true (rand()&gt;10)</code> 差不多是这样。</p>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/ejs-mark-how-to-empty-mongodb/">prev post</a>
+  <a href="https://drkbl.com/posts/array-prototype-sort-call-cannot-apply-on-dom/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

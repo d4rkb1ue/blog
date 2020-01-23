@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ios on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/ios/</link>
+    <description>Recent content in ios on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 30 Jan 2017 10:57:13 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/ios/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CS193p, iOS developing with Swift, Class 2</title>
+      <link>https://drkbl.com/posts/cp193p-ios-dev-class-2/</link>
+      <pubDate>Mon, 30 Jan 2017 10:57:13 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/cp193p-ios-dev-class-2/</guid>
+      <description>Computed Property Apply the MVC Struct Closure Enumerations  Computed Property var displayValue: Double { get{ return Double(display.text!)! } set{ display.text = String(newValue) } it’s a var. but contains some functions. newValue is a pre-defined keyword.
+When we call
+displayValue = some_value aka, the displayValue is being SET the function set well be executed. Similarly, when we call
+new_some_value = displayValue aka, the displayValue is being GET, the function get will be executed; or like func(displayValue).</description>
+    </item>
+    
+    <item>
+      <title>CS193p, iOS developing with Swift, Class 1</title>
+      <link>https://drkbl.com/posts/cp193p-ios-dev-class-1/</link>
+      <pubDate>Sun, 15 Jan 2017 02:35:33 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/cp193p-ios-dev-class-1/</guid>
+      <description>introduction to iOS environment initial files hello world function a calculator variable optional: Type   iOS system layers  Cocoa Touch: UI/Objects: multi-touch, motion, view hierarchy, web view, camera; Media: OpenAL, Core Audio, PDF; Core Services: Core Services: collections, networking, file access; Core OS (bottom): Unix;  platform  Tools: Xcode Language: 1. swift 2. obj-c  initial files  assets.xcassets: Media files: icon, sounds, images ViewController.swift: Controller in MVC Main.</description>
+    </item>
+    
+  </channel>
+</rss>

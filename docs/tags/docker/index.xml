@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/docker/</link>
+    <description>Recent content in Docker on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 20 Feb 2017 18:33:21 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dockerize Node.js APP</title>
+      <link>https://drkbl.com/posts/dockerize-nodejs-app/</link>
+      <pubDate>Mon, 20 Feb 2017 18:33:21 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/dockerize-nodejs-app/</guid>
+      <description>案例 以运行 d4rkb1ue/joker 为例
+步骤 将 d4rkb1ue/joker 下载到本地，并作为工作路径
+$ git clone https://github.com/d4rkb1ue/joker.git $ cd joker 数据库 基于Dockerfile 建立 mongodb 的 image d4rkb1ue/mongodb, Dockerfile 位于 /joker/dockerfile/mongodbDockerfile 并命名为 mongodb
+$ docker build -t &amp;quot;mongodb&amp;quot; - &amp;lt; dockerfile/mongodbDockerfile 建立 mongodb 的 container，命名为jokerdb，并映射本地~/Development/joker/sample_database/ 到 container 中的 /data/db目录。本地目录为joker所在目录。（必须要绝对路径）
+$ docker run -p 27017:27017 --name jokerdb -v ~/Development/joker/sample_database/:/data/db -d mongodb 修改 ~/Development/joker/settings.js，替换 192.168.50.6 为本地地址。可以通过 ifconfig 命令查看。
+# 本行中的地址修改为本地地址，不可用 localhost mongodbUrl: &#39;mongodb://192.168.50.6/joker&#39;, # 这里也是 host: &#39;192.168.50.6&#39;, 启动 Node 测试环境 启动 container node:6.</description>
+    </item>
+    
+    <item>
+      <title>Docker Quick Start</title>
+      <link>https://drkbl.com/posts/docker-quick-start/</link>
+      <pubDate>Thu, 02 Feb 2017 23:51:36 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/docker-quick-start/</guid>
+      <description>Hello World Follow Install Docker and run hello-world - Docker
+ Install Docker on macOS run docker run hello-world to test  Basic Components  image: read-only ISO container: instance to load a image and run it; can be create, start, stop, delete; separate from each others; has its own ‘root’ repository: a docker hub like github  Basic Commands docker image ls or docker images show all the images</description>
+    </item>
+    
+  </channel>
+</rss>

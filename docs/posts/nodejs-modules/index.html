@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Node.js Modules 入门 - d4rkb1ue&#39;s Blog</title>
+  <meta content='Node.js Modules 入门 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Node.js Modules 入门 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="示例 exports Functions 创造一个模块，circle.js
+const PI = Math.PI; exports.area = (r) =&gt; PI * r * r; 引用这个模块，main.js
+const circle = require(&#39;./circle.js&#39;); console.log(`Area of a circle of radius 4 is ${circle.area(4)}`); Usage
+$ node main.js &gt; Area of a circle of radius 4 is 50.26548245743669 circle.js 暴露了 area() 这个方法。于是引用起来就是直接.这个方法
+exports Object 除了定义要暴露的 exports 的方法，还可以选择自定义一个完整的 Object 作为整个exports接口来暴露，square.js
+module.exports = (width) =&gt; { return { area: () =&gt; width * width }; }; 引用它，main." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/nodejs-modules/" />
+
+
+<meta property="article:published_time" content="2017-03-01T20:46:05&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-03-01T20:46:05&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Node.js Modules 入门</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>01 Mar 2017</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/node.js' class="link silver">Node.js</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="示例">示例</h1>
+<h2 id="exports-functions">exports Functions</h2>
+<p>创造一个模块，circle.js</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">PI</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">PI</span>;
+<span style="color:#a6e22e">exports</span>.<span style="color:#a6e22e">area</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">r</span>) =&gt; <span style="color:#a6e22e">PI</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">r</span>;
+</code></pre></div><p>引用这个模块，main.js</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">circle</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./circle.js&#39;</span>);
+<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">Area of a circle of radius 4 is </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">circle</span>.<span style="color:#a6e22e">area</span>(<span style="color:#ae81ff">4</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</code></pre></div><p>Usage</p>
+<pre><code>$ node main.js
+&gt; Area of a circle of radius 4 is 50.26548245743669
+</code></pre><p>circle.js 暴露了 <code>area()</code> 这个方法。于是引用起来就是直接<code>.这个方法</code></p>
+<h2 id="exports-object">exports Object</h2>
+<p>除了定义要暴露的 <code>exports</code> 的方法，还可以选择自定义一个完整的 Object 作为整个<code>exports</code>接口来暴露，square.js</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">width</span>) =&gt; {
+    <span style="color:#66d9ef">return</span> {
+        <span style="color:#a6e22e">area</span><span style="color:#f92672">:</span> () =&gt; <span style="color:#a6e22e">width</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">width</span>
+    };
+};
+</code></pre></div><p>引用它，main.js</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">square</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./square.js&#39;</span>);
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">mySquare</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">square</span>(<span style="color:#ae81ff">2</span>); <span style="color:#75715e">// get a closure
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">The area of my square is </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">mySquare</span>.<span style="color:#a6e22e">area</span>()<span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</code></pre></div><h2 id="diff">diff</h2>
+<p>这两个的区别，</p>
+<blockquote>
+<ol>
+<li>module.exports 初始值为一个空对象 {}</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>exports 是指向的 module.exports 的引用</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="3">
+<li>require() 返回的是 module.exports 而不是 exports</li>
+</ol>
+</blockquote>
+<h1 id="注意事项">注意事项</h1>
+<p>require 的过程是同步的，所以这样是错误的:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">setTimeout</span>(() =&gt; {
+  <span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">a</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;hello&#39;</span> };
+}, <span style="color:#ae81ff">0</span>);
+</code></pre></div><p>警惕循环引用，</p>
+<pre><code># a.js
+require('./b.js');
+
+# b.js
+require('./a.js');
+</code></pre><p>这种循环引用的结果是其中一个require到的对象是空，<code>{}</code>。因为第一个被重复引用的对象还没有初始化完成。</p>
+<h1 id="ref">Ref</h1>
+<ul>
+<li><a href="https://nodejs.org/api/modules.html">https://nodejs.org/api/modules.html</a></li>
+<li><a href="https://github.com/nswbmw/N-blog/blob/master/book/2.1%20require.md">https://github.com/nswbmw/N-blog/blob/master/book/2.1%20require.md</a></li>
+<li><a href="https://github.com/nswbmw/N-blog/blob/master/book/2.2%20exports%20">https://github.com/nswbmw/N-blog/blob/master/book/2.2%20exports%20</a>和%20module.exports.md</li>
+</ul>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/javascript-closure/">prev post</a>
+  <a href="https://drkbl.com/posts/js-regexp/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

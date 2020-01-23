@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>HTML Tabs 标签页的实现方式和对比 - d4rkb1ue&#39;s Blog</title>
+  <meta content='HTML Tabs 标签页的实现方式和对比 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='HTML Tabs 标签页的实现方式和对比 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="HTML网页里的Tabs的意义是什么？   &lt;div class=&quot;content&quot;&gt; 的显示内容
+  &lt;li class=&quot;tab&quot;&gt; 类型的按钮，需要通过例如添加 active 的方式调节选中状态，通过点击，可以修改 div.content 内的内容
+  其实可以完全不存在 ul-&gt;div 1对1的关系。其实是点按一个按钮，更改部分位置的html内容
+静态Tabs 内容直接保存在 响应的 div HTML 代码中。
+  在静态 HTML 网页中，tabs的只需要执行隐藏，显示 &lt;div&gt;
+  最好可以通过 /panel#tab* url的方式直接显示为某一个tab
+  动态Tabs 如果使用AJAX或者其他异步加载技术，动态的获取 tab 下的内容。
+  默认 tab。如果直接调用 /panel 需要显示什么内容。应该直接显示 tab1 下的内容
+  未加载内容的加载方式，时机，和加载后的通知
+  加载内容的前后端分离
+ 使用异步获取 HTML 内容？ JSON 内容再动态生成HTML？    已加载内容的删除
+ $.hide() 直接 $(&#39;div&#39;)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/how-to-make-tabs/" />
+
+
+<meta property="article:published_time" content="2016-05-12T01:41:14&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-05-12T01:41:14&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">HTML Tabs 标签页的实现方式和对比</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>12 May 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/css' class="link silver">CSS</a> <a href='/tags/javascript' class="link silver">JavaScript</a> <a href='/tags/web' class="link silver">Web</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="html网页里的tabs的意义是什么">HTML网页里的Tabs的意义是什么？</h1>
+<ul>
+<li>
+<p><code>&lt;div class=&quot;content&quot;&gt;</code> 的显示内容</p>
+</li>
+<li>
+<p><code>&lt;li class=&quot;tab&quot;&gt;</code> 类型的按钮，需要通过例如添加 <code>active</code> 的方式调节选中状态，通过点击，可以修改 <code>div.content</code> 内的内容</p>
+</li>
+</ul>
+<p><em>其实可以完全不存在 <code>ul-&gt;div</code> 1对1的关系。其实是点按一个按钮，更改部分位置的html内容</em></p>
+<h1 id="静态tabs">静态Tabs</h1>
+<p><strong>内容直接保存在 响应的 <code>div</code> HTML 代码中。</strong></p>
+<ul>
+<li>
+<p>在静态 HTML 网页中，tabs的只需要执行隐藏，显示 <code>&lt;div&gt;</code></p>
+</li>
+<li>
+<p>最好可以通过 <code>/panel#tab*</code> url的方式直接显示为某一个tab</p>
+</li>
+</ul>
+<h1 id="动态tabs">动态Tabs</h1>
+<p><strong>如果使用AJAX或者其他异步加载技术，动态的获取 tab 下的内容。</strong></p>
+<ul>
+<li>
+<p>默认 tab。如果直接调用 <code>/panel</code> 需要显示什么内容。应该直接显示 <code>tab1</code> 下的内容</p>
+</li>
+<li>
+<p>未加载内容的加载方式，时机，和加载后的通知</p>
+</li>
+<li>
+<p>加载内容的前后端分离</p>
+<ul>
+<li>使用异步获取 HTML 内容？</li>
+<li>JSON 内容再动态生成HTML？</li>
+</ul>
+</li>
+<li>
+<p>已加载内容的删除</p>
+<ul>
+<li><code>$.hide()</code></li>
+<li>直接 <code>$('div').html</code> 进行替换</li>
+</ul>
+</li>
+<li>
+<p>已经加载过的内容的再次载入，和删除机制有关</p>
+<ul>
+<li>如果直接删除了，那毫无疑问要重新获取</li>
+<li>如果没删除，立刻显示并且后台再次ajax，返回再更新内容？还是不再次执行AJAX？</li>
+</ul>
+</li>
+<li>
+<p>和静态一样，最好可以通过 <code>/panel#tab1</code> url的方式直接显示为某一个tab</p>
+</li>
+<li>
+<p>参数传入。在执行AJAX时，可能需要传入诸如<code>用户Token</code>，<code>_id</code> 等信息，这些信息保存在哪里？</p>
+<ul>
+<li>对于其他网页的调用，需要后台 执行 <code>response.send/render</code>  提供参数</li>
+<li>对于本网页的调研，需要在 HTML 里找到信息做参数，而这个参数应该由首先调用 <code>/panel#tab*</code> 的 <code>response.send/render</code> 提供并保存在 <code>location.href</code> 或者<code>js硬代码</code>中。</li>
+<li>对于不指定任何Tab和参数的 <code>/panel</code> 调用？拒绝:默认值</li>
+</ul>
+</li>
+</ul>
+<h1 id="可选解决方案">可选解决方案</h1>
+<h2 id="1-bootstraphttpv3bootcsscomjavascripttabs">1. <a href="http://v3.bootcss.com/javascript/#tabs">Bootstrap</a></h2>
+<h3 id="静态完整案例">静态完整案例</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+&lt;<span style="color:#f92672">html</span>&gt;
+&lt;<span style="color:#f92672">head</span>&gt;
+	&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span> /&gt;
+	&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">http-equiv</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;X-UA-Compatible&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;IE=edge&#34;</span>&gt;
+	&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;viewport&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;width=device-width, initial-scale=1&#34;</span>&gt;
+	<span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ </span><span style="color:#75715e">--&gt;</span>
+	&lt;<span style="color:#f92672">title</span>&gt;
+		test
+	&lt;/<span style="color:#f92672">title</span>&gt;
+	<span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> Bootstrap </span><span style="color:#75715e">--&gt;</span>
+	&lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css&#34;</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span>&gt;
+	<span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> jQuery (necessary for Bootstrap&#39;s JavaScript plugins) </span><span style="color:#75715e">--&gt;</span>
+	&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//cdn.bootcss.com/jquery/1.11.3/jquery.min.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+	<span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> Include all compiled plugins (below), or include individual files as needed </span><span style="color:#75715e">--&gt;</span>
+	&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+	<span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> End Bootstrap </span><span style="color:#75715e">--&gt;</span>
+&lt;/<span style="color:#f92672">head</span>&gt;
+
+&lt;<span style="color:#f92672">body</span>&gt;
+	&lt;<span style="color:#f92672">div</span>&gt;
+		<span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> Nav tabs </span><span style="color:#75715e">--&gt;</span>
+		&lt;<span style="color:#f92672">ul</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav nav-tabs&#34;</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tablist&#34;</span>&gt;
+			&lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;presentation&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;active&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#home&#34;</span> <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab&#34;</span> &gt;Home&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+			&lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;presentation&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#profile&#34;</span> <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab&#34;</span> &gt;Profile&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+			&lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;presentation&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#messages&#34;</span> <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab&#34;</span> &gt;Messages&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+			&lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;presentation&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#settings&#34;</span> <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab&#34;</span> &gt;Settings&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+		&lt;/<span style="color:#f92672">ul</span>&gt;
+
+		<span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> Tab panes </span><span style="color:#75715e">--&gt;</span>
+		&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab-content&#34;</span>&gt;
+			&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabpanel&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab-pane active&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;home&#34;</span>&gt;...home&lt;/<span style="color:#f92672">div</span>&gt;
+			&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabpanel&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab-pane&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;profile&#34;</span>&gt;...profile&lt;/<span style="color:#f92672">div</span>&gt;
+			&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabpanel&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab-pane&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;messages&#34;</span>&gt;...messages&lt;/<span style="color:#f92672">div</span>&gt;
+			&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabpanel&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab-pane&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;settings&#34;</span>&gt;...setting&lt;/<span style="color:#f92672">div</span>&gt;
+		&lt;/<span style="color:#f92672">div</span>&gt;
+	&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">body</span>&gt;
+
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><h3 id="优势">优势</h3>
+<ul>
+<li>可以通过指定 <code>li.active</code> 和 <code>div.active</code> 的方式规定默认的导航活动按钮和显示内容</li>
+</ul>
+<h3 id="动态实例">动态实例</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
+    <span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> Nav tabs </span><span style="color:#75715e">--&gt;</span>
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav-tabslist&#34;</span>&gt;
+        &lt;<span style="color:#f92672">ul</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav nav-pills nav-stacked col-lg-2&#34;</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tablist&#34;</span>&gt;
+            &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;presentation&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#orders&#34;</span> <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab&#34;</span>&gt;订单&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+            &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;presentation&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#updates&#34;</span> <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab&#34;</span>&gt;更新&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+            &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;presentation&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#settings&#34;</span> <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab&#34;</span>&gt;设置&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+        &lt;/<span style="color:#f92672">ul</span>&gt;
+
+    &lt;/<span style="color:#f92672">div</span>&gt;
+
+    <span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> Tab panes </span><span style="color:#75715e">--&gt;</span>
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab-content col-lg-10&#34;</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabpanel&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab-pane&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;orders&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabpanel&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab-pane&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;updates&#34;</span>&gt;...updates&lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabpanel&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab-pane&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;settings&#34;</span>&gt;...setting&lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+    
+    &lt;<span style="color:#f92672">script</span>&gt;
+        <span style="color:#a6e22e">$</span>(<span style="color:#66d9ef">function</span>(){
+            <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;.nav-pills a[href=\&#34;#orders\&#34;]&#39;</span>).<span style="color:#a6e22e">click</span>(<span style="color:#66d9ef">function</span>(){
+            <span style="color:#75715e">&lt;!--</span> <span style="color:#a6e22e">使用获取JSON</span> <span style="color:#f92672">--</span><span style="color:#f92672">&gt;</span>
+                <span style="color:#a6e22e">getJSONorders</span>(<span style="color:#a6e22e">location</span>.<span style="color:#a6e22e">search</span>.<span style="color:#a6e22e">substring</span>(<span style="color:#e6db74">&#34;?proj_id=&#34;</span>.<span style="color:#a6e22e">length</span>),<span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#orders&#39;</span>));
+            })
+            
+        })
+    &lt;/<span style="color:#f92672">script</span>&gt;
+    
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><p>对应的JSON获取函数实例(这是一个获取指定产品的所有订单并列表的函数):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">getJSONorders</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">proj_id</span>, <span style="color:#a6e22e">jq</span>) {
+    <span style="color:#a6e22e">url</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/project-orders?proj_id=&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">proj_id</span>;
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">jqxhr</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">$</span>.<span style="color:#a6e22e">ajax</span>(<span style="color:#a6e22e">url</span>, {
+        <span style="color:#a6e22e">dataType</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;json&#39;</span>
+    }).<span style="color:#a6e22e">done</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">json</span>) {
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">orders</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">parse</span>(<span style="color:#a6e22e">json</span>);
+        <span style="color:#a6e22e">jq</span>.<span style="color:#a6e22e">get</span>(<span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;h2 id=\&#34;h2\&#34; class=\&#34;project-panel-title\&#34;&gt;订单列表&lt;/h2&gt;&#34;</span>
+        <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;div class=&#39;table-responsive&#39;&gt;&#34;</span>
+        <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;table class=&#39;table table-striped table hover&#39;&gt;&lt;tr&gt;&lt;th&gt;#&lt;/th&gt;&lt;th&gt;用户ID&lt;/th&gt;&lt;th&gt;选项&lt;/th&gt;&lt;th&gt;金额&lt;/th&gt;&lt;th&gt;支付方式&lt;/th&gt;&lt;th&gt;状态&lt;/th&gt;&lt;th&gt;备注&lt;/th&gt;&lt;/tr&gt;&#34;</span>;
+        
+        <span style="color:#a6e22e">orders</span>.<span style="color:#a6e22e">forEach</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">order</span>,<span style="color:#a6e22e">index</span>){
+            
+            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">tr</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#39;tr&#39;</span>);
+            <span style="color:#a6e22e">tr</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;td&gt;&#34;</span><span style="color:#f92672">+</span>(<span style="color:#a6e22e">index</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;/td&gt;&#34;</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;td&gt;&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">user_id</span>.<span style="color:#a6e22e">substring</span>(<span style="color:#ae81ff">18</span>)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;/td&gt;&#34;</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;td&gt;&#34;</span><span style="color:#f92672">+</span> (<span style="color:#e6db74">&#34;#&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">rw_id</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;: &#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">details</span>.<span style="color:#a6e22e">substring</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">5</span>)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;...&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">details</span>.<span style="color:#a6e22e">substring</span>(<span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">details</span>.<span style="color:#a6e22e">length</span><span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>)) <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;/td&gt;&#34;</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;td&gt; ¥&#34;</span><span style="color:#f92672">+</span> <span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">rw_amout</span> <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;/td&gt;&#34;</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;td&gt;&#34;</span><span style="color:#f92672">+</span> <span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">payment</span> <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;/td&gt;&#34;</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;td&gt;&#34;</span><span style="color:#f92672">+</span> <span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">status</span> <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;/td&gt;&#34;</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;td&gt;&#34;</span><span style="color:#f92672">+</span> (<span style="color:#a6e22e">order</span>.<span style="color:#a6e22e">note</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#34;无&#34;</span>) <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&lt;/td&gt;&#34;</span>;
+            
+            <span style="color:#a6e22e">jq</span>.<span style="color:#a6e22e">find</span>(<span style="color:#e6db74">&#34;tbody&#34;</span>).<span style="color:#a6e22e">append</span>(<span style="color:#a6e22e">tr</span>);
+            
+        })
+        
+    }).<span style="color:#a6e22e">fail</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">xhr</span>, <span style="color:#a6e22e">status</span>) {
+        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">xhr</span>.<span style="color:#a6e22e">status</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">status</span>);
+    })
+}
+</code></pre></div><h4 id="问题">问题</h4>
+<ul>
+<li>BS提供的Tab控件不支持 <code>/panel#tab*</code> 这样的调用。解决方案：</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> 注意放在所有异步加载函数的下面 </span><span style="color:#75715e">--&gt;</span>
+&lt;<span style="color:#f92672">script</span>&gt;
+    <span style="color:#a6e22e">$</span>(<span style="color:#66d9ef">function</span>(){
+        <span style="color:#75715e">// tab() 显示该tab click() 执行绑定的异步函数。因此本行应在所有异步设置之后(.click(func) 之后)
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;.nav-pills a[href=\&#34;&#39;</span><span style="color:#f92672">+</span>window.<span style="color:#a6e22e">location</span>.<span style="color:#a6e22e">hash</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\&#34;]&#34;</span>).<span style="color:#a6e22e">tab</span>(<span style="color:#e6db74">&#39;show&#39;</span>).<span style="color:#a6e22e">click</span>();
+        
+        <span style="color:#75715e">// 当#tab发生变化时的反应
+</span><span style="color:#75715e"></span>        window.<span style="color:#a6e22e">onhashchange</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(){
+            <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;.nav-tabs a[href=\&#34;&#39;</span><span style="color:#f92672">+</span>window.<span style="color:#a6e22e">location</span>.<span style="color:#a6e22e">hash</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\&#34;]&#34;</span>).<span style="color:#a6e22e">tab</span>(<span style="color:#e6db74">&#39;show&#39;</span>);
+        };
+    })
+&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><h2 id="2-jquery-uihttpsjqueryuicomtabs">2. <a href="https://jqueryui.com/tabs/">JQuery-ui</a></h2>
+<h3 id="静态完整案例-1">静态完整案例</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;en&#34;</span>&gt;
+&lt;<span style="color:#f92672">head</span>&gt;
+    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>&gt;
+    &lt;<span style="color:#f92672">title</span>&gt;jQuery UI Tabs - Default functionality&lt;/<span style="color:#f92672">title</span>&gt;
+    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//code.jquery.com/jquery-1.10.2.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//code.jquery.com/ui/1.11.4/jquery-ui.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+    <span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> 注意，需要手动初始化 </span><span style="color:#75715e">--&gt;</span>
+    &lt;<span style="color:#f92672">script</span>&gt;
+        <span style="color:#a6e22e">$</span>(<span style="color:#66d9ef">function</span>() {
+            <span style="color:#a6e22e">$</span>( <span style="color:#e6db74">&#34;#tabs&#34;</span> ).<span style="color:#a6e22e">tabs</span>();
+        });
+    &lt;/<span style="color:#f92672">script</span>&gt;
+&lt;/<span style="color:#f92672">head</span>&gt;
+&lt;<span style="color:#f92672">body</span>&gt;
+ 
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabs&#34;</span>&gt;
+    &lt;<span style="color:#f92672">ul</span>&gt;
+        &lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#tabs-1&#34;</span>&gt;Nunc tincidunt&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+        &lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#tabs-2&#34;</span>&gt;Proin dolor&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+        &lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#tabs-3&#34;</span>&gt;Aenean lacinia&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+    &lt;/<span style="color:#f92672">ul</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabs-1&#34;</span>&gt;
+        tab1
+    &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabs-2&#34;</span>&gt;
+        tab2
+    &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabs-3&#34;</span>&gt;
+        tab3
+    &lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+ 
+&lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><h4 id="优势-1">优势</h4>
+<ul>
+<li>支持 <code>/panel#tab-id</code> 式的调用</li>
+<li>默认就是 tab 1</li>
+</ul>
+<h3 id="动态完整实例">动态完整实例</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;en&#34;</span>&gt;
+&lt;<span style="color:#f92672">head</span>&gt;
+	&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>&gt;
+	&lt;<span style="color:#f92672">title</span>&gt;jQuery UI Tabs - Content via Ajax&lt;/<span style="color:#f92672">title</span>&gt;
+	&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//code.jquery.com/jquery-1.10.2.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+	&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//code.jquery.com/ui/1.11.4/jquery-ui.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+	&lt;<span style="color:#f92672">script</span>&gt;
+		<span style="color:#a6e22e">$</span>(<span style="color:#66d9ef">function</span>() {
+			<span style="color:#a6e22e">$</span>( <span style="color:#e6db74">&#34;#tabs&#34;</span> ).<span style="color:#a6e22e">tabs</span>({
+			<span style="color:#a6e22e">beforeLoad</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span>( <span style="color:#a6e22e">event</span>, <span style="color:#a6e22e">ui</span> ) {
+				<span style="color:#a6e22e">ui</span>.<span style="color:#a6e22e">jqXHR</span>.<span style="color:#a6e22e">fail</span>(<span style="color:#66d9ef">function</span>() {
+				<span style="color:#a6e22e">ui</span>.<span style="color:#a6e22e">panel</span>.<span style="color:#a6e22e">html</span>(
+					<span style="color:#e6db74">&#34;Couldn&#39;t load this tab. We&#39;ll try to fix this as soon as possible. &#34;</span> <span style="color:#f92672">+</span>
+					<span style="color:#e6db74">&#34;If this wouldn&#39;t be a demo.&#34;</span> );
+				});
+			}
+			});
+		});
+	&lt;/<span style="color:#f92672">script</span>&gt;
+&lt;/<span style="color:#f92672">head</span>&gt;
+
+&lt;<span style="color:#f92672">body</span>&gt;
+
+	&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabs&#34;</span>&gt;
+		&lt;<span style="color:#f92672">ul</span>&gt;
+			&lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#tabs-1&#34;</span>&gt;Preloaded&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+			
+			&lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://jqueryui.com/resources/demos/tabs/ajax/content1.html&#34;</span>&gt;Tab 1&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+			&lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://jqueryui.com/resources/demos/tabs/ajax/content2.html&#34;</span>&gt;Tab 2&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+			&lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://jqueryui.com/resources/demos/tabs/ajax/content3-slow.php&#34;</span>&gt;Tab 3 (slow)&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+			&lt;<span style="color:#f92672">li</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://jqueryui.com/resources/demos/tabs/ajax/content4-broken.php&#34;</span>&gt;Tab 4 (broken)&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+		&lt;/<span style="color:#f92672">ul</span>&gt;
+		&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabs-1&#34;</span>&gt;
+			static contents
+		&lt;/<span style="color:#f92672">div</span>&gt;
+	&lt;/<span style="color:#f92672">div</span>&gt;
+
+&lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><h4 id="效果">效果</h4>
+<ul>
+<li>支持 <code>/panel#tab-id</code> 式的调用</li>
+<li>默认就是 tab 1</li>
+<li>AJAX 的链接和内容载入会自动处理，并且在内容载入前，后，保存，都有相应的事件响应函数</li>
+</ul>
+<h4 id="问题-1">问题</h4>
+<p>对于应用Bootstrap的栅格系统的网页，如果需要让 tabs 和 tab-panel(content) 通过 col-<em>-</em> 来定义宽度：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container profile&#34;</span>&gt;
+        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;profile-row&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;row&#34;</span>&gt;
+            &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tabs&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;profile-menu col-md-2 col-lg-2 col-sm-2&#34;</span>&gt;
+                &lt;<span style="color:#f92672">ul</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav nav-pills nav-stacked&#34;</span>&gt;
+                    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;presentation&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;active&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/back-history&#34;</span>&gt;支持过的项目&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+                    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;presentation&#34;</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/created&#34;</span>&gt;创立的项目&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+                &lt;/<span style="color:#f92672">ul</span>&gt;
+            &lt;/<span style="color:#f92672">div</span>&gt;
+        &lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><p><code>$ui.tab</code> 载入的<code>panel</code>是载入直接在<code>div#tabs</code>下的，如果需要把<code>tabs</code>的<code>style</code>和<code>panel</code>的<code>style</code>应用Bootstrap的栅格系统，需要：</p>
+<p>把结构从:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">div</span>.<span style="color:#a6e22e">row</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">div</span><span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">tabs</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">div</span>.<span style="color:#a6e22e">ui</span><span style="color:#f92672">-</span><span style="color:#a6e22e">tabs</span><span style="color:#f92672">-</span><span style="color:#a6e22e">panel</span>
+</code></pre></div><p>改为</p>
+<pre><code>div.row&gt;         div.ui-tabs-panel
+</code></pre><p>即将<code>div.ui-tabs-panel</code>提升到和<code>div#tabs</code>同一层，互为兄弟，这样一来才能正确处理bootstrap的col的栅格（例如<code>tab.col-3, panel.col-9</code>)</p>
+<h4 id="我的解决方案">我的解决方案</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">$</span>(<span style="color:#66d9ef">function</span>(){
+    <span style="color:#75715e">// 使用 jquery-ui 操作tabs
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">$</span>( <span style="color:#e6db74">&#34;#tabs&#34;</span> ).<span style="color:#a6e22e">tabs</span>({
+        <span style="color:#75715e">// 在tab.panel载入完成后：
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">load</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">event</span>,<span style="color:#a6e22e">ui</span>){
+            
+            <span style="color:#75715e">// 调整Bootstrap的按钮active颜色根据所需调整
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#tabs li&#39;</span>).<span style="color:#a6e22e">removeClass</span>(<span style="color:#e6db74">&#39;active&#39;</span>)
+            <span style="color:#a6e22e">ui</span>.<span style="color:#a6e22e">tab</span>.<span style="color:#a6e22e">addClass</span>(<span style="color:#e6db74">&#39;active&#39;</span>);
+            
+            <span style="color:#75715e">// 每次clone都会append在其下面，删除 row&gt;panel 的元素，
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#profile-row&gt;div.ui-tabs-panel&gt;div.profile-panel&#39;</span>).<span style="color:#a6e22e">remove</span>();
+            
+            
+            <span style="color:#75715e">// 将载入的panel直接clone一个挂到所需要的位置
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#profile-row&#39;</span>).<span style="color:#a6e22e">append</span>(<span style="color:#a6e22e">ui</span>.<span style="color:#a6e22e">panel</span>.<span style="color:#a6e22e">clone</span>());
+
+        },        
+    });
+});
+</code></pre></div><p>其中遇到了一个问题：</p>
+<p>tab在原位置删除，并clone在新位置的过程中会现在原位置显示出来。
+我想不闪那么一下，但是以下这些函数都没用</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">load</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">event</span>,<span style="color:#a6e22e">ui</span>){
+    <span style="color:#a6e22e">ui</span>.<span style="color:#a6e22e">panel</span>.<span style="color:#a6e22e">hide</span>();
+    <span style="color:#75715e">// 最后再显示
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#39;#profile-row&#39;</span>).<span style="color:#a6e22e">append</span>(<span style="color:#a6e22e">ui</span>.<span style="color:#a6e22e">panel</span>.<span style="color:#a6e22e">clone</span>().<span style="color:#a6e22e">show</span>());
+},
+<span style="color:#a6e22e">beforeActivate</span><span style="color:#f92672">:</span><span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">event</span>,<span style="color:#a6e22e">ui</span>){
+    <span style="color:#a6e22e">ui</span>.<span style="color:#a6e22e">newPanel</span>.<span style="color:#a6e22e">hide</span>();
+},
+<span style="color:#a6e22e">beforeLoad</span><span style="color:#f92672">:</span><span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">event</span>,<span style="color:#a6e22e">ui</span>){
+    <span style="color:#a6e22e">ui</span>.<span style="color:#a6e22e">panel</span>.<span style="color:#a6e22e">hide</span>();
+},
+<span style="color:#a6e22e">create</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">event</span>,<span style="color:#a6e22e">ui</span>){
+    <span style="color:#a6e22e">ui</span>.<span style="color:#a6e22e">panel</span>.<span style="color:#a6e22e">hide</span>();
+}
+</code></pre></div><p>同样也失败的思路：使用 $ui 提供的 Events 来移动 oldPanel 和 NewPanel(通过append移动)。
+但是元素一旦移开该ui-tabs-panel不会再次生成。调用oldPanel只会报错。</p>
+<p>最后我使用css解决。</p>
+<p><strong>因此，使用这个方案同时还需要注意设置：</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css">#tabs .<span style="color:#a6e22e">profile-panel</span>{
+    <span style="color:#66d9ef">display</span>: <span style="color:#66d9ef">none</span>;
+}
+</code></pre></div><h1 id="bootstrap-和-jquery-ui-对于tab实现的对比">Bootstrap 和 JQuery-ui 对于Tab实现的对比</h1>
+<ul>
+<li>
+<p>Bootstrap 的 显示方式更自由直观。只要规定好 <code>li a.data-toggle=&quot;tab&quot;.href=&quot;tab-div-id&quot;</code> 和 <code>div.content#id</code> 即可。完全不用管这两部分之间的关系。在DOM树中距离多远都可以。</p>
+</li>
+<li>
+<p>JQuery-ui 的方式比较死板，必须互为兄弟节点。而且需要在js中执行 <code>$().tabs()</code></p>
+</li>
+<li>
+<p>JQuery-ui 我没有找到手动 click 一个 tab 的 API&rdquo;</p>
+</li>
+<li>
+<p>JQuery-ui 的好处是提供了非常丰富的 Event 响应函数，在载入的每个阶段都提供断点进行操作</p>
+</li>
+</ul>
+<hr>
+<h1 id="参考">参考</h1>
+<ul>
+<li>
+<p><a href="http://stackoverflow.com/questions/3601035/jquery-tabs-how-to-create-a-link-to-a-specific-tab">jQuery tabs: how to create a link to a specific tab?</a></p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onhashchange">WindowEventHandlers.onhashchange</a></p>
+</li>
+<li>
+<p><a href="http://v3.bootcss.com/javascript/#tabs">Bootstrap tab Usage</a></p>
+</li>
+</ul>
+<blockquote>
+<p>You can activate individual tabs in several ways:</p>
+<pre><code>$('#myTabs a[href=&quot;#profile&quot;]').tab('show') // Select tab by name
+$('#myTabs a:first').tab('show') // Select first tab
+$('#myTabs a:last').tab('show') // Select last tab
+$('#myTabs li:eq(2) a').tab('show') // Select third tab (0-indexed)
+</code></pre></blockquote>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/css-responsable-image-cut-without-distort/">prev post</a>
+  <a href="https://drkbl.com/posts/vs-code-debug-handbook/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

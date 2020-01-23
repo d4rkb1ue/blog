@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Chrome on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/chrome/</link>
+    <description>Recent content in Chrome on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 09 Jun 2017 11:24:36 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/chrome/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Chrome Console 过滤器黑名单</title>
+      <link>https://drkbl.com/posts/chrome-dev-tools-console-filter-blacklist/</link>
+      <pubDate>Fri, 09 Jun 2017 11:24:36 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/chrome-dev-tools-console-filter-blacklist/</guid>
+      <description>别人的库频繁报错怎么办，让人心情很不好。外部引入的库比如 .js lib 或者 node_modules 里面的库，无法修改的时候。
+是 node_modules 内部的库报错，过滤器很强大，看起来好像是白名单，其实加一个 ! 就可以实现黑名单。像这样：
+!./node_modules/mlz_student/build/js/index.js 就可以屏蔽掉所有含有这个关键词的 log 了！
+比如，</description>
+    </item>
+    
+    <item>
+      <title>Chrome 59 新功能 - 整页截图</title>
+      <link>https://drkbl.com/posts/full-size-screenshot-in-chrome-v59/</link>
+      <pubDate>Mon, 08 May 2017 00:22:27 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/full-size-screenshot-in-chrome-v59/</guid>
+      <description>最新的 Chrome 59 在 DevTools 中加入一个特别有用的日常功能，整页截图。Chrome Blog
+不过隐藏的蛮深的。需要进入 DevTools, 开启 Device Toolbar 也就是我们常用来调试不同屏幕尺寸和设备的界面。打开更多功能（右上方的三个小点点），里面就有一个 Capture Full Size Screenshot 的选项，点击即可截屏啦。而且截的还不错，不会带上一些悬浮元素。</description>
+    </item>
+    
+    <item>
+      <title>Chrome Devtools 实时对比不同代码的渲染效率</title>
+      <link>https://drkbl.com/posts/compare-animation-performance-in-chrome/</link>
+      <pubDate>Mon, 24 Apr 2017 15:36:00 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/compare-animation-performance-in-chrome/</guid>
+      <description>问题 公司项目有一个更新动画的函数需要每帧调用来更新动画，需要对比
+ setTimeout requestAnimationFrame  哪一个在更新上效率更佳。
+if (this.internal_tick_control) { // window.requestAnimationFrame(this.update.bind(this));  setTimeout(this.update.bind(this), 1000/60); } requestAnimationFrame 会让动画函数执行会先于浏览器重绘动作执行。其功能都是在绘制新一帧之前先对状态（动画内容）进行更新，然后调用重绘。setTimeout 是手动指定每隔多长时间进行更新，这有时会导致不精确的更新间隔；而 requestAnimationFrame 是浏览器自带优化，并且自带精确间隔调用的调用方式。理论上来说 requestAnimationFrame 应该会有更好的性能，我来证明一下。
+工具   用了公司项目内置的 API 来保证每次测试的动画内容一致；
+  使用 Chrome Dev-tools - FPS Meter 来显示实时性能；
+  使用 CPU performance limiting setting. (I use 20x slow down to maximize the difference) 限制 CPU 性能扩大对比差距；
+  同时运行多个不同代码的项目的方法 (A little trick to run these two different code simultaneously):</description>
+    </item>
+    
+  </channel>
+</rss>

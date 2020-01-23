@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>JavaScript 继承机制-2-构造函数的继承 - d4rkb1ue&#39;s Blog</title>
+  <meta content='JavaScript 继承机制-2-构造函数的继承 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='JavaScript 继承机制-2-构造函数的继承 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="对于构造函数 function Student(props) { this.name = props.name || &#39;Unnamed&#39;; } Student.prototype.hello = function () { alert(&#39;Hello, &#39; &#43; this.name &#43; &#39;!&#39;); } Student的原型链：
+我们要 基于Student扩展出PrimaryStudent。
+最基础的方式 function PrimaryStudent(props) { // 调用Student构造函数，绑定this变量:  Student.call(this, props); this.grade = props.grade || 1; } 但是，调用了Student构造函数不等于继承了Student，PrimaryStudent创建的对象的原型是：
+new PrimaryStudent() ----&gt; PrimaryStudent.prototype ----&gt; Object.prototype ----&gt; null 我们所需的是
+new PrimaryStudent() ----&gt; PrimaryStudent.prototype ----&gt; Student.prototype ----&gt; Object.prototype ----&gt; null 如果你想用最简单粗暴的方法这么干：
+PrimaryStudent.prototype = Student.prototype; 是不行的！如果这样的话，PrimaryStudent和Student共享一个原型对象，那还要定义PrimaryStudent干啥？
+感觉它实际要达成的是 PrimaryStudent.prototype.prototype = Student.prototype; 同样的，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/js-inherit-summary-2/" />
+
+
+<meta property="article:published_time" content="2016-06-14T23:11:24&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-06-14T23:11:24&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">JavaScript 继承机制-2-构造函数的继承</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>14 Jun 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/javascript' class="link silver">JavaScript</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="对于构造函数">对于构造函数</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Student</span>(<span style="color:#a6e22e">props</span>) {
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;Unnamed&#39;</span>;
+}
+
+<span style="color:#a6e22e">Student</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">hello</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> () {
+    <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#39;Hello, &#39;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;!&#39;</span>);
+}
+</code></pre></div><p>Student的原型链：</p>
+<p><img src="/images/student_prototype_1.png" alt="student_prototype_1.png"></p>
+<p>我们要 基于Student扩展出PrimaryStudent。</p>
+<h1 id="最基础的方式">最基础的方式</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">PrimaryStudent</span>(<span style="color:#a6e22e">props</span>) {
+    <span style="color:#75715e">// 调用Student构造函数，绑定this变量:
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Student</span>.<span style="color:#a6e22e">call</span>(<span style="color:#66d9ef">this</span>, <span style="color:#a6e22e">props</span>);
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">grade</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">grade</span> <span style="color:#f92672">||</span> <span style="color:#ae81ff">1</span>;
+}
+</code></pre></div><p>但是，调用了Student构造函数不等于继承了Student，PrimaryStudent创建的对象的原型是：</p>
+<pre><code>new PrimaryStudent() ----&gt; PrimaryStudent.prototype ----&gt; Object.prototype ----&gt; null
+</code></pre><p>我们所需的是</p>
+<pre><code>new PrimaryStudent() ----&gt; PrimaryStudent.prototype ----&gt; Student.prototype ----&gt; Object.prototype ----&gt; null
+</code></pre><p>如果你想用最简单粗暴的方法这么干：</p>
+<pre><code>PrimaryStudent.prototype = Student.prototype;
+</code></pre><p>是不行的！如果这样的话，PrimaryStudent和Student共享一个原型对象，那还要定义PrimaryStudent干啥？</p>
+<h1 id="感觉它实际要达成的是">感觉它实际要达成的是</h1>
+<pre><code>PrimaryStudent.prototype.prototype = Student.prototype;
+</code></pre><p>同样的，</p>
+<pre><code>PrimaryStudent.prototype = Student
+</code></pre><p>也是不对的。这样的话，一个prototype竟然指向了一个构造函数。</p>
+<pre><code>PrimaryStudent.prototype = new Student();
+</code></pre><p><del>猜测感觉这样是行得通的。</del>
+然而不行，原因：</p>
+<blockquote>
+<p>用Child.prototype = new Parent();替换了Child.prototype = new F();，免去了F()的定义。</p>
+</blockquote>
+<blockquote>
+<p>这个代码对于大部分情况可能是正常的，但是，当你定义了一个这样的函数:</p>
+</blockquote>
+<pre><code>function Student(name) {
+    this.name = name.toUpperCase();
+}
+</code></pre><blockquote>
+<p>你的Child.prototype = new Parent()将直接报错，因为name是undefined，你不得不改成：</p>
+</blockquote>
+<pre><code>Child.prototype = new Parent('')
+</code></pre><blockquote>
+<p>如果遇到另一种新的对象要传入number呢？</p>
+</blockquote>
+<pre><code>function Person(birth) {
+    this.age = 2016 - birth;
+}
+</code></pre><blockquote>
+<p>也就是说，你得为每个需要继承的对象编写特定的inherits()函数。</p>
+</blockquote>
+<blockquote>
+<p>空函数F()能保证new F()正常执行，所有的继承用一个inherits()都能正常处理。</p>
+</blockquote>
+<h1 id="借助一个中间对象来实现正确的原型链">借助一个中间对象来实现正确的原型链</h1>
+<p>这个中间对象的原型要指向Student.prototype。为了实现这一点，参考道爷（就是发明JSON的那个道格拉斯）的代码，中间对象可以用一个空函数F来实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// PrimaryStudent构造函数:
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">PrimaryStudent</span>(<span style="color:#a6e22e">props</span>) {
+    <span style="color:#a6e22e">Student</span>.<span style="color:#a6e22e">call</span>(<span style="color:#66d9ef">this</span>, <span style="color:#a6e22e">props</span>);
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">grade</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">grade</span> <span style="color:#f92672">||</span> <span style="color:#ae81ff">1</span>;
+}
+
+<span style="color:#75715e">// 空函数F，其实是一个构造函数，只是为空。
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">F</span>() {
+}
+
+<span style="color:#75715e">// 把F的原型指向Student.prototype:
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">F</span>.<span style="color:#a6e22e">prototype</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Student</span>.<span style="color:#a6e22e">prototype</span>;
+
+<span style="color:#75715e">// 把PrimaryStudent的原型指向一个新的F对象，F对象的原型正好指向Student.prototype:
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">PrimaryStudent</span>.<span style="color:#a6e22e">prototype</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">F</span>();
+
+<span style="color:#75715e">// 把PrimaryStudent原型的构造函数修复为PrimaryStudent:
+</span><span style="color:#75715e"></span><span style="color:#75715e">// 任何一个prototype对象都有一个constructor属性，指向它的构造函数。执行&#34;PrimaryStudent.prototype = new F();&#34;这一行的结果就是
+</span><span style="color:#75715e"></span><span style="color:#75715e">// PrimaryStudent.prototype.constructor原本是指向PrimaryStudent的；执行之后，PrimaryStudent.prototype.constructor指向F。
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">PrimaryStudent</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">PrimaryStudent</span>;
+
+<span style="color:#75715e">// 继续在PrimaryStudent原型（就是new F()对象）上定义方法：
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">PrimaryStudent</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">getGrade</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> () {
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">grade</span>;
+};
+
+<span style="color:#75715e">// 创建xiaoming:
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">xiaoming</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PrimaryStudent</span>({
+    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;小明&#39;</span>,
+    <span style="color:#a6e22e">grade</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>
+});
+<span style="color:#a6e22e">xiaoming</span>.<span style="color:#a6e22e">name</span>; <span style="color:#75715e">// &#39;小明&#39;
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">xiaoming</span>.<span style="color:#a6e22e">grade</span>; <span style="color:#75715e">// 2
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// 验证原型:
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">xiaoming</span>.<span style="color:#a6e22e">__proto__</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">PrimaryStudent</span>.<span style="color:#a6e22e">prototype</span>; <span style="color:#75715e">// true
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">xiaoming</span>.<span style="color:#a6e22e">__proto__</span>.<span style="color:#a6e22e">__proto__</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">Student</span>.<span style="color:#a6e22e">prototype</span>; <span style="color:#75715e">// true
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// 验证继承关系:
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">xiaoming</span> <span style="color:#66d9ef">instanceof</span> <span style="color:#a6e22e">PrimaryStudent</span>; <span style="color:#75715e">// true
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">xiaoming</span> <span style="color:#66d9ef">instanceof</span> <span style="color:#a6e22e">Student</span>; <span style="color:#75715e">// true
+</span></code></pre></div><p>用一张图来表示新的原型链：</p>
+<p><img src="/images/student_prototype_2.png" alt="student_prototype_2.png"></p>
+<p>注意，函数F仅用于桥接，我们仅创建了一个<code>new F()</code>实例，而且，没有改变原有的Student定义的原型链。</p>
+<p>如果把继承这个动作用一个<code>extend()</code>函数封装起来，还可以隐藏F的定义，并简化代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">extend</span>(<span style="color:#a6e22e">Child</span>, <span style="color:#a6e22e">Parent</span>) {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">F</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> () {};
+    <span style="color:#a6e22e">F</span>.<span style="color:#a6e22e">prototype</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Parent</span>.<span style="color:#a6e22e">prototype</span>;
+    <span style="color:#a6e22e">Child</span>.<span style="color:#a6e22e">prototype</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">F</span>();
+    <span style="color:#a6e22e">Child</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Child</span>;
+}
+</code></pre></div><p>这个<code>extend()</code>函数可以复用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Student</span>(<span style="color:#a6e22e">props</span>) {
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;Unnamed&#39;</span>;
+}
+
+<span style="color:#a6e22e">Student</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">hello</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> () {
+    <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#39;Hello, &#39;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;!&#39;</span>);
+}
+
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">PrimaryStudent</span>(<span style="color:#a6e22e">props</span>) {
+    <span style="color:#a6e22e">Student</span>.<span style="color:#a6e22e">call</span>(<span style="color:#66d9ef">this</span>, <span style="color:#a6e22e">props</span>);
+    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">grade</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">grade</span> <span style="color:#f92672">||</span> <span style="color:#ae81ff">1</span>;
+}
+
+<span style="color:#75715e">// 实现原型继承链:
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">extend</span>(<span style="color:#a6e22e">PrimaryStudent</span>, <span style="color:#a6e22e">Student</span>);
+
+<span style="color:#75715e">// 绑定其他方法到PrimaryStudent原型:
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">PrimaryStudent</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">getGrade</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> () {
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">grade</span>;
+};
+</code></pre></div><h1 id="实验">实验</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Fruit</span>(<span style="color:#a6e22e">name</span>){<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">name</span>};
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Apple</span>(<span style="color:#a6e22e">sweet</span>){<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">sweet</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">sweet</span>};
+<span style="color:#a6e22e">extend</span>(<span style="color:#a6e22e">Apple</span>,<span style="color:#a6e22e">Fruit</span>);
+
+<span style="color:#a6e22e">Apple</span>.<span style="color:#a6e22e">prototype</span>; <span style="color:#75715e">//Fruit {}
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Apple</span>.<span style="color:#a6e22e">name</span>; <span style="color:#75715e">//&#34;Apple&#34;
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Apple</span> <span style="color:#66d9ef">instanceof</span> <span style="color:#a6e22e">Fruit</span>; <span style="color:#75715e">//false 它是一个构造函数
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">aapple</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Apple</span>(<span style="color:#ae81ff">4</span>);
+<span style="color:#a6e22e">aapple</span>; <span style="color:#75715e">//Apple {sweet: 4}sweet: 4__proto__: Fruit
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">aapple</span>.<span style="color:#a6e22e">name</span>; <span style="color:#75715e">//undefined
+</span><span style="color:#75715e"></span>
+Object.<span style="color:#a6e22e">name</span>; <span style="color:#75715e">//&#34;Object&#34;
+</span></code></pre></div><p>发现一个严重的问题。<code>name</code>属性是一个预留属性。本来就会存在。改为<code>pigu</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Fruit</span>(<span style="color:#a6e22e">pigu</span>){<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">pigu</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">pigu</span>};
+<span style="color:#a6e22e">Fruit</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">cate</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;shuiguo&#34;</span>;
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Apple</span>(<span style="color:#a6e22e">sweet</span>){<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">sweet</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">sweet</span>};
+
+<span style="color:#a6e22e">extend</span>(<span style="color:#a6e22e">Apple</span>,<span style="color:#a6e22e">Fruit</span>);
+
+<span style="color:#a6e22e">Apple</span>; <span style="color:#75715e">//Apple(sweet){this.sweet = sweet}
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Apple</span>.<span style="color:#a6e22e">name</span>; <span style="color:#75715e">//&#34;Apple&#34;
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Apple</span>.<span style="color:#a6e22e">prototype</span>; <span style="color:#75715e">//Fruit {}
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Apple</span> <span style="color:#66d9ef">instanceof</span> <span style="color:#a6e22e">Fruit</span>; <span style="color:#75715e">//false
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Apple</span>.<span style="color:#a6e22e">pigu</span>; <span style="color:#75715e">//undefined
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">aa</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Apple</span>(<span style="color:#ae81ff">5</span>);
+<span style="color:#a6e22e">aa</span>.<span style="color:#a6e22e">sweet</span>; <span style="color:#75715e">//5
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">aa</span>.<span style="color:#a6e22e">cate</span>; <span style="color:#75715e">//&#34;shuiguo&#34;
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">aa</span> <span style="color:#66d9ef">instanceof</span> <span style="color:#a6e22e">Apple</span>; <span style="color:#75715e">//true
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">aa</span> <span style="color:#66d9ef">instanceof</span> <span style="color:#a6e22e">Fruit</span>; <span style="color:#75715e">//true
+</span></code></pre></div><p>参考
+<a href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/0014344997013405abfb7f0e1904a04ba6898a384b1e925000">廖雪峰：JavaScript教程-原型继承</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2010/05/object-oriented_javascript_inheritance.html">阮一峰：Javascript面向对象编程（二）：构造函数的继承</a></p>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/js-inherit-summary-1/">prev post</a>
+  <a href="https://drkbl.com/posts/js-inherit-summary-3/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

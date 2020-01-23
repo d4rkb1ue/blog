@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/blog/</link>
+    <description>Recent content in Blog on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 12 Nov 2016 23:51:18 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>修复 Hexo 博客 Next 主题无法载入</title>
+      <link>https://drkbl.com/posts/fix-hexo-next-theme-404/</link>
+      <pubDate>Sat, 12 Nov 2016 23:51:18 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/fix-hexo-next-theme-404/</guid>
+      <description>Error 刚刚遇到的问题，如往常一样执行
+hexo clean hexo d -g 重新部署的时候莫名出现vendors下的css, js资源无法载入问题。 而在public文件夹下其实vendors文件夹及其文件是正常存在的，权限也正常。
+ 这个问题很费解，原因没找到  Solution 修改blog/themes/hexo-theme-next/_config.yml文件中：
+... vendors: # Internal path prefix. Please do not edit it. # _internal: vendors 将此行注释，并改为下面的样子 _internal: lib ...   解释
+将静态文件地址从public/vendors改到public/lib。
+  </description>
+    </item>
+    
+    <item>
+      <title>Hexo 初始化笔记</title>
+      <link>https://drkbl.com/posts/hexo-init/</link>
+      <pubDate>Fri, 22 Apr 2016 06:32:48 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/hexo-init/</guid>
+      <description>TODO   NexT说明
+  添加About Me
+  RSS订阅
+  头部添加tag和图片的尝试
+  Sitemap站点地图
+  使用了NexT主题。执行主题的安装说明。轻松的添加多说！
+流程注意  push前先 hexo g 生成静态文件 安装hexo-deployer-git, 部署方式见官方网站, hexo d 部署 更换主题后需要先 hexo clean 清除静态文件，再g, d d,g命令可以合为一行 hexo d -g  问题和解决 无法git CNAME文件 CNAME文件不会被上传。
+解决 CNAME需放在source文件夹下。事实上，所有放在source/根目录的文件都会原样上传。
+不支持 #Title (无空格)渲染 解决方式 对存在无空格使用#标记的md，用Sublime或VS Code执行全局替换：
+Find:
+^(#+)
+Replace:
+$1 
+注意$1之后有空格.
+说明 可以匹配所有#,##,###,… 并且在之后加上一个” “(空格)。
+应对不支持”#Title”(无空格)渲染的垃圾引擎比如hexo用的。
+^(#+) 用 () 括上的部分在Replace里面经$引用。第一个()就是$1
+界面为德语 _config.yml: language: zh-Hans 而不是 language: zh-CN CN 会导致界面为德语。“Veröffentlicht“</description>
+    </item>
+    
+  </channel>
+</rss>

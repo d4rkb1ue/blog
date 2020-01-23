@@ -28,8 +28,343 @@
   </url>
   
   <url>
+    <loc>https://drkbl.com/posts/manage-all-music-playlist/</loc>
+    <lastmod>2019-01-10T23:37:52+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/gadget/</loc>
+    <lastmod>2018-07-22T21:49:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/linux/</loc>
+    <lastmod>2018-07-22T21:49:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</loc>
+    <lastmod>2018-07-22T21:49:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/using-ubuntu-18-as-nas/</loc>
+    <lastmod>2018-07-22T21:11:31+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/git/</loc>
+    <lastmod>2017-07-19T16:49:31+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/inject-git-commit-hash-var-on-webpack/</loc>
+    <lastmod>2017-07-19T16:49:31+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/web/</loc>
+    <lastmod>2017-07-19T16:49:31+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/webpack/</loc>
+    <lastmod>2017-07-19T16:49:31+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/div-not-response-to-keyboard-event-without-tabindex/</loc>
+    <lastmod>2017-06-16T15:25:49+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/javascript/</loc>
+    <lastmod>2017-06-16T15:25:49+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/js-array-indexof-undefined/</loc>
+    <lastmod>2017-06-15T11:50:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/fucking-isnan-in-javascript/</loc>
+    <lastmod>2017-06-12T12:09:53+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/chrome/</loc>
+    <lastmod>2017-06-09T11:24:36+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/chrome-dev-tools-console-filter-blacklist/</loc>
+    <lastmod>2017-06-09T11:24:36+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/js-wait-until-user-input/</loc>
+    <lastmod>2017-05-25T11:18:01+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/diff-promise-generator-async/</loc>
+    <lastmod>2017-05-24T17:52:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/react/</loc>
+    <lastmod>2017-05-18T20:53:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/call-async-func-in-sync-func/</loc>
+    <lastmod>2017-05-18T20:53:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/full-size-screenshot-in-chrome-v59/</loc>
+    <lastmod>2017-05-08T00:22:27+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/typeof-is-more-safe/</loc>
+    <lastmod>2017-05-03T23:51:31+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/compare-animation-performance-in-chrome/</loc>
+    <lastmod>2017-04-24T15:36:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/javascript-array-map-debug/</loc>
+    <lastmod>2017-04-03T20:25:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/debug-javascript-chrome-devtools/</loc>
+    <lastmod>2017-03-21T19:05:19+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/babel/</loc>
+    <lastmod>2017-03-15T22:19:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/node.js/</loc>
+    <lastmod>2017-03-15T22:19:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/react-hello-world/</loc>
+    <lastmod>2017-03-15T22:19:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/regex/</loc>
+    <lastmod>2017-03-11T23:44:20+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/js-regexp/</loc>
+    <lastmod>2017-03-11T23:44:20+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/nodejs-modules/</loc>
+    <lastmod>2017-03-01T20:46:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/javascript-closure/</loc>
+    <lastmod>2017-02-28T21:27:51+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/javascript-puzzles-or-jokes/</loc>
+    <lastmod>2017-02-27T22:05:59+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/nodejs-productive-environment/</loc>
+    <lastmod>2017-02-25T22:43:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/proxy-forward-or-reverse/</loc>
+    <lastmod>2017-02-23T05:44:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/proxy/</loc>
+    <lastmod>2017-02-23T05:44:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/server/</loc>
+    <lastmod>2017-02-23T05:44:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/docker/</loc>
+    <lastmod>2017-02-20T18:33:21+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/dockerize-nodejs-app/</loc>
+    <lastmod>2017-02-20T18:33:21+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/nblog/</loc>
+    <lastmod>2017-02-20T18:33:21+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/sublime-select-tricks/</loc>
+    <lastmod>2017-02-18T23:56:53+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/algorithms/</loc>
+    <lastmod>2017-02-17T00:05:28+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/algorithms-part-1-note-5/</loc>
+    <lastmod>2017-02-17T00:05:28+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/coursera/</loc>
+    <lastmod>2017-02-17T00:05:28+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/algorithms-part-1-note-4/</loc>
+    <lastmod>2017-02-15T05:05:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/docker-quick-start/</loc>
+    <lastmod>2017-02-02T23:51:36+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/automator-as-autohotkey/</loc>
+    <lastmod>2017-02-01T17:19:55+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://drkbl.com/tags/macos/</loc>
-    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+    <lastmod>2017-02-01T17:19:55+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/cs193p/</loc>
+    <lastmod>2017-01-30T10:57:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/cp193p-ios-dev-class-2/</loc>
+    <lastmod>2017-01-30T10:57:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/ios/</loc>
+    <lastmod>2017-01-30T10:57:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/phicomm-k2-asus-ap-bridge/</loc>
+    <lastmod>2017-01-21T21:45:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/ntfs-on-macos/</loc>
+    <lastmod>2017-01-18T15:56:25+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/format-hfs-on-windows/</loc>
+    <lastmod>2017-01-18T15:37:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/cp193p-ios-dev-class-1/</loc>
+    <lastmod>2017-01-15T02:35:33+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/use-numbers-vlook-function-match-gpa/</loc>
+    <lastmod>2017-01-05T01:59:08+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/fanqiang-guide/</loc>
+    <lastmod>2017-01-04T16:38:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/download-single-file-from-github/</loc>
+    <lastmod>2017-01-02T23:08:37+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/blog/</loc>
+    <lastmod>2016-11-12T23:51:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/hexo/</loc>
+    <lastmod>2016-11-12T23:51:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/fix-hexo-next-theme-404/</loc>
+    <lastmod>2016-11-12T23:51:18+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/algorithms-part-1-note-3/</loc>
+    <lastmod>2016-11-12T22:53:08+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/algorithms-part-1-note-2/</loc>
+    <lastmod>2016-10-26T01:18:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/mac-os-system-shortcut-override/</loc>
+    <lastmod>2016-10-20T23:14:22+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/java/</loc>
+    <lastmod>2016-10-10T02:49:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/quote-avoid-backwash-in-percolation/</loc>
+    <lastmod>2016-10-10T02:49:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/how-to-run-multi-java-file/</loc>
+    <lastmod>2016-09-19T18:38:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/algorithms-part-1-note-1/</loc>
+    <lastmod>2016-09-17T19:28:29+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/safari-history-exact-time-stamp/</loc>
+    <lastmod>2016-07-23T02:45:58+00:00</lastmod>
   </url>
   
   <url>
@@ -40,6 +375,121 @@
   <url>
     <loc>https://drkbl.com/posts/vim-install-plugin/</loc>
     <lastmod>2016-07-20T00:50:35+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/js-inherit-summary-4/</loc>
+    <lastmod>2016-06-17T21:55:16+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/js-inherit-summary-3/</loc>
+    <lastmod>2016-06-16T16:47:52+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/js-inherit-summary-2/</loc>
+    <lastmod>2016-06-14T23:11:24+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/js-inherit-summary-1/</loc>
+    <lastmod>2016-06-08T03:17:30+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/vs-code-debug-handbook/</loc>
+    <lastmod>2016-06-07T22:34:15+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/css/</loc>
+    <lastmod>2016-05-12T01:41:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/how-to-make-tabs/</loc>
+    <lastmod>2016-05-12T01:41:14+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/css-responsable-image-cut-without-distort/</loc>
+    <lastmod>2016-05-05T21:13:43+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/dynamic-width-with-inline-block/</loc>
+    <lastmod>2016-05-04T21:43:45+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/callback-already-called/</loc>
+    <lastmod>2016-05-03T21:54:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/use-github-as-dns/</loc>
+    <lastmod>2016-04-24T02:02:03+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/hexo-init/</loc>
+    <lastmod>2016-04-22T06:32:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/array-prototype-sort-call-cannot-apply-on-dom/</loc>
+    <lastmod>2016-04-18T05:51:34+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/form-multer-static-file-access-summary/</loc>
+    <lastmod>2016-04-07T00:13:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/ejs-mark-how-to-empty-mongodb/</loc>
+    <lastmod>2016-04-04T15:05:46+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/admission-control-middleware-next-routes-prototype/</loc>
+    <lastmod>2016-04-03T23:51:48+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/node-blog-logout-session-flash-cookie-secret/</loc>
+    <lastmod>2016-04-02T22:43:57+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/node-blog-re-routes-http-session-flash/</loc>
+    <lastmod>2016-04-01T02:41:16+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/node-blog-routes-mongodb-session-cookie-flash-ui/</loc>
+    <lastmod>2016-03-30T02:35:51+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/node-blog-ejs-static-file/</loc>
+    <lastmod>2016-03-28T20:40:06+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/node-blog-express-start/</loc>
+    <lastmod>2016-03-28T17:30:44+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/git-starter/</loc>
+    <lastmod>2016-03-09T22:55:17+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/lxf-lesson-1/</loc>
+    <lastmod>2016-02-10T21:13:59+00:00</lastmod>
   </url>
   
   <url>

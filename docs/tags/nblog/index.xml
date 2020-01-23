@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nblog on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/nblog/</link>
+    <description>Recent content in Nblog on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 20 Feb 2017 18:33:21 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/nblog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dockerize Node.js APP</title>
+      <link>https://drkbl.com/posts/dockerize-nodejs-app/</link>
+      <pubDate>Mon, 20 Feb 2017 18:33:21 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/dockerize-nodejs-app/</guid>
+      <description>案例 以运行 d4rkb1ue/joker 为例
+步骤 将 d4rkb1ue/joker 下载到本地，并作为工作路径
+$ git clone https://github.com/d4rkb1ue/joker.git $ cd joker 数据库 基于Dockerfile 建立 mongodb 的 image d4rkb1ue/mongodb, Dockerfile 位于 /joker/dockerfile/mongodbDockerfile 并命名为 mongodb
+$ docker build -t &amp;quot;mongodb&amp;quot; - &amp;lt; dockerfile/mongodbDockerfile 建立 mongodb 的 container，命名为jokerdb，并映射本地~/Development/joker/sample_database/ 到 container 中的 /data/db目录。本地目录为joker所在目录。（必须要绝对路径）
+$ docker run -p 27017:27017 --name jokerdb -v ~/Development/joker/sample_database/:/data/db -d mongodb 修改 ~/Development/joker/settings.js，替换 192.168.50.6 为本地地址。可以通过 ifconfig 命令查看。
+# 本行中的地址修改为本地地址，不可用 localhost mongodbUrl: &#39;mongodb://192.168.50.6/joker&#39;, # 这里也是 host: &#39;192.168.50.6&#39;, 启动 Node 测试环境 启动 container node:6.</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-8-文件上传 Multer, 静态文件访问权限, 感触和总结</title>
+      <link>https://drkbl.com/posts/form-multer-static-file-access-summary/</link>
+      <pubDate>Thu, 07 Apr 2016 00:13:40 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/form-multer-static-file-access-summary/</guid>
+      <description>做起文件上传，就突然想起来访问权限问题。之前在apache服务器里，/var/www里面的文件是通过linux的权限管理来决定是否可以访问。那么express是怎么样的呢？
+现在的访问权限 好像通过app.use(express.static(path.join(__dirname, &#39;public&#39;)));定义之后，直接访问 /some-url 就是在访问 public/文件夹下的文件。
+使用Multer 安装： $ npm install --save multer header.ejs 在 &amp;lt;span&amp;gt;&amp;lt;a title=&amp;quot;发表&amp;quot; href=&amp;quot;/post&amp;quot;&amp;gt;post&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt; 前添加一行代码：
+&amp;lt;span&amp;gt;&amp;lt;a title=&amp;quot;上传&amp;quot; href=&amp;quot;/upload&amp;quot;&amp;gt;upload&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt; index.js 在 app.get(&#39;/logout&amp;rsquo;) 函数后添加如下代码：
+app.get(&amp;#39;/upload&amp;#39;, checkLogin); app.get(&amp;#39;/upload&amp;#39;, function (req, res) { res.render(&amp;#39;upload&amp;#39;, { title: &amp;#39;文件上传&amp;#39;, user: req.session.user, success: req.flash(&amp;#39;success&amp;#39;).toString(), error: req.flash(&amp;#39;error&amp;#39;).toString() }); }); views/upload.ejs &amp;lt;%- include header %&amp;gt; &amp;lt;form method=&#39;post&#39; action=&#39;https://drkbl.com/upload&#39; enctype=&#39;multipart/form-data&#39; &amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;submit&amp;quot; /&amp;gt; &amp;lt;/form&amp;gt; &amp;lt;%- include footer %&amp;gt; 现在我们就可以访问文件上传页面了。 有一点和教程不同，我这5个name都是相同的，这样以备后面的设定。</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-7-使用 markdown, ejs 模版的 &lt;%- / &lt;%=, 清空数据库的正确姿势</title>
+      <link>https://drkbl.com/posts/ejs-mark-how-to-empty-mongodb/</link>
+      <pubDate>Mon, 04 Apr 2016 15:05:46 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/ejs-mark-how-to-empty-mongodb/</guid>
+      <description>现在我们来给博客添加支持 markdown 发表文章的功能。
+安装 npm install markdown --save 先看下未使用markdown时候，数据库保存的格式：
+{ &amp;quot;_id&amp;quot; : ObjectId(&amp;quot;5700ccade40784880eda687e&amp;quot;), &amp;quot;name&amp;quot; : &amp;quot;tamper&amp;quot;, &amp;quot;time&amp;quot; : { &amp;quot;date&amp;quot; : ISODate(&amp;quot;2016-04-03T07:56:29.017Z&amp;quot;), &amp;quot;year&amp;quot; : 2016, &amp;quot;month&amp;quot; : 4, &amp;quot;day&amp;quot; : 3, &amp;quot;hour&amp;quot; : 15, &amp;quot;minute&amp;quot; : 56 }, &amp;quot;title&amp;quot; : &amp;quot;第2章 使用 Markdown&amp;quot;, &amp;quot;post&amp;quot; : &amp;quot;现在我们来给博客添加支持 markdown 发表文章的功能。\r\n假如你不还熟悉 markdown，请转到：http://wowubuntu.com/markdown/\r\n\r\n打开 package.json ，添加一行代码：\r\n\r\n\&amp;quot;markdown\&amp;quot;: \&amp;quot;0.5.0\&amp;quot;\r\n使用 npm install 安装 markdown 模块。\r\n\r\n打开 post.js，在 mongodb = require(&#39;./db&#39;) 后添加一行代码：\r\n\r\nmarkdown = require(&#39;markdown&#39;).markdown;\r\n在 Post.get 函数里的 callback(null, docs); 前添加以下代码：&amp;quot; } views/index.</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-6-页面权限控制, 中间件, next() 和 routes 的研究, 发表文章 和 首页 的实现, prototype 的方法, 数据库异常</title>
+      <link>https://drkbl.com/posts/admission-control-middleware-next-routes-prototype/</link>
+      <pubDate>Sun, 03 Apr 2016 23:51:48 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/admission-control-middleware-next-routes-prototype/</guid>
+      <description>页面权限控制 状态检查中间件 function checkLogin(req, res, next) { if (!req.session.user) { req.flash(&amp;#39;error&amp;#39;, &amp;#39;未登录!&amp;#39;); res.redirect(&amp;#39;/login&amp;#39;); } next(); } function checkNotLogin(req, res, next) { if (req.session.user) { req.flash(&amp;#39;error&amp;#39;, &amp;#39;已登录!&amp;#39;); res.redirect(&amp;#39;back&amp;#39;);//返回之前的页面  } next(); } 通过 next() 转移控制权.
+ next() with no arguments says &amp;ldquo;just kidding, I don&#39;t actual want to handle this&amp;rdquo;. It goes back in and tries to find the next route that would match.
+ 正常情况下routes是按照顺序依次找匹配的，找到一个匹配的就进去。如果有send()就返回，没有就什么都不返回；加入next()之后，在这个app.VERB里如果运行到next()那么就会返回到routes继续向下查找。
+res.redirect(&#39;back&#39;); //返回之前的页面 这个&#39;back&#39;不错。很方便。
+修改后的 index.js var crypto = require(&amp;#39;crypto&amp;#39;), User = require(&amp;#39;.</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-5-登出 logout, session 和 flash 的再次研究, cookie.id 和 cookieSecret 的研究</title>
+      <link>https://drkbl.com/posts/node-blog-logout-session-flash-cookie-secret/</link>
+      <pubDate>Sat, 02 Apr 2016 22:43:57 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/node-blog-logout-session-flash-cookie-secret/</guid>
+      <description>登出响应 logout 的实现 index.js app.post(&#39;/login&#39;) :
+app.post(&amp;#39;/login&amp;#39;, function (req, res) { //生成密码的 md5 值  var md5 = crypto.createHash(&amp;#39;md5&amp;#39;), password = md5.update(req.body.password).digest(&amp;#39;hex&amp;#39;); //检查用户是否存在  User.get(req.body.name, function (err, user) { if (!user) { req.flash(&amp;#39;error&amp;#39;, &amp;#39;用户不存在!&amp;#39;); //@d4rkb1ue 在这里return res.() 其实并不是在return response.  //res.redirect 肯定返回了一个无所谓的值。其实就是  //res.redirect();return null;  return res.redirect(&amp;#39;/login&amp;#39;);//用户不存在则跳转到登录页  } //检查密码是否一致  if (user.password != password) { req.flash(&amp;#39;error&amp;#39;, &amp;#39;密码错误!&amp;#39;); return res.redirect(&amp;#39;/login&amp;#39;);//密码错误则跳转到登录页  } //用户名密码都匹配后，将用户信息存入 session  req.session.user = user; req.flash(&amp;#39;success&amp;#39;, &amp;#39;登陆成功!</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-4-routes 的重构, 响应 HTTP 请求, sesson 和 flash 的研究, 界面匹配显示</title>
+      <link>https://drkbl.com/posts/node-blog-re-routes-http-session-flash/</link>
+      <pubDate>Fri, 01 Apr 2016 02:41:16 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/node-blog-re-routes-http-session-flash/</guid>
+      <description>重构 被supervisor app.js坑惨了！这样程序入口就变成了 app.js ，于是没有 bin/www 给它传 port:3000这样的参数。于是拒绝访问。因为3000端口压根没开嘛。 找了半天问题，fuckyousonofbitch! 还是老老实实的按照教程的办法重置了 app.js 和 route/index.js
+坑们  node app.js是不会自动重启的哟！ 不要开着全局Shadowsocks访问node:3000!  注册响应 models/user.js vi models/user.js:
+var mongodb = require(&amp;#39;./db&amp;#39;); function User(user) { this.name = user.name; this.password = user.password; this.email = user.email; }; module.exports = User; //存储用户信息 //@d4rkb1ue 使用User.prototype.save定义函数，那么在产生user实例的时候，就会存在user.save这个函数！ User.prototype.save = function(callback) { //要存入数据库的用户文档  var user = { name: this.name, password: this.password, email: this.email }; //打开数据库  //@d4rkb1ue mongodb.open(callback) 这个函数是mongo提供的函数，我猜大约是在执行完毕数据库开启之后执行传入的回调函数，也就是下面这个匿名函数，如果出现错误，就直接callback(err),没有错误的话，就callback(null,db)这样。于是下面这个代码就能发现是否出错了。db应该是数据库连接实例吧。  mongodb.open(function (err, db) { if (err) { return callback(err);//错误，返回 err 信息  } //读取 users 集合  // db.</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-3-设计路由, MongoDB 的链接, 会话 Session, Cookie, Connect-flash, Supervisor, 界面实现</title>
+      <link>https://drkbl.com/posts/node-blog-routes-mongodb-session-cookie-flash-ui/</link>
+      <pubDate>Wed, 30 Mar 2016 02:35:51 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/node-blog-routes-mongodb-session-cookie-flash-ui/</guid>
+      <description>路由  ###博客的功能分析 搭建一个简单的具有多人注册、登录、发表文章、登出功能的博客。
+  ###设计目标 未登录：主页左侧导航显示 home、login、register，右侧显示已发表的文章、发表日期及作者。
+登陆后：主页左侧导航显示 home、post、logout，右侧显示已发表的文章、发表日期及作者。 用户登录、注册、发表成功以及登出后都返回到主页。
+  ###路由规划 已经把设计的构想图贴出来了，接下来的任务就是完成路由规划了。
+  / ：首页
+/login ：用户登录
+/reg ：用户注册
+/post ：发表文章
+/logout ：登出
+  我们要求 /login 和 /reg 只能是未登录的用户访问，而 /post 和 /logout 只能是已登录的用户访问。左侧导航列表则针对已登录和未登录的用户显示不同的内容。
+ 创建路由JS index.js（和原教程不一样哟） var express = require(&amp;#39;express&amp;#39;); var router = express.Router(); /* GET home page. */ router.get(&amp;#39;/&amp;#39;, function (req, res) { res.render(&amp;#39;index&amp;#39;, { title: &amp;#39;主页&amp;#39; }); }); router.get(&amp;#39;/reg&amp;#39;, function (req, res) { res.</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-2-模版引擎 ejs, 静态文件挂载</title>
+      <link>https://drkbl.com/posts/node-blog-ejs-static-file/</link>
+      <pubDate>Mon, 28 Mar 2016 20:40:06 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/node-blog-ejs-static-file/</guid>
+      <description>模版引擎 N-blog使用的模版引擎是ejs。我想想我还是改成这个吧。不然后面可能差距越来越大。
+Sublime&#39;s tips: CMD+p:定位，输入@定位文件内标签 CMD+R ＝ CMD+p,@
+index.ejs &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;title&amp;gt;&amp;lt;%= title %&amp;gt;&amp;lt;/title&amp;gt; &amp;lt;link rel=&amp;#39;stylesheet&amp;#39; href=&amp;#39;/stylesheets/style.css&amp;#39; /&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;h1&amp;gt;&amp;lt;%= title %&amp;gt;&amp;lt;/h1&amp;gt; &amp;lt;p&amp;gt;Welcome to &amp;lt;%= title %&amp;gt;&amp;lt;/p&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; app.js 指定了所使用的render
+// view engine setup app.set(&amp;#39;views&amp;#39;, path.join(__dirname, &amp;#39;views&amp;#39;)); app.set(&amp;#39;view engine&amp;#39;, &amp;#39;ejs&amp;#39;); index.js 调用render()来渲染模版，同时传参
+ 第一个是模板的名称，即 views 目录下的模板文件名，扩展名 .ejs 可选。第二个参数是传递给模板的数据对象，用于模板翻译。
+  res.render(view, [locals], callback)渲染view, 同时向callback 传入渲染后的字符串。 callback如果不传的话，直接会把渲染后的字符串输出至请求方， 一般如果不需要再对渲染后的模板作操作，就不需要传callback。 当有错误发生时next(err)会被执行.
+ /* GET home page. */ router.get(&amp;#39;/&amp;#39;, function(req, res, next) { res.</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog学习笔记-1-Express, Routes 初步</title>
+      <link>https://drkbl.com/posts/node-blog-express-start/</link>
+      <pubDate>Mon, 28 Mar 2016 17:30:44 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/node-blog-express-start/</guid>
+      <description>Express 安装  npm install -g express-generator : -g:global app.use([path], function)  例如一个简单的logger：
+var express = require(&amp;#39;express&amp;#39;); var app = express(); // 一个简单的 logger app.use(function(req, res, next){ console.log(&amp;#39;%s %s&amp;#39;, req.method, req.url); next(); }); // 响应 app.use(function(req, res, next){ res.send(&amp;#39;Hello World&amp;#39;); }); app.listen(3000); 使用 app.use()定义的中间件的顺序非常重要，它们将会顺序执行，use的先后顺序决定了中间件的优先级。比如说通常 express.logger() 是最先使用的一个组件，纪录每一个请求。
+express api next() : 如果某一个callback执行了next(&#39;route&#39;)，它后面的callback就被忽略。这种情形会应用在当满足一个路由前缀，但是不需要处理这个路由，于是把它向后传递。 routes/index.js 控制了请求调用。  //ray0@ubuntu:~/nodeblog$ cat routes/index.js var express = require(&amp;#39;express&amp;#39;); var router = express.Router(); /* GET home page. */ router.</description>
+    </item>
+    
+  </channel>
+</rss>

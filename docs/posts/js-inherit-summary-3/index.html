@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>JavaScript 继承机制-3-拷贝继承和数据类型 - d4rkb1ue&#39;s Blog</title>
+  <meta content='JavaScript 继承机制-3-拷贝继承和数据类型 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='JavaScript 继承机制-3-拷贝继承和数据类型 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="假设 现在有一个对象，叫做&quot;中国人&rdquo;。
+var Chinese = { nation:&#39;中国&#39; }; 还有一个对象，叫做&quot;医生&rdquo;。
+var Doctor ={ career:&#39;医生&#39; } 请问怎样才能让&quot;医生&quot;去继承&quot;中国人&rdquo;，也就是说，我怎样才能生成一个&quot;中国医生&quot;的对象？
+object(o) 方法: 生成“类”o的实例 function object(o) { function F() {}; F.prototype = o; return new F(); } new F()实际调用的是o.constructor但是免去了传参。其实就是把一切初始化参数都设定为undefined. 即：
+function O(a){this.a=a}; function F() {}; F.prototype = O; F.prototype.constructor === O.constructor; //true 使用 var Doctor = object(Chinese); Doctor.career = &#39;医生&#39;; alert(Doctor.nation); //中国 这时，子对象已经继承了父对象的属性了。
+浅拷贝: extendCopy(p) 把父对象的属性，全部拷贝给子对象，也能实现继承。
+function extendCopy(p) { var c = {}; for (var i in p) { c[i] = p[i]; } c." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/js-inherit-summary-3/" />
+
+
+<meta property="article:published_time" content="2016-06-16T16:47:52&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-06-16T16:47:52&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">JavaScript 继承机制-3-拷贝继承和数据类型</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>16 Jun 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/javascript' class="link silver">JavaScript</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="假设">假设</h1>
+<p>现在有一个对象，叫做&quot;中国人&rdquo;。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Chinese</span> <span style="color:#f92672">=</span> {
+    <span style="color:#a6e22e">nation</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#39;中国&#39;</span>
+};
+</code></pre></div><p>还有一个对象，叫做&quot;医生&rdquo;。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Doctor</span> <span style="color:#f92672">=</span>{
+    <span style="color:#a6e22e">career</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#39;医生&#39;</span>
+}
+</code></pre></div><p>请问怎样才能让&quot;医生&quot;去继承&quot;中国人&rdquo;，也就是说，我怎样才能生成一个&quot;中国医生&quot;的对象？</p>
+<h1 id="objecto-方法-生成类o的实例">object(o) 方法: 生成“类”o的实例</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">object</span>(<span style="color:#a6e22e">o</span>) {
+    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">F</span>() {};
+    <span style="color:#a6e22e">F</span>.<span style="color:#a6e22e">prototype</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">o</span>;
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">F</span>();
+}
+</code></pre></div><p><code>new F()</code>实际调用的是<code>o.constructor</code>但是免去了传参。其实就是把一切初始化参数都设定为<code>undefined</code>. 即：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">O</span>(<span style="color:#a6e22e">a</span>){<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">a</span><span style="color:#f92672">=</span><span style="color:#a6e22e">a</span>};
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">F</span>() {};
+<span style="color:#a6e22e">F</span>.<span style="color:#a6e22e">prototype</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">O</span>;
+
+<span style="color:#a6e22e">F</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">O</span>.<span style="color:#a6e22e">constructor</span>; <span style="color:#75715e">//true
+</span></code></pre></div><h2 id="使用">使用</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Doctor</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">object</span>(<span style="color:#a6e22e">Chinese</span>);
+<span style="color:#a6e22e">Doctor</span>.<span style="color:#a6e22e">career</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;医生&#39;</span>;
+<span style="color:#a6e22e">alert</span>(<span style="color:#a6e22e">Doctor</span>.<span style="color:#a6e22e">nation</span>); <span style="color:#75715e">//中国
+</span></code></pre></div><p>这时，子对象已经继承了父对象的属性了。</p>
+<h1 id="浅拷贝-extendcopyp">浅拷贝: extendCopy(p)</h1>
+<p>把父对象的属性，全部拷贝给子对象，也能实现继承。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">extendCopy</span>(<span style="color:#a6e22e">p</span>) {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">c</span> <span style="color:#f92672">=</span> {};
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">p</span>) { 
+        <span style="color:#a6e22e">c</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">i</span>];
+    }
+    <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">uber</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>; <span style="color:#75715e">//uber means super. 即父类
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">c</span>; 　　
+}
+</code></pre></div><h2 id="使用-1">使用</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Doctor</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">extendCopy</span>(<span style="color:#a6e22e">Chinese</span>);
+<span style="color:#a6e22e">Doctor</span>.<span style="color:#a6e22e">career</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;医生&#39;</span>;
+
+<span style="color:#a6e22e">alert</span>(<span style="color:#a6e22e">Doctor</span>.<span style="color:#a6e22e">nation</span>); <span style="color:#75715e">// 中国
+</span></code></pre></div><h2 id="问题">问题</h2>
+<p>如果父对象的属性等于<strong>Array数组</strong>或另一个<strong>Object对象</strong>，那么实际上，子对象获得的只是一个内存地址，而不是真正拷贝，因此存在父对象被篡改的可能:对子类的操作，反而会影响父类。这不和逻辑。</p>
+<p><em>所以，extendCopy()只是拷贝基本类型的数据，我们把这种拷贝叫做&quot;浅拷贝&rdquo;。</em></p>
+<h1 id="深拷贝">深拷贝</h1>
+<p>递归调用&quot;浅拷贝&quot;就行了。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">deepCopy</span>(<span style="color:#a6e22e">p</span>, <span style="color:#a6e22e">c</span>) {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">c</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span> <span style="color:#f92672">||</span> {};
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">p</span>) {
+        <span style="color:#75715e">//Array也是&#39;object&#39;哈。而且&#39;i&#39;永远不能是&#39;null&#39;, 因此会递归拷贝所有指针
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;object&#39;</span>) {
+            <span style="color:#a6e22e">c</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">=</span> (<span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> Array) <span style="color:#f92672">?</span> [] <span style="color:#f92672">:</span> {};
+            <span style="color:#a6e22e">deepCopy</span>(<span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">c</span>[<span style="color:#a6e22e">i</span>]);
+        } <span style="color:#66d9ef">else</span> {
+            <span style="color:#75715e">//基本数据类型
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">c</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">p</span>[<span style="color:#a6e22e">i</span>];
+        }
+    } 　　　　
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">c</span>;
+}
+</code></pre></div><p><em>Array的拷贝说明：</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">v</span> <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">a</span>){<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">dir</span>(<span style="color:#a6e22e">v</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;: &#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">v</span>])};
+<span style="color:#75715e">//0: 1
+</span><span style="color:#75715e"></span><span style="color:#75715e">//1: 2
+</span><span style="color:#75715e"></span><span style="color:#75715e">//2: 4
+</span></code></pre></div><h2 id="使用-2">使用</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Doctor</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">deepCopy</span>(<span style="color:#a6e22e">Chinese</span>);
+
+<span style="color:#a6e22e">Chinese</span>.<span style="color:#a6e22e">birthPlaces</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;北京&#39;</span>,<span style="color:#e6db74">&#39;上海&#39;</span>,<span style="color:#e6db74">&#39;香港&#39;</span>];
+<span style="color:#a6e22e">Doctor</span>.<span style="color:#a6e22e">birthPlaces</span>.<span style="color:#a6e22e">push</span>(<span style="color:#e6db74">&#39;厦门&#39;</span>);
+
+<span style="color:#a6e22e">alert</span>(<span style="color:#a6e22e">Doctor</span>.<span style="color:#a6e22e">birthPlaces</span>); <span style="color:#75715e">//北京, 上海, 香港, 厦门
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">alert</span>(<span style="color:#a6e22e">Chinese</span>.<span style="color:#a6e22e">birthPlaces</span>); <span style="color:#75715e">//北京, 上海, 香港
+</span></code></pre></div><p>这时，父对象就不会受到影响了。</p>
+<p><em>目前，jQuery库使用的就是这种继承方法。</em></p>
+<hr>
+<h1 id="关于js的指针">关于JS的指针</h1>
+<h2 id="---new-array">[ ] = new Array()</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">=</span> [<span style="color:#ae81ff">123</span>,<span style="color:#ae81ff">45</span>];
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">b</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">a</span>;
+
+<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">pop</span>(); <span style="color:#75715e">//45
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">b</span>; <span style="color:#75715e">//[123]
+</span></code></pre></div><h2 id="-">{ }</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">=</span> {<span style="color:#a6e22e">n</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1</span>};
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">b</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">a</span>; <span style="color:#75715e">//Object {n: 123}
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">s</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#a6e22e">a</span>; <span style="color:#75715e">//Object {n: 1, ss: 2}
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">b</span>; <span style="color:#75715e">//Object {n: 1, ss: 2}
+</span></code></pre></div><h2 id="总结">总结</h2>
+<p>JS中，对于Array和对象（方法也是对象）的<code>=</code>重载是复制指针。</p>
+<h1 id="js的数据类型使用constructor得到的">JS的数据类型：使用constructor得到的</h1>
+<p><code>typeof</code>定义的类型<code>function</code>和<code>undefined</code>都是不一样的。详见API。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">//不要使用==比较，始终坚持使用===比较。
+</span><span style="color:#75715e"></span>
+<span style="color:#ae81ff">123.</span>.<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> Number; <span style="color:#75715e">//true
+</span><span style="color:#75715e"></span><span style="color:#75715e">//注意123.constructor是会报错的。123.. =&gt; 123.0. 不会误判为错误的数字定义方式。
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">Infinity</span>.<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> Number; <span style="color:#75715e">//true 无穷
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">NaN</span>.<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> Number; <span style="color:#75715e">//true 不是个数字,可由&#34;0/0&#34;获得
+</span><span style="color:#75715e"></span>
+
+
+<span style="color:#e6db74">&#39;123&#39;</span>.<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> String; <span style="color:#75715e">//true
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">true</span>.<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> Boolean; <span style="color:#75715e">//true
+</span><span style="color:#75715e"></span>
+[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>].<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> Array; <span style="color:#75715e">//true
+</span><span style="color:#75715e"></span>
+({}).<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> Object; <span style="color:#75715e">//true
+</span><span style="color:#75715e"></span><span style="color:#75715e">//{}.constructor === Object; //Unexpected token . :所有&#39;}&#39;都预示着后面没东西了。不会再看了。有东西就出错。这是由于js的免&#39;;&#39;机制导致的
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">null</span>.<span style="color:#a6e22e">constructor</span>; <span style="color:#75715e">//Cannot read property &#39;constructor&#39; of null
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">null</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">null</span>; <span style="color:#75715e">//true
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">//undefined仅仅在判断函数参数是否传递的情况下有用
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">undefined</span>.<span style="color:#a6e22e">constructor</span>; <span style="color:#75715e">//Cannot read property &#39;constructor&#39; of undefined
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">undefined</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">undefined</span>; <span style="color:#75715e">//true
+</span><span style="color:#75715e"></span>
+</code></pre></div><h2 id="api">API</h2>
+<h3 id="constructor">constructor</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">  <span style="color:#66d9ef">new</span> Array(),
+  [],
+  <span style="color:#66d9ef">new</span> Boolean(),
+  <span style="color:#66d9ef">true</span>,             <span style="color:#75715e">// remains unchanged
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">new</span> Date(),
+  <span style="color:#66d9ef">new</span> Error(),
+  <span style="color:#66d9ef">new</span> Function(),
+  <span style="color:#66d9ef">function</span> () {},
+  Math,
+  <span style="color:#66d9ef">new</span> Number(),
+  <span style="color:#ae81ff">1</span>,                <span style="color:#75715e">// remains unchanged
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">new</span> Object(),
+  {},
+  <span style="color:#66d9ef">new</span> RegExp(),
+  <span style="color:#e6db74">/(?:)/</span>,
+  <span style="color:#66d9ef">new</span> String(),
+</code></pre></div><h3 id="typeof">typeof</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">Undefined</span>           <span style="color:#e6db74">&#34;undefined&#34;</span>
+<span style="color:#a6e22e">Null</span>                <span style="color:#e6db74">&#34;object&#34;</span>
+Boolean             <span style="color:#e6db74">&#34;boolean&#34;</span>
+Number              <span style="color:#e6db74">&#34;number&#34;</span>
+String              <span style="color:#e6db74">&#34;string&#34;</span>
+<span style="color:#a6e22e">Symbol</span>              <span style="color:#e6db74">&#34;symbol&#34;</span>
+Function <span style="color:#a6e22e">object</span>     <span style="color:#e6db74">&#34;function&#34;</span>
+<span style="color:#a6e22e">Any</span> <span style="color:#a6e22e">other</span> <span style="color:#a6e22e">object</span>    <span style="color:#e6db74">&#34;object&#34;</span>
+
+<span style="color:#a6e22e">Host</span> <span style="color:#a6e22e">object</span> (<span style="color:#a6e22e">provided</span> <span style="color:#a6e22e">by</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">JS</span> <span style="color:#a6e22e">environment</span>)    <span style="color:#a6e22e">Implementation</span><span style="color:#f92672">-</span><span style="color:#a6e22e">dependent</span>
+</code></pre></div><h2 id="特殊的number">特殊的Number</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">NaN</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">NaN</span>; <span style="color:#75715e">//false 不等于任何,包括自己
+</span><span style="color:#75715e"></span>isNaN(<span style="color:#66d9ef">NaN</span>); <span style="color:#75715e">// true
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">Infinity</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">Infinity</span>; <span style="color:#75715e">//true
+</span><span style="color:#75715e"></span>
+<span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">===</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>); <span style="color:#75715e">// false
+</span><span style="color:#75715e"></span>Math.<span style="color:#a6e22e">abs</span>(<span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">-</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>)) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.0000001</span>; <span style="color:#75715e">// true
+</span></code></pre></div><p>参考</p>
+<p><a href="http://www.ruanyifeng.com/blog/2010/05/object-oriented_javascript_inheritance_continued.html">阮一峰：Javascript面向对象编程（三）：非构造函数的继承</a></p>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/js-inherit-summary-2/">prev post</a>
+  <a href="https://drkbl.com/posts/js-inherit-summary-4/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

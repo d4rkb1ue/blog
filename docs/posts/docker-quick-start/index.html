@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Docker Quick Start - d4rkb1ue&#39;s Blog</title>
+  <meta content='Docker Quick Start - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Docker Quick Start - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="Hello World Follow Install Docker and run hello-world - Docker
+ Install Docker on macOS run docker run hello-world to test  Basic Components  image: read-only ISO container: instance to load a image and run it; can be create, start, stop, delete; separate from each others; has its own ‘root’ repository: a docker hub like github  Basic Commands docker image ls or docker images show all the images" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/docker-quick-start/" />
+
+
+<meta property="article:published_time" content="2017-02-02T23:51:36&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-02-02T23:51:36&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Docker Quick Start</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>02 Feb 2017</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/docker' class="link silver">Docker</a> <a href='/tags/node.js' class="link silver">Node.js</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="hello-world">Hello World</h1>
+<p>Follow <a href="https://docs.docker.com/engine/getstarted/step_one/">Install Docker and run hello-world - Docker</a></p>
+<ol>
+<li>Install Docker on macOS</li>
+<li>run <code>docker run hello-world</code> to test</li>
+</ol>
+<h1 id="basic-components">Basic Components</h1>
+<ul>
+<li>image: read-only ISO</li>
+<li>container: instance to load a image and run it; can be create, start, stop, delete; separate from each others; has its own ‘root’</li>
+<li>repository: a docker hub like github</li>
+</ul>
+<h1 id="basic-commands">Basic Commands</h1>
+<pre><code>docker image ls
+</code></pre><p>or <code>docker images</code>
+show all the images</p>
+<pre><code>docker pull ubuntu:16.04
+</code></pre><p>‘git clone’ a docker images <code>ubuntu</code> with TAG: <code>16.04</code>; from a specific repository server: <code>sudo docker pull dl.dockerpool.com:5000/ubuntu:12.04</code></p>
+<pre><code>docker run -it ubuntu:16.04 /bin/bash
+</code></pre><p>= <code>docker run -it ubuntu:16.04 bash</code>: start this image to a container and <code>ssh</code> into it by start its ‘bash’; <code>-i</code>: &ndash;interactive, Keep STDIN open even if not attached; <code>-t</code>: &ndash;tty, Allocate a pseudo-TTY (more help can be <code>cat</code> by <code>docker run —help</code>); <code>exit</code> to exit;</p>
+<ul>
+<li>
+<p>错误！ <del><code>run</code> 之后并不能在 <code>docker container ls</code> 中看到，好像在运行后直接删除了</del> 并没有！当Docker容器中指定的应用终结时，容器也自动终止，而 <code>docker container ls</code> 只会显示正在运行的；使用 <code>docker container ls -a</code> 显示全部；使用 <code>docker run —rm [image:tag]</code> 来在运行后自动删除本container</p>
+</li>
+<li>
+<p>错误！<del>对 container 的修改在 <code>exit</code> 之后被遗弃</del> 并没有！如果执行 <code>run …</code> 每次会基于image新建一个container，新container自然不包括在老的container中作出的修改；即使在 <code>docker stop [a container]</code> 之后，使用 <code>docker diff [a container]</code> 依然可见对这个container做出的修改（当然，不使用 Dockerfile 定制的container是黑箱container，不应发布）</p>
+</li>
+</ul>
+<pre><code>docker tag ubuntu:16.04 ubuntu:latest
+</code></pre><p>为 ubuntu:16.04 添加一个tag。<code>latest</code> 是默认 tag，在不指定tag的时候会认为指的是 latest。因此之后可以直接运行 <code>docker run ubuntu</code></p>
+<pre><code>docker run --name webserver -d -p 80:80 nginx
+</code></pre><p>上述ubuntu的image都干干净净没有daemon进程，因此开启就即刻被关闭。运行一个ngnix来看一个持续运行的container。并且将其命名为 webserver。</p>
+<pre><code>docker container ls
+</code></pre><p>=<code>docker ps</code>。查看当前运行的containers。</p>
+<pre><code>docker ps -a
+</code></pre><p>将列出全部containers，包括停止的。</p>
+<pre><code>docker exec -it webserver bash
+</code></pre><p>diff: <code>exec</code>进入一个正在运行的container; <code>run</code> 开启一个新container。
+<code>top</code> 一下，可以看到正在运行的nginx。</p>
+<pre><code>docker diff webserver
+</code></pre><p>对container作出改动后，可以查看这个container发生了什么变化。</p>
+<pre><code>docker rm 87dd 02e2 416 e09
+</code></pre><p>批量删除container ID以 87dd，416 开头（多少位都可以，只要能区分就行）的这些container. <code>docker rmi</code> 用来删除image。</p>
+<hr>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://yeasy.gitbooks.io/docker_practice/content/introduction/">Docker —— 从入门到实践</a></li>
+<li><a href="https://docs.docker.com/engine/getstarted/step_one/">Install Docker and run hello-world</a></li>
+<li><a href="http://tiewei.github.io/cloud/Docker-Getting-Start/">Docker Getting Start: Related Knowledge</a></li>
+</ul>
+<h2 id="docker-原理篇">Docker 原理篇</h2>
+<ul>
+<li><a href="http://coolshell.cn/articles/17010.html">DOCKER基础技术：LINUX NAMESPACE（上）CoolShell</a></li>
+<li><a href="http://coolshell.cn/articles/17029.html">Docker基础技术：Linux Namespace（下）CoolShell</a></li>
+<li><a href="http://coolshell.cn/articles/17061.html">DOCKER基础技术：AUFS CoolShell</a></li>
+<li><a href="http://coolshell.cn/articles/17200.html">DOCKER基础技术：DEVICEMAPPER CoolShell</a></li>
+<li><a href="http://coolshell.cn/articles/17049.html">DOCKER基础技术：LINUX CGROUP CoolShell</a></li>
+</ul>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/automator-as-autohotkey/">prev post</a>
+  <a href="https://drkbl.com/posts/algorithms-part-1-note-4/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

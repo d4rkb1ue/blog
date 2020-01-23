@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>正则表达式入门 - d4rkb1ue&#39;s Blog</title>
+  <meta content='正则表达式入门 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='正则表达式入门 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="RegExp 语法 字符  \d: one number \w: one number, letter .: any single character \s: one space(&rsquo; &lsquo;), tab(&#39;\t&rsquo;)  特殊字符需要转义，
+ -: \- _: \_ $: \$  例如，
+00\d // 004 \d\d\d // 223 \w\w // f2 js.// js! 限制 &#43;: one or more *: none or more ?: none or one {n}: exactly n chars {n, m}: n &lt;= number of chars &lt;= m [0-9]: range A|B: or ^: 表示行的开头 $: 表示行的结束" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/js-regexp/" />
+
+
+<meta property="article:published_time" content="2017-03-11T23:44:20&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-03-11T23:44:20&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">正则表达式入门</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>11 Mar 2017</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/javascript' class="link silver">JavaScript</a> <a href='/tags/regex' class="link silver">RegEx</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="regexp-语法">RegExp 语法</h1>
+<h2 id="字符">字符</h2>
+<ul>
+<li><code>\d</code>: one number</li>
+<li><code>\w</code>: one number, letter</li>
+<li><code>.</code>: any single character</li>
+<li><code>\s</code>: one space(&rsquo; &lsquo;), tab('\t&rsquo;)</li>
+</ul>
+<p>特殊字符需要转义，</p>
+<ul>
+<li><code>-</code>: <code>\-</code></li>
+<li><code>_</code>: <code>\_</code></li>
+<li><code>$</code>: <code>\$</code></li>
+</ul>
+<p>例如，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ae81ff">00</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">d</span> <span style="color:#75715e">// 004
+</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">d</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">d</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">d</span> <span style="color:#75715e">// 223
+</span><span style="color:#75715e"></span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">w</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">w</span> <span style="color:#75715e">// f2
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">js</span>.<span style="color:#75715e">// js!
+</span></code></pre></div><h2 id="限制">限制</h2>
+<p><code>+</code>: one or more
+<code>*</code>: none or more
+<code>?</code>: none or one
+<code>{n}</code>: exactly n chars
+<code>{n, m}</code>: n &lt;= number of chars &lt;= m
+<code>[0-9]</code>: range
+<code>A|B</code>: or
+<code>^</code>: 表示行的开头
+<code>$</code>: 表示行的结束</p>
+<h2 id="分组">分组</h2>
+<p><code>()</code>， <code>^(\d{3})-(\d{3,8})$</code> 定义了两个组。<code>$1</code> 匹配第一个分组</p>
+<h2 id="贪婪匹配">贪婪匹配</h2>
+<blockquote>
+<p>正则匹配默认是贪婪匹配，也就是匹配尽可能多的字符</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">re</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">/^(\d+)(0*)$/</span>;
+<span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#e6db74">&#39;102300&#39;</span>); <span style="color:#75715e">// [&#39;102300&#39;, &#39;102300&#39;, &#39;&#39;]
+</span></code></pre></div><p>加个 <code>?</code> 就可以让 <code>\d+</code> 采用非贪婪匹配，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">re</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">/^(\d+?)(0*)$/</span>;
+<span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#e6db74">&#39;102300&#39;</span>); <span style="color:#75715e">// [&#39;102300&#39;, &#39;1023&#39;, &#39;00&#39;]
+</span></code></pre></div><h1 id="in-javascript">In Javascript</h1>
+<p>使用 <code>/RegExp/</code> 定义，或者创建 RegExp 对象，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">re1</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">/ABC\-001/</span>; <span style="color:#75715e">// /ABC\-001/
+</span><span style="color:#75715e"></span><span style="color:#75715e">/* 因为字符串的转义问题，字符串的两个\\实际上是一个\ */</span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">re2</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RegExp(<span style="color:#e6db74">&#39;ABC\\-001&#39;</span>); <span style="color:#75715e">// /ABC\-001/
+</span></code></pre></div><h2 id="使用方式">使用方式</h2>
+<p><code>RegExp.test()</code> 检验，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">re</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">/^\d{3}\-\d{3,8}$/</span>;
+<span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">test</span>(<span style="color:#e6db74">&#39;010-12345&#39;</span>); <span style="color:#75715e">// true
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">test</span>(<span style="color:#e6db74">&#39;010-1234x&#39;</span>); <span style="color:#75715e">// false
+</span></code></pre></div><p><code>RegExp.exe()</code> 检验并提取分组，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">re</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">/^(\d{3})-(\d{3,8})$/</span>;
+<span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#e6db74">&#39;010-12345&#39;</span>); <span style="color:#75715e">// [&#39;010-12345&#39;, &#39;010&#39;, &#39;12345&#39;]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#e6db74">&#39;010 12345&#39;</span>); <span style="color:#75715e">// null
+</span></code></pre></div><p><code>String.split()</code> 切分字符串,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">/* 不用 regexp 的后果 */</span>
+<span style="color:#e6db74">&#39;a b   c&#39;</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39; &#39;</span>); <span style="color:#75715e">// [&#39;a&#39;, &#39;b&#39;, &#39;&#39;, &#39;&#39;, &#39;c&#39;]
+</span><span style="color:#75715e"></span><span style="color:#e6db74">&#39;a,b;; c  d&#39;</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">/[\s\,\;]+/</span>); <span style="color:#75715e">// [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;]
+</span></code></pre></div><p><code>/test/g</code> 全局搜索，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;JavaScript, VBScript, JScript and ECMAScript&#39;</span>;
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">re</span><span style="color:#f92672">=</span><span style="color:#e6db74">/[a-zA-Z]+Script/g</span>;
+<span style="color:#75715e">/* === re = new RegExp(&#39;[a-zA-Z]+Script&#39;, &#39;g&#39;*/</span>
+
+<span style="color:#75715e">// 使用全局匹配:
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#a6e22e">s</span>); <span style="color:#75715e">// [&#39;JavaScript&#39;]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">lastIndex</span>; <span style="color:#75715e">// 10
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#a6e22e">s</span>); <span style="color:#75715e">// [&#39;VBScript&#39;]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">lastIndex</span>; <span style="color:#75715e">// 20
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#a6e22e">s</span>); <span style="color:#75715e">// [&#39;JScript&#39;]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">lastIndex</span>; <span style="color:#75715e">// 29
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#a6e22e">s</span>); <span style="color:#75715e">// [&#39;ECMAScript&#39;]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">lastIndex</span>; <span style="color:#75715e">// 44
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#a6e22e">s</span>); <span style="color:#75715e">// null，直到结束仍没有匹配到
+</span></code></pre></div><p>全局匹配类似搜索，因此不能使用 <code>/^...$/</code>，那样只会最多匹配一次。</p>
+<p><code>/g</code> 是一种特殊标志，还有 <code>i</code> 标志，表示忽略大小写；<code>m</code> 标志，表示执行多行匹配。</p>
+<h1 id="例子">例子</h1>
+<p>必须以数字开头</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#f92672">^</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">d</span>
+</code></pre></div><p>整行匹配 &lsquo;js&rsquo;</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#f92672">^</span><span style="color:#a6e22e">js$</span>
+</code></pre></div><p>匹配一个数字、字母或者下划线</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">[<span style="color:#ae81ff">0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">9</span><span style="color:#a6e22e">a</span><span style="color:#f92672">-</span><span style="color:#a6e22e">zA</span><span style="color:#f92672">-</span><span style="color:#a6e22e">Z</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">_</span>]
+</code></pre></div><p>可以匹配至少由一个数字、字母或者下划线组成的字符串，比如'a100&rsquo;，&lsquo;0_Z&rsquo;，&lsquo;js2015'等等</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">[<span style="color:#ae81ff">0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">9</span><span style="color:#a6e22e">a</span><span style="color:#f92672">-</span><span style="color:#a6e22e">zA</span><span style="color:#f92672">-</span><span style="color:#a6e22e">Z</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">_</span>]<span style="color:#f92672">+</span>
+</code></pre></div><p>JavaScript允许的变量名</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">[<span style="color:#a6e22e">a</span><span style="color:#f92672">-</span><span style="color:#a6e22e">zA</span><span style="color:#f92672">-</span><span style="color:#a6e22e">Z</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">_</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">$</span>][<span style="color:#ae81ff">0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">9</span><span style="color:#a6e22e">a</span><span style="color:#f92672">-</span><span style="color:#a6e22e">zA</span><span style="color:#f92672">-</span><span style="color:#a6e22e">Z</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">_</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">$</span>]<span style="color:#f92672">*</span>
+</code></pre></div><p>变量的长度是1-20个字符</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">[<span style="color:#a6e22e">a</span><span style="color:#f92672">-</span><span style="color:#a6e22e">zA</span><span style="color:#f92672">-</span><span style="color:#a6e22e">Z</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">_</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">$</span>][<span style="color:#ae81ff">0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">9</span><span style="color:#a6e22e">a</span><span style="color:#f92672">-</span><span style="color:#a6e22e">zA</span><span style="color:#f92672">-</span><span style="color:#a6e22e">Z</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">_</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">$</span>]{<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">19</span>}
+</code></pre></div><p>可以匹配A或B，所以可以匹配'JavaScript&rsquo;、&lsquo;Javascript&rsquo;、&lsquo;javaScript'或者'javascript&rsquo;</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">(<span style="color:#a6e22e">J</span><span style="color:#f92672">|</span><span style="color:#a6e22e">j</span>)<span style="color:#a6e22e">ava</span>(<span style="color:#a6e22e">S</span><span style="color:#f92672">|</span><span style="color:#a6e22e">s</span>)<span style="color:#a6e22e">cript</span>
+</code></pre></div><p>匹配 email 地址</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#e6db74">/^[a-z0-9\_\.]+@[a-z0-9\-]+\.[a-z]+$/i</span>
+</code></pre></div><p>将数字转为中文大写</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * 将数字转为中文大写
+</span><span style="color:#75715e"> * @param  {Number} n 原始数字
+</span><span style="color:#75715e"> * @return {String}   大写
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">daxie</span>(<span style="color:#a6e22e">n</span>){
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#e6db74">/^(0|([1-9][0-9]*))$/</span>.<span style="color:#a6e22e">test</span>(<span style="color:#a6e22e">n</span>)){
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">undefined</span>;
+    }
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">unit</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;千百十万千百十亿千百十万千百十个&#34;</span>;
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">toString</span>().<span style="color:#a6e22e">length</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">unit</span>.<span style="color:#a6e22e">length</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">undefined</span>;
+    }
+    <span style="color:#75715e">// 得到单位的长度
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">unit</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>.<span style="color:#a6e22e">substring</span>(<span style="color:#a6e22e">unit</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">toString</span>().<span style="color:#a6e22e">length</span>);
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">nString</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">toString</span>().<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>){
+        <span style="color:#a6e22e">nString</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34;零一二三四五六七八九&#34;</span>.<span style="color:#a6e22e">charAt</span>(<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">toString</span>()[<span style="color:#a6e22e">i</span>]) <span style="color:#f92672">+</span> <span style="color:#a6e22e">unit</span>.<span style="color:#a6e22e">charAt</span>(<span style="color:#a6e22e">i</span>);
+    }
+    <span style="color:#75715e">// 去除多余的&#39;零&#39;
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">nString</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">nString</span>.<span style="color:#a6e22e">replace</span>(<span style="color:#e6db74">/零[千|百|十]/g</span>, <span style="color:#e6db74">&#39;零&#39;</span>).<span style="color:#a6e22e">replace</span>(<span style="color:#e6db74">/零+/g</span>, <span style="color:#e6db74">&#39;零&#39;</span>).<span style="color:#a6e22e">replace</span>(<span style="color:#e6db74">/零([万|亿|个])/g</span>, <span style="color:#e6db74">&#39;$1&#39;</span>);
+    <span style="color:#75715e">// 去除末尾的&#39;个&#39;
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">nString</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">nString</span>.<span style="color:#a6e22e">substring</span>(<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">nString</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">nString</span>;
+}
+</code></pre></div><hr>
+<h1 id="ref">Ref</h1>
+<ul>
+<li><a href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/001434499503920bb7b42ff6627420da2ceae4babf6c4f2000">RegExp - Javascript 教程 - 廖雪峰</a></li>
+</ul>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/nodejs-modules/">prev post</a>
+  <a href="https://drkbl.com/posts/react-hello-world/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

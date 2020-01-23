@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>理解 Array.prototype.map() - d4rkb1ue&#39;s Blog</title>
+  <meta content='理解 Array.prototype.map() - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='理解 Array.prototype.map() - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="调用不是 .call() 错误示范：
+var b = [[1, 2], [3, 2]]; b.map(Array.prototype.sort); // Uncaught TypeError: Array.prototype.sort called on null or undefined b.map(a =&gt; typeof a); // (2) [&#34;object&#34;, &#34;object&#34;] b.map(Object.prototype.toString); // (2) [&#34;[object Undefined]&#34;, &#34;[object Undefined]&#34;] Object.prototype.toString.apply(undefined); // &#34;[object Undefined]&#34; b.map(a=&gt;a); // (2) [Array(2), Array(2)] [1, 2].map(Object.prototype.toString); // (2) [&#34;[object Undefined]&#34;, &#34;[object Undefined]&#34;] 而 Array.prototype.map 或 every 并不是去绑定this。
+Array.prototype.map 的一个例子：
+[&#39;a&#39;,&#39;b&#39;].map(function a(item, index, array) { // 为每个值执行 function  }); 是这样执行的：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/javascript-array-map-debug/" />
+
+
+<meta property="article:published_time" content="2017-04-03T20:25:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-04-03T20:25:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">理解 Array.prototype.map()</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>03 Apr 2017</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/javascript' class="link silver">JavaScript</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="调用不是-call">调用不是 .call()</h1>
+<p>错误示范：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">b</span> <span style="color:#f92672">=</span> [[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>], [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>]];
+<span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">map</span>(Array.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">sort</span>);
+<span style="color:#75715e">// Uncaught TypeError: Array.prototype.sort called on null or undefined
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">a</span> =&gt; <span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">a</span>);
+<span style="color:#75715e">// (2) [&#34;object&#34;, &#34;object&#34;]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">map</span>(Object.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">toString</span>);
+<span style="color:#75715e">// (2) [&#34;[object Undefined]&#34;, &#34;[object Undefined]&#34;]
+</span><span style="color:#75715e"></span>Object.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">toString</span>.<span style="color:#a6e22e">apply</span>(<span style="color:#66d9ef">undefined</span>);
+<span style="color:#75715e">// &#34;[object Undefined]&#34;
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">a</span>=&gt;<span style="color:#a6e22e">a</span>);
+<span style="color:#75715e">// (2) [Array(2), Array(2)]
+</span><span style="color:#75715e"></span>[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>].<span style="color:#a6e22e">map</span>(Object.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">toString</span>);
+<span style="color:#75715e">// (2) [&#34;[object Undefined]&#34;, &#34;[object Undefined]&#34;]
+</span></code></pre></div><p>而 <code>Array.prototype.map</code> 或 <code>every</code> 并不是去绑定<code>this</code>。</p>
+<p><code>Array.prototype.map</code> 的一个例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">[<span style="color:#e6db74">&#39;a&#39;</span>,<span style="color:#e6db74">&#39;b&#39;</span>].<span style="color:#a6e22e">map</span>(<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">a</span>(<span style="color:#a6e22e">item</span>, <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">array</span>) {
+    <span style="color:#75715e">// 为每个值执行 function
+</span><span style="color:#75715e"></span>    });
+</code></pre></div><p>是这样执行的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">a</span>(<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#ae81ff">0</span>, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]);
+<span style="color:#a6e22e">a</span>(<span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#ae81ff">1</span>, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]);
+</code></pre></div><p>而不是:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#e6db74">&#39;a&#39;</span>.<span style="color:#a6e22e">call</span>(<span style="color:#ae81ff">0</span>, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]);
+<span style="color:#e6db74">&#39;b&#39;</span>.<span style="color:#a6e22e">call</span>(<span style="color:#ae81ff">1</span>, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]);
+</code></pre></div><p>因此，<code>[[1,2], [3,2]].map(Array.prototype.sort)</code> 实际上是这样运行的</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">Array.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">call</span>(<span style="color:#66d9ef">this</span>, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]);
+Array.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">call</span>(<span style="color:#66d9ef">this</span>, [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>]);
+</code></pre></div><p>而 this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">[<span style="color:#ae81ff">1</span>].<span style="color:#a6e22e">map</span>(()=&gt;<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">this</span>)) <span style="color:#75715e">// Window
+</span></code></pre></div><p>也就是说，其实 <code>this</code> 被绑定了 Window，我执行的是</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">Window</span>.<span style="color:#a6e22e">sort</span>([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]);
+<span style="color:#a6e22e">Window</span>.<span style="color:#a6e22e">sort</span>([<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>]);
+</code></pre></div><p>同样，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">map</span>(Object.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">toString</span>);
+<span style="color:#75715e">// === 
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Window</span>.<span style="color:#a6e22e">toString</span>(<span style="color:#ae81ff">1</span>);
+<span style="color:#a6e22e">Window</span>.<span style="color:#a6e22e">toString</span>(<span style="color:#ae81ff">2</span>);
+</code></pre></div><h1 id="参数个数">参数个数</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">[<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;3&#39;</span>].<span style="color:#a6e22e">map</span>(parseInt);
+<span style="color:#75715e">// While one could expect [1, 2, 3]
+</span><span style="color:#75715e"></span><span style="color:#75715e">// The actual result is [1, NaN, NaN]
+</span></code></pre></div><p>这个问题写在 API 里面，其原因是 <code>map</code> 在调用的时候传了 3 个参数，</p>
+<blockquote>
+<p>currentValue: The current element being processed in the array.
+index: The index of the current element being processed in the array.
+array: The array map was called upon.</p>
+</blockquote>
+<p>就像 <code>callback('a', 0, [1,2])</code> 这样。而 <code>parseInt</code> 其实需要 2 个参数，<code>Number.parseInt(string,[ radix ])</code>。</p>
+<p>这样一来，对于 <code>['1', '2', '3'].map(parseInt);</code> 事实上是这样的调用的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">parseInt(<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#ae81ff">0</span>, [<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;3&#39;</span>]); <span style="color:#75715e">// 1
+</span><span style="color:#75715e"></span>parseInt(<span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#ae81ff">1</span>, [<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;3&#39;</span>]); <span style="color:#75715e">// NaN
+</span><span style="color:#75715e"></span>parseInt(<span style="color:#e6db74">&#39;3&#39;</span>, <span style="color:#ae81ff">2</span>, [<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;3&#39;</span>]); <span style="color:#75715e">// NaN
+</span></code></pre></div><p>第二个参数指定了几进制，1 进制是不存在的，2 进制中 <code>3</code> 也是个非法输入。不过 <code>parseInt('1', 0)</code> 0 进制是个什么鬼。。 <code>parseInt('142', 0); // 142</code> 可能 0 就被认作是 10 吧。避开这个坑的方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">returnInt</span>(<span style="color:#a6e22e">element</span>) {
+  <span style="color:#66d9ef">return</span> parseInt(<span style="color:#a6e22e">element</span>, <span style="color:#ae81ff">10</span>);
+}
+
+[<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;3&#39;</span>].<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">returnInt</span>); <span style="color:#75715e">// [1, 2, 3]
+</span><span style="color:#75715e"></span><span style="color:#75715e">// Actual result is an array of numbers (as expected)
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// A simpler way to achieve the above, while avoiding the &#34;gotcha&#34;:
+</span><span style="color:#75715e"></span>[<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;3&#39;</span>].<span style="color:#a6e22e">map</span>(Number); <span style="color:#75715e">// [1, 2, 3]
+</span></code></pre></div></div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/debug-javascript-chrome-devtools/">prev post</a>
+  <a href="https://drkbl.com/posts/compare-animation-performance-in-chrome/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

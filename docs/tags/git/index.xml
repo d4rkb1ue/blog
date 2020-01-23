@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Git on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/git/</link>
+    <description>Recent content in Git on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 19 Jul 2017 16:49:31 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Inject git commit hash on webpack</title>
+      <link>https://drkbl.com/posts/inject-git-commit-hash-var-on-webpack/</link>
+      <pubDate>Wed, 19 Jul 2017 16:49:31 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/inject-git-commit-hash-var-on-webpack/</guid>
+      <description>Output @ Chrome Dev-tool console
+console.log(__VERSION__); &amp;quot;da7698330a678f77.............&amp;quot; // git commit HEAD&#39;s hash You can use the DefinePlugin that will make your build info available inlined with your code:
+webpack.config.js const childProcess = require(&amp;#39;child_process&amp;#39;); plugins = [ // ...  new webpack.DefinePlugin({ __VERSION__: JSON.stringify(childProcess .execSync(&amp;#39;git rev-list HEAD --max-count=1&amp;#39;).toString()), }) ]; app.js if (typeof __VERSION__ === &amp;#39;string&amp;#39;) { (window as any).__VERSION__ = __VERSION__; } If you use typescript, append to types/index.d.ts to omit type error</description>
+    </item>
+    
+    <item>
+      <title>下载 github 单个文件</title>
+      <link>https://drkbl.com/posts/download-single-file-from-github/</link>
+      <pubDate>Mon, 02 Jan 2017 23:08:37 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/download-single-file-from-github/</guid>
+      <description>以下载以下文件为例。
+https://github.com/Supervisor/initscripts/blob/master/ubuntu 要下载这个文件，点击按钮 Raw ，得到下载地址。
+https://raw.githubusercontent.com/Supervisor/initscripts/master/ubuntu 执行
+curl https://raw.githubusercontent.com/Supervisor/initscripts/master/ubuntu &amp;gt; a.txt 即这个文件下载到本地a.txt了。</description>
+    </item>
+    
+    <item>
+      <title>把 Github 用作 DNS 设置二级域名跳转</title>
+      <link>https://drkbl.com/posts/use-github-as-dns/</link>
+      <pubDate>Sun, 24 Apr 2016 02:02:03 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/use-github-as-dns/</guid>
+      <description>背景 这个博客使用 Github Pages 托管。绑定了drkbl.com为CNAME。默认情况下，Github支持
+ drkbl.com www.drkbl.com  两个域名跳转到我的个人主页 d4rkb1ue.github.io
+我想开通subdomain指向我的不同项目，希望跳转到我想要的地址。就像这样
+sub.drkbl.com --跳转到--&amp;gt; https://somesome.com/lalala/hahha 因为DNS是无法直接设置根目录以下的CNAME的。因此无法直接在DNS服务商那里处理这样的跳转。
+gh-pages 的分支跳转 Github 的项目支持使用 gh-pages 分支生成项目页。绑定在
+http://d4rkblue.github.io/project-name 并且也支持设置CNAME。
+使用 gh-pages 分支 + CNAME + HTML 302 redirect 跳转任何网页 1. 初始化库   在github上建立一个用做 DNS 跳转的库，以 dns-test 为例
+  复制到本地
+  git clone git@github.com:d4rkb1ue/dns-test.git  在本地库目录里，切换到 gh-pages 分支  cd dns-test git checkout --orphan gh-pages 2. 设置跳转  创建 HTML 302跳转文件 命名为 index.html。以跳转到百毒为例。  &amp;lt;head&amp;gt; &amp;lt;meta http-equiv=&amp;#34;refresh&amp;#34; content=&amp;#34;0; url= http://www.</description>
+    </item>
+    
+    <item>
+      <title>Git 初步入门</title>
+      <link>https://drkbl.com/posts/git-starter/</link>
+      <pubDate>Wed, 09 Mar 2016 22:55:17 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/git-starter/</guid>
+      <description>创建版本库 把这个目录变成Git可以管理的仓库： git init 也不一定必须在空目录下创建Git仓库，选择一个已经有东西的目录也是可以的。
+把文件添加到仓库： git add readme.txt （设置用户信息：） git config --global user.email &amp;quot;7874364@gmail.com&amp;quot; git config --global user.name &amp;quot;ray0&amp;quot; 只要设置一次，好像只有在从来没用过git的情况下才会出现
+提交文件到仓库 git commit 为什么Git添加文件需要add，commit一共两步呢？因为commit可以一次提交很多文件，所以你可以多次add不同的文件，比如：
+ray0@ubuntu:~/learngit$ touch b.txt ray0@ubuntu:~/learngit$ touch c.c ray0@ubuntu:~/learngit$ git add b.txt ray0@ubuntu:~/learngit$ git add c.c ray0@ubuntu:~/learngit$ git commit -m &amp;quot;add b/c&amp;quot; [master 5ccb1c8] add b/c 2 files changed, 0 insertions(+), 0 deletions(-) create mode 100644 b.txt create mode 100644 c.c 发生变化 状态 查看目前状态：
+git status 出现修改之后，需要重新add才能commit</description>
+    </item>
+    
+  </channel>
+</rss>

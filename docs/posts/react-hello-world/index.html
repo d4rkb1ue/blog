@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>React &#43; Babel &#43; Webpack &#43; antd 入门 - d4rkb1ue&#39;s Blog</title>
+  <meta content='React &#43; Babel &#43; Webpack &#43; antd 入门 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='React &#43; Babel &#43; Webpack &#43; antd 入门 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="从零开始构建一个前端脚手架，技术栈：
+ React 为数据提供渲染为 HTML 的视图的开源 JavaScript 库 Babel 是一个 JavaScript 编译器，用于转化 ES2015/JSX 代码 Webpack 前端资源加载/打包工具，满足前端工程化需要 antd-react 使用 Ant Design UI 库的 React 实现  Git: d4rkb1ue/react-helloworld
+运行指南 $ git clone https://github.com/d4rkb1ue/react-helloworld.git $ cd react-helloworld $ npm i $ npm run test 已知问题 npm i 卡死 $ npm i 这步可能会卡在 extract:webpack-dev-server: sill doParallel extract 589 这里，这个问题已经被 Node Issue 了 https://github.com/npm/npm/issues/13782
+解决办法，单独安装 webpack ， webpack-dev-server ， babel-cli ， babel-loader
+$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&#39;t be accessed via IP github issue" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/react-hello-world/" />
+
+
+<meta property="article:published_time" content="2017-03-15T22:19:05&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-03-15T22:19:05&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">React &#43; Babel &#43; Webpack &#43; antd 入门</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>15 Mar 2017</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/react' class="link silver">React</a> <a href='/tags/javascript' class="link silver">JavaScript</a> <a href='/tags/node.js' class="link silver">Node.js</a> <a href='/tags/webpack' class="link silver">Webpack</a> <a href='/tags/babel' class="link silver">Babel</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><p>从零开始构建一个前端脚手架，技术栈：</p>
+<ul>
+<li>React 为数据提供渲染为 HTML 的视图的开源 JavaScript 库</li>
+<li>Babel 是一个 JavaScript 编译器，用于转化 ES2015/JSX 代码</li>
+<li>Webpack 前端资源加载/打包工具，满足前端工程化需要</li>
+<li>antd-react 使用 Ant Design UI 库的 React 实现</li>
+</ul>
+<p><a href="https://github.com/d4rkb1ue/react-helloworld">Git: d4rkb1ue/react-helloworld</a></p>
+<h1 id="运行指南">运行指南</h1>
+<pre><code>$ git clone https://github.com/d4rkb1ue/react-helloworld.git
+$ cd react-helloworld
+$ npm i
+$ npm run test
+</code></pre><h2 id="已知问题">已知问题</h2>
+<h3 id="npm-i-卡死">npm i 卡死</h3>
+<p><code>$ npm i</code> 这步可能会卡在 <code>extract:webpack-dev-server: sill doParallel extract 589</code> 这里，这个问题已经被 Node Issue 了 <a href="https://github.com/npm/npm/issues/13782">https://github.com/npm/npm/issues/13782</a></p>
+<p>解决办法，单独安装 webpack ， webpack-dev-server ， babel-cli ， babel-loader</p>
+<pre><code>$
+rm -rf node_modules/
+npm cache clear
+npm i webpack
+npm i webpack-dev-server
+npm i babel-cli
+npm i babel-loader
+npm i
+</code></pre><h3 id="webpack-dev-server-cant-be-accessed-via-ip">webpack-dev-server can't be accessed via IP</h3>
+<p><a href="https://github.com/webpack/webpack-dev-server/issues/147">github issue</a></p>
+<p>webpack-dev-server 打开的 server 无法被远程通过 IP 访问，原因是 webpack-dev-server 默认关闭了这个功能。通过加参数 <code>--host 0.0.0.0</code> 可以开启，</p>
+<pre><code># package.json
+&quot;test&quot;: &quot;webpack-dev-server --host 0.0.0.0 --progress --colors --content-base build/&quot;,
+...
+</code></pre><h1 id="react">React</h1>
+<p>React 可以在浏览器运行，也可以在服务器运行。</p>
+<h2 id="在浏览器中运行">在浏览器中运行</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+&lt;<span style="color:#f92672">html</span>&gt;
+  &lt;<span style="color:#f92672">head</span>&gt;
+    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span> /&gt;
+    &lt;<span style="color:#f92672">title</span>&gt;Hello World&lt;/<span style="color:#f92672">title</span>&gt;
+    <span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> React 的核心库 </span><span style="color:#75715e">--&gt;</span>
+    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/react@latest/dist/react.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+    <span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> 提供与 DOM 相关的功能 </span><span style="color:#75715e">--&gt;</span>
+    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/react-dom@latest/dist/react-dom.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+    <span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> 将 JSX 语法转为 JavaScript 语法 </span><span style="color:#75715e">--&gt;</span>
+    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://unpkg.com/babel-standalone@6.15.0/babel.min.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+  &lt;/<span style="color:#f92672">head</span>&gt;
+  &lt;<span style="color:#f92672">body</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;root&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/babel&#34;</span>&gt;
+      <span style="color:#75715e">/* ReactDOM.render 是 React 的最基本方法，用于将模板转为 HTML 语言，并插入指定的 DOM 节点 */</span>
+      <span style="color:#a6e22e">ReactDOM</span>.<span style="color:#a6e22e">render</span>(
+        <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">h1</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">Hello</span>, <span style="color:#a6e22e">world</span><span style="color:#f92672">!</span><span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#960050;background-color:#1e0010">h</span><span style="color:#960050;background-color:#1e0010">1</span><span style="color:#960050;background-color:#1e0010">&gt;</span><span style="color:#960050;background-color:#1e0010">,</span>
+        document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;root&#39;</span>)
+      );
+    &lt;/<span style="color:#f92672">script</span>&gt;
+  &lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><blockquote>
+<p>It does a slow runtime code transformation, so don't use it in production.</p>
+</blockquote>
+<p><code>&lt;script type=&quot;text/babel&quot;&gt;...&lt;/script&gt;</code> 的部分就是 React 独有的 JSX 语法，显然跟 JavaScript 不兼容，是 JavaScript 和 HTML 混写的一种语法。凡是使用 JSX 的地方，都要加上 <code>type=&quot;text/babel&quot;</code> 。</p>
+<p>在生产环境使用时，应使用 babel 将 JSX 转码，如</p>
+<pre><code>$ babel src --out-dir build
+</code></pre><p>上面命令可以将 src 子目录的 js 文件进行语法转换，转码后的文件全部放在 build 子目录。</p>
+<h2 id="服务器端运行">服务器端运行</h2>
+<pre><code>$ npm init
+$ npm install --save react react-dom
+</code></pre><p>除此之外，需要安装 babel 和 webpack 作为 react 的运行时。</p>
+<h1 id="babel">Babel</h1>
+<h2 id="配置文件">配置文件</h2>
+<p>使用 Babel 前，需要先创建配置文件是 <code>.babelrc</code> ，存放在项目的根目录下。<code>presets</code> 字段设定转码规则，</p>
+<pre><code>{
+  &quot;presets&quot;: [
+    &quot;es2015&quot;,
+    &quot;react&quot;,
+  ],
+  &quot;plugins&quot;: []
+}
+</code></pre><h2 id="运行时">运行时</h2>
+<p>使用 Babel 的命令行转码工具 babel-cli，</p>
+<pre><code>$ npm install --save-dev babel-cli
+</code></pre><h1 id="避免依赖环境">避免依赖环境</h1>
+<p>为了避免安装在全局环境中（项目产生了对环境的依赖，且无法管理版本），选择安装为本地（locally）模块，保存为 devDependencies （仅用于开发）。在使用时，</p>
+<blockquote>
+<p><code>npm run</code> 新建的这个 Shell，会将当前目录的 <code>node_modules/.bin</code> 子目录加入 <code>PATH</code> 变量，执行结束后，再将 <code>PATH</code> 变量恢复原样。</p>
+<p>这意味着，当前目录的 <code>node_modules/.bin</code> 子目录里面的所有脚本，都可以直接用脚本名调用，而不必加上路径。比如，当前项目的依赖里面有 Mocha，只要直接写 <code>mocha test</code> 就可以了。</p>
+<p><code>&quot;build&quot;: &quot;babel src -d lib&quot;</code> == <code>&quot;test&quot;: &quot;./node_modules/.bin/babel src -d lib&quot;</code></p>
+</blockquote>
+<p>package.json</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
+<span style="color:#e6db74">&#34;scripts&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+    <span style="color:#f92672">&#34;build&#34;</span>: <span style="color:#e6db74">&#34;babel src -d lib&#34;</span>
+}
+<span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
+</code></pre></div><h1 id="webpack">Webpack</h1>
+<p>同样，使用</p>
+<pre><code>$ npm install --save-dev webpack
+</code></pre><p>在本地安装 webpack 。在 <code>package.json</code> 规定本地命令，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;scripts&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+  <span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
+  <span style="color:#f92672">&#34;webpack&#34;</span>: <span style="color:#e6db74">&#34;webpack --progress --colors&#34;</span>,
+  <span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
+}
+</code></pre></div><p><code>--progress --colors</code> 让 log 打印出进度并且以彩色显示。</p>
+<p>以后需要执行 <code>$ webpack</code> 的地方需要用 <code>$ npm run webpack</code> 来替代，如此也避免了全局安装。</p>
+<h2 id="hello-world">Hello World</h2>
+<p>新建 <code>main.js</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">document.<span style="color:#a6e22e">write</span>(<span style="color:#e6db74">&#34;Hello World!&#34;</span>);
+</code></pre></div><p>和 <code>index.html</code> ，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">html</span>&gt;
+&lt;<span style="color:#f92672">head</span>&gt;
+    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>&gt;
+&lt;/<span style="color:#f92672">head</span>&gt;
+&lt;<span style="color:#f92672">body</span>&gt;
+    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bundle.js&#34;</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+&lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><p>运行，</p>
+<pre><code>$ webpack ./main.js bundle.js
+</code></pre><p>在浏览器中打开 <code>index.html</code> ，</p>
+<pre><code>$ open -a safari index.html
+</code></pre><p>hello world!</p>
+<h2 id="使用配置文件">使用配置文件</h2>
+<p>新建 <code>webpack.config.js</code> 来规定执行 webpack 编译的参数，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">path</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;path&#34;</span>);
+<span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> {
+  <span style="color:#a6e22e">entry</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;./main.js&#34;</span>,
+  <span style="color:#a6e22e">output</span><span style="color:#f92672">:</span> {
+    <span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#34;build&#34;</span>),
+    <span style="color:#a6e22e">filename</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;bundle.js&#39;</span>
+  }
+};
+</code></pre></div><p>入口依然为 <code>./main.js</code> ，同时规定编译输出到 <code>./build/bundle.js</code> 。将 <code>index.html</code> 也移动到 <code>./build/</code> 目录下。</p>
+<p>直接在 <code>webpack.config.js</code> 运行，</p>
+<pre><code>$ webpack
+</code></pre><pre><code>$ open -a safari index.html
+</code></pre><h2 id="运行在-webpack-dev-server">运行在 Webpack Dev Server</h2>
+<blockquote>
+<p>This binds a small express server on localhost:8080 which serves your static assets as well as the bundle (compiled automatically). It automatically updates the browser page when a bundle is recompiled (SockJS). Open http://localhost:8080/webpack-dev-server/bundle in your browser.</p>
+</blockquote>
+<p>安装它，</p>
+<pre><code>$ npm install --save-dev webpack-dev-server
+</code></pre><p>全局安装的话，执行 <code>$ webpack-dev-server</code> 即可开启一个 express 服务器，默认地址为 <code>http://localhost:8080/</code> ，使用 <code>--port &lt;number&gt;</code> 参数定义其他端口。更多命令见 <a href="https://webpack.github.io/docs/webpack-dev-server.html#webpack-dev-server-cli">API</a>。</p>
+<p>我们采取的本地安装，在 <code>package.json</code> 规定本地命令，需要用 <code>$ npm run test</code> 替代即可，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
+<span style="color:#e6db74">&#34;scripts&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+    <span style="color:#f92672">&#34;test&#34;</span>: <span style="color:#e6db74">&#34;webpack-dev-server --progress --colors --content-base build/&#34;</span>,
+    <span style="color:#f92672">&#34;webpack&#34;</span>: <span style="color:#e6db74">&#34;webpack --progress --colors&#34;</span>
+  }<span style="color:#960050;background-color:#1e0010">,</span>
+<span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">.</span>
+</code></pre></div><h2 id="babel-loader-和-hello-world-by-react">Babel-loader 和 Hello World! by React</h2>
+<p>因为 Webpack 本身只支持 JavaScript ，为了让它支持 React ， 需要安装 Babel-loader 以编译 React 的 JSX 文件。loader 是 Webpack 的一个机制。</p>
+<p>创建 <code>./main.jsx</code> ，</p>
+<pre><code>const React = require('react');
+const ReactDOM = require('react-dom');
+
+ReactDOM.render(
+  &lt;h1&gt;Hello, world!&lt;/h1&gt;,
+  document.querySelector('#main')
+);
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">React</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;react&#39;</span>);
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">ReactDOM</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;react-dom&#39;</span>);
+</code></pre></div><p>是 ES5 的写法，我们可以用 ES2015 的写法代替之（反正有 babel），</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">React</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;react&#39;</span>;
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">ReactDOM</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;react-dom&#39;</span>;
+</code></pre></div><p>安装，</p>
+<pre><code>$ npm i --save-dev babel-loader
+</code></pre><p>修改 <code>webpack.config.js</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">path</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#34;path&#34;</span>);
+<span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> {
+  <span style="color:#a6e22e">entry</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;./main.jsx&#34;</span>,
+  <span style="color:#a6e22e">output</span><span style="color:#f92672">:</span> {
+    <span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#34;build&#34;</span>),
+    <span style="color:#a6e22e">filename</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;bundle.js&#39;</span>
+  },
+  <span style="color:#a6e22e">module</span><span style="color:#f92672">:</span> {
+    <span style="color:#a6e22e">loaders</span><span style="color:#f92672">:</span> [
+    {
+      <span style="color:#a6e22e">test</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/\.js[x]?$/</span>,
+      <span style="color:#a6e22e">exclude</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/node_modules/</span>,
+      <span style="color:#a6e22e">loader</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;babel-loader&#39;</span>,
+      <span style="color:#a6e22e">query</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">presets</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;es2015&#39;</span>, <span style="color:#e6db74">&#39;react&#39;</span>]
+      }
+    }]
+  }
+};
+</code></pre></div><p>对于 <code>/\.js[x]?$/</code> <code>test</code> 通过的文件，执行下面的 loader， <code>query</code> 部分和上面指定 babel 的配置文件一致。另一种写法 <code>loader: 'babel-loader?presets[]=es2015&amp;presets[]=react'</code>。</p>
+<p>HTML 文件无需修改，依然执行 <code>npm run test</code> 即可运行 React 版的 Hello World!</p>
+<h2 id="添加-css-支持">添加 CSS 支持</h2>
+<p>我们需要额外安装 loader 来支持 CSS</p>
+<pre><code>npm i --save css-loader style-loader
+</code></pre><p>添加一个 loader ，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">module</span><span style="color:#f92672">:</span> {
+    <span style="color:#a6e22e">loaders</span><span style="color:#f92672">:</span> [
+    {
+      <span style="color:#a6e22e">test</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/\.js[x]?$/</span>,
+      <span style="color:#a6e22e">exclude</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/node_modules/</span>,
+      <span style="color:#a6e22e">loader</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;babel-loader&#39;</span>,
+      <span style="color:#a6e22e">query</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">presets</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;es2015&#39;</span>, <span style="color:#e6db74">&#39;react&#39;</span>]
+      }
+    },
+    {
+      <span style="color:#a6e22e">test</span><span style="color:#f92672">:</span> <span style="color:#e6db74">/\.css$/</span>, 
+      <span style="color:#a6e22e">loader</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;style-loader!css-loader&#39;</span> 
+    },]
+  }
+};
+</code></pre></div><p>以加入 <a href="https://ant.design/docs/react/introduce-cn">antd/DatePicker</a> 为例，在 <code>main.jsx</code> 中载入 CSS 文件，还有 DatePicker（日期选择器） 组件，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">DatePicker</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;antd/lib/date-picker&#39;</span>;  <span style="color:#75715e">// 加载 JS
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;antd/lib/date-picker/style/css&#39;</span>;        <span style="color:#75715e">// 加载 CSS
+</span></code></pre></div><p>再修改 HTML 添加 DatePicker（日期选择器）的占位，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;antd&#34;</span>&gt;&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bundle.js&#34;</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><p>继续修改 <code>main.jsx</code> ，加入渲染，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">ReactDOM</span>.<span style="color:#a6e22e">render</span>(
+  <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">DatePicker</span> <span style="color:#f92672">/</span><span style="color:#f92672">&gt;</span>,
+  document.<span style="color:#a6e22e">querySelector</span>(<span style="color:#e6db74">&#39;#antd&#39;</span>)
+);
+</code></pre></div><p>执行渲染，查看结果～</p>
+<p><code>DatePicker</code> 是一个 React 组件类，像插入普通 HTML 标签一样，在网页中插入这个组件。所有组件类都必须有自己的 render 方法，用于输出组件。就像这样，</p>
+<pre><code>var HelloMessage = React.createClass({
+  render: function() {
+    return &lt;h1&gt;Hello {this.props.name}&lt;/h1&gt;;
+  }
+});
+</code></pre><hr>
+<p><em>让 Sublime 支持 JSX 的渲染，可以用 <a href="https://github.com/babel/babel-sublime">babel-sublime</a> 解决，安装后设置 syntax 为 <code>JavaScript(Babel)</code></em></p>
+<hr>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2016/01/babel.html">Babel 入门 - 阮一峰</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2015/03/react.html">React 入门实例教程 - 阮一峰</a></li>
+<li><a href="https://github.com/ruanyf/webpack-demos">ruanyf/webpack-demos</a> Webpack 的 16 个 Demo</li>
+<li><a href="https://github.com/ruanyf/react-babel-webpack-boilerplate">ruanyf/react-babel-webpack-boilerplate</a> 样板，支持更丰富的特性</li>
+<li><a href="http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html">npm scripts 使用指南</a></li>
+<li><a href="http://webpack.github.io/docs/tutorials/getting-started/">Webpack Getting-started</a></li>
+<li><a href="https://github.com/ruanyf/webpack-demos">ruanyf/webpack-demos</a></li>
+<li><a href="https://ant.design/docs/react/introduce-cn">Ant Design of React</a></li>
+<li><a href="http://momentjs.com">Moment.js</a></li>
+</ul>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/js-regexp/">prev post</a>
+  <a href="https://drkbl.com/posts/debug-javascript-chrome-devtools/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

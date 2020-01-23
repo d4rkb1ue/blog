@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JavaScript on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/javascript/</link>
+    <description>Recent content in JavaScript on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 16 Jun 2017 15:25:49 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>DOM No Response To Keyboard Event</title>
+      <link>https://drkbl.com/posts/div-not-response-to-keyboard-event-without-tabindex/</link>
+      <pubDate>Fri, 16 Jun 2017 15:25:49 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/div-not-response-to-keyboard-event-without-tabindex/</guid>
+      <description>Register onKeyDownListener on HTML Element &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;script src=&amp;#34;../build/react.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/react-dom.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/browser.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;div id=&amp;#34;app&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;script type=&amp;#34;text/babel&amp;#34;&amp;gt; class App extends React.Component { handleKeyDown(event) { console.log(&amp;#39;handling a key press&amp;#39;); } render() { return ( &amp;lt;div onKeyDown={this.handleKeyDown}&amp;gt; here! &amp;lt;/div&amp;gt; ); } } ReactDOM.render(&amp;lt;App /&amp;gt;, document.getElementById(&amp;#39;app&amp;#39;)); &amp;lt;/script&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; There are NO response here. You press any thing and there is NO response. It&#39;s doesn&#39;t matter you mouse focus on div or not.</description>
+    </item>
+    
+    <item>
+      <title>Why array.indexOf(undefined) doesn&#39;t work if array is sparse</title>
+      <link>https://drkbl.com/posts/js-array-indexof-undefined/</link>
+      <pubDate>Thu, 15 Jun 2017 11:50:00 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-array-indexof-undefined/</guid>
+      <description>var firstMissingPositive = function (nums) { let arr = [true]; nums.forEach((val) =&amp;gt; { if (val &amp;gt; 0) { arr[val] = true; } }); return [arr, arr.indexOf(undefined)]; }; Why this doesn&#39;t work?!
+firstMissingPositive([2]) // [[true, undefined, true], -1] Why -1 !?
+but if just run [true, undefined, true].indexOf(undefined) in chrome dev tools it returns 1.
+原因 主要是 chrome 的打印问题， sparse (稀疏) 的 array 在没有定义的项目上，chrome 会打印出来 undefined 。但是这个其实是真的没有定义过的，对于 indexOf 来说，不像 console.log 会将没有定义的元素补全为 undefined ，indexOf 是看不到这个元素的。</description>
+    </item>
+    
+    <item>
+      <title>isNaN 也是个大坑</title>
+      <link>https://drkbl.com/posts/fucking-isnan-in-javascript/</link>
+      <pubDate>Mon, 12 Jun 2017 12:09:53 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/fucking-isnan-in-javascript/</guid>
+      <description>The isNaN() function determines whether a value is NaN or not. Note: coercion inside the isNaN function has interesting rules; you may alternatively want to use Number.isNaN(), as defined in ECMAScript 2015, or you can use typeof to determine if the value is Not-A-Number.
+ Interesting? isNaN(NaN); // true isNaN(undefined); // true !!! WTF? isNaN({}); // true !!! WTF?  isNaN(&amp;#39;37&amp;#39;); // false: &amp;#34;37&amp;#34; is converted to the number 37 which is not NaN isNaN(&amp;#39;&amp;#39;); // false: the empty string is converted to 0 which is not NaN isNaN(&amp;#39;blabla&amp;#39;); // true, WTF?</description>
+    </item>
+    
+    <item>
+      <title>实现等待用户输入完毕继续执行</title>
+      <link>https://drkbl.com/posts/js-wait-until-user-input/</link>
+      <pubDate>Thu, 25 May 2017 11:18:01 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-wait-until-user-input/</guid>
+      <description>问题 有一个主函数同步调用一个异步函数，这个异步函数要等待用户输入后返回给主函数用户输入的结果。在用户输入前，要怎么阻塞线程，待用户输入完毕继续执行？
+用 while 阻塞线程？ No
+线程会永远阻塞在 while 上，外部调用都不会产生作用。因为外部那个函数都执行不到，此时整个程序都完全死去了。因为同步函数到死都不会交出 CPU 控制权。
+就像这样：
+var test = { status: false, main: function() { let res = this.func(); console.log(res); }, func: function() { while (!this.status); return 100; }, confirm: function() { this.status = true; } } setTimeout(test.confirm.bind(test), 1000); // never confirm test.func(); 用 setTimeout 替代 while 轮询? No
+func: function() { if (!this.status) { setTimeout(() =&amp;gt; { this.func(); }, 500); } else { return 100; } // return undefined; }, 因为 async_func 依然是一个被同步调用的函数，所以在一开始 this.</description>
+    </item>
+    
+    <item>
+      <title>diff Promise Generator Async</title>
+      <link>https://drkbl.com/posts/diff-promise-generator-async/</link>
+      <pubDate>Wed, 24 May 2017 17:52:22 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/diff-promise-generator-async/</guid>
+      <description>绝佳例子 var fs = require(&amp;#39;fs&amp;#39;); // callback 写法 fs.readFile(&amp;#39;/etc/fstab&amp;#39;, function (err, f1) { if (err) throw err; console.log(f1.toString()); fs.readFile(&amp;#39;/etc/shells&amp;#39;, function (err, f2) { if (err) throw err; console.log(f2.toString()); } }); // 出现了两层嵌套。如果有更多文件的话，将会有更多嵌套  var readFile = function (fileName){ return new Promise(function (resolve, reject){ fs.readFile(fileName, function(error, data){ if (error) reject(error); resolve(data); }); }); }; // Promise 写法 readFile(fileA) .then(function(data){ console.log(data.toString()); }) .then(function(){ return readFile(fileB); }) .then(function(data){ console.log(data.toString()); }) .catch(function(err) { console.log(err); }); // generator 写法 var gen = function* (){ var f1 = yield readFile(&amp;#39;/etc/fstab&amp;#39;); console.</description>
+    </item>
+    
+    <item>
+      <title>同步函数调用异步函数导致的 setState 问题</title>
+      <link>https://drkbl.com/posts/call-async-func-in-sync-func/</link>
+      <pubDate>Thu, 18 May 2017 20:53:40 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/call-async-func-in-sync-func/</guid>
+      <description>问题描述 根据用户输入计算结果，实时将结果打印到界面上。原本的接口大约是这样：
+function output(text) { var mypre = document.getElementById(&amp;#34;output&amp;#34;); // append 而不是覆盖  mypre.innerHTML = mypre.innerHTML + text; } // calculate yield 一个结果后会调用 output(res) 输出 calculate(paras, output); 将 output() 转为 React 的写法时，像这样：
+function output(text) { this.setState({mypre: this.state.mypre + text}); } ... &amp;lt;div className=&amp;#39;mypre&amp;#39;&amp;gt; {this.state.mypre} &amp;lt;/div&amp;gt; 于是问题来了。
+以下都是不认真看教程的结果 React - Docs
+ State Updates May Be Asynchronous React may batch multiple setState() calls into a single update for performance.
+Because this.props and this.</description>
+    </item>
+    
+    <item>
+      <title>diff typeof &amp; &#39;!==&#39;</title>
+      <link>https://drkbl.com/posts/typeof-is-more-safe/</link>
+      <pubDate>Wed, 03 May 2017 23:51:31 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/typeof-is-more-safe/</guid>
+      <description> typeof allows the identifier to never have been declared before.
+ So it’s safer in that regard:
+if (typeof neverDeclared === &amp;#34;undefined&amp;#34;); //no errors  if (neverDeclared === null); //throws ReferenceError: neverDeclared is not defined  Ref  typeof-undefined-vs-null  </description>
+    </item>
+    
+    <item>
+      <title>理解 Array.prototype.map()</title>
+      <link>https://drkbl.com/posts/javascript-array-map-debug/</link>
+      <pubDate>Mon, 03 Apr 2017 20:25:00 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/javascript-array-map-debug/</guid>
+      <description>调用不是 .call() 错误示范：
+var b = [[1, 2], [3, 2]]; b.map(Array.prototype.sort); // Uncaught TypeError: Array.prototype.sort called on null or undefined b.map(a =&amp;gt; typeof a); // (2) [&amp;#34;object&amp;#34;, &amp;#34;object&amp;#34;] b.map(Object.prototype.toString); // (2) [&amp;#34;[object Undefined]&amp;#34;, &amp;#34;[object Undefined]&amp;#34;] Object.prototype.toString.apply(undefined); // &amp;#34;[object Undefined]&amp;#34; b.map(a=&amp;gt;a); // (2) [Array(2), Array(2)] [1, 2].map(Object.prototype.toString); // (2) [&amp;#34;[object Undefined]&amp;#34;, &amp;#34;[object Undefined]&amp;#34;] 而 Array.prototype.map 或 every 并不是去绑定this。
+Array.prototype.map 的一个例子：
+[&amp;#39;a&amp;#39;,&amp;#39;b&amp;#39;].map(function a(item, index, array) { // 为每个值执行 function  }); 是这样执行的：</description>
+    </item>
+    
+    <item>
+      <title>在 Chrome Devtools 中调试本地代码</title>
+      <link>https://drkbl.com/posts/debug-javascript-chrome-devtools/</link>
+      <pubDate>Tue, 21 Mar 2017 19:05:19 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/debug-javascript-chrome-devtools/</guid>
+      <description>创建这样的文档结构
+$ find . -print | sed -e &amp;#39;s;[^/]*/;|____;g;s;____|; |;g&amp;#39; . |____index.html |____partition.js partition.js 是要挑试的 js 代码，index.html 是用来辅助以运行在 Chrome 中。
+index.html 引用 js 即可。
+&amp;lt;!doctype html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;script src=&amp;#34;partition.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt;&amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; 然后将 index.html 拖入 Chrome 中（以 Chrome 打开也一样）。 可以在 Source 选项卡中左侧打开文件树形图。可以修改直接在 Chrome 中保存！
+然后进入 Console 面板 (macOS 下可用 Command + [ 和 Command + ] 来作用切换面板) 愉快的运行吧。当然，这个（些） js 文件都已经在加载时被执行了一遍。
+macOS 的 tree:
+find . -print | sed -e &#39;s;[^/]*/;|____;g;s;____|; |;g&#39; by OSXDaily</description>
+    </item>
+    
+    <item>
+      <title>React &#43; Babel &#43; Webpack &#43; antd 入门</title>
+      <link>https://drkbl.com/posts/react-hello-world/</link>
+      <pubDate>Wed, 15 Mar 2017 22:19:05 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/react-hello-world/</guid>
+      <description>从零开始构建一个前端脚手架，技术栈：
+ React 为数据提供渲染为 HTML 的视图的开源 JavaScript 库 Babel 是一个 JavaScript 编译器，用于转化 ES2015/JSX 代码 Webpack 前端资源加载/打包工具，满足前端工程化需要 antd-react 使用 Ant Design UI 库的 React 实现  Git: d4rkb1ue/react-helloworld
+运行指南 $ git clone https://github.com/d4rkb1ue/react-helloworld.git $ cd react-helloworld $ npm i $ npm run test 已知问题 npm i 卡死 $ npm i 这步可能会卡在 extract:webpack-dev-server: sill doParallel extract 589 这里，这个问题已经被 Node Issue 了 https://github.com/npm/npm/issues/13782
+解决办法，单独安装 webpack ， webpack-dev-server ， babel-cli ， babel-loader
+$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&#39;t be accessed via IP github issue</description>
+    </item>
+    
+    <item>
+      <title>正则表达式入门</title>
+      <link>https://drkbl.com/posts/js-regexp/</link>
+      <pubDate>Sat, 11 Mar 2017 23:44:20 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-regexp/</guid>
+      <description>RegExp 语法 字符  \d: one number \w: one number, letter .: any single character \s: one space(&amp;rsquo; &amp;lsquo;), tab(&#39;\t&amp;rsquo;)  特殊字符需要转义，
+ -: \- _: \_ $: \$  例如，
+00\d // 004 \d\d\d // 223 \w\w // f2 js.// js! 限制 +: one or more *: none or more ?: none or one {n}: exactly n chars {n, m}: n &amp;lt;= number of chars &amp;lt;= m [0-9]: range A|B: or ^: 表示行的开头 $: 表示行的结束</description>
+    </item>
+    
+    <item>
+      <title>Javascript 闭包(Closure)学习笔记</title>
+      <link>https://drkbl.com/posts/javascript-closure/</link>
+      <pubDate>Tue, 28 Feb 2017 21:27:51 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/javascript-closure/</guid>
+      <description>闭包是一个函数，可以访问它被创建时所处的上下文环境。
+我对它一开始的理解是，保存了一份上下文的拷贝，然而这个理解是错的。实际是所需的上下文没有被释放。
+闭包的例子 如果用闭包做一个计数器，
+function newCounter(start){ // context  var n = start || 0; // if start is undefined  return { // Plan A: here will be anthor &amp;#39;n&amp;#39; to store the &amp;#39;n&amp;#39; from the context  inc: function(){ return ++n; } } } // usage var counter = newCounter(); counter.inc(); // 1 counter.inc(); // 2 对于这个含有函数(inc())的匿名对象，它是如何访问到n，有两个解释：
+ 闭包会复制上下文，如注释里所说 闭包需要的上下文会持续存在  错误的理解：闭包会复制上下文 闭包是自带状态的函数，看起来它的实现是这样的，
+function closure{ var arguments = [.</description>
+    </item>
+    
+    <item>
+      <title>Javascript Puzzles or Jokes</title>
+      <link>https://drkbl.com/posts/javascript-puzzles-or-jokes/</link>
+      <pubDate>Mon, 27 Feb 2017 22:05:59 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/javascript-puzzles-or-jokes/</guid>
+      <description>Just for fun.
+ 1 - - 1 === 2 1.toString() 0.8 - 0.6 !== 0.2 [] + [] === &amp;quot;&amp;rdquo; [] !== [] [] + {} {} + [] {1} + {} parseInt(0.0000008)  1 - - 1 1 - - 1 // 2 1 - - - - - - - - 1 // 2 1 - (-1) 1 - (-(-(-(-1))))
+1.toString() 1.toString(); // error 1..toString(); // &amp;#34;1&amp;#34; 1.</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 继承机制-4-class继承</title>
+      <link>https://drkbl.com/posts/js-inherit-summary-4/</link>
+      <pubDate>Fri, 17 Jun 2016 21:55:16 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-inherit-summary-4/</guid>
+      <description>class继承从ES6开始正式被引入到JavaScript中。
+class Animal { constructor(name) { this.name = name; } } class Cat extends Animal{ constructor(name){ super(name); } say(){ return &amp;#34;Hello, &amp;#34;+this.name+&amp;#34;!&amp;#34;; } } 简直。太舒服。
+因为不是所有的主流浏览器都支持ES6的class。如果一定要现在就用上，就需要一个工具把class代码转换为传统的prototype代码，比如Babel。</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 继承机制-3-拷贝继承和数据类型</title>
+      <link>https://drkbl.com/posts/js-inherit-summary-3/</link>
+      <pubDate>Thu, 16 Jun 2016 16:47:52 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-inherit-summary-3/</guid>
+      <description>假设 现在有一个对象，叫做&amp;quot;中国人&amp;rdquo;。
+var Chinese = { nation:&amp;#39;中国&amp;#39; }; 还有一个对象，叫做&amp;quot;医生&amp;rdquo;。
+var Doctor ={ career:&amp;#39;医生&amp;#39; } 请问怎样才能让&amp;quot;医生&amp;quot;去继承&amp;quot;中国人&amp;rdquo;，也就是说，我怎样才能生成一个&amp;quot;中国医生&amp;quot;的对象？
+object(o) 方法: 生成“类”o的实例 function object(o) { function F() {}; F.prototype = o; return new F(); } new F()实际调用的是o.constructor但是免去了传参。其实就是把一切初始化参数都设定为undefined. 即：
+function O(a){this.a=a}; function F() {}; F.prototype = O; F.prototype.constructor === O.constructor; //true 使用 var Doctor = object(Chinese); Doctor.career = &amp;#39;医生&amp;#39;; alert(Doctor.nation); //中国 这时，子对象已经继承了父对象的属性了。
+浅拷贝: extendCopy(p) 把父对象的属性，全部拷贝给子对象，也能实现继承。
+function extendCopy(p) { var c = {}; for (var i in p) { c[i] = p[i]; } c.</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 继承机制-2-构造函数的继承</title>
+      <link>https://drkbl.com/posts/js-inherit-summary-2/</link>
+      <pubDate>Tue, 14 Jun 2016 23:11:24 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-inherit-summary-2/</guid>
+      <description>对于构造函数 function Student(props) { this.name = props.name || &amp;#39;Unnamed&amp;#39;; } Student.prototype.hello = function () { alert(&amp;#39;Hello, &amp;#39; + this.name + &amp;#39;!&amp;#39;); } Student的原型链：
+我们要 基于Student扩展出PrimaryStudent。
+最基础的方式 function PrimaryStudent(props) { // 调用Student构造函数，绑定this变量:  Student.call(this, props); this.grade = props.grade || 1; } 但是，调用了Student构造函数不等于继承了Student，PrimaryStudent创建的对象的原型是：
+new PrimaryStudent() ----&amp;gt; PrimaryStudent.prototype ----&amp;gt; Object.prototype ----&amp;gt; null 我们所需的是
+new PrimaryStudent() ----&amp;gt; PrimaryStudent.prototype ----&amp;gt; Student.prototype ----&amp;gt; Object.prototype ----&amp;gt; null 如果你想用最简单粗暴的方法这么干：
+PrimaryStudent.prototype = Student.prototype; 是不行的！如果这样的话，PrimaryStudent和Student共享一个原型对象，那还要定义PrimaryStudent干啥？
+感觉它实际要达成的是 PrimaryStudent.prototype.prototype = Student.prototype; 同样的，</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 继承机制-1-构造函数和亲子鉴定</title>
+      <link>https://drkbl.com/posts/js-inherit-summary-1/</link>
+      <pubDate>Wed, 08 Jun 2016 03:17:30 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-inherit-summary-1/</guid>
+      <description>本节介绍对象的4种创建方式，不涉及继承。
+1. 最简单的继承方式 如函数：
+function Cat(name,color){ return { name:name, color:color } } 这可以被看作是一个基本的构造函数。调用方式为：
+var cat1 = Cat(&amp;#34;大毛&amp;#34;,&amp;#34;黄色&amp;#34;); 2. 引入this 进阶一下，如果包含this的函数会自动被当作是一个构造函数，如：
+function Cat(name,color){ this.name=name; this.color=color; } 这时，调用方式被规定为
+var cat1 = new Cat(&amp;#34;大毛&amp;#34;,&amp;#34;黄色&amp;#34;); 这两个函数等效的话，那么new操作符可以被看作是：
+  创建一个空Obj: {} 之后把指向这个Obj的指针作为构造函数的this参数。    Cat.apply(this,...)   两种方式的差别 1. 对生成的cat1赋了一个constructor的值。 调用
+cat1.constructor 第一种方式返回：
+Object() { [native code] } 第二种方式返回：
+function Cat(name,color){… //即第二个构造函数 2. instanceof 操作符 第一种：
+cat1 instanceof Cat; //false 第二种：
+cat1 instanceof Cat; //true 第二种方式的弊端：浪费内存 为Cat对象添加一个不变的属性”type”和方法eat，如：</description>
+    </item>
+    
+    <item>
+      <title>VSCode 调试例子</title>
+      <link>https://drkbl.com/posts/vs-code-debug-handbook/</link>
+      <pubDate>Tue, 07 Jun 2016 22:34:15 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/vs-code-debug-handbook/</guid>
+      <description>/* 保存本js为文件。按 F5 可以启动执行。选择Node.js的执行环境。 在生成的 launch.json 中修改 &amp;quot;program&amp;quot;: &amp;quot;${workspaceRoot}/js.js&amp;quot;, 这样以来，就可以在调试中启动js.js了。 选择最下面的debug界面，可以动态追踪变量。 */ var rt = test(); function mySort(dom, func) { var num = dom.length; var i, j = 0; var tmp; var ret; for (i = 0; i + 1 &amp;lt; num; i++) { for (j = i + 1; j &amp;lt; num; j++) { if ( ret = func(dom[i], dom[j]) &amp;lt; 0) { tmp = dom[i].innerText; dom[i].innerText = dom[j].innerText; dom[j].</description>
+    </item>
+    
+    <item>
+      <title>HTML Tabs 标签页的实现方式和对比</title>
+      <link>https://drkbl.com/posts/how-to-make-tabs/</link>
+      <pubDate>Thu, 12 May 2016 01:41:14 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/how-to-make-tabs/</guid>
+      <description>HTML网页里的Tabs的意义是什么？   &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 的显示内容
+  &amp;lt;li class=&amp;quot;tab&amp;quot;&amp;gt; 类型的按钮，需要通过例如添加 active 的方式调节选中状态，通过点击，可以修改 div.content 内的内容
+  其实可以完全不存在 ul-&amp;gt;div 1对1的关系。其实是点按一个按钮，更改部分位置的html内容
+静态Tabs 内容直接保存在 响应的 div HTML 代码中。
+  在静态 HTML 网页中，tabs的只需要执行隐藏，显示 &amp;lt;div&amp;gt;
+  最好可以通过 /panel#tab* url的方式直接显示为某一个tab
+  动态Tabs 如果使用AJAX或者其他异步加载技术，动态的获取 tab 下的内容。
+  默认 tab。如果直接调用 /panel 需要显示什么内容。应该直接显示 tab1 下的内容
+  未加载内容的加载方式，时机，和加载后的通知
+  加载内容的前后端分离
+ 使用异步获取 HTML 内容？ JSON 内容再动态生成HTML？    已加载内容的删除
+ $.hide() 直接 $(&#39;div&#39;).</description>
+    </item>
+    
+    <item>
+      <title>JavaScript Array.prototype.sort() 可以 call 哪些对象？</title>
+      <link>https://drkbl.com/posts/array-prototype-sort-call-cannot-apply-on-dom/</link>
+      <pubDate>Mon, 18 Apr 2016 05:51:34 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/array-prototype-sort-call-cannot-apply-on-dom/</guid>
+      <description>问题背景 对于从document中获取的nodeList:
+[&amp;lt;li&amp;gt;​JavaScript​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​Swift​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​HTML​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​ANSI C​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​CSS​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​DirectX​&amp;lt;/li&amp;gt;​] 想要对它进行排序，实时显示出来。
+要注意它不是一个 Array !
+cs instanceof Array; //false 很费解啊。
+于是我在代码里使用了for循环改为一个array。
+更简便的方式是：@stackoverflow
+var arr = Array.prototype.slice.call( htmlCollection ); // 或，更简单的方式： var arr = [].slice.call(htmlCollection); 但是我发现一个问题，不做拷贝直接对原DOM的排序无效：
+[].sort.call([3,4,1]); //[1, 3, 4] 正常 [].forEach.call(document.getElementById(&amp;#39;test-list&amp;#39;).children,function(ee){console.log(ee);}); //正常输出所有的孩子  [].sort.call([3,4,1],function(a,b){console.log(a+&amp;#34;,&amp;#34;+b)}); //3,4; 4,1; [3, 4, 1]; 正常遍历执行。  var e = document.getElementById(&amp;#39;test-list&amp;#39;).children; [].sort.call(e,function(a,b){console.log(a+&amp;#34;,&amp;#34;+b)}); // 但是这个就输出不了任何东西！ 整理问题的格式发到zhihu 我想使用 Array.prototype.sort() 对DOM的Element进行排序。
+HTML如下
+&amp;lt;ol id=&amp;#34;test-list&amp;#34;&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;Scheme&amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;JavaScript&amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;Python&amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;Ruby&amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;Haskell&amp;lt;/li&amp;gt; &amp;lt;/ol&amp;gt; 我做了如下尝试。</description>
+    </item>
+    
+    <item>
+      <title>廖雪峰 JavaScript 教程-浏览器对象, DOM, 操作表单</title>
+      <link>https://drkbl.com/posts/lxf-lesson-1/</link>
+      <pubDate>Wed, 10 Feb 2016 21:13:59 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/lxf-lesson-1/</guid>
+      <description>浏览器对象 1. window window对象首先是全局作用域。 window对象有 innerWidth 和 innerHeight 可以获取浏览器窗口的内部宽度和高度。内部宽高是指除去菜单栏、工具栏、边框等占位元素后，用于显示网页的净宽高。
+2. navigator navigator对象表示浏览器的信息
+ navigator.appName：浏览器名称； navigator.appVersion：浏览器版本； navigator.language：浏览器设置的语言； navigator.platform：操作系统类型； navigator.userAgent：浏览器设定的User-Agent字符串。  {0} 3. screen
+ screen.width：屏幕宽度，以像素为单位； screen.height：屏幕高度，以像素为单位； screen.colorDepth：返回颜色位数，如8、16、24。  4. location location对象表示当前页面的URL信息
+  location.href : http://www.example.com:8080/path/index.html?a=1&amp;amp;b=2#TOP
+  location.protocol; // &amp;lsquo;http&amp;rsquo;
+  location.host; // &amp;lsquo;www.example.com&#39;
+  location.port; // &amp;lsquo;8080&amp;rsquo;
+  location.pathname; // &amp;lsquo;/path/index.html&amp;rsquo;
+  location.search; // &amp;lsquo;?a=1&amp;amp;b=2&amp;rsquo;
+  location.hash; // &amp;lsquo;TOP&amp;rsquo;
+  也可以通过操作location对象进行跳转或刷新
+ location.reload(); // 刷新 location.</description>
+    </item>
+    
+  </channel>
+</rss>

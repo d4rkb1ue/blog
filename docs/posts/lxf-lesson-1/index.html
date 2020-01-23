@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>廖雪峰 JavaScript 教程-浏览器对象, DOM, 操作表单 - d4rkb1ue&#39;s Blog</title>
+  <meta content='廖雪峰 JavaScript 教程-浏览器对象, DOM, 操作表单 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='廖雪峰 JavaScript 教程-浏览器对象, DOM, 操作表单 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="浏览器对象 1. window window对象首先是全局作用域。 window对象有 innerWidth 和 innerHeight 可以获取浏览器窗口的内部宽度和高度。内部宽高是指除去菜单栏、工具栏、边框等占位元素后，用于显示网页的净宽高。
+2. navigator navigator对象表示浏览器的信息
+ navigator.appName：浏览器名称； navigator.appVersion：浏览器版本； navigator.language：浏览器设置的语言； navigator.platform：操作系统类型； navigator.userAgent：浏览器设定的User-Agent字符串。  {0} 3. screen
+ screen.width：屏幕宽度，以像素为单位； screen.height：屏幕高度，以像素为单位； screen.colorDepth：返回颜色位数，如8、16、24。  4. location location对象表示当前页面的URL信息
+  location.href : http://www.example.com:8080/path/index.html?a=1&amp;b=2#TOP
+  location.protocol; // &lsquo;http&rsquo;
+  location.host; // &lsquo;www.example.com&#39;
+  location.port; // &lsquo;8080&rsquo;
+  location.pathname; // &lsquo;/path/index.html&rsquo;
+  location.search; // &lsquo;?a=1&amp;b=2&rsquo;
+  location.hash; // &lsquo;TOP&rsquo;
+  也可以通过操作location对象进行跳转或刷新
+ location.reload(); // 刷新 location." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/lxf-lesson-1/" />
+
+
+<meta property="article:published_time" content="2016-02-10T21:13:59&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-02-10T21:13:59&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">廖雪峰 JavaScript 教程-浏览器对象, DOM, 操作表单</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>10 Feb 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/javascript' class="link silver">JavaScript</a> <a href='/tags/css' class="link silver">CSS</a> <a href='/tags/web' class="link silver">Web</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="浏览器对象">浏览器对象</h1>
+<h2 id="1-window">1. window</h2>
+<p><code>window</code>对象首先是全局作用域。
+<code>window</code>对象有 <code>innerWidth</code> 和 <code>innerHeight</code> 可以获取浏览器窗口的内部宽度和高度。内部宽高是指除去菜单栏、工具栏、边框等占位元素后，用于显示网页的净宽高。</p>
+<h2 id="2-navigator">2. navigator</h2>
+<p><code>navigator</code>对象表示浏览器的信息</p>
+<ul>
+<li>navigator.appName：浏览器名称；</li>
+<li>navigator.appVersion：浏览器版本；</li>
+<li>navigator.language：浏览器设置的语言；</li>
+<li>navigator.platform：操作系统类型；</li>
+<li>navigator.userAgent：浏览器设定的User-Agent字符串。</li>
+</ul>
+<p>{0} 3. screen</p>
+<ul>
+<li>screen.width：屏幕宽度，以像素为单位；</li>
+<li>screen.height：屏幕高度，以像素为单位；</li>
+<li>screen.colorDepth：返回颜色位数，如8、16、24。</li>
+</ul>
+<h2 id="4-location">4. location</h2>
+<p><code>location</code>对象表示当前页面的URL信息</p>
+<ul>
+<li>
+<p>location.href : <a href="http://www.example.com:8080/path/index.html?a=1&amp;b=2#TOP">http://www.example.com:8080/path/index.html?a=1&amp;b=2#TOP</a></p>
+</li>
+<li>
+<p>location.protocol; // &lsquo;http&rsquo;</p>
+</li>
+<li>
+<p>location.host; // &lsquo;<a href="http://www.example.com'">www.example.com'</a></p>
+</li>
+<li>
+<p>location.port; // &lsquo;8080&rsquo;</p>
+</li>
+<li>
+<p>location.pathname; // &lsquo;/path/index.html&rsquo;</p>
+</li>
+<li>
+<p>location.search; // &lsquo;?a=1&amp;b=2&rsquo;</p>
+</li>
+<li>
+<p>location.hash; // &lsquo;TOP&rsquo;</p>
+</li>
+</ul>
+<p>也可以通过操作<code>location</code>对象进行跳转或刷新</p>
+<ul>
+<li>location.reload(); // 刷新</li>
+<li>location.assign('/discuss&rsquo;); // 设置一个新的URL地址</li>
+</ul>
+<h2 id="5-document">5. document</h2>
+<p>document对象表示当前页面。由于HTML在浏览器中以DOM形式表示为树形结构，document对象就是整个DOM树的根节点。</p>
+<ul>
+<li>document.title : HTML文档中的<code>&lt;title&gt;xxx&lt;/title&gt;</code></li>
+</ul>
+<p>用document对象提供的<code>getElementById()</code>和<code>getElementsByTagName()</code>可以按ID获得一个DOM节点和按Tag名称获得一组DOM节点：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">menu</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;drink-menu&#39;</span>);
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">drinks</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementsByTagName</span>(<span style="color:#e6db74">&#39;dt&#39;</span>);
+</code></pre></div><h3 id="操作浏览器对象title">操作浏览器对象Title</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">intervalID</span> <span style="color:#f92672">=</span> window.<span style="color:#a6e22e">setInterval</span>(<span style="color:#66d9ef">function</span>(){
+	document.<span style="color:#a6e22e">title</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">title</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;+&#34;</span>;
+	<span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>;
+	<span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">i</span><span style="color:#f92672">&gt;</span><span style="color:#ae81ff">10</span>){
+		<span style="color:#a6e22e">clearInterval</span>(<span style="color:#a6e22e">intervalID</span>);
+	}
+}, <span style="color:#ae81ff">500</span>);
+<span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;aa&#34;</span>);
+</code></pre></div><h1 id="dom">DOM</h1>
+<h2 id="查找">查找</h2>
+<p><strong>注意 <code>getElementsByClassName</code>只能用于<code>document</code> 根元素。
+普通的<code>HTMLDivElement</code>是只有<code>getByClassName</code>和<code>getByTagName</code>的。</strong></p>
+<h3 id="css">CSS</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">document.<span style="color:#a6e22e">styleSheets</span>
+</code></pre></div><p>可以找到所有的css文件。</p>
+<h2 id="修改">修改</h2>
+<h3 id="innerhtml">innerHTML</h3>
+<p>修改innerHTML属性，完全操控一个节点的任何属性。设置默认不会被编码。存在危险性。</p>
+<h3 id="innertext或textcontent">innerText或textContent</h3>
+<p>可以自动对字符串进行HTML编码，保证无法设置任何HTML标签.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">innerText</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;dd&gt;&#39;</span>;
+</code></pre></div><p>输出</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;test-div&#34;</span>&gt;&amp;lt;dd&amp;gt;&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><blockquote>
+<p>两者的区别在于读取属性时，innerText不返回隐藏元素的文本，而textContent返回所有文本。另外注意IE&lt;9不支持textContent。</p>
+</blockquote>
+<p>但是我没有发现有什么区别。</p>
+<h3 id="设置css">设置CSS</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// 获取&lt;p id=&#34;p-id&#34;&gt;...&lt;/p&gt;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">p</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;p-id&#39;</span>);
+<span style="color:#75715e">// 设置CSS:
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">color</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;#ff0000&#39;</span>;
+<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">fontSize</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;20px&#39;</span>;
+<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">paddingTop</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;2em&#39;</span>;
+</code></pre></div><h2 id="插入dom">插入DOM</h2>
+<p>因为innerHTML会直接替换掉原来的所有子节点。</p>
+<h3 id="appendchild">appendChild</h3>
+<p>把一个子节点添加到父节点的最后一个子节点。
+为HTML元素进行排序：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">ol</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;test-list&#34;</span>&gt;
+    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lang&#34;</span>&gt;Scheme&lt;/<span style="color:#f92672">li</span>&gt;
+    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lang&#34;</span>&gt;JavaScript&lt;/<span style="color:#f92672">li</span>&gt;
+    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lang&#34;</span>&gt;Python&lt;/<span style="color:#f92672">li</span>&gt;
+    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lang&#34;</span>&gt;Ruby&lt;/<span style="color:#f92672">li</span>&gt;
+    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lang&#34;</span>&gt;Haskell&lt;/<span style="color:#f92672">li</span>&gt;
+&lt;/<span style="color:#f92672">ol</span>&gt;
+</code></pre></div><p>我的答案：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">=</span> [];
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">e</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;test-list&#39;</span>).<span style="color:#a6e22e">children</span>;
+
+<span style="color:#66d9ef">for</span>(<span style="color:#a6e22e">i</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;<span style="color:#a6e22e">i</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">length</span>;<span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>){
+    <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">e</span>[<span style="color:#a6e22e">i</span>]);
+}
+
+
+<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">sort</span>( <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">ele</span>,<span style="color:#a6e22e">ele2</span>) {
+    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">ele</span>.<span style="color:#a6e22e">innerText</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">ele2</span>.<span style="color:#a6e22e">innerText</span>){
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    }<span style="color:#66d9ef">else</span>{
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    }
+});
+
+<span style="color:#a6e22e">e</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;test-list&#39;</span>);
+<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+
+<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">forEach</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">aa</span>){
+    <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">aa</span>);
+})
+</code></pre></div><p>执行后已被正确排序</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">Haskell
+JavaScript
+Python
+Ruby
+Scheme
+</code></pre></div><p>值得注意的是，<code>HTMLCollection</code> 是无法被直接排序的，详情见
+array-prototype-sort-call-cannot-apply-on-dom.md</p>
+<h2 id="删除dom">删除DOM</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// 拿到待删除节点:
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">self</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;to-be-removed&#39;</span>);
+<span style="color:#75715e">// 拿到父节点:
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">parent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">self</span>.<span style="color:#a6e22e">parentElement</span>;
+<span style="color:#75715e">// 删除:
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">removed</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">removeChild</span>(<span style="color:#a6e22e">self</span>);
+<span style="color:#a6e22e">removed</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">self</span>; <span style="color:#75715e">// true
+</span></code></pre></div><h1 id="操作表单">操作表单</h1>
+<h2 id="md5加密密码的最佳实现">MD5加密密码的最佳实现</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> onsubmit 响应&lt;form&gt;本身的onsubmit事件，在提交form时return true来告诉浏览器继续提交，如果return false，浏览器将不会继续提交form </span><span style="color:#75715e">--&gt;</span>
+&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;login-form&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post&#34;</span> <span style="color:#a6e22e">onsubmit</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;return checkForm()&#34;</span>&gt;
+    &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;username&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;username&#34;</span>&gt;
+    &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;input-password&#34;</span>&gt;
+    <span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> 
+</span><span style="color:#75715e">    这样做不改变用户的输入，不会出现口令框的显示会突然从几个*变成32个*（因为MD5有32个字符）。
+</span><span style="color:#75715e">    的情况
+</span><span style="color:#75715e">    </span><span style="color:#75715e">--&gt;</span>
+    &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hidden&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;md5-password&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span>&gt;
+    &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span>&gt;Submit&lt;/<span style="color:#f92672">button</span>&gt;
+&lt;/<span style="color:#f92672">form</span>&gt;
+
+&lt;<span style="color:#f92672">script</span>&gt;
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">checkForm</span>() {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">input_pwd</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;input-password&#39;</span>);
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">md5_pwd</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;md5-password&#39;</span>);
+    <span style="color:#75715e">// 把用户输入的明文变为MD5:
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">md5_pwd</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">toMD5</span>(<span style="color:#a6e22e">input_pwd</span>.<span style="color:#a6e22e">value</span>);
+    <span style="color:#75715e">// 继续下一步:
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+}
+&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><p>以下这种实现不被推荐。扰乱了浏览器对form的正常提交。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;test-form&#34;</span>&gt;
+    &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;test&#34;</span>&gt;
+    &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;button&#34;</span> <span style="color:#a6e22e">onclick</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;doSubmitForm()&#34;</span>&gt;Submit&lt;/<span style="color:#f92672">button</span>&gt;
+&lt;/<span style="color:#f92672">form</span>&gt;
+
+&lt;<span style="color:#f92672">script</span>&gt;
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">doSubmitForm</span>() {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">form</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;test-form&#39;</span>);
+    <span style="color:#75715e">// 可以在此修改form的input...
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 提交form:
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">form</span>.<span style="color:#a6e22e">submit</span>();
+}
+&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><h2 id="对提交表单的格式验证">对提交表单的格式验证</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;username&#39;</span>),
+    <span style="color:#a6e22e">pass</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;password&#39;</span>),
+    <span style="color:#a6e22e">pass1</span><span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;password-2&#39;</span>),
+    <span style="color:#a6e22e">userc</span><span style="color:#f92672">=</span><span style="color:#e6db74">/\w{3,10}/</span>, <span style="color:#75715e">//3-10位数字或字母
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">passc</span><span style="color:#f92672">=</span><span style="color:#e6db74">/.{6,20}/</span>; <span style="color:#75715e">//任意字符长度为6-20位
+</span><span style="color:#75715e"></span>
+  <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">userc</span>.<span style="color:#a6e22e">test</span>(<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">value</span>)){
+    <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;账户必须为3-10位数字或字母&#34;</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+  }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">passc</span>.<span style="color:#a6e22e">test</span>(<span style="color:#a6e22e">pass</span>.<span style="color:#a6e22e">value</span>)){
+    <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;密码长度必须为6-20位&#34;</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+  }<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">pass</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">pass1</span>.<span style="color:#a6e22e">value</span>){
+    <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#39;两次密码必须相同&#39;</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+  }
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+}
+</code></pre></div><p><em>tips:<code>&lt;button type=&quot;reset&quot;&gt;重置&lt;/button&gt;</code>可以重设表单数据</em></p>
+<h1 id="file-api">File API</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">h3</span>&gt;图片预览&lt;/<span style="color:#f92672">h3</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;image-preview&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;border: 1px solid #ccc; width: 980px;margin:auto; height: 200px; background-size: contain; background-repeat: no-repeat; background-position: center center;&#34;</span>&gt;
+
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;info&#34;</span>&gt;
+
+&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;file&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;file&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;file&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span> /&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fileInput</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;file&#39;</span>),
+        <span style="color:#a6e22e">info</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;info&#39;</span>),
+        <span style="color:#a6e22e">preview</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;image-preview&#39;</span>);
+    <span style="color:#75715e">// 监听 type=&#34;file&#34; 的change事件
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fileInput</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;change&#39;</span>, <span style="color:#66d9ef">function</span> () {
+        <span style="color:#75715e">// 清除背景图片
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">preview</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">backgroundImage</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+        <span style="color:#75715e">// 检查文件是否选择
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">fileInput</span>.<span style="color:#a6e22e">value</span>) {
+            <span style="color:#a6e22e">info</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;span style=&#34;color:red;&#34;&gt;没有选择图片&lt;/span&gt;&#39;</span>;
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+        }
+
+        <span style="color:#75715e">// 获取file引用
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">file</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fileInput</span>.<span style="color:#a6e22e">files</span>[<span style="color:#ae81ff">0</span>];
+        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">file</span>);
+        <span style="color:#a6e22e">info</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> 
+                        <span style="color:#e6db74">&#39;文件: &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&lt;br&gt;&#39;</span>
+                    <span style="color:#f92672">+</span>   <span style="color:#e6db74">&#39;大小: &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&lt;br&gt;&#39;</span>
+                    <span style="color:#f92672">+</span>   <span style="color:#e6db74">&#39;修改: &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">lastModifiedDate</span>;
+
+        <span style="color:#75715e">// 判断图片格式
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">type</span><span style="color:#f92672">!==</span><span style="color:#e6db74">&#39;image/jpeg&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;image/png&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">type</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;image/gif&#39;</span>) {
+            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">p</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#39;p&#39;</span>);
+            <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;span style=&#34;color:red;&#34;&gt;不是有效的图片文件！&lt;/span&gt;&#39;</span>;
+            <span style="color:#a6e22e">info</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">p</span>);
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+        }
+
+        <span style="color:#75715e">// 展示图片
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">reader</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">FileReader</span>();
+        <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">onload</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">e</span>) {
+            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">result</span>;<span style="color:#75715e">// data:image/jpeg;base64,
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">preview</span>.<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">backgroundImage</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;url(&#34;&#39;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">data</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#39;&#34;)&#39;</span>;
+        }
+
+        <span style="color:#75715e">// 以DataURL的形式读取文件
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">readAsDataURL</span>(<span style="color:#a6e22e">file</span>);
+    });
+</code></pre></div></div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  
+  <a href="https://drkbl.com/posts/git-starter/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Format HFS&#43; on Windows - d4rkb1ue&#39;s Blog</title>
+  <meta content='Format HFS&#43; on Windows - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Format HFS&#43; on Windows - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="在 Windows 10 上格式化原有 HFS&#43; 格式的外置硬盘时，发现有一个 200MB 的分区无法删除，可以使用 Diskpart 来解决。
+ Microsoft DiskPart on Windows  进入 CMD，执行 diskpart 进入程序。list disk 可以看到所有的磁盘，select disk x 选择指定磁盘。
+选择好了再 list disk 一下，确认该硬盘被 * … * 围住
+执行
+clean 即可删除所有分区。
+这么删除之后，会发现在计算机管理-磁盘工具中，无法直接建立新分区。应该是没有分区表。
+怎么建立，可以help一下。执行help可以看到命令列表。具体到某一个命令可以执行，比如creat命令，执行 help create，下面还可以再继续 help create partition 等等。create 可以创建 volumn(卷) 或者 partition(分区)，不过这俩又啥区别呢。
+Diff Partitions &amp; Volumes:
+ A partition is a just a space crafted out of a disk. For example- you could set aside a space of 100 GB for a partition from a hard disk of 1 TB." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/format-hfs-on-windows/" />
+
+
+<meta property="article:published_time" content="2017-01-18T15:37:37&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-01-18T15:37:37&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Format HFS&#43; on Windows</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>18 Jan 2017</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/macos' class="link silver">macOS</a> <a href='/tags/tools' class="link silver">Tools</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><p>在 Windows 10 上格式化原有 HFS+ 格式的外置硬盘时，发现有一个 200MB 的分区无法删除，可以使用 Diskpart 来解决。</p>
+<ul>
+<li>Microsoft DiskPart on Windows</li>
+</ul>
+<p><img src="/images/format_hfs_on_windows/diskpart_error.jpg" alt="/images/format_hfs_on_windows/diskpart_error.jpg"></p>
+<p>进入 CMD，执行 <code>diskpart</code> 进入程序。<code>list disk</code> 可以看到所有的磁盘，<code>select disk x</code> 选择指定磁盘。</p>
+<p>选择好了再 <code>list disk</code> 一下，确认该硬盘被 <code>* … *</code> 围住</p>
+<p><img src="/images/format_hfs_on_windows/diskpart_select.jpg" alt="/images/format_hfs_on_windows/diskpart_select.jpg"></p>
+<p>执行</p>
+<pre><code>clean
+</code></pre><p>即可删除所有分区。</p>
+<p>这么删除之后，会发现在计算机管理-磁盘工具中，无法直接建立新分区。应该是没有分区表。</p>
+<p><img src="/images/format_hfs_on_windows/disk_format_error.png" alt="/images/format_hfs_on_windows/disk_format_error.png"></p>
+<p>怎么建立，可以<code>help</code>一下。执行<code>help</code>可以看到命令列表。具体到某一个命令可以执行，比如<code>creat</code>命令，执行 <code>help create</code>，下面还可以再继续 <code>help create partition</code> 等等。create 可以创建 volumn(卷) 或者 partition(分区)，不过这俩又啥区别呢。</p>
+<p><strong>Diff Partitions &amp; Volumes</strong>:</p>
+<blockquote>
+<p>A partition is a just a space crafted out of a disk.
+For example- you could set aside a space of 100 GB for a partition from a hard disk of 1 TB.</p>
+<p>A volume is a partition that has been formatted into a filesystem.
+A partition is of little use unless formatted. And when we format a partition into NTFS, FAT32, ext4 etc, it becomes a volume and is usable.
+<a href="https://www.quora.com/What-is-the-difference-between-volume-and-partition">What is the difference between volume and partition? - Quora</a></p>
+</blockquote>
+<p>也就是说，partition 是没格式化的 volumn。</p>
+<p>于是可以创建一个分区，再格式化，这比较符合我的习惯。</p>
+<pre><code>create partition parimary
+</code></pre><p>创建一个全部大小的主分区。于是我们得到了一个 raw 格式的磁盘。
+<em>如果没看到，弹出再插上即可。</em></p>
+<p>这个时候，其实就建立了 MBR 分区表了，接下来的工作就可以再磁盘管理，图形化界面解决了。</p>
+<p><img src="/images/format_hfs_on_windows/disk_format_mbr.png" alt="/images/format_hfs_on_windows/disk_format_mbr.png"></p>
+<p>我改成了一个 1 GB 的 exFat + 1.81 TB 的 NTFS。exFat是备用的，比如放个 NTFS 的驱动 @linux，@mac。</p>
+<hr>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="http://www.techbang.com/posts/6982-a-to-delete-a-stubborn-stick-ji-efi-partition-yang-liwei">刪除硬碟裡頑強的 EFI 分割區，還你完整空間</a></li>
+</ul>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/cp193p-ios-dev-class-1/">prev post</a>
+  <a href="https://drkbl.com/posts/ntfs-on-macos/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

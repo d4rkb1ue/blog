@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>nswbmw/N-blog 学习-2-模版引擎 ejs, 静态文件挂载 - d4rkb1ue&#39;s Blog</title>
+  <meta content='nswbmw/N-blog 学习-2-模版引擎 ejs, 静态文件挂载 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='nswbmw/N-blog 学习-2-模版引擎 ejs, 静态文件挂载 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="模版引擎 N-blog使用的模版引擎是ejs。我想想我还是改成这个吧。不然后面可能差距越来越大。
+Sublime&#39;s tips: CMD&#43;p:定位，输入@定位文件内标签 CMD&#43;R ＝ CMD&#43;p,@
+index.ejs &lt;!DOCTYPE html&gt; &lt;html&gt; &lt;head&gt; &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt; &lt;link rel=&#39;stylesheet&#39; href=&#39;/stylesheets/style.css&#39; /&gt; &lt;/head&gt; &lt;body&gt; &lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt; &lt;p&gt;Welcome to &lt;%= title %&gt;&lt;/p&gt; &lt;/body&gt; &lt;/html&gt; app.js 指定了所使用的render
+// view engine setup app.set(&#39;views&#39;, path.join(__dirname, &#39;views&#39;)); app.set(&#39;view engine&#39;, &#39;ejs&#39;); index.js 调用render()来渲染模版，同时传参
+ 第一个是模板的名称，即 views 目录下的模板文件名，扩展名 .ejs 可选。第二个参数是传递给模板的数据对象，用于模板翻译。
+  res.render(view, [locals], callback)渲染view, 同时向callback 传入渲染后的字符串。 callback如果不传的话，直接会把渲染后的字符串输出至请求方， 一般如果不需要再对渲染后的模板作操作，就不需要传callback。 当有错误发生时next(err)会被执行.
+ /* GET home page. */ router.get(&#39;/&#39;, function(req, res, next) { res." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/node-blog-ejs-static-file/" />
+
+
+<meta property="article:published_time" content="2016-03-28T20:40:06&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-03-28T20:40:06&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">nswbmw/N-blog 学习-2-模版引擎 ejs, 静态文件挂载</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>28 Mar 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/nblog' class="link silver">Nblog</a> <a href='/tags/node.js' class="link silver">Node.js</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="模版引擎">模版引擎</h1>
+<p><em><a href="https://github.com/nswbmw/N-blog/">N-blog</a>使用的模版引擎是ejs。我想想我还是改成这个吧。不然后面可能差距越来越大。</em></p>
+<p><em>Sublime's tips: <code>CMD+p</code>:定位，输入<code>@</code>定位文件内标签 <code>CMD+R</code> ＝ <code>CMD+p</code>,<code>@</code></em></p>
+<h2 id="indexejs">index.ejs</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+&lt;<span style="color:#f92672">html</span>&gt;
+  &lt;<span style="color:#f92672">head</span>&gt;
+    &lt;<span style="color:#f92672">title</span>&gt;<span style="color:#960050;background-color:#1e0010">&lt;</span>%= title %&gt;&lt;/<span style="color:#f92672">title</span>&gt;
+    &lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;stylesheet&#39;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/stylesheets/style.css&#39;</span> /&gt;
+  &lt;/<span style="color:#f92672">head</span>&gt;
+  &lt;<span style="color:#f92672">body</span>&gt;
+    &lt;<span style="color:#f92672">h1</span>&gt;<span style="color:#960050;background-color:#1e0010">&lt;</span>%= title %&gt;&lt;/<span style="color:#f92672">h1</span>&gt;
+    &lt;<span style="color:#f92672">p</span>&gt;Welcome to <span style="color:#960050;background-color:#1e0010">&lt;</span>%= title %&gt;&lt;/<span style="color:#f92672">p</span>&gt;
+  &lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><h2 id="appjs">app.js</h2>
+<p>指定了所使用的render</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">// view engine setup
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">set</span>(<span style="color:#e6db74">&#39;views&#39;</span>, <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">join</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;views&#39;</span>));
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">set</span>(<span style="color:#e6db74">&#39;view engine&#39;</span>, <span style="color:#e6db74">&#39;ejs&#39;</span>);
+</code></pre></div><h2 id="indexjs">index.js</h2>
+<p>调用render()来渲染模版，同时传参</p>
+<blockquote>
+<p>第一个是模板的名称，即 views 目录下的模板文件名，扩展名 .ejs 可选。第二个参数是传递给模板的数据对象，用于模板翻译。</p>
+</blockquote>
+<blockquote>
+<p><code>res.render(view, [locals], callback)</code>渲染view, 同时向callback 传入渲染后的字符串。 callback如果不传的话，直接会把渲染后的字符串输出至请求方， 一般如果不需要再对渲染后的模板作操作，就不需要传callback。 当有错误发生时next(err)会被执行.</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">/* GET home page. */</span>
+<span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>, <span style="color:#a6e22e">next</span>) {
+  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">render</span>(<span style="color:#e6db74">&#39;index&#39;</span>, { <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Express&#39;</span> });
+});
+</code></pre></div><h1 id="ejs的标签">ejs的标签</h1>
+<p>只有以下三种标签：</p>
+<ul>
+<li>&lt;% code %&gt;：JavaScript 代码。</li>
+<li>&lt;%= code %&gt;：显示<strong>替换过 HTML 特殊字符的</strong>内容。</li>
+<li>&lt;%- code %&gt;：显示<strong>原始</strong> HTML 内容。</li>
+</ul>
+<h2 id="替换过-html-特殊字符的的含义">“替换过 HTML 特殊字符的”的含义</h2>
+<p>当变量 code 为普通字符串时，<code>&lt;%=</code> 和 <code>&lt;%-</code> 两者没有区别。当 code 比如为 <code>&lt;h1&gt;hello&lt;/h1&gt;</code> 这种字符串时，<code>&lt;%= code %&gt;</code> 会原样输出 <code>&lt;h1&gt;hello&lt;/h1&gt;</code>，也就说EJS会替换掉会被解释的标签如 <code>&gt;</code> 为 <code>&amp;gt;</code> ，而 &lt;%- code %&gt; 则会显示 H1 大的 hello 字符串。也就是说不会替换。</p>
+<h2 id="--内使用-javascript-示例">&lt;% %&gt; 内使用 JavaScript 示例</h2>
+<h3 id="the-data">The Data</h3>
+<pre><code>supplies: ['mop', 'broom', 'duster']
+</code></pre><h3 id="the-template">The Template</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">ul</span>&gt;
+<span style="color:#960050;background-color:#1e0010">&lt;</span>% for(var i=0; i&lt;<span style="color:#f92672">supplies.length</span><span style="color:#960050;background-color:#1e0010">;</span> <span style="color:#a6e22e">i</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#960050;background-color:#1e0010">)</span> <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#960050;background-color:#1e0010">%</span>&gt;
+   &lt;<span style="color:#f92672">li</span>&gt;<span style="color:#960050;background-color:#1e0010">&lt;</span>%= supplies[i] %&gt;&lt;/<span style="color:#f92672">li</span>&gt;
+<span style="color:#960050;background-color:#1e0010">&lt;</span>% } %&gt;
+&lt;/<span style="color:#f92672">ul</span>&gt;
+</code></pre></div><h3 id="the-result">The Result</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">ul</span>&gt;
+  &lt;<span style="color:#f92672">li</span>&gt;mop&lt;/<span style="color:#f92672">li</span>&gt;
+  &lt;<span style="color:#f92672">li</span>&gt;broom&lt;/<span style="color:#f92672">li</span>&gt;
+  &lt;<span style="color:#f92672">li</span>&gt;duster&lt;/<span style="color:#f92672">li</span>&gt;
+&lt;/<span style="color:#f92672">ul</span>&gt;
+</code></pre></div><h2 id="include">include</h2>
+<p>include 的简单使用如下：</p>
+<h3 id="indexejs-1">index.ejs</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#960050;background-color:#1e0010">&lt;</span>%- include a %&gt;
+hello,world!
+<span style="color:#960050;background-color:#1e0010">&lt;</span>%- include b %&gt;
+</code></pre></div><h3 id="aejs">a.ejs</h3>
+<pre><code>this is a.ejs
+</code></pre><h3 id="bejs">b.ejs</h3>
+<pre><code>this is b.ejs
+</code></pre><p>最终 index.ejs 会显示：</p>
+<pre><code>this is a.ejs
+hello,world!
+this is b.ejs
+</code></pre><h1 id="静态文件挂载">静态文件挂载</h1>
+<blockquote>
+<p>app.use(express.static(path.join(__dirname, &lsquo;public&rsquo;))) 设置了静态文件目录为 public 文件夹，所以 index.ejs 中的 href=&rsquo;/stylesheets/style.css&rsquo; 就相当于 href=&rsquo;/public/stylesheets/style.css&rsquo;
+Express 相对于静态目录查找文件，因此静态目录的名称不是此 URL 的一部分。</p>
+</blockquote>
+<p>在这里浏览器请求为 <code>Request URL:http://node:3000/stylesheets/style.css</code> 但是实际上请求了<code>/public/stylesheets/style.css</code></p>
+<h2 id="疑问那是不是所有的请求都会添加一个public">疑问：那是不是所有的请求都会添加一个<code>public</code>？</h2>
+<p>为什么之前比如 node:3000/users/123 这时候不会请求到 node:3000/public/users/123 ？
+按照字面理解，只有在获取静态文件的时候，才会调用这个函数吧。</p>
+<ol>
+<li>
+<p>在 public 下 <code>touch 1.txt</code>。尝试 <code>GET /1.txt</code> 。嗯，返回file。</p>
+</li>
+<li>
+<p><code>mv 1.txt 1</code>。尝试<code>GET /1</code>。也能返回file。</p>
+</li>
+<li>
+<p>把名字改回去。还叫 1.txt</p>
+</li>
+<li>
+<p>在 index.js 中添加：</p>
+<pre><code> router.get('/1.txt',function(req,res,next){
+     res.send('function!');
+ });
+</code></pre>
+</li>
+</ol>
+<h3 id="output">Output</h3>
+<p><code>GET /1.txt</code> 返回file。
+但是如果删除了 1.txt ，再<code>GET /1.txt</code>，调用的就是function了。</p>
+<h3 id="结论">结论</h3>
+<p>所有请求都会首先去看有没有相应的静态文件，设置了静态加载就会自动加上加载去查找。
+没有静态文件，才会继续处理访问。</p>
+<h4 id="appjs-1">app.js</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">...
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">express</span>.<span style="color:#66d9ef">static</span>(<span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">join</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;public&#39;</span>)));
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#e6db74">&#39;/&#39;</span>, <span style="color:#a6e22e">routes</span>);
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#e6db74">&#39;/users&#39;</span>, <span style="color:#a6e22e">users</span>);
+...
+</code></pre></div><p>可以看到，对static的use是在routes之前的。</p>
+<p>如果改为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#e6db74">&#39;/&#39;</span>, <span style="color:#a6e22e">routes</span>);
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">express</span>.<span style="color:#66d9ef">static</span>(<span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">join</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;public&#39;</span>)));
+<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#e6db74">&#39;/users&#39;</span>, <span style="color:#a6e22e">users</span>);
+</code></pre></div><p>就会首先访问function啦！！</p>
+<p><em>vi's tips: vi 中的上下换行命令为<code>ddp</code>，其实是<code>dd</code>和<code>p</code>指令的组合。<code>dd</code>是剪切本行。<code>p</code>是在当前位置之后粘贴（在本行之后）。如果是<code>P</code>（大写）的话，是在当前位置之前</em></p>
+<h2 id="appuse其他参数的探索">app.use其他参数的探索</h2>
+<h3 id="使用-__dirname--public的目的">使用 <code>__dirname + '/public'</code>的目的：</h3>
+<blockquote>
+<p>向 express.static 函数提供的路径相对于您在其中启动 node 进程的目录。如果从另一个目录运行 Express 应用程序，那么对于提供资源的目录使用绝对路径会更安全。</p>
+</blockquote>
+<h3 id="pathjoin的目的">path.join的目的</h3>
+<blockquote>
+<p>Node.js provides path.join() to always use the correct slash. For Windows does paths with backslashes where unix does paths with forward slashes.</p>
+</blockquote>
+<h3 id="创建虚拟路径前缀">创建虚拟路径前缀</h3>
+<p>路径并不实际存在于文件系统中。
+app.use('/static&rsquo;, express.static(&lsquo;public&rsquo;));</p>
+<p>此时访问为：</p>
+<pre><code>http://localhost:3000/static/images/kitten.jpg
+http://localhost:3000/static/css/style.css
+</code></pre><p><strong>注意：此时访问的仍然是 /public 的文件，并没有去访问 /static/public</strong></p>
+<hr>
+<p>@d4rkb1ue 2016/3/30 05:49</p>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/node-blog-express-start/">prev post</a>
+  <a href="https://drkbl.com/posts/node-blog-routes-mongodb-session-cookie-flash-ui/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

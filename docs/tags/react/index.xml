@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>React on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/react/</link>
+    <description>Recent content in React on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 18 May 2017 20:53:40 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/react/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>同步函数调用异步函数导致的 setState 问题</title>
+      <link>https://drkbl.com/posts/call-async-func-in-sync-func/</link>
+      <pubDate>Thu, 18 May 2017 20:53:40 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/call-async-func-in-sync-func/</guid>
+      <description>问题描述 根据用户输入计算结果，实时将结果打印到界面上。原本的接口大约是这样：
+function output(text) { var mypre = document.getElementById(&amp;#34;output&amp;#34;); // append 而不是覆盖  mypre.innerHTML = mypre.innerHTML + text; } // calculate yield 一个结果后会调用 output(res) 输出 calculate(paras, output); 将 output() 转为 React 的写法时，像这样：
+function output(text) { this.setState({mypre: this.state.mypre + text}); } ... &amp;lt;div className=&amp;#39;mypre&amp;#39;&amp;gt; {this.state.mypre} &amp;lt;/div&amp;gt; 于是问题来了。
+以下都是不认真看教程的结果 React - Docs
+ State Updates May Be Asynchronous React may batch multiple setState() calls into a single update for performance.
+Because this.props and this.</description>
+    </item>
+    
+    <item>
+      <title>React &#43; Babel &#43; Webpack &#43; antd 入门</title>
+      <link>https://drkbl.com/posts/react-hello-world/</link>
+      <pubDate>Wed, 15 Mar 2017 22:19:05 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/react-hello-world/</guid>
+      <description>从零开始构建一个前端脚手架，技术栈：
+ React 为数据提供渲染为 HTML 的视图的开源 JavaScript 库 Babel 是一个 JavaScript 编译器，用于转化 ES2015/JSX 代码 Webpack 前端资源加载/打包工具，满足前端工程化需要 antd-react 使用 Ant Design UI 库的 React 实现  Git: d4rkb1ue/react-helloworld
+运行指南 $ git clone https://github.com/d4rkb1ue/react-helloworld.git $ cd react-helloworld $ npm i $ npm run test 已知问题 npm i 卡死 $ npm i 这步可能会卡在 extract:webpack-dev-server: sill doParallel extract 589 这里，这个问题已经被 Node Issue 了 https://github.com/npm/npm/issues/13782
+解决办法，单独安装 webpack ， webpack-dev-server ， babel-cli ， babel-loader
+$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&#39;t be accessed via IP github issue</description>
+    </item>
+    
+  </channel>
+</rss>

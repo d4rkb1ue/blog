@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/linux/</link>
+    <description>Recent content in Linux on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 22 Jul 2018 21:49:46 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Time Machine On Ubuntu 18 with samba</title>
+      <link>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</link>
+      <pubDate>Sun, 22 Jul 2018 21:49:46 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</guid>
+      <description>折腾 NAS 第二篇，配置 time machine base on smb at ubuntu 18.04
+ Ref: HowTo make time machine backups on a samba fileserver without netatalk : homelab  安装 Samba 4.8+ If you install older version of samba, uninstall it,
+sudo apt-get remove --purge samba compile prerequisites,
+sudo apt-get update sudo apt-get install acl attr autoconf bind9utils bison build-essential debhelper dnsutils docbook-xml docbook-xsl flex gdb libjansson-dev krb5-user \ libacl1-dev libaio-dev libarchive-dev libattr1-dev libblkid-dev libbsd-dev \ libcap-dev libcups2-dev libgnutls28-dev libgpgme11-dev libjson-perl \ libldap2-dev libncurses5-dev libpam0g-dev libparse-yapp-perl \ libpopt-dev libreadline-dev nettle-dev perl perl-modules pkg-config \ python-all-dev python-crypto python-dbg python-dev python-dnspython \ python3-dnspython python-markdown python3-markdown python3-dev xsltproc zlib1g-dev download,</description>
+    </item>
+    
+    <item>
+      <title>折腾 Ubuntu 18.04 做 NAS</title>
+      <link>https://drkbl.com/posts/using-ubuntu-18-as-nas/</link>
+      <pubDate>Sun, 22 Jul 2018 21:11:31 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/using-ubuntu-18-as-nas/</guid>
+      <description>一直在用 Deskmini 搭了黑群晖，但是其实用不到群晖的生态系统，索性自己安装个 Ubuntu 还方便自己自由维护使用。
+ 远程界面 挂载 NTFS 备份 开启 SMB 服务 开启 Time Machine 服务：Time Machine On Ubuntu 18 with samba  远程界面 Ubuntu 没有网页端的 GUI，有时候还是想用界面来操作。不能总连着个显示器。所以用远程桌面替代，可以满足的选择有很多。
+ 18.04 自带了 vino，如果是 minimal install 需要自行安装， sudo apt-get install vino ssh  重启后进入设置，开启 sharing -&amp;gt; desktop 开启密码。
+客户端：VNC Viewer https://www.realvnc.com/
+connect by,
+192.168.1.110:5900
+(your ip ip:5900)
+Trouble Shooting encryption 登录失败 如果远程登录因为 encryption 的原因不成功，改一条设置即可，
+gsettings set org.gnome.Vino require-encryption false 注意安全，如果不暴露到外网还好。
+重启后无法登录 原因很简单，重启后未登录 Gnome 用户的情况下，服务进程还没启动，每次启动后在 Gnome 上登录一次就好了，但是还是很麻烦，每次重启要连一次键盘鼠标很淡疼啊，(ssh 登录没用)，解决办法：</description>
+    </item>
+    
+    <item>
+      <title>Unix 正确编译运行多文件 Java</title>
+      <link>https://drkbl.com/posts/how-to-run-multi-java-file/</link>
+      <pubDate>Mon, 19 Sep 2016 18:38:14 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/how-to-run-multi-java-file/</guid>
+      <description>0基础 Java 命令行编译~
+目录结构  建立 package 文件夹，如 ~/project/myPackage 在 ~/project/myPackage 下存放多个 java 文件 每个 java 文件除注释外首行应为本 package 名 package myPackage;  编译  在 ~/project 目录下执行 javac myPackage/*.java 编译全部 java 文件  运行  在 ~/project 目录下执行 java myPackage.MainClass 或 java myPackage/MainClass 均可  </description>
+    </item>
+    
+  </channel>
+</rss>

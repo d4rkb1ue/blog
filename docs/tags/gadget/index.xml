@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gadget on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/gadget/</link>
+    <description>Recent content in Gadget on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 22 Jul 2018 21:49:46 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/gadget/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Time Machine On Ubuntu 18 with samba</title>
+      <link>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</link>
+      <pubDate>Sun, 22 Jul 2018 21:49:46 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</guid>
+      <description>折腾 NAS 第二篇，配置 time machine base on smb at ubuntu 18.04
+ Ref: HowTo make time machine backups on a samba fileserver without netatalk : homelab  安装 Samba 4.8+ If you install older version of samba, uninstall it,
+sudo apt-get remove --purge samba compile prerequisites,
+sudo apt-get update sudo apt-get install acl attr autoconf bind9utils bison build-essential debhelper dnsutils docbook-xml docbook-xsl flex gdb libjansson-dev krb5-user \ libacl1-dev libaio-dev libarchive-dev libattr1-dev libblkid-dev libbsd-dev \ libcap-dev libcups2-dev libgnutls28-dev libgpgme11-dev libjson-perl \ libldap2-dev libncurses5-dev libpam0g-dev libparse-yapp-perl \ libpopt-dev libreadline-dev nettle-dev perl perl-modules pkg-config \ python-all-dev python-crypto python-dbg python-dev python-dnspython \ python3-dnspython python-markdown python3-markdown python3-dev xsltproc zlib1g-dev download,</description>
+    </item>
+    
+    <item>
+      <title>折腾 Ubuntu 18.04 做 NAS</title>
+      <link>https://drkbl.com/posts/using-ubuntu-18-as-nas/</link>
+      <pubDate>Sun, 22 Jul 2018 21:11:31 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/using-ubuntu-18-as-nas/</guid>
+      <description>一直在用 Deskmini 搭了黑群晖，但是其实用不到群晖的生态系统，索性自己安装个 Ubuntu 还方便自己自由维护使用。
+ 远程界面 挂载 NTFS 备份 开启 SMB 服务 开启 Time Machine 服务：Time Machine On Ubuntu 18 with samba  远程界面 Ubuntu 没有网页端的 GUI，有时候还是想用界面来操作。不能总连着个显示器。所以用远程桌面替代，可以满足的选择有很多。
+ 18.04 自带了 vino，如果是 minimal install 需要自行安装， sudo apt-get install vino ssh  重启后进入设置，开启 sharing -&amp;gt; desktop 开启密码。
+客户端：VNC Viewer https://www.realvnc.com/
+connect by,
+192.168.1.110:5900
+(your ip ip:5900)
+Trouble Shooting encryption 登录失败 如果远程登录因为 encryption 的原因不成功，改一条设置即可，
+gsettings set org.gnome.Vino require-encryption false 注意安全，如果不暴露到外网还好。
+重启后无法登录 原因很简单，重启后未登录 Gnome 用户的情况下，服务进程还没启动，每次启动后在 Gnome 上登录一次就好了，但是还是很麻烦，每次重启要连一次键盘鼠标很淡疼啊，(ssh 登录没用)，解决办法：</description>
+    </item>
+    
+    <item>
+      <title>斐讯k2刷华硕固件&#43;作中继</title>
+      <link>https://drkbl.com/posts/phicomm-k2-asus-ap-bridge/</link>
+      <pubDate>Sat, 21 Jan 2017 21:45:14 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/phicomm-k2-asus-ap-bridge/</guid>
+      <description>免费的 斐讯k2 来一发尝尝
+版本支持与恢复 支持的版本
+ V22.3.15.128 V22.3.15.232 V22.3.17.148 V22.4.2.8 V22.4.2.9
+ V22.4.5.39版本需要降级到测试版V22.4.2.8或者V22.4.2.9。V22.4.5.42 降级就可以了。
+(官方ROM备份链接: http://code.taobao.org/svn/hopol-bak/K2/phicomm/K2/ )
+如果是V21.4.6.12版本请下载新版手动升级，斐讯官方固件下载地址： http://file.soho.phicomm.com.cn/upload/k2/k2/
+刷 点击下载下面的文件 http://code.taobao.org/svn/hopol-bak/K2/tianbaoha_breed_ssh.dat 右键另存为
+登陆路由器：默认 p.to 或者 phicomm.me 或者 192.168.2.1
+进入： 高级设置—-系统设置—-备份恢复—-浏览—–选择下载的tianbaoha_breed_ssh.dat—-点击恢复备份—-等待进度条完成(大约需要2分钟)。
+重启以后使用新的管理密码：tianbaoha 登陆，如果登陆成功就说明breed和ssh刷好了。
+进入 ：高级设置—-系统设置—-手动升级—-按图所示 点击下载备份EEPROM
+如果继续使用斐讯固件自己改个密码就行了，如果想刷第三方固件就： 点击 浏览—–选择需要刷入的固件—-点击升级即可。
+华硕 Padavan 固件： http://www.right.com.cn/forum/thread-161324-1-1.html K2 版本：RT-AC54U_GPIO_1_PSG1208_64M K2 JD介绍规格为PSG1218
+中继设置 中继主路由 netgear R6220
+安装完毕 Padavan 后，默认登入信息：
+ 默认 SSID：PDCN 默认 Wifi 密码： 1234567890 网关：192.168.123.1   管理账号：admin/admin 按键10秒原厂默认值  修改 K2 网关 修改 K2 的网关地址到与主路由同一网段： 内部网络（LAN）— IP 地址，子网掩码。例如主路由为 10.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -24,6 +24,591 @@ hugo new posts/my-first-post.md echo &amp;#39;Hello Hugo!&amp;#39; &amp;gt;&amp;
     </item>
     
     <item>
+      <title>整理曲库整理到一处</title>
+      <link>https://drkbl.com/posts/manage-all-music-playlist/</link>
+      <pubDate>Thu, 10 Jan 2019 23:37:52 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/manage-all-music-playlist/</guid>
+      <description>研究整理把所有喜欢的歌曲整理到一个 csv 中，
+Netease Music  使用 Chrome+油猴脚本 网易云音乐怎么导出歌单？ - 知乎
+  导出网易云音乐歌单  每次需要等待几秒按钮才会刷新出来。切换到新的歌单需要刷新。
+Douban FM let titles = []; document.querySelectorAll(&amp;#39;#app &amp;gt; div &amp;gt; div.explore &amp;gt; div.mine-page &amp;gt; div.section-content &amp;gt; div &amp;gt; div.container &amp;gt; ul &amp;gt; li &amp;gt; div.top &amp;gt; div.titles &amp;gt; h3&amp;#39;).forEach(a =&amp;gt; titles.push(a.innerText)); // 只选择第一个歌手，方便对齐 let artists = []; document.querySelectorAll(&amp;#39;#app &amp;gt; div &amp;gt; div.explore &amp;gt; div.mine-page &amp;gt; div.section-content &amp;gt; div &amp;gt; div.container &amp;gt; ul &amp;gt; li &amp;gt; div.</description>
+    </item>
+    
+    <item>
+      <title>Time Machine On Ubuntu 18 with samba</title>
+      <link>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</link>
+      <pubDate>Sun, 22 Jul 2018 21:49:46 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</guid>
+      <description>折腾 NAS 第二篇，配置 time machine base on smb at ubuntu 18.04
+ Ref: HowTo make time machine backups on a samba fileserver without netatalk : homelab  安装 Samba 4.8+ If you install older version of samba, uninstall it,
+sudo apt-get remove --purge samba compile prerequisites,
+sudo apt-get update sudo apt-get install acl attr autoconf bind9utils bison build-essential debhelper dnsutils docbook-xml docbook-xsl flex gdb libjansson-dev krb5-user \ libacl1-dev libaio-dev libarchive-dev libattr1-dev libblkid-dev libbsd-dev \ libcap-dev libcups2-dev libgnutls28-dev libgpgme11-dev libjson-perl \ libldap2-dev libncurses5-dev libpam0g-dev libparse-yapp-perl \ libpopt-dev libreadline-dev nettle-dev perl perl-modules pkg-config \ python-all-dev python-crypto python-dbg python-dev python-dnspython \ python3-dnspython python-markdown python3-markdown python3-dev xsltproc zlib1g-dev download,</description>
+    </item>
+    
+    <item>
+      <title>折腾 Ubuntu 18.04 做 NAS</title>
+      <link>https://drkbl.com/posts/using-ubuntu-18-as-nas/</link>
+      <pubDate>Sun, 22 Jul 2018 21:11:31 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/using-ubuntu-18-as-nas/</guid>
+      <description>一直在用 Deskmini 搭了黑群晖，但是其实用不到群晖的生态系统，索性自己安装个 Ubuntu 还方便自己自由维护使用。
+ 远程界面 挂载 NTFS 备份 开启 SMB 服务 开启 Time Machine 服务：Time Machine On Ubuntu 18 with samba  远程界面 Ubuntu 没有网页端的 GUI，有时候还是想用界面来操作。不能总连着个显示器。所以用远程桌面替代，可以满足的选择有很多。
+ 18.04 自带了 vino，如果是 minimal install 需要自行安装， sudo apt-get install vino ssh  重启后进入设置，开启 sharing -&amp;gt; desktop 开启密码。
+客户端：VNC Viewer https://www.realvnc.com/
+connect by,
+192.168.1.110:5900
+(your ip ip:5900)
+Trouble Shooting encryption 登录失败 如果远程登录因为 encryption 的原因不成功，改一条设置即可，
+gsettings set org.gnome.Vino require-encryption false 注意安全，如果不暴露到外网还好。
+重启后无法登录 原因很简单，重启后未登录 Gnome 用户的情况下，服务进程还没启动，每次启动后在 Gnome 上登录一次就好了，但是还是很麻烦，每次重启要连一次键盘鼠标很淡疼啊，(ssh 登录没用)，解决办法：</description>
+    </item>
+    
+    <item>
+      <title>Inject git commit hash on webpack</title>
+      <link>https://drkbl.com/posts/inject-git-commit-hash-var-on-webpack/</link>
+      <pubDate>Wed, 19 Jul 2017 16:49:31 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/inject-git-commit-hash-var-on-webpack/</guid>
+      <description>Output @ Chrome Dev-tool console
+console.log(__VERSION__); &amp;quot;da7698330a678f77.............&amp;quot; // git commit HEAD&#39;s hash You can use the DefinePlugin that will make your build info available inlined with your code:
+webpack.config.js const childProcess = require(&amp;#39;child_process&amp;#39;); plugins = [ // ...  new webpack.DefinePlugin({ __VERSION__: JSON.stringify(childProcess .execSync(&amp;#39;git rev-list HEAD --max-count=1&amp;#39;).toString()), }) ]; app.js if (typeof __VERSION__ === &amp;#39;string&amp;#39;) { (window as any).__VERSION__ = __VERSION__; } If you use typescript, append to types/index.d.ts to omit type error</description>
+    </item>
+    
+    <item>
+      <title>DOM No Response To Keyboard Event</title>
+      <link>https://drkbl.com/posts/div-not-response-to-keyboard-event-without-tabindex/</link>
+      <pubDate>Fri, 16 Jun 2017 15:25:49 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/div-not-response-to-keyboard-event-without-tabindex/</guid>
+      <description>Register onKeyDownListener on HTML Element &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;script src=&amp;#34;../build/react.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/react-dom.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/browser.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;div id=&amp;#34;app&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;script type=&amp;#34;text/babel&amp;#34;&amp;gt; class App extends React.Component { handleKeyDown(event) { console.log(&amp;#39;handling a key press&amp;#39;); } render() { return ( &amp;lt;div onKeyDown={this.handleKeyDown}&amp;gt; here! &amp;lt;/div&amp;gt; ); } } ReactDOM.render(&amp;lt;App /&amp;gt;, document.getElementById(&amp;#39;app&amp;#39;)); &amp;lt;/script&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; There are NO response here. You press any thing and there is NO response. It&#39;s doesn&#39;t matter you mouse focus on div or not.</description>
+    </item>
+    
+    <item>
+      <title>Why array.indexOf(undefined) doesn&#39;t work if array is sparse</title>
+      <link>https://drkbl.com/posts/js-array-indexof-undefined/</link>
+      <pubDate>Thu, 15 Jun 2017 11:50:00 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-array-indexof-undefined/</guid>
+      <description>var firstMissingPositive = function (nums) { let arr = [true]; nums.forEach((val) =&amp;gt; { if (val &amp;gt; 0) { arr[val] = true; } }); return [arr, arr.indexOf(undefined)]; }; Why this doesn&#39;t work?!
+firstMissingPositive([2]) // [[true, undefined, true], -1] Why -1 !?
+but if just run [true, undefined, true].indexOf(undefined) in chrome dev tools it returns 1.
+原因 主要是 chrome 的打印问题， sparse (稀疏) 的 array 在没有定义的项目上，chrome 会打印出来 undefined 。但是这个其实是真的没有定义过的，对于 indexOf 来说，不像 console.log 会将没有定义的元素补全为 undefined ，indexOf 是看不到这个元素的。</description>
+    </item>
+    
+    <item>
+      <title>isNaN 也是个大坑</title>
+      <link>https://drkbl.com/posts/fucking-isnan-in-javascript/</link>
+      <pubDate>Mon, 12 Jun 2017 12:09:53 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/fucking-isnan-in-javascript/</guid>
+      <description>The isNaN() function determines whether a value is NaN or not. Note: coercion inside the isNaN function has interesting rules; you may alternatively want to use Number.isNaN(), as defined in ECMAScript 2015, or you can use typeof to determine if the value is Not-A-Number.
+ Interesting? isNaN(NaN); // true isNaN(undefined); // true !!! WTF? isNaN({}); // true !!! WTF?  isNaN(&amp;#39;37&amp;#39;); // false: &amp;#34;37&amp;#34; is converted to the number 37 which is not NaN isNaN(&amp;#39;&amp;#39;); // false: the empty string is converted to 0 which is not NaN isNaN(&amp;#39;blabla&amp;#39;); // true, WTF?</description>
+    </item>
+    
+    <item>
+      <title>Chrome Console 过滤器黑名单</title>
+      <link>https://drkbl.com/posts/chrome-dev-tools-console-filter-blacklist/</link>
+      <pubDate>Fri, 09 Jun 2017 11:24:36 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/chrome-dev-tools-console-filter-blacklist/</guid>
+      <description>别人的库频繁报错怎么办，让人心情很不好。外部引入的库比如 .js lib 或者 node_modules 里面的库，无法修改的时候。
+是 node_modules 内部的库报错，过滤器很强大，看起来好像是白名单，其实加一个 ! 就可以实现黑名单。像这样：
+!./node_modules/mlz_student/build/js/index.js 就可以屏蔽掉所有含有这个关键词的 log 了！
+比如，</description>
+    </item>
+    
+    <item>
+      <title>实现等待用户输入完毕继续执行</title>
+      <link>https://drkbl.com/posts/js-wait-until-user-input/</link>
+      <pubDate>Thu, 25 May 2017 11:18:01 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-wait-until-user-input/</guid>
+      <description>问题 有一个主函数同步调用一个异步函数，这个异步函数要等待用户输入后返回给主函数用户输入的结果。在用户输入前，要怎么阻塞线程，待用户输入完毕继续执行？
+用 while 阻塞线程？ No
+线程会永远阻塞在 while 上，外部调用都不会产生作用。因为外部那个函数都执行不到，此时整个程序都完全死去了。因为同步函数到死都不会交出 CPU 控制权。
+就像这样：
+var test = { status: false, main: function() { let res = this.func(); console.log(res); }, func: function() { while (!this.status); return 100; }, confirm: function() { this.status = true; } } setTimeout(test.confirm.bind(test), 1000); // never confirm test.func(); 用 setTimeout 替代 while 轮询? No
+func: function() { if (!this.status) { setTimeout(() =&amp;gt; { this.func(); }, 500); } else { return 100; } // return undefined; }, 因为 async_func 依然是一个被同步调用的函数，所以在一开始 this.</description>
+    </item>
+    
+    <item>
+      <title>diff Promise Generator Async</title>
+      <link>https://drkbl.com/posts/diff-promise-generator-async/</link>
+      <pubDate>Wed, 24 May 2017 17:52:22 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/diff-promise-generator-async/</guid>
+      <description>绝佳例子 var fs = require(&amp;#39;fs&amp;#39;); // callback 写法 fs.readFile(&amp;#39;/etc/fstab&amp;#39;, function (err, f1) { if (err) throw err; console.log(f1.toString()); fs.readFile(&amp;#39;/etc/shells&amp;#39;, function (err, f2) { if (err) throw err; console.log(f2.toString()); } }); // 出现了两层嵌套。如果有更多文件的话，将会有更多嵌套  var readFile = function (fileName){ return new Promise(function (resolve, reject){ fs.readFile(fileName, function(error, data){ if (error) reject(error); resolve(data); }); }); }; // Promise 写法 readFile(fileA) .then(function(data){ console.log(data.toString()); }) .then(function(){ return readFile(fileB); }) .then(function(data){ console.log(data.toString()); }) .catch(function(err) { console.log(err); }); // generator 写法 var gen = function* (){ var f1 = yield readFile(&amp;#39;/etc/fstab&amp;#39;); console.</description>
+    </item>
+    
+    <item>
+      <title>同步函数调用异步函数导致的 setState 问题</title>
+      <link>https://drkbl.com/posts/call-async-func-in-sync-func/</link>
+      <pubDate>Thu, 18 May 2017 20:53:40 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/call-async-func-in-sync-func/</guid>
+      <description>问题描述 根据用户输入计算结果，实时将结果打印到界面上。原本的接口大约是这样：
+function output(text) { var mypre = document.getElementById(&amp;#34;output&amp;#34;); // append 而不是覆盖  mypre.innerHTML = mypre.innerHTML + text; } // calculate yield 一个结果后会调用 output(res) 输出 calculate(paras, output); 将 output() 转为 React 的写法时，像这样：
+function output(text) { this.setState({mypre: this.state.mypre + text}); } ... &amp;lt;div className=&amp;#39;mypre&amp;#39;&amp;gt; {this.state.mypre} &amp;lt;/div&amp;gt; 于是问题来了。
+以下都是不认真看教程的结果 React - Docs
+ State Updates May Be Asynchronous React may batch multiple setState() calls into a single update for performance.
+Because this.props and this.</description>
+    </item>
+    
+    <item>
+      <title>Chrome 59 新功能 - 整页截图</title>
+      <link>https://drkbl.com/posts/full-size-screenshot-in-chrome-v59/</link>
+      <pubDate>Mon, 08 May 2017 00:22:27 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/full-size-screenshot-in-chrome-v59/</guid>
+      <description>最新的 Chrome 59 在 DevTools 中加入一个特别有用的日常功能，整页截图。Chrome Blog
+不过隐藏的蛮深的。需要进入 DevTools, 开启 Device Toolbar 也就是我们常用来调试不同屏幕尺寸和设备的界面。打开更多功能（右上方的三个小点点），里面就有一个 Capture Full Size Screenshot 的选项，点击即可截屏啦。而且截的还不错，不会带上一些悬浮元素。</description>
+    </item>
+    
+    <item>
+      <title>diff typeof &amp; &#39;!==&#39;</title>
+      <link>https://drkbl.com/posts/typeof-is-more-safe/</link>
+      <pubDate>Wed, 03 May 2017 23:51:31 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/typeof-is-more-safe/</guid>
+      <description> typeof allows the identifier to never have been declared before.
+ So it’s safer in that regard:
+if (typeof neverDeclared === &amp;#34;undefined&amp;#34;); //no errors  if (neverDeclared === null); //throws ReferenceError: neverDeclared is not defined  Ref  typeof-undefined-vs-null  </description>
+    </item>
+    
+    <item>
+      <title>Chrome Devtools 实时对比不同代码的渲染效率</title>
+      <link>https://drkbl.com/posts/compare-animation-performance-in-chrome/</link>
+      <pubDate>Mon, 24 Apr 2017 15:36:00 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/compare-animation-performance-in-chrome/</guid>
+      <description>问题 公司项目有一个更新动画的函数需要每帧调用来更新动画，需要对比
+ setTimeout requestAnimationFrame  哪一个在更新上效率更佳。
+if (this.internal_tick_control) { // window.requestAnimationFrame(this.update.bind(this));  setTimeout(this.update.bind(this), 1000/60); } requestAnimationFrame 会让动画函数执行会先于浏览器重绘动作执行。其功能都是在绘制新一帧之前先对状态（动画内容）进行更新，然后调用重绘。setTimeout 是手动指定每隔多长时间进行更新，这有时会导致不精确的更新间隔；而 requestAnimationFrame 是浏览器自带优化，并且自带精确间隔调用的调用方式。理论上来说 requestAnimationFrame 应该会有更好的性能，我来证明一下。
+工具   用了公司项目内置的 API 来保证每次测试的动画内容一致；
+  使用 Chrome Dev-tools - FPS Meter 来显示实时性能；
+  使用 CPU performance limiting setting. (I use 20x slow down to maximize the difference) 限制 CPU 性能扩大对比差距；
+  同时运行多个不同代码的项目的方法 (A little trick to run these two different code simultaneously):</description>
+    </item>
+    
+    <item>
+      <title>理解 Array.prototype.map()</title>
+      <link>https://drkbl.com/posts/javascript-array-map-debug/</link>
+      <pubDate>Mon, 03 Apr 2017 20:25:00 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/javascript-array-map-debug/</guid>
+      <description>调用不是 .call() 错误示范：
+var b = [[1, 2], [3, 2]]; b.map(Array.prototype.sort); // Uncaught TypeError: Array.prototype.sort called on null or undefined b.map(a =&amp;gt; typeof a); // (2) [&amp;#34;object&amp;#34;, &amp;#34;object&amp;#34;] b.map(Object.prototype.toString); // (2) [&amp;#34;[object Undefined]&amp;#34;, &amp;#34;[object Undefined]&amp;#34;] Object.prototype.toString.apply(undefined); // &amp;#34;[object Undefined]&amp;#34; b.map(a=&amp;gt;a); // (2) [Array(2), Array(2)] [1, 2].map(Object.prototype.toString); // (2) [&amp;#34;[object Undefined]&amp;#34;, &amp;#34;[object Undefined]&amp;#34;] 而 Array.prototype.map 或 every 并不是去绑定this。
+Array.prototype.map 的一个例子：
+[&amp;#39;a&amp;#39;,&amp;#39;b&amp;#39;].map(function a(item, index, array) { // 为每个值执行 function  }); 是这样执行的：</description>
+    </item>
+    
+    <item>
+      <title>在 Chrome Devtools 中调试本地代码</title>
+      <link>https://drkbl.com/posts/debug-javascript-chrome-devtools/</link>
+      <pubDate>Tue, 21 Mar 2017 19:05:19 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/debug-javascript-chrome-devtools/</guid>
+      <description>创建这样的文档结构
+$ find . -print | sed -e &amp;#39;s;[^/]*/;|____;g;s;____|; |;g&amp;#39; . |____index.html |____partition.js partition.js 是要挑试的 js 代码，index.html 是用来辅助以运行在 Chrome 中。
+index.html 引用 js 即可。
+&amp;lt;!doctype html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;script src=&amp;#34;partition.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt;&amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; 然后将 index.html 拖入 Chrome 中（以 Chrome 打开也一样）。 可以在 Source 选项卡中左侧打开文件树形图。可以修改直接在 Chrome 中保存！
+然后进入 Console 面板 (macOS 下可用 Command + [ 和 Command + ] 来作用切换面板) 愉快的运行吧。当然，这个（些） js 文件都已经在加载时被执行了一遍。
+macOS 的 tree:
+find . -print | sed -e &#39;s;[^/]*/;|____;g;s;____|; |;g&#39; by OSXDaily</description>
+    </item>
+    
+    <item>
+      <title>React &#43; Babel &#43; Webpack &#43; antd 入门</title>
+      <link>https://drkbl.com/posts/react-hello-world/</link>
+      <pubDate>Wed, 15 Mar 2017 22:19:05 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/react-hello-world/</guid>
+      <description>从零开始构建一个前端脚手架，技术栈：
+ React 为数据提供渲染为 HTML 的视图的开源 JavaScript 库 Babel 是一个 JavaScript 编译器，用于转化 ES2015/JSX 代码 Webpack 前端资源加载/打包工具，满足前端工程化需要 antd-react 使用 Ant Design UI 库的 React 实现  Git: d4rkb1ue/react-helloworld
+运行指南 $ git clone https://github.com/d4rkb1ue/react-helloworld.git $ cd react-helloworld $ npm i $ npm run test 已知问题 npm i 卡死 $ npm i 这步可能会卡在 extract:webpack-dev-server: sill doParallel extract 589 这里，这个问题已经被 Node Issue 了 https://github.com/npm/npm/issues/13782
+解决办法，单独安装 webpack ， webpack-dev-server ， babel-cli ， babel-loader
+$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&#39;t be accessed via IP github issue</description>
+    </item>
+    
+    <item>
+      <title>正则表达式入门</title>
+      <link>https://drkbl.com/posts/js-regexp/</link>
+      <pubDate>Sat, 11 Mar 2017 23:44:20 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-regexp/</guid>
+      <description>RegExp 语法 字符  \d: one number \w: one number, letter .: any single character \s: one space(&amp;rsquo; &amp;lsquo;), tab(&#39;\t&amp;rsquo;)  特殊字符需要转义，
+ -: \- _: \_ $: \$  例如，
+00\d // 004 \d\d\d // 223 \w\w // f2 js.// js! 限制 +: one or more *: none or more ?: none or one {n}: exactly n chars {n, m}: n &amp;lt;= number of chars &amp;lt;= m [0-9]: range A|B: or ^: 表示行的开头 $: 表示行的结束</description>
+    </item>
+    
+    <item>
+      <title>Node.js Modules 入门</title>
+      <link>https://drkbl.com/posts/nodejs-modules/</link>
+      <pubDate>Wed, 01 Mar 2017 20:46:05 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/nodejs-modules/</guid>
+      <description>示例 exports Functions 创造一个模块，circle.js
+const PI = Math.PI; exports.area = (r) =&amp;gt; PI * r * r; 引用这个模块，main.js
+const circle = require(&amp;#39;./circle.js&amp;#39;); console.log(`Area of a circle of radius 4 is ${circle.area(4)}`); Usage
+$ node main.js &amp;gt; Area of a circle of radius 4 is 50.26548245743669 circle.js 暴露了 area() 这个方法。于是引用起来就是直接.这个方法
+exports Object 除了定义要暴露的 exports 的方法，还可以选择自定义一个完整的 Object 作为整个exports接口来暴露，square.js
+module.exports = (width) =&amp;gt; { return { area: () =&amp;gt; width * width }; }; 引用它，main.</description>
+    </item>
+    
+    <item>
+      <title>Javascript 闭包(Closure)学习笔记</title>
+      <link>https://drkbl.com/posts/javascript-closure/</link>
+      <pubDate>Tue, 28 Feb 2017 21:27:51 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/javascript-closure/</guid>
+      <description>闭包是一个函数，可以访问它被创建时所处的上下文环境。
+我对它一开始的理解是，保存了一份上下文的拷贝，然而这个理解是错的。实际是所需的上下文没有被释放。
+闭包的例子 如果用闭包做一个计数器，
+function newCounter(start){ // context  var n = start || 0; // if start is undefined  return { // Plan A: here will be anthor &amp;#39;n&amp;#39; to store the &amp;#39;n&amp;#39; from the context  inc: function(){ return ++n; } } } // usage var counter = newCounter(); counter.inc(); // 1 counter.inc(); // 2 对于这个含有函数(inc())的匿名对象，它是如何访问到n，有两个解释：
+ 闭包会复制上下文，如注释里所说 闭包需要的上下文会持续存在  错误的理解：闭包会复制上下文 闭包是自带状态的函数，看起来它的实现是这样的，
+function closure{ var arguments = [.</description>
+    </item>
+    
+    <item>
+      <title>Javascript Puzzles or Jokes</title>
+      <link>https://drkbl.com/posts/javascript-puzzles-or-jokes/</link>
+      <pubDate>Mon, 27 Feb 2017 22:05:59 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/javascript-puzzles-or-jokes/</guid>
+      <description>Just for fun.
+ 1 - - 1 === 2 1.toString() 0.8 - 0.6 !== 0.2 [] + [] === &amp;quot;&amp;rdquo; [] !== [] [] + {} {} + [] {1} + {} parseInt(0.0000008)  1 - - 1 1 - - 1 // 2 1 - - - - - - - - 1 // 2 1 - (-1) 1 - (-(-(-(-1))))
+1.toString() 1.toString(); // error 1..toString(); // &amp;#34;1&amp;#34; 1.</description>
+    </item>
+    
+    <item>
+      <title>Node.js 生产环境部署的几种方式</title>
+      <link>https://drkbl.com/posts/nodejs-productive-environment/</link>
+      <pubDate>Sat, 25 Feb 2017 22:43:10 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/nodejs-productive-environment/</guid>
+      <description>pm2 nginx + pm2 yyx990803/pod (@尤雨溪)   最简单：使用 pm2 $ npm install -g pm2 $ pm2 start app.js -i 0 --name “app-name&amp;quot; 配合 nginx Q：为什么要配上 nginx 食用？ 一个域名的直接访问是解析ip的80端口（浏览器会默认隐藏80端口），然而每一个node的进程又只能占用一个端口，那么当一个服务器（是指承载这些网站的机器，可能是windows、linux或者mac）上搭建的网站超过一个时，端口不够用。
+一般情况下是使用node监听某些端口，然后按域名（看自己需求）进行转换，比如：
+a.com =&amp;gt; 9000 b.com =&amp;gt; 9001 c.com =&amp;gt; 9002 … 如此，可以使用一台服务器的一个接口配置多个站点。
+配置步骤 一个站点一个 .conf 文件，通过 include 来加载，比如：
+nginx.conf 文件是这样的：
+http { # 其他的配置 # 加载所有conf目录下的配置文件 include conf/*.conf; } conf 目录下的每一个 .conf 文件都是一个站点，比如 a.com 的代理到 9000 端口的配置大概是：
+# conf/a.com.conf server { server_name a.</description>
+    </item>
+    
+    <item>
+      <title>diff 正向代理 反向代理</title>
+      <link>https://drkbl.com/posts/proxy-forward-or-reverse/</link>
+      <pubDate>Thu, 23 Feb 2017 05:44:39 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/proxy-forward-or-reverse/</guid>
+      <description>是否对用户透明。
+正向代理(Forward proxy)  是一个位于客户端和原始服务器(origin server)之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。
+ 反向代理(Reverse proxy)  反向代理正好相反，对于客户端而言它就像是原始服务器，客户端不需要进行任何特别的设置。反向代理服务器处理用户请求，自行判断向何处(原始服务器)转交请求，并将获得的内容返回给客户端，就像这些内容 原本就是它自己的一样。
+ diff 根本：是否对用户透明。 代理服务器均为转发请求：正向代理对用户不透明，用户需要在客户端指定代理，并且明确向代理发送请求要求转发到指定地址；反向代理对用户透明，用户不需要指定任何，正常发送请求，代理负责决定怎么转发请求。
+用途  正向代理的典型用途是为在防火墙内的局域网客户端提供访问Internet的途径。正向代理还可以使用缓冲特性减少网络使用率。
+反向代理的典型用途是将 防火墙后面的服务器提供给Internet用户访问。反向代理还可以为后端的多台服务器提供负载平衡，或为后端较慢的服务器提供缓冲服务。 另外，反向代理还可以启用高级URL策略和管理技术，从而使处于不同web服务器系统的web页面同时存在于同一个URL空间下。
+ 安全性  正向代理允许客户端通过它访问任意网站并且隐藏客户端自身，因此你必须采取安全措施以确保仅为经过授权的客户端提供服务。
+  参考  正向代理与反向代理的区别 @朱勇Ray   </description>
+    </item>
+    
+    <item>
+      <title>Dockerize Node.js APP</title>
+      <link>https://drkbl.com/posts/dockerize-nodejs-app/</link>
+      <pubDate>Mon, 20 Feb 2017 18:33:21 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/dockerize-nodejs-app/</guid>
+      <description>案例 以运行 d4rkb1ue/joker 为例
+步骤 将 d4rkb1ue/joker 下载到本地，并作为工作路径
+$ git clone https://github.com/d4rkb1ue/joker.git $ cd joker 数据库 基于Dockerfile 建立 mongodb 的 image d4rkb1ue/mongodb, Dockerfile 位于 /joker/dockerfile/mongodbDockerfile 并命名为 mongodb
+$ docker build -t &amp;quot;mongodb&amp;quot; - &amp;lt; dockerfile/mongodbDockerfile 建立 mongodb 的 container，命名为jokerdb，并映射本地~/Development/joker/sample_database/ 到 container 中的 /data/db目录。本地目录为joker所在目录。（必须要绝对路径）
+$ docker run -p 27017:27017 --name jokerdb -v ~/Development/joker/sample_database/:/data/db -d mongodb 修改 ~/Development/joker/settings.js，替换 192.168.50.6 为本地地址。可以通过 ifconfig 命令查看。
+# 本行中的地址修改为本地地址，不可用 localhost mongodbUrl: &#39;mongodb://192.168.50.6/joker&#39;, # 这里也是 host: &#39;192.168.50.6&#39;, 启动 Node 测试环境 启动 container node:6.</description>
+    </item>
+    
+    <item>
+      <title>Sublime Select Tricks</title>
+      <link>https://drkbl.com/posts/sublime-select-tricks/</link>
+      <pubDate>Sat, 18 Feb 2017 23:56:53 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/sublime-select-tricks/</guid>
+      <description>问题 在选择的时候遇到了一些问题，如下面的代码
+if (max &amp;amp;&amp;amp; p.compareTo(ret) &amp;gt; 0) ret = p; 我在选择变量p的时候，shift选中p然后Command + D，后果就是同时选中了compareTo中的p。
+解决方案1 选中p之后，Command + D选中compareTo中的p，此时Command + K，Command + D可以取消选择上个选中的p，即compareTo中的p，并选中下一个p。
+不过这个方法很麻烦。其实 Sublime 是可以识别变量的。
+解决方案2 不要选中p！ 不要选中p！ 不要选中p！
+直接将光标放在p之前或之后，Command + D即可自动选择变量。
+ 还有一个关于选择的快捷键，Command + U 可以撤销最后一个选择。  其他快捷键   选择全部 token Ctrl + Command + G
+  HTML 中选中一对标签（需要 Emmet） Command + Shift + K
+   Reference   sublimetext2 - Sublime Text: Select all instances of a variable and edit variable name - Stack Overflow</description>
+    </item>
+    
+    <item>
+      <title>Algs4/Selection Sort, Insertion Sort, Shell Sort (Week 3 Part 1)</title>
+      <link>https://drkbl.com/posts/algorithms-part-1-note-5/</link>
+      <pubDate>Fri, 17 Feb 2017 00:05:28 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/algorithms-part-1-note-5/</guid>
+      <description>Assertions MergeSort Botton-up MergeSort Sorting Complexity Java: Comparator interface Stability  Assertions // after sort assert isSorted(a, lo, hi); Can enable or disable at runtime
+# enable assertions $ java -ea MyProgram # disable assertions (default) $ java -da MyProgram Best practices  Use assertions to check internal invariants assume assertions will be disabled in production code do not use for external argument checking  MergeSort Animation: Merge Sort</description>
+    </item>
+    
+    <item>
+      <title>Algs4/Selection Sort, Insertion Sort, Shell Sort (Week 2 Part 2)</title>
+      <link>https://drkbl.com/posts/algorithms-part-1-note-4/</link>
+      <pubDate>Wed, 15 Feb 2017 05:05:48 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/algorithms-part-1-note-4/</guid>
+      <description>Comparable Selection Sort Insertion Sort Shell Sort Shuffle Convex hull  Comparable Implement the Comparable interface to make the sort() universal.
+public class File implements Comparable&amp;lt;File&amp;gt;{ … public int compareTo(File b){ … return -1; // this less than b  … return +1; // this greater than b  … return 0; // equal  } … } public static void sort(Comparable[] a){ int N = a.length; for (int i = 0; i &amp;lt; N; i++){ for (int j = i; j &amp;gt; 0; j--){ if (a[j].</description>
+    </item>
+    
+    <item>
+      <title>Docker Quick Start</title>
+      <link>https://drkbl.com/posts/docker-quick-start/</link>
+      <pubDate>Thu, 02 Feb 2017 23:51:36 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/docker-quick-start/</guid>
+      <description>Hello World Follow Install Docker and run hello-world - Docker
+ Install Docker on macOS run docker run hello-world to test  Basic Components  image: read-only ISO container: instance to load a image and run it; can be create, start, stop, delete; separate from each others; has its own ‘root’ repository: a docker hub like github  Basic Commands docker image ls or docker images show all the images</description>
+    </item>
+    
+    <item>
+      <title>Automator as AutoHotKey</title>
+      <link>https://drkbl.com/posts/automator-as-autohotkey/</link>
+      <pubDate>Wed, 01 Feb 2017 17:19:55 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/automator-as-autohotkey/</guid>
+      <description>使用 Automator 当作 Safari@macOS 的按键精灵，敲简单的。此方法不兼容 Chrome@macOS。
+例子 - 在 Safari 上循环点击按钮 目标：每隔一段时间，自动点击 Safari 网页上的一个按钮。
+打开 Automator，新建一个“服务”。
+在左侧资源库中，选择“实用工具” —&amp;gt; “开启应用程序“。拖到右侧工作流程中。
+开启“Safari.app”。（如有多个窗口，将会切换到最近窗口）
+接下来，录制。点击红色按钮开始录制。
+切换到 Safari，点击按钮。
+在控制面板上点结束。
+录制结果如下：
+可以点击“运行”（Command+R）测试一下。（这里有2个条目，其实删除一个也完全OK。选择条目敲击“delete”即可。）
+加入循环：左侧资源库 —&amp;gt; 实用工具 —&amp;gt; 循环，拖到右侧。放在“我做给您看”后面即可。
+将“要求继续”改为“自动循环”。可自选按重复时间（分钟）计，还是按重复次数计。我这里选择按照重复次数。
+运行，测试一下。
+可以将本脚本保存起来。以备后用。
+如果需要提前终止，将当前程序焦点切换到 Automator，快捷键 Command + .(句号) 即可停止。
+完成文件：safariAutoClick.workflow</description>
+    </item>
+    
+    <item>
+      <title>CS193p, iOS developing with Swift, Class 2</title>
+      <link>https://drkbl.com/posts/cp193p-ios-dev-class-2/</link>
+      <pubDate>Mon, 30 Jan 2017 10:57:13 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/cp193p-ios-dev-class-2/</guid>
+      <description>Computed Property Apply the MVC Struct Closure Enumerations  Computed Property var displayValue: Double { get{ return Double(display.text!)! } set{ display.text = String(newValue) } it’s a var. but contains some functions. newValue is a pre-defined keyword.
+When we call
+displayValue = some_value aka, the displayValue is being SET the function set well be executed. Similarly, when we call
+new_some_value = displayValue aka, the displayValue is being GET, the function get will be executed; or like func(displayValue).</description>
+    </item>
+    
+    <item>
+      <title>斐讯k2刷华硕固件&#43;作中继</title>
+      <link>https://drkbl.com/posts/phicomm-k2-asus-ap-bridge/</link>
+      <pubDate>Sat, 21 Jan 2017 21:45:14 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/phicomm-k2-asus-ap-bridge/</guid>
+      <description>免费的 斐讯k2 来一发尝尝
+版本支持与恢复 支持的版本
+ V22.3.15.128 V22.3.15.232 V22.3.17.148 V22.4.2.8 V22.4.2.9
+ V22.4.5.39版本需要降级到测试版V22.4.2.8或者V22.4.2.9。V22.4.5.42 降级就可以了。
+(官方ROM备份链接: http://code.taobao.org/svn/hopol-bak/K2/phicomm/K2/ )
+如果是V21.4.6.12版本请下载新版手动升级，斐讯官方固件下载地址： http://file.soho.phicomm.com.cn/upload/k2/k2/
+刷 点击下载下面的文件 http://code.taobao.org/svn/hopol-bak/K2/tianbaoha_breed_ssh.dat 右键另存为
+登陆路由器：默认 p.to 或者 phicomm.me 或者 192.168.2.1
+进入： 高级设置—-系统设置—-备份恢复—-浏览—–选择下载的tianbaoha_breed_ssh.dat—-点击恢复备份—-等待进度条完成(大约需要2分钟)。
+重启以后使用新的管理密码：tianbaoha 登陆，如果登陆成功就说明breed和ssh刷好了。
+进入 ：高级设置—-系统设置—-手动升级—-按图所示 点击下载备份EEPROM
+如果继续使用斐讯固件自己改个密码就行了，如果想刷第三方固件就： 点击 浏览—–选择需要刷入的固件—-点击升级即可。
+华硕 Padavan 固件： http://www.right.com.cn/forum/thread-161324-1-1.html K2 版本：RT-AC54U_GPIO_1_PSG1208_64M K2 JD介绍规格为PSG1218
+中继设置 中继主路由 netgear R6220
+安装完毕 Padavan 后，默认登入信息：
+ 默认 SSID：PDCN 默认 Wifi 密码： 1234567890 网关：192.168.123.1   管理账号：admin/admin 按键10秒原厂默认值  修改 K2 网关 修改 K2 的网关地址到与主路由同一网段： 内部网络（LAN）— IP 地址，子网掩码。例如主路由为 10.</description>
+    </item>
+    
+    <item>
+      <title>NTFS on macOS</title>
+      <link>https://drkbl.com/posts/ntfs-on-macos/</link>
+      <pubDate>Wed, 18 Jan 2017 15:56:25 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/ntfs-on-macos/</guid>
+      <description>最近在重造文件备份系统的时候，因为 Synology 默认支持 NTFS，而 macOS 也可以开启对 NTFS 的支持，计划建立这样的结构：
+ 2T+1T Raid 0@Synology NAS : 日常大型文件存放   TimeMachine@ macbook, nas：系统级备份 Resilio Sync@ macbook, nas, iPhone ：日常工作文件夹同步 2T 外置硬盘 (NTFS)：连接 NAS 做计划备份（Synology 支持 NTFS）；在 mac 上开启对NTFS的支持；使用虚拟机使用 everything 检索文件 2T 外置硬盘 2 (NTFS)：长期冷备份  下面解决怎么让 mac 直接读写 NTFS。
+@macOS Sierra, 10.12.2
+有这么几个办法：
+ Tuxera NTFS for Mac, 收费 Paragon NTFS for Mac, 收费 NTFS-3G, free 开启 macOS 内置支持, free windows 虚拟机  虚拟机已经有了，但是不太方便。试试开启内置支持，尽量不安新软件。</description>
+    </item>
+    
+    <item>
+      <title>Format HFS&#43; on Windows</title>
+      <link>https://drkbl.com/posts/format-hfs-on-windows/</link>
+      <pubDate>Wed, 18 Jan 2017 15:37:37 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/format-hfs-on-windows/</guid>
+      <description>在 Windows 10 上格式化原有 HFS+ 格式的外置硬盘时，发现有一个 200MB 的分区无法删除，可以使用 Diskpart 来解决。
+ Microsoft DiskPart on Windows  进入 CMD，执行 diskpart 进入程序。list disk 可以看到所有的磁盘，select disk x 选择指定磁盘。
+选择好了再 list disk 一下，确认该硬盘被 * … * 围住
+执行
+clean 即可删除所有分区。
+这么删除之后，会发现在计算机管理-磁盘工具中，无法直接建立新分区。应该是没有分区表。
+怎么建立，可以help一下。执行help可以看到命令列表。具体到某一个命令可以执行，比如creat命令，执行 help create，下面还可以再继续 help create partition 等等。create 可以创建 volumn(卷) 或者 partition(分区)，不过这俩又啥区别呢。
+Diff Partitions &amp;amp; Volumes:
+ A partition is a just a space crafted out of a disk. For example- you could set aside a space of 100 GB for a partition from a hard disk of 1 TB.</description>
+    </item>
+    
+    <item>
+      <title>CS193p, iOS developing with Swift, Class 1</title>
+      <link>https://drkbl.com/posts/cp193p-ios-dev-class-1/</link>
+      <pubDate>Sun, 15 Jan 2017 02:35:33 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/cp193p-ios-dev-class-1/</guid>
+      <description>introduction to iOS environment initial files hello world function a calculator variable optional: Type   iOS system layers  Cocoa Touch: UI/Objects: multi-touch, motion, view hierarchy, web view, camera; Media: OpenAL, Core Audio, PDF; Core Services: Core Services: collections, networking, file access; Core OS (bottom): Unix;  platform  Tools: Xcode Language: 1. swift 2. obj-c  initial files  assets.xcassets: Media files: icon, sounds, images ViewController.swift: Controller in MVC Main.</description>
+    </item>
+    
+    <item>
+      <title>使用 Numbers 的 Vlookup 函数 match GPA</title>
+      <link>https://drkbl.com/posts/use-numbers-vlook-function-match-gpa/</link>
+      <pubDate>Thu, 05 Jan 2017 01:59:08 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/use-numbers-vlook-function-match-gpa/</guid>
+      <description>https://youtu.be/ncAebK6Mi3M
+说明   函数里面输入的数字2是指查找目标区域中的第‘二’列，即ABCD所在的列；相应的，第一列是4321。
+  要选中查找目标的整个两个列。如果只选中有数据的那部分区域，结果就是在拖动函数应用到下面的参数时，选中数据区域也会随之向下移动。
+  </description>
+    </item>
+    
+    <item>
+      <title>私有翻墙服务搭建指南</title>
+      <link>https://drkbl.com/posts/fanqiang-guide/</link>
+      <pubDate>Wed, 04 Jan 2017 16:38:37 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/fanqiang-guide/</guid>
+      <description>简介  如何购买服务器？ 如何配置服务器？ 在 Mac, Windows, iOS, Android 设备上通过配置好的服务器翻墙 高级玩法  购买 VPS  费用：以下两家服务商提供的最低配价格都是$5/月*；如果使用快照服务，DigitalOcean 收取极少量费用，Vultr 免费。  服务商推荐  DigitalOcean $10 优惠: DigitalOcean 的新加坡, 旧金山, 纽约服务器都还可以。 Vultr 限时 $20 优惠, Vultr $10 优惠: Vultr 的日本东京服务器速度飞快！ 阿里云国际, 推荐香港。CN2 线路, 当前最优选择。  注：通过以上链接注册，在你将获得优惠的同时，作者也将获得相应的推广回报。使用以下链接可以避免给作者回报 http://digitalocean.com/，http://www.vultr.com/
+使用 DigitalOcean  测速地址 懒人推荐：SGP1, SFO2, NYC1  流程  点击 Create Droplets Image 选择 Ubuntu 16.04.x x64 Size 选择最低的$5版本即可 Datacenter Region 选择刚刚选好的那个服务器 （*按需）SSH keys, New SSH key, 输入.</description>
+    </item>
+    
+    <item>
+      <title>下载 github 单个文件</title>
+      <link>https://drkbl.com/posts/download-single-file-from-github/</link>
+      <pubDate>Mon, 02 Jan 2017 23:08:37 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/download-single-file-from-github/</guid>
+      <description>以下载以下文件为例。
+https://github.com/Supervisor/initscripts/blob/master/ubuntu 要下载这个文件，点击按钮 Raw ，得到下载地址。
+https://raw.githubusercontent.com/Supervisor/initscripts/master/ubuntu 执行
+curl https://raw.githubusercontent.com/Supervisor/initscripts/master/ubuntu &amp;gt; a.txt 即这个文件下载到本地a.txt了。</description>
+    </item>
+    
+    <item>
+      <title>修复 Hexo 博客 Next 主题无法载入</title>
+      <link>https://drkbl.com/posts/fix-hexo-next-theme-404/</link>
+      <pubDate>Sat, 12 Nov 2016 23:51:18 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/fix-hexo-next-theme-404/</guid>
+      <description>Error 刚刚遇到的问题，如往常一样执行
+hexo clean hexo d -g 重新部署的时候莫名出现vendors下的css, js资源无法载入问题。 而在public文件夹下其实vendors文件夹及其文件是正常存在的，权限也正常。
+ 这个问题很费解，原因没找到  Solution 修改blog/themes/hexo-theme-next/_config.yml文件中：
+... vendors: # Internal path prefix. Please do not edit it. # _internal: vendors 将此行注释，并改为下面的样子 _internal: lib ...   解释
+将静态文件地址从public/vendors改到public/lib。
+  </description>
+    </item>
+    
+    <item>
+      <title>Algorithms Notes/Stack&amp;Queue (Week 2 Part 1)</title>
+      <link>https://drkbl.com/posts/algorithms-part-1-note-3/</link>
+      <pubDate>Sat, 12 Nov 2016 22:53:08 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/algorithms-part-1-note-3/</guid>
+      <description>Why Stack?   Why not other Java powerful colllection libraries?
+Powerful like &amp;ldquo;Swiss Knife&amp;rdquo; but lack of efficiency.
+  Except for efficiency, when stack is more convenient?
+  Parsing in a compiler.
+  Back button in a Web browser.
+  Implementing function calls in a compiler. (Function call: push local environment and return address; Return: pop return address and local environment.)
+  Recursive function: Can always use an explicit stack to remove recursion.</description>
+    </item>
+    
+    <item>
+      <title>Algorithms Notes/Analysis of Algorithms (Week 1 Part 2)</title>
+      <link>https://drkbl.com/posts/algorithms-part-1-note-2/</link>
+      <pubDate>Wed, 26 Oct 2016 01:18:14 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/algorithms-part-1-note-2/</guid>
+      <description>algs4.jar/Stopwatch public static void main(String[] args){ int[] a = In.readInts(args[0]); Stopwatch stopwatch = new Stopwatch(); StdOut.println(ThreeSum.count(a)); double time = stopwatch.elapsedTime(); // time since creation (in seconds) } 复杂度计算 Log-log plot For given data like in standard plot,
+way to find out its T(N) is by: Log-log plot:
+where we calculate by
+lg(T (N)) = b lg N + c T (N) = a N^b, where a = 2^c in this case,</description>
+    </item>
+    
+    <item>
+      <title>Mac OS (OS X) 系统级快捷键重载</title>
+      <link>https://drkbl.com/posts/mac-os-system-shortcut-override/</link>
+      <pubDate>Thu, 20 Oct 2016 23:14:22 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/mac-os-system-shortcut-override/</guid>
+      <description>meta Mac 系统默认的所有程序退出快捷键是 Command + Q 有的时候按快了而没注意焦点位置，容易误操作。以下用 Sublime 为例将默认的退出快捷键由 Command + Q 改为 Control + Command + Q。
+环境 Mac OS Sierra 10.12
+步骤   System Preference(系统设置) -&amp;gt; Keyboard(键盘) -&amp;gt; Shortcut(快捷键)，在左侧列表的最后一项，应用快捷键。
+  点击 + 添加新快捷键。
+  在程序列表中选择 Sublime Text.app， 菜单标题照抄原快捷键说明：Quit Sublime Text (注意大小写，空格，都不能差)
+  键盘快捷键录入新快捷键。
+  结果如图。
+  结果 在 Sublime 中使用 Command + Q 没有任何效果。新快捷键 Control + Command + Q 生效。完全覆盖。
+Trouble shooting   快捷键说明注意大小写，空格，都不能差。</description>
+    </item>
+    
+    <item>
+      <title>渗透问题 (Percolation) 中 backwash 的解决</title>
+      <link>https://drkbl.com/posts/quote-avoid-backwash-in-percolation/</link>
+      <pubDate>Mon, 10 Oct 2016 02:49:48 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/quote-avoid-backwash-in-percolation/</guid>
+      <description>参考 Avoid Backwash Issue in Percolation Problem
+Q: 渗透问题 Percolation-week1
+将一个不透水的均质方块分割为矩阵N*N，最上方为水源。随机打开矩阵中任意格子，重复此项操作多次，直到产生一条路径使水能穿过这个方块到达最下方。
+思路 采用weighted-quick-union算法（with Path compression）
+数据结构 和课上所用的weighted-quick-union算法一致，采用PPT的写法，模拟出2个虚拟点，分别是top和bottom。isFull就是判断这个点是否 is_connected(self,top)
+Bug：backwash  In the context of Percolation, the backwash issue is that some site might be mistakenly judged as a full site (A full site is an open site that can be connected to an open site in the top row via a chain of neighboring (left, right, up, down) open sites.) if we directly adopt the dummy nodes suggested in the course material, i.</description>
+    </item>
+    
+    <item>
+      <title>Unix 正确编译运行多文件 Java</title>
+      <link>https://drkbl.com/posts/how-to-run-multi-java-file/</link>
+      <pubDate>Mon, 19 Sep 2016 18:38:14 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/how-to-run-multi-java-file/</guid>
+      <description>0基础 Java 命令行编译~
+目录结构  建立 package 文件夹，如 ~/project/myPackage 在 ~/project/myPackage 下存放多个 java 文件 每个 java 文件除注释外首行应为本 package 名 package myPackage;  编译  在 ~/project 目录下执行 javac myPackage/*.java 编译全部 java 文件  运行  在 ~/project 目录下执行 java myPackage.MainClass 或 java myPackage/MainClass 均可  </description>
+    </item>
+    
+    <item>
+      <title>Algorithms Notes/Dynamic Connectivity (Week 1 Part 1)</title>
+      <link>https://drkbl.com/posts/algorithms-part-1-note-1/</link>
+      <pubDate>Sat, 17 Sep 2016 19:28:29 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/algorithms-part-1-note-1/</guid>
+      <description>Question: Dynamic Connectivity Q: Given two points, are there any path connecting them? We also connect points dynamically.
+Modeling  Reflexive: p is connected to p Symmetric: if p is connected to q, then q is connected to p Transitive: if p is connected to q and q is connected to r, then p is connected to r. Connected components: Given points, we can create connected componenets. Then we should deal with the question: Is P and Q connected?</description>
+    </item>
+    
+    <item>
+      <title>Safari on Mac check history EXACT time stamp</title>
+      <link>https://drkbl.com/posts/safari-history-exact-time-stamp/</link>
+      <pubDate>Sat, 23 Jul 2016 02:45:58 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/safari-history-exact-time-stamp/</guid>
+      <description>One Line ls -ogtrT ~/Library/Caches/Metadata/Safari/History/ Explanation -o: do not list group information -g: but do not list owner -t: sort by time(Last first) -r: reverse(so -tr is Last last) -T: time style = &amp;quot;MM DD hh:mm:ss YYYY&amp;quot; 从今天开始试试英文Blog :P</description>
+    </item>
+    
+    <item>
       <title>Vim 安装自动缩进插件</title>
       <link>https://drkbl.com/posts/vim-install-plugin/</link>
       <pubDate>Wed, 20 Jul 2016 00:50:35 +0000</pubDate>
@@ -39,6 +624,342 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim �
 测试 进入vi，执行
 gg=G 成功的indent了。
  参考  像 IDE 一样使用 vim  </description>
+    </item>
+    
+    <item>
+      <title>JavaScript 继承机制-4-class继承</title>
+      <link>https://drkbl.com/posts/js-inherit-summary-4/</link>
+      <pubDate>Fri, 17 Jun 2016 21:55:16 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-inherit-summary-4/</guid>
+      <description>class继承从ES6开始正式被引入到JavaScript中。
+class Animal { constructor(name) { this.name = name; } } class Cat extends Animal{ constructor(name){ super(name); } say(){ return &amp;#34;Hello, &amp;#34;+this.name+&amp;#34;!&amp;#34;; } } 简直。太舒服。
+因为不是所有的主流浏览器都支持ES6的class。如果一定要现在就用上，就需要一个工具把class代码转换为传统的prototype代码，比如Babel。</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 继承机制-3-拷贝继承和数据类型</title>
+      <link>https://drkbl.com/posts/js-inherit-summary-3/</link>
+      <pubDate>Thu, 16 Jun 2016 16:47:52 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-inherit-summary-3/</guid>
+      <description>假设 现在有一个对象，叫做&amp;quot;中国人&amp;rdquo;。
+var Chinese = { nation:&amp;#39;中国&amp;#39; }; 还有一个对象，叫做&amp;quot;医生&amp;rdquo;。
+var Doctor ={ career:&amp;#39;医生&amp;#39; } 请问怎样才能让&amp;quot;医生&amp;quot;去继承&amp;quot;中国人&amp;rdquo;，也就是说，我怎样才能生成一个&amp;quot;中国医生&amp;quot;的对象？
+object(o) 方法: 生成“类”o的实例 function object(o) { function F() {}; F.prototype = o; return new F(); } new F()实际调用的是o.constructor但是免去了传参。其实就是把一切初始化参数都设定为undefined. 即：
+function O(a){this.a=a}; function F() {}; F.prototype = O; F.prototype.constructor === O.constructor; //true 使用 var Doctor = object(Chinese); Doctor.career = &amp;#39;医生&amp;#39;; alert(Doctor.nation); //中国 这时，子对象已经继承了父对象的属性了。
+浅拷贝: extendCopy(p) 把父对象的属性，全部拷贝给子对象，也能实现继承。
+function extendCopy(p) { var c = {}; for (var i in p) { c[i] = p[i]; } c.</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 继承机制-2-构造函数的继承</title>
+      <link>https://drkbl.com/posts/js-inherit-summary-2/</link>
+      <pubDate>Tue, 14 Jun 2016 23:11:24 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-inherit-summary-2/</guid>
+      <description>对于构造函数 function Student(props) { this.name = props.name || &amp;#39;Unnamed&amp;#39;; } Student.prototype.hello = function () { alert(&amp;#39;Hello, &amp;#39; + this.name + &amp;#39;!&amp;#39;); } Student的原型链：
+我们要 基于Student扩展出PrimaryStudent。
+最基础的方式 function PrimaryStudent(props) { // 调用Student构造函数，绑定this变量:  Student.call(this, props); this.grade = props.grade || 1; } 但是，调用了Student构造函数不等于继承了Student，PrimaryStudent创建的对象的原型是：
+new PrimaryStudent() ----&amp;gt; PrimaryStudent.prototype ----&amp;gt; Object.prototype ----&amp;gt; null 我们所需的是
+new PrimaryStudent() ----&amp;gt; PrimaryStudent.prototype ----&amp;gt; Student.prototype ----&amp;gt; Object.prototype ----&amp;gt; null 如果你想用最简单粗暴的方法这么干：
+PrimaryStudent.prototype = Student.prototype; 是不行的！如果这样的话，PrimaryStudent和Student共享一个原型对象，那还要定义PrimaryStudent干啥？
+感觉它实际要达成的是 PrimaryStudent.prototype.prototype = Student.prototype; 同样的，</description>
+    </item>
+    
+    <item>
+      <title>JavaScript 继承机制-1-构造函数和亲子鉴定</title>
+      <link>https://drkbl.com/posts/js-inherit-summary-1/</link>
+      <pubDate>Wed, 08 Jun 2016 03:17:30 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/js-inherit-summary-1/</guid>
+      <description>本节介绍对象的4种创建方式，不涉及继承。
+1. 最简单的继承方式 如函数：
+function Cat(name,color){ return { name:name, color:color } } 这可以被看作是一个基本的构造函数。调用方式为：
+var cat1 = Cat(&amp;#34;大毛&amp;#34;,&amp;#34;黄色&amp;#34;); 2. 引入this 进阶一下，如果包含this的函数会自动被当作是一个构造函数，如：
+function Cat(name,color){ this.name=name; this.color=color; } 这时，调用方式被规定为
+var cat1 = new Cat(&amp;#34;大毛&amp;#34;,&amp;#34;黄色&amp;#34;); 这两个函数等效的话，那么new操作符可以被看作是：
+  创建一个空Obj: {} 之后把指向这个Obj的指针作为构造函数的this参数。    Cat.apply(this,...)   两种方式的差别 1. 对生成的cat1赋了一个constructor的值。 调用
+cat1.constructor 第一种方式返回：
+Object() { [native code] } 第二种方式返回：
+function Cat(name,color){… //即第二个构造函数 2. instanceof 操作符 第一种：
+cat1 instanceof Cat; //false 第二种：
+cat1 instanceof Cat; //true 第二种方式的弊端：浪费内存 为Cat对象添加一个不变的属性”type”和方法eat，如：</description>
+    </item>
+    
+    <item>
+      <title>VSCode 调试例子</title>
+      <link>https://drkbl.com/posts/vs-code-debug-handbook/</link>
+      <pubDate>Tue, 07 Jun 2016 22:34:15 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/vs-code-debug-handbook/</guid>
+      <description>/* 保存本js为文件。按 F5 可以启动执行。选择Node.js的执行环境。 在生成的 launch.json 中修改 &amp;quot;program&amp;quot;: &amp;quot;${workspaceRoot}/js.js&amp;quot;, 这样以来，就可以在调试中启动js.js了。 选择最下面的debug界面，可以动态追踪变量。 */ var rt = test(); function mySort(dom, func) { var num = dom.length; var i, j = 0; var tmp; var ret; for (i = 0; i + 1 &amp;lt; num; i++) { for (j = i + 1; j &amp;lt; num; j++) { if ( ret = func(dom[i], dom[j]) &amp;lt; 0) { tmp = dom[i].innerText; dom[i].innerText = dom[j].innerText; dom[j].</description>
+    </item>
+    
+    <item>
+      <title>HTML Tabs 标签页的实现方式和对比</title>
+      <link>https://drkbl.com/posts/how-to-make-tabs/</link>
+      <pubDate>Thu, 12 May 2016 01:41:14 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/how-to-make-tabs/</guid>
+      <description>HTML网页里的Tabs的意义是什么？   &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 的显示内容
+  &amp;lt;li class=&amp;quot;tab&amp;quot;&amp;gt; 类型的按钮，需要通过例如添加 active 的方式调节选中状态，通过点击，可以修改 div.content 内的内容
+  其实可以完全不存在 ul-&amp;gt;div 1对1的关系。其实是点按一个按钮，更改部分位置的html内容
+静态Tabs 内容直接保存在 响应的 div HTML 代码中。
+  在静态 HTML 网页中，tabs的只需要执行隐藏，显示 &amp;lt;div&amp;gt;
+  最好可以通过 /panel#tab* url的方式直接显示为某一个tab
+  动态Tabs 如果使用AJAX或者其他异步加载技术，动态的获取 tab 下的内容。
+  默认 tab。如果直接调用 /panel 需要显示什么内容。应该直接显示 tab1 下的内容
+  未加载内容的加载方式，时机，和加载后的通知
+  加载内容的前后端分离
+ 使用异步获取 HTML 内容？ JSON 内容再动态生成HTML？    已加载内容的删除
+ $.hide() 直接 $(&#39;div&#39;).</description>
+    </item>
+    
+    <item>
+      <title>使用CSS实现响应式图片不变形裁剪</title>
+      <link>https://drkbl.com/posts/css-responsable-image-cut-without-distort/</link>
+      <pubDate>Thu, 05 May 2016 21:13:43 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/css-responsable-image-cut-without-distort/</guid>
+      <description>思路1. 使用overflow裁剪 大致的思想就是对图片固定高或宽，然后另一个选项为auto. 记得单独设置
+max-width: none; 保证图片不会被裁剪/变形. 如果需要让图片居中，就设置
+margin-left: -50% 可以让图像向右移动50%即一半啦
+完整实例 height:350px; overflow: hidden; max-width: none; margin-left: -50%; 存在的问题 在slider里，在图片滚动的时候会显示出溢出的部分
+思路2. 使用 CSS3 特性 object-fit 这个特性碉堡了。 和上面的实例具有相同效果的：
+height:350px; object-fit: cover; 设置好宽和高，图片自己就会进行裁剪和居中。
+支持性问题  浏览器支持 使用Polyfill来扩展支持的范围  参考   object-fit API @w3c
+  用一行 CSS 居中并裁剪图片 @伯乐在线
+  更多：判断浏览器是否支持指定CSS属性和指定值
+  </description>
+    </item>
+    
+    <item>
+      <title>同一行中固定宽度div和响应式宽度div的配合</title>
+      <link>https://drkbl.com/posts/dynamic-width-with-inline-block/</link>
+      <pubDate>Wed, 04 May 2016 21:43:45 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/dynamic-width-with-inline-block/</guid>
+      <description>目标 简单说就是在一行里面希望放置2个 div。
+  其中1个固定在一侧，并且具有固定的大小
+  另外那个占据这一行剩余的所有空间
+  思路1 inline-block   使用 auto 宽度，不可行
+  使用百分比，不可行
+  使用js检测宽度之后用 $(window).width - fix_another_width - other_padding_or_margin 动态生成宽度，可行，但是一点也不优雅。
+  思路2 不要使用inline-block，改为float 对于
+&amp;lt;div id=&amp;#34;container&amp;#34;&amp;gt; &amp;lt;div id=&amp;#34;DivB&amp;#34;&amp;gt;b&amp;lt;/div&amp;gt; &amp;lt;div id=&amp;#34;DivA&amp;#34;&amp;gt;a&amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; 使用CSS：
+#container { /* 这行是stackoverflow给出的答案 */ /* 溢出操作，我觉得没什么必要，一旦溢出也不符合要求，隐藏掉无异于掩耳盗铃 */ overflow: hidden; } #DivA { overflow: hidden; } #DivB { float: right; width: 100px; } 参考 Dynamic width with inline-block @StackOverflow</description>
+    </item>
+    
+    <item>
+      <title>Node.js Err callback-already-called</title>
+      <link>https://drkbl.com/posts/callback-already-called/</link>
+      <pubDate>Tue, 03 May 2016 21:54:58 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/callback-already-called/</guid>
+      <description>重现 if (err || account.length === 0) { callback(err); } callback(null, account[0]);  Error: Callback was already called.
+ 原因  Add else statement to you code, because if you get error, your callback executes twice.
+ 不能2次callback。虽然本意是第一个callback之后直接return。但是async还是会继续踏实的执行完本函数。
+解决 if (err || account.length === 0) { callback(err); } else { callback(null, account[0]); } 也可以这样：
+if (err || account.length === 0) { return callback(err); } callback(null, account[0]); </description>
+    </item>
+    
+    <item>
+      <title>把 Github 用作 DNS 设置二级域名跳转</title>
+      <link>https://drkbl.com/posts/use-github-as-dns/</link>
+      <pubDate>Sun, 24 Apr 2016 02:02:03 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/use-github-as-dns/</guid>
+      <description>背景 这个博客使用 Github Pages 托管。绑定了drkbl.com为CNAME。默认情况下，Github支持
+ drkbl.com www.drkbl.com  两个域名跳转到我的个人主页 d4rkb1ue.github.io
+我想开通subdomain指向我的不同项目，希望跳转到我想要的地址。就像这样
+sub.drkbl.com --跳转到--&amp;gt; https://somesome.com/lalala/hahha 因为DNS是无法直接设置根目录以下的CNAME的。因此无法直接在DNS服务商那里处理这样的跳转。
+gh-pages 的分支跳转 Github 的项目支持使用 gh-pages 分支生成项目页。绑定在
+http://d4rkblue.github.io/project-name 并且也支持设置CNAME。
+使用 gh-pages 分支 + CNAME + HTML 302 redirect 跳转任何网页 1. 初始化库   在github上建立一个用做 DNS 跳转的库，以 dns-test 为例
+  复制到本地
+  git clone git@github.com:d4rkb1ue/dns-test.git  在本地库目录里，切换到 gh-pages 分支  cd dns-test git checkout --orphan gh-pages 2. 设置跳转  创建 HTML 302跳转文件 命名为 index.html。以跳转到百毒为例。  &amp;lt;head&amp;gt; &amp;lt;meta http-equiv=&amp;#34;refresh&amp;#34; content=&amp;#34;0; url= http://www.</description>
+    </item>
+    
+    <item>
+      <title>Hexo 初始化笔记</title>
+      <link>https://drkbl.com/posts/hexo-init/</link>
+      <pubDate>Fri, 22 Apr 2016 06:32:48 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/hexo-init/</guid>
+      <description>TODO   NexT说明
+  添加About Me
+  RSS订阅
+  头部添加tag和图片的尝试
+  Sitemap站点地图
+  使用了NexT主题。执行主题的安装说明。轻松的添加多说！
+流程注意  push前先 hexo g 生成静态文件 安装hexo-deployer-git, 部署方式见官方网站, hexo d 部署 更换主题后需要先 hexo clean 清除静态文件，再g, d d,g命令可以合为一行 hexo d -g  问题和解决 无法git CNAME文件 CNAME文件不会被上传。
+解决 CNAME需放在source文件夹下。事实上，所有放在source/根目录的文件都会原样上传。
+不支持 #Title (无空格)渲染 解决方式 对存在无空格使用#标记的md，用Sublime或VS Code执行全局替换：
+Find:
+^(#+)
+Replace:
+$1 
+注意$1之后有空格.
+说明 可以匹配所有#,##,###,… 并且在之后加上一个” “(空格)。
+应对不支持”#Title”(无空格)渲染的垃圾引擎比如hexo用的。
+^(#+) 用 () 括上的部分在Replace里面经$引用。第一个()就是$1
+界面为德语 _config.yml: language: zh-Hans 而不是 language: zh-CN CN 会导致界面为德语。“Veröffentlicht“</description>
+    </item>
+    
+    <item>
+      <title>JavaScript Array.prototype.sort() 可以 call 哪些对象？</title>
+      <link>https://drkbl.com/posts/array-prototype-sort-call-cannot-apply-on-dom/</link>
+      <pubDate>Mon, 18 Apr 2016 05:51:34 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/array-prototype-sort-call-cannot-apply-on-dom/</guid>
+      <description>问题背景 对于从document中获取的nodeList:
+[&amp;lt;li&amp;gt;​JavaScript​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​Swift​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​HTML​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​ANSI C​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​CSS​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​DirectX​&amp;lt;/li&amp;gt;​] 想要对它进行排序，实时显示出来。
+要注意它不是一个 Array !
+cs instanceof Array; //false 很费解啊。
+于是我在代码里使用了for循环改为一个array。
+更简便的方式是：@stackoverflow
+var arr = Array.prototype.slice.call( htmlCollection ); // 或，更简单的方式： var arr = [].slice.call(htmlCollection); 但是我发现一个问题，不做拷贝直接对原DOM的排序无效：
+[].sort.call([3,4,1]); //[1, 3, 4] 正常 [].forEach.call(document.getElementById(&amp;#39;test-list&amp;#39;).children,function(ee){console.log(ee);}); //正常输出所有的孩子  [].sort.call([3,4,1],function(a,b){console.log(a+&amp;#34;,&amp;#34;+b)}); //3,4; 4,1; [3, 4, 1]; 正常遍历执行。  var e = document.getElementById(&amp;#39;test-list&amp;#39;).children; [].sort.call(e,function(a,b){console.log(a+&amp;#34;,&amp;#34;+b)}); // 但是这个就输出不了任何东西！ 整理问题的格式发到zhihu 我想使用 Array.prototype.sort() 对DOM的Element进行排序。
+HTML如下
+&amp;lt;ol id=&amp;#34;test-list&amp;#34;&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;Scheme&amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;JavaScript&amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;Python&amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;Ruby&amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;Haskell&amp;lt;/li&amp;gt; &amp;lt;/ol&amp;gt; 我做了如下尝试。</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-8-文件上传 Multer, 静态文件访问权限, 感触和总结</title>
+      <link>https://drkbl.com/posts/form-multer-static-file-access-summary/</link>
+      <pubDate>Thu, 07 Apr 2016 00:13:40 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/form-multer-static-file-access-summary/</guid>
+      <description>做起文件上传，就突然想起来访问权限问题。之前在apache服务器里，/var/www里面的文件是通过linux的权限管理来决定是否可以访问。那么express是怎么样的呢？
+现在的访问权限 好像通过app.use(express.static(path.join(__dirname, &#39;public&#39;)));定义之后，直接访问 /some-url 就是在访问 public/文件夹下的文件。
+使用Multer 安装： $ npm install --save multer header.ejs 在 &amp;lt;span&amp;gt;&amp;lt;a title=&amp;quot;发表&amp;quot; href=&amp;quot;/post&amp;quot;&amp;gt;post&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt; 前添加一行代码：
+&amp;lt;span&amp;gt;&amp;lt;a title=&amp;quot;上传&amp;quot; href=&amp;quot;/upload&amp;quot;&amp;gt;upload&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt; index.js 在 app.get(&#39;/logout&amp;rsquo;) 函数后添加如下代码：
+app.get(&amp;#39;/upload&amp;#39;, checkLogin); app.get(&amp;#39;/upload&amp;#39;, function (req, res) { res.render(&amp;#39;upload&amp;#39;, { title: &amp;#39;文件上传&amp;#39;, user: req.session.user, success: req.flash(&amp;#39;success&amp;#39;).toString(), error: req.flash(&amp;#39;error&amp;#39;).toString() }); }); views/upload.ejs &amp;lt;%- include header %&amp;gt; &amp;lt;form method=&#39;post&#39; action=&#39;https://drkbl.com/upload&#39; enctype=&#39;multipart/form-data&#39; &amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;submit&amp;quot; /&amp;gt; &amp;lt;/form&amp;gt; &amp;lt;%- include footer %&amp;gt; 现在我们就可以访问文件上传页面了。 有一点和教程不同，我这5个name都是相同的，这样以备后面的设定。</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-7-使用 markdown, ejs 模版的 &lt;%- / &lt;%=, 清空数据库的正确姿势</title>
+      <link>https://drkbl.com/posts/ejs-mark-how-to-empty-mongodb/</link>
+      <pubDate>Mon, 04 Apr 2016 15:05:46 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/ejs-mark-how-to-empty-mongodb/</guid>
+      <description>现在我们来给博客添加支持 markdown 发表文章的功能。
+安装 npm install markdown --save 先看下未使用markdown时候，数据库保存的格式：
+{ &amp;quot;_id&amp;quot; : ObjectId(&amp;quot;5700ccade40784880eda687e&amp;quot;), &amp;quot;name&amp;quot; : &amp;quot;tamper&amp;quot;, &amp;quot;time&amp;quot; : { &amp;quot;date&amp;quot; : ISODate(&amp;quot;2016-04-03T07:56:29.017Z&amp;quot;), &amp;quot;year&amp;quot; : 2016, &amp;quot;month&amp;quot; : 4, &amp;quot;day&amp;quot; : 3, &amp;quot;hour&amp;quot; : 15, &amp;quot;minute&amp;quot; : 56 }, &amp;quot;title&amp;quot; : &amp;quot;第2章 使用 Markdown&amp;quot;, &amp;quot;post&amp;quot; : &amp;quot;现在我们来给博客添加支持 markdown 发表文章的功能。\r\n假如你不还熟悉 markdown，请转到：http://wowubuntu.com/markdown/\r\n\r\n打开 package.json ，添加一行代码：\r\n\r\n\&amp;quot;markdown\&amp;quot;: \&amp;quot;0.5.0\&amp;quot;\r\n使用 npm install 安装 markdown 模块。\r\n\r\n打开 post.js，在 mongodb = require(&#39;./db&#39;) 后添加一行代码：\r\n\r\nmarkdown = require(&#39;markdown&#39;).markdown;\r\n在 Post.get 函数里的 callback(null, docs); 前添加以下代码：&amp;quot; } views/index.</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-6-页面权限控制, 中间件, next() 和 routes 的研究, 发表文章 和 首页 的实现, prototype 的方法, 数据库异常</title>
+      <link>https://drkbl.com/posts/admission-control-middleware-next-routes-prototype/</link>
+      <pubDate>Sun, 03 Apr 2016 23:51:48 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/admission-control-middleware-next-routes-prototype/</guid>
+      <description>页面权限控制 状态检查中间件 function checkLogin(req, res, next) { if (!req.session.user) { req.flash(&amp;#39;error&amp;#39;, &amp;#39;未登录!&amp;#39;); res.redirect(&amp;#39;/login&amp;#39;); } next(); } function checkNotLogin(req, res, next) { if (req.session.user) { req.flash(&amp;#39;error&amp;#39;, &amp;#39;已登录!&amp;#39;); res.redirect(&amp;#39;back&amp;#39;);//返回之前的页面  } next(); } 通过 next() 转移控制权.
+ next() with no arguments says &amp;ldquo;just kidding, I don&#39;t actual want to handle this&amp;rdquo;. It goes back in and tries to find the next route that would match.
+ 正常情况下routes是按照顺序依次找匹配的，找到一个匹配的就进去。如果有send()就返回，没有就什么都不返回；加入next()之后，在这个app.VERB里如果运行到next()那么就会返回到routes继续向下查找。
+res.redirect(&#39;back&#39;); //返回之前的页面 这个&#39;back&#39;不错。很方便。
+修改后的 index.js var crypto = require(&amp;#39;crypto&amp;#39;), User = require(&amp;#39;.</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-5-登出 logout, session 和 flash 的再次研究, cookie.id 和 cookieSecret 的研究</title>
+      <link>https://drkbl.com/posts/node-blog-logout-session-flash-cookie-secret/</link>
+      <pubDate>Sat, 02 Apr 2016 22:43:57 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/node-blog-logout-session-flash-cookie-secret/</guid>
+      <description>登出响应 logout 的实现 index.js app.post(&#39;/login&#39;) :
+app.post(&amp;#39;/login&amp;#39;, function (req, res) { //生成密码的 md5 值  var md5 = crypto.createHash(&amp;#39;md5&amp;#39;), password = md5.update(req.body.password).digest(&amp;#39;hex&amp;#39;); //检查用户是否存在  User.get(req.body.name, function (err, user) { if (!user) { req.flash(&amp;#39;error&amp;#39;, &amp;#39;用户不存在!&amp;#39;); //@d4rkb1ue 在这里return res.() 其实并不是在return response.  //res.redirect 肯定返回了一个无所谓的值。其实就是  //res.redirect();return null;  return res.redirect(&amp;#39;/login&amp;#39;);//用户不存在则跳转到登录页  } //检查密码是否一致  if (user.password != password) { req.flash(&amp;#39;error&amp;#39;, &amp;#39;密码错误!&amp;#39;); return res.redirect(&amp;#39;/login&amp;#39;);//密码错误则跳转到登录页  } //用户名密码都匹配后，将用户信息存入 session  req.session.user = user; req.flash(&amp;#39;success&amp;#39;, &amp;#39;登陆成功!</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-4-routes 的重构, 响应 HTTP 请求, sesson 和 flash 的研究, 界面匹配显示</title>
+      <link>https://drkbl.com/posts/node-blog-re-routes-http-session-flash/</link>
+      <pubDate>Fri, 01 Apr 2016 02:41:16 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/node-blog-re-routes-http-session-flash/</guid>
+      <description>重构 被supervisor app.js坑惨了！这样程序入口就变成了 app.js ，于是没有 bin/www 给它传 port:3000这样的参数。于是拒绝访问。因为3000端口压根没开嘛。 找了半天问题，fuckyousonofbitch! 还是老老实实的按照教程的办法重置了 app.js 和 route/index.js
+坑们  node app.js是不会自动重启的哟！ 不要开着全局Shadowsocks访问node:3000!  注册响应 models/user.js vi models/user.js:
+var mongodb = require(&amp;#39;./db&amp;#39;); function User(user) { this.name = user.name; this.password = user.password; this.email = user.email; }; module.exports = User; //存储用户信息 //@d4rkb1ue 使用User.prototype.save定义函数，那么在产生user实例的时候，就会存在user.save这个函数！ User.prototype.save = function(callback) { //要存入数据库的用户文档  var user = { name: this.name, password: this.password, email: this.email }; //打开数据库  //@d4rkb1ue mongodb.open(callback) 这个函数是mongo提供的函数，我猜大约是在执行完毕数据库开启之后执行传入的回调函数，也就是下面这个匿名函数，如果出现错误，就直接callback(err),没有错误的话，就callback(null,db)这样。于是下面这个代码就能发现是否出错了。db应该是数据库连接实例吧。  mongodb.open(function (err, db) { if (err) { return callback(err);//错误，返回 err 信息  } //读取 users 集合  // db.</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-3-设计路由, MongoDB 的链接, 会话 Session, Cookie, Connect-flash, Supervisor, 界面实现</title>
+      <link>https://drkbl.com/posts/node-blog-routes-mongodb-session-cookie-flash-ui/</link>
+      <pubDate>Wed, 30 Mar 2016 02:35:51 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/node-blog-routes-mongodb-session-cookie-flash-ui/</guid>
+      <description>路由  ###博客的功能分析 搭建一个简单的具有多人注册、登录、发表文章、登出功能的博客。
+  ###设计目标 未登录：主页左侧导航显示 home、login、register，右侧显示已发表的文章、发表日期及作者。
+登陆后：主页左侧导航显示 home、post、logout，右侧显示已发表的文章、发表日期及作者。 用户登录、注册、发表成功以及登出后都返回到主页。
+  ###路由规划 已经把设计的构想图贴出来了，接下来的任务就是完成路由规划了。
+  / ：首页
+/login ：用户登录
+/reg ：用户注册
+/post ：发表文章
+/logout ：登出
+  我们要求 /login 和 /reg 只能是未登录的用户访问，而 /post 和 /logout 只能是已登录的用户访问。左侧导航列表则针对已登录和未登录的用户显示不同的内容。
+ 创建路由JS index.js（和原教程不一样哟） var express = require(&amp;#39;express&amp;#39;); var router = express.Router(); /* GET home page. */ router.get(&amp;#39;/&amp;#39;, function (req, res) { res.render(&amp;#39;index&amp;#39;, { title: &amp;#39;主页&amp;#39; }); }); router.get(&amp;#39;/reg&amp;#39;, function (req, res) { res.</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog 学习-2-模版引擎 ejs, 静态文件挂载</title>
+      <link>https://drkbl.com/posts/node-blog-ejs-static-file/</link>
+      <pubDate>Mon, 28 Mar 2016 20:40:06 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/node-blog-ejs-static-file/</guid>
+      <description>模版引擎 N-blog使用的模版引擎是ejs。我想想我还是改成这个吧。不然后面可能差距越来越大。
+Sublime&#39;s tips: CMD+p:定位，输入@定位文件内标签 CMD+R ＝ CMD+p,@
+index.ejs &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;title&amp;gt;&amp;lt;%= title %&amp;gt;&amp;lt;/title&amp;gt; &amp;lt;link rel=&amp;#39;stylesheet&amp;#39; href=&amp;#39;/stylesheets/style.css&amp;#39; /&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;h1&amp;gt;&amp;lt;%= title %&amp;gt;&amp;lt;/h1&amp;gt; &amp;lt;p&amp;gt;Welcome to &amp;lt;%= title %&amp;gt;&amp;lt;/p&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; app.js 指定了所使用的render
+// view engine setup app.set(&amp;#39;views&amp;#39;, path.join(__dirname, &amp;#39;views&amp;#39;)); app.set(&amp;#39;view engine&amp;#39;, &amp;#39;ejs&amp;#39;); index.js 调用render()来渲染模版，同时传参
+ 第一个是模板的名称，即 views 目录下的模板文件名，扩展名 .ejs 可选。第二个参数是传递给模板的数据对象，用于模板翻译。
+  res.render(view, [locals], callback)渲染view, 同时向callback 传入渲染后的字符串。 callback如果不传的话，直接会把渲染后的字符串输出至请求方， 一般如果不需要再对渲染后的模板作操作，就不需要传callback。 当有错误发生时next(err)会被执行.
+ /* GET home page. */ router.get(&amp;#39;/&amp;#39;, function(req, res, next) { res.</description>
+    </item>
+    
+    <item>
+      <title>nswbmw/N-blog学习笔记-1-Express, Routes 初步</title>
+      <link>https://drkbl.com/posts/node-blog-express-start/</link>
+      <pubDate>Mon, 28 Mar 2016 17:30:44 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/node-blog-express-start/</guid>
+      <description>Express 安装  npm install -g express-generator : -g:global app.use([path], function)  例如一个简单的logger：
+var express = require(&amp;#39;express&amp;#39;); var app = express(); // 一个简单的 logger app.use(function(req, res, next){ console.log(&amp;#39;%s %s&amp;#39;, req.method, req.url); next(); }); // 响应 app.use(function(req, res, next){ res.send(&amp;#39;Hello World&amp;#39;); }); app.listen(3000); 使用 app.use()定义的中间件的顺序非常重要，它们将会顺序执行，use的先后顺序决定了中间件的优先级。比如说通常 express.logger() 是最先使用的一个组件，纪录每一个请求。
+express api next() : 如果某一个callback执行了next(&#39;route&#39;)，它后面的callback就被忽略。这种情形会应用在当满足一个路由前缀，但是不需要处理这个路由，于是把它向后传递。 routes/index.js 控制了请求调用。  //ray0@ubuntu:~/nodeblog$ cat routes/index.js var express = require(&amp;#39;express&amp;#39;); var router = express.Router(); /* GET home page. */ router.</description>
+    </item>
+    
+    <item>
+      <title>Git 初步入门</title>
+      <link>https://drkbl.com/posts/git-starter/</link>
+      <pubDate>Wed, 09 Mar 2016 22:55:17 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/git-starter/</guid>
+      <description>创建版本库 把这个目录变成Git可以管理的仓库： git init 也不一定必须在空目录下创建Git仓库，选择一个已经有东西的目录也是可以的。
+把文件添加到仓库： git add readme.txt （设置用户信息：） git config --global user.email &amp;quot;7874364@gmail.com&amp;quot; git config --global user.name &amp;quot;ray0&amp;quot; 只要设置一次，好像只有在从来没用过git的情况下才会出现
+提交文件到仓库 git commit 为什么Git添加文件需要add，commit一共两步呢？因为commit可以一次提交很多文件，所以你可以多次add不同的文件，比如：
+ray0@ubuntu:~/learngit$ touch b.txt ray0@ubuntu:~/learngit$ touch c.c ray0@ubuntu:~/learngit$ git add b.txt ray0@ubuntu:~/learngit$ git add c.c ray0@ubuntu:~/learngit$ git commit -m &amp;quot;add b/c&amp;quot; [master 5ccb1c8] add b/c 2 files changed, 0 insertions(+), 0 deletions(-) create mode 100644 b.txt create mode 100644 c.c 发生变化 状态 查看目前状态：
+git status 出现修改之后，需要重新add才能commit</description>
+    </item>
+    
+    <item>
+      <title>廖雪峰 JavaScript 教程-浏览器对象, DOM, 操作表单</title>
+      <link>https://drkbl.com/posts/lxf-lesson-1/</link>
+      <pubDate>Wed, 10 Feb 2016 21:13:59 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/lxf-lesson-1/</guid>
+      <description>浏览器对象 1. window window对象首先是全局作用域。 window对象有 innerWidth 和 innerHeight 可以获取浏览器窗口的内部宽度和高度。内部宽高是指除去菜单栏、工具栏、边框等占位元素后，用于显示网页的净宽高。
+2. navigator navigator对象表示浏览器的信息
+ navigator.appName：浏览器名称； navigator.appVersion：浏览器版本； navigator.language：浏览器设置的语言； navigator.platform：操作系统类型； navigator.userAgent：浏览器设定的User-Agent字符串。  {0} 3. screen
+ screen.width：屏幕宽度，以像素为单位； screen.height：屏幕高度，以像素为单位； screen.colorDepth：返回颜色位数，如8、16、24。  4. location location对象表示当前页面的URL信息
+  location.href : http://www.example.com:8080/path/index.html?a=1&amp;amp;b=2#TOP
+  location.protocol; // &amp;lsquo;http&amp;rsquo;
+  location.host; // &amp;lsquo;www.example.com&#39;
+  location.port; // &amp;lsquo;8080&amp;rsquo;
+  location.pathname; // &amp;lsquo;/path/index.html&amp;rsquo;
+  location.search; // &amp;lsquo;?a=1&amp;amp;b=2&amp;rsquo;
+  location.hash; // &amp;lsquo;TOP&amp;rsquo;
+  也可以通过操作location对象进行跳转或刷新
+ location.reload(); // 刷新 location.</description>
     </item>
     
   </channel>

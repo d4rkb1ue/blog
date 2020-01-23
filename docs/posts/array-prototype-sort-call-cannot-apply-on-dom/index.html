@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>JavaScript Array.prototype.sort() 可以 call 哪些对象？ - d4rkb1ue&#39;s Blog</title>
+  <meta content='JavaScript Array.prototype.sort() 可以 call 哪些对象？ - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='JavaScript Array.prototype.sort() 可以 call 哪些对象？ - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="问题背景 对于从document中获取的nodeList:
+[&lt;li&gt;​JavaScript​&lt;/li&gt;​, &lt;li&gt;​Swift​&lt;/li&gt;​, &lt;li&gt;​HTML​&lt;/li&gt;​, &lt;li&gt;​ANSI C​&lt;/li&gt;​, &lt;li&gt;​CSS​&lt;/li&gt;​, &lt;li&gt;​DirectX​&lt;/li&gt;​] 想要对它进行排序，实时显示出来。
+要注意它不是一个 Array !
+cs instanceof Array; //false 很费解啊。
+于是我在代码里使用了for循环改为一个array。
+更简便的方式是：@stackoverflow
+var arr = Array.prototype.slice.call( htmlCollection ); // 或，更简单的方式： var arr = [].slice.call(htmlCollection); 但是我发现一个问题，不做拷贝直接对原DOM的排序无效：
+[].sort.call([3,4,1]); //[1, 3, 4] 正常 [].forEach.call(document.getElementById(&#39;test-list&#39;).children,function(ee){console.log(ee);}); //正常输出所有的孩子  [].sort.call([3,4,1],function(a,b){console.log(a&#43;&#34;,&#34;&#43;b)}); //3,4; 4,1; [3, 4, 1]; 正常遍历执行。  var e = document.getElementById(&#39;test-list&#39;).children; [].sort.call(e,function(a,b){console.log(a&#43;&#34;,&#34;&#43;b)}); // 但是这个就输出不了任何东西！ 整理问题的格式发到zhihu 我想使用 Array.prototype.sort() 对DOM的Element进行排序。
+HTML如下
+&lt;ol id=&#34;test-list&#34;&gt; &lt;li class=&#34;lang&#34;&gt;Scheme&lt;/li&gt; &lt;li class=&#34;lang&#34;&gt;JavaScript&lt;/li&gt; &lt;li class=&#34;lang&#34;&gt;Python&lt;/li&gt; &lt;li class=&#34;lang&#34;&gt;Ruby&lt;/li&gt; &lt;li class=&#34;lang&#34;&gt;Haskell&lt;/li&gt; &lt;/ol&gt; 我做了如下尝试。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/array-prototype-sort-call-cannot-apply-on-dom/" />
+
+
+<meta property="article:published_time" content="2016-04-18T05:51:34&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-04-18T05:51:34&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">JavaScript Array.prototype.sort() 可以 call 哪些对象？</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>18 Apr 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/javascript' class="link silver">JavaScript</a> <a href='/tags/web' class="link silver">Web</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h2 id="问题背景">问题背景</h2>
+<p>对于从<code>document</code>中获取的<code>nodeList</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">[&lt;<span style="color:#f92672">li</span>&gt;​JavaScript​&lt;/<span style="color:#f92672">li</span>&gt;​, &lt;<span style="color:#f92672">li</span>&gt;​Swift​&lt;/<span style="color:#f92672">li</span>&gt;​, 
+&lt;<span style="color:#f92672">li</span>&gt;​HTML​&lt;/<span style="color:#f92672">li</span>&gt;​, &lt;<span style="color:#f92672">li</span>&gt;​ANSI C​&lt;/<span style="color:#f92672">li</span>&gt;​, &lt;<span style="color:#f92672">li</span>&gt;​CSS​&lt;/<span style="color:#f92672">li</span>&gt;​, &lt;<span style="color:#f92672">li</span>&gt;​DirectX​&lt;/<span style="color:#f92672">li</span>&gt;​]
+</code></pre></div><p>想要对它进行排序，实时显示出来。</p>
+<p><strong>要注意它不是一个 <code>Array</code> !</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">cs</span> <span style="color:#66d9ef">instanceof</span> Array; <span style="color:#75715e">//false
+</span></code></pre></div><p><del>很费解啊。</del></p>
+<p>于是我在代码里使用了for循环改为一个array。</p>
+<p>更简便的方式是：@<a href="http://stackoverflow.com/questions/222841/most-efficient-way-to-convert-an-htmlcollection-to-an-array">stackoverflow</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">arr</span> <span style="color:#f92672">=</span> Array.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">slice</span>.<span style="color:#a6e22e">call</span>( <span style="color:#a6e22e">htmlCollection</span> );
+<span style="color:#75715e">// 或，更简单的方式：
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">arr</span> <span style="color:#f92672">=</span> [].<span style="color:#a6e22e">slice</span>.<span style="color:#a6e22e">call</span>(<span style="color:#a6e22e">htmlCollection</span>);
+</code></pre></div><p>但是我发现一个问题，不做拷贝直接对原DOM的排序无效：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">[].<span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">call</span>([<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">1</span>]); <span style="color:#75715e">//[1, 3, 4] 正常
+</span><span style="color:#75715e"></span>[].<span style="color:#a6e22e">forEach</span>.<span style="color:#a6e22e">call</span>(document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;test-list&#39;</span>).<span style="color:#a6e22e">children</span>,<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">ee</span>){<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">ee</span>);});
+<span style="color:#75715e">//正常输出所有的孩子
+</span><span style="color:#75715e"></span>
+[].<span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">call</span>([<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">1</span>],<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">a</span>,<span style="color:#a6e22e">b</span>){<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">a</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">b</span>)}); 
+<span style="color:#75715e">//3,4; 4,1; [3, 4, 1]; 正常遍历执行。
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">e</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;test-list&#39;</span>).<span style="color:#a6e22e">children</span>;
+
+[].<span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">call</span>(<span style="color:#a6e22e">e</span>,<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">a</span>,<span style="color:#a6e22e">b</span>){<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">a</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">b</span>)});
+<span style="color:#75715e">// 但是这个就输出不了任何东西！
+</span></code></pre></div><h2 id="整理问题的格式发到zhihuhttpswwwzhihucomquestion43452733">整理问题的格式发到<a href="https://www.zhihu.com/question/43452733">zhihu</a></h2>
+<p>我想使用 Array.prototype.sort() 对DOM的Element进行排序。</p>
+<p>HTML如下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">ol</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;test-list&#34;</span>&gt;
+    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lang&#34;</span>&gt;Scheme&lt;/<span style="color:#f92672">li</span>&gt;
+    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lang&#34;</span>&gt;JavaScript&lt;/<span style="color:#f92672">li</span>&gt;
+    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lang&#34;</span>&gt;Python&lt;/<span style="color:#f92672">li</span>&gt;
+    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lang&#34;</span>&gt;Ruby&lt;/<span style="color:#f92672">li</span>&gt;
+    &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lang&#34;</span>&gt;Haskell&lt;/<span style="color:#f92672">li</span>&gt;
+&lt;/<span style="color:#f92672">ol</span>&gt;
+</code></pre></div><p>我做了如下尝试。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">e</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;test-list&#39;</span>).<span style="color:#a6e22e">children</span>;
+
+[].<span style="color:#a6e22e">forEach</span>.<span style="color:#a6e22e">call</span>(<span style="color:#a6e22e">e</span>,<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">ee</span>){
+<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">ee</span>);
+}); <span style="color:#75715e">//正常输出所有的孩子
+</span><span style="color:#75715e"></span>
+[].<span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">call</span>([<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">1</span>],<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">a</span>,<span style="color:#a6e22e">b</span>){
+<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">a</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">b</span>);
+}); <span style="color:#75715e">//3,4; 4,1; [3, 4, 1]; 正常遍历执行。
+</span><span style="color:#75715e"></span>
+
+[].<span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">call</span>(<span style="color:#a6e22e">e</span>,<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">a</span>,<span style="color:#a6e22e">b</span>){
+<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">a</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">b</span>);
+}); <span style="color:#75715e">// 但是这个就输出不了任何东西！
+</span></code></pre></div><p>我根据 sort() 对于普通Array的动作的log，猜测 sort() 的内部实现是逐二对比。而且，sort() 的 API 说明里也举了一个例子，证明是可以用于对象属性的对比的:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">items</span> <span style="color:#f92672">=</span> [
+  { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Edward&#39;</span>, <span style="color:#a6e22e">value</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">21</span> },
+  { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Sharpe&#39;</span>, <span style="color:#a6e22e">value</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">37</span> },
+  { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;And&#39;</span>, <span style="color:#a6e22e">value</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">45</span> },
+  { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;The&#39;</span>, <span style="color:#a6e22e">value</span><span style="color:#f92672">:</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">12</span> },
+  { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Magnetic&#39;</span> },
+  { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Zeros&#39;</span>, <span style="color:#a6e22e">value</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">37</span> }
+];
+<span style="color:#a6e22e">items</span>.<span style="color:#a6e22e">sort</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span>) {
+  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">value</span>) {
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+  }
+  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">value</span>) {
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+  }
+  <span style="color:#75715e">// a must be equal to b
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+});
+</code></pre></div><p>那么为什么call(HTMLLIElement) 就不会开始遍历调用？</p>
+<h2 id="相关探索强制解决方案">相关探索&amp;强制解决方案</h2>
+<p>我发现一个小细节</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">e</span>[<span style="color:#ae81ff">0</span>].<span style="color:#a6e22e">innerText</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">232</span>; <span style="color:#75715e">//&lt;li class=&#34;lang&#34;&gt;232&lt;/li&gt;
+</span><span style="color:#75715e"></span><span style="color:#75715e">//但是！
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">e</span>[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sds&#34;</span>; <span style="color:#75715e">//&lt;li class=&#34;lang&#34;&gt;232&lt;/li&gt;
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">e</span>[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#39;li&#39;</span>); <span style="color:#75715e">//e的打印值依然不变
+</span></code></pre></div><p>也就是说，不能直接对DOM的element直接赋值!于是呢，我可以这样执行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">//不用[].sort，我自己用冒泡实现了一个sort
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">mySort</span>(<span style="color:#a6e22e">dom</span>, <span style="color:#a6e22e">func</span>) {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">num</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">dom</span>.<span style="color:#a6e22e">length</span>;
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span>;
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">tmp</span>;
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ret</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">num</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">for</span> (<span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">j</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">num</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>) {
+            <span style="color:#66d9ef">if</span> ( <span style="color:#a6e22e">ret</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">func</span>(<span style="color:#a6e22e">dom</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">dom</span>[<span style="color:#a6e22e">j</span>]) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+                <span style="color:#a6e22e">tmp</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">dom</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">innerText</span>;
+                <span style="color:#75715e">//!!!
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// 注意！此处不要写成dom[i] = dom[j]
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// 因为dom[]不可被直接赋值！
+</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">dom</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">innerText</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">dom</span>[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">innerText</span>;
+                <span style="color:#a6e22e">dom</span>[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">innerText</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">tmp</span>;
+            }
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dom</span>;
+};
+
+<span style="color:#a6e22e">mySort</span>(<span style="color:#a6e22e">e</span>,<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">a</span>,<span style="color:#a6e22e">b</span>){
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">innerText</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">innerText</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+});
+</code></pre></div><p>于是呢，我猜测是 <code>sort()</code> 是直接操作原Array的元素，而 <code>HTMLLIElement</code> 是无法被赋值，由于某种机制（？）， <code>sort</code> 发现了这一点，于是就直接返回不管了。</p>
+<h2 id="来自stackoverflow的回答httpstackoverflowcomquestions36675401javascript-array-prototype-sort-can-not-call-on-dom-htmllielements">来自<a href="http://stackoverflow.com/questions/36675401/javascript-array-prototype-sort-can-not-call-on-dom-htmllielements">StackOverFlow的回答</a></h2>
+<blockquote>
+<p>Interesting question! Unlike Chrome, which dies silently, the latest Firefox is more helpful:</p>
+</blockquote>
+<pre><code>TypeError: HTMLCollection doesn't have an indexed property setter for '0'
+</code></pre><blockquote>
+<p>which makes the problem clear: you cannot apply sort to an object that doesn't have numeric property setters (because sort attempts to sort in place and fails).</p>
+</blockquote>
+<p>问题被连接到 <a href="http://stackoverflow.com/questions/7059090/using-array-prototype-sort-call-to-sort-a-htmlcollection">Using Array.prototype.sort.call to sort a HTMLCollection</a></p>
+<blockquote>
+<p>It seems sort cannot handle array-like objects. This is probably because NodeList does not provide any methods to change the list, but sort sorts the array in-place.</p>
+</blockquote>
+<blockquote>
+<p>Update: For more information, from the specification:</p>
+</blockquote>
+<pre><code>Perform an implementation-dependent sequence of calls to the [[Get]] , [[Put]], and [[Delete]] internal methods of obj.
+</code></pre><h2 id="来自知乎的回答httpswwwzhihucomquestion43452733answer95696026group_id705195683509977088">来自<a href="https://www.zhihu.com/question/43452733/answer/95696026?group_id=705195683509977088">知乎的回答</a></h2>
+<blockquote>
+<p>先讨论document.getElementById(&lsquo;test-list&rsquo;).children得到的是不是数组。不是，这是一个NodeList对象，是一个类数组对象。相似的，还有一个HTMLCollection对象，它们都是host objects，受浏览器环境的控制。正如你没有办法做这样的操作： <code>window.document = 123</code> ; 你同样无法对NodeList对象和HTMLCollection对象进行操作。对于这两类对象，只能读，而不能写。那么Array.sort会做什么事呢？为了节约内存空间，javascript在排序时是采用的“in-place”的策略，就是在原数组的基础上，通过不断交换不同位置的元素来达到排序的目的。既然这个NodeList和HTMLCollection无法操作，那么sort内部对元素进行交换的操作就无法完成，所以使用Array.sort是无法对NodeList和HTMLCollection排序的。而它们本身其实是有顺序的，它们的顺序是文档中匹配节点树状顺序。</p>
+</blockquote>
+<blockquote>
+<p>另一方面，Array.sort是如何处理这些host objects的。从表现上来看，是根本没有进行过比较。到V8代码里去看，我没找到具体的实现方法，有一个推测，可能不对：</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">  <span style="color:#75715e">// %RemoveArrayHoles returns -1 if fast removal is not supported.
+</span><span style="color:#75715e"></span>  var num_non_undefined <span style="color:#f92672">=</span> <span style="color:#f92672">%</span>RemoveArrayHoles(array, length);
+
+  <span style="color:#66d9ef">if</span> (num_non_undefined <span style="color:#f92672">=</span><span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+    <span style="color:#75715e">// The array is observed, or there were indexed accessors in the array.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Move array holes and undefineds to the end using a Javascript function
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// that is safe in the presence of accessors and is observable.
+</span><span style="color:#75715e"></span>    num_non_undefined <span style="color:#f92672">=</span> SafeRemoveArrayHoles(array);
+  }
+
+  QuickSort(array, <span style="color:#ae81ff">0</span>, num_non_undefined);
+</code></pre></div><blockquote>
+<p>这是V8 sort方法的一个片断，可能在“%RemoveArrayHoles”方法中对元素是否能够移动进行了检查，最后得到num_non_undefined = 0，使得QuickSort方法没有运算就结束了。但这只是我的猜测。</p>
+</blockquote>
+<blockquote>
+<p>最后，如果要实现题主的目标该怎么做呢？也很简单，先把NodeList或者HTMLCollection对象转化成普通数组</p>
+</blockquote>
+<h2 id="问题的解决办法">问题的解决办法</h2>
+<h3 id="漂亮的实现">漂亮的实现</h3>
+<p>避开DOM操作。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">list</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;test-list&#39;</span>);
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">texts</span> <span style="color:#f92672">=</span> Array.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">map</span>.<span style="color:#a6e22e">call</span>(<span style="color:#a6e22e">list</span>.<span style="color:#a6e22e">children</span>,<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">node</span>){
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">node</span>.<span style="color:#a6e22e">innerText</span>.<span style="color:#a6e22e">trim</span>();
+});
+<span style="color:#a6e22e">texts</span>.<span style="color:#a6e22e">sort</span>();
+<span style="color:#a6e22e">texts</span>.<span style="color:#a6e22e">forEach</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">text</span>,<span style="color:#a6e22e">i</span>){
+    <span style="color:#a6e22e">list</span>.<span style="color:#a6e22e">children</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">innerText</span><span style="color:#f92672">=</span><span style="color:#a6e22e">text</span>;
+});
+</code></pre></div><h3 id="我的实现">我的实现</h3>
+<p>拷贝出来之后再拷贝回去。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">list</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;test-list&#39;</span>);
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">sliced</span> <span style="color:#f92672">=</span> [].<span style="color:#a6e22e">slice</span>.<span style="color:#a6e22e">apply</span>(<span style="color:#a6e22e">list</span>.<span style="color:#a6e22e">children</span>);
+<span style="color:#a6e22e">sliced</span>.<span style="color:#a6e22e">sort</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">a</span>,<span style="color:#a6e22e">b</span>){
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">innerText</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">innerText</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+});
+<span style="color:#75715e">//删除所有孩子
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>.<span style="color:#a6e22e">children</span>.<span style="color:#a6e22e">length</span>;
+<span style="color:#66d9ef">for</span>(;<span style="color:#a6e22e">i</span><span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>;<span style="color:#a6e22e">i</span><span style="color:#f92672">--</span>){
+    <span style="color:#a6e22e">list</span>.<span style="color:#a6e22e">removeChild</span>(<span style="color:#a6e22e">list</span>.<span style="color:#a6e22e">children</span>[<span style="color:#ae81ff">0</span>]);
+}
+
+<span style="color:#75715e">//加上拍好序的孩子
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span>(<span style="color:#a6e22e">ss</span> <span style="color:#66d9ef">of</span> <span style="color:#a6e22e">sliced</span>){
+    <span style="color:#a6e22e">list</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">ss</span>);
+}
+</code></pre></div></div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/form-multer-static-file-access-summary/">prev post</a>
+  <a href="https://drkbl.com/posts/hexo-init/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

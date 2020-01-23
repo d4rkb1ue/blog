@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>使用CSS实现响应式图片不变形裁剪 - d4rkb1ue&#39;s Blog</title>
+  <meta content='使用CSS实现响应式图片不变形裁剪 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='使用CSS实现响应式图片不变形裁剪 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="思路1. 使用overflow裁剪 大致的思想就是对图片固定高或宽，然后另一个选项为auto. 记得单独设置
+max-width: none; 保证图片不会被裁剪/变形. 如果需要让图片居中，就设置
+margin-left: -50% 可以让图像向右移动50%即一半啦
+完整实例 height:350px; overflow: hidden; max-width: none; margin-left: -50%; 存在的问题 在slider里，在图片滚动的时候会显示出溢出的部分
+思路2. 使用 CSS3 特性 object-fit 这个特性碉堡了。 和上面的实例具有相同效果的：
+height:350px; object-fit: cover; 设置好宽和高，图片自己就会进行裁剪和居中。
+支持性问题  浏览器支持 使用Polyfill来扩展支持的范围  参考   object-fit API @w3c
+  用一行 CSS 居中并裁剪图片 @伯乐在线
+  更多：判断浏览器是否支持指定CSS属性和指定值
+  " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/css-responsable-image-cut-without-distort/" />
+
+
+<meta property="article:published_time" content="2016-05-05T21:13:43&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-05-05T21:13:43&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">使用CSS实现响应式图片不变形裁剪</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>05 May 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/css' class="link silver">CSS</a> <a href='/tags/web' class="link silver">Web</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h2 id="思路1-使用overflow裁剪">思路1. 使用overflow裁剪</h2>
+<p>大致的思想就是对图片固定高或宽，然后另一个选项为auto.
+记得单独设置</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#f92672">max-width</span><span style="color:#f92672">:</span> <span style="color:#f92672">none</span><span style="color:#f92672">;</span> 
+</code></pre></div><p>保证图片不会被裁剪/变形.
+如果需要让图片居中，就设置</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#f92672">margin-left</span><span style="color:#f92672">:</span> <span style="color:#f92672">-50</span><span style="color:#f92672">%</span>
+</code></pre></div><p>可以让图像向右移动50%即一半啦</p>
+<h3 id="完整实例">完整实例</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#f92672">height</span>:<span style="color:#a6e22e">350px</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">overflow</span><span style="color:#f92672">:</span> <span style="color:#f92672">hidden</span><span style="color:#f92672">;</span>
+
+<span style="color:#f92672">max-width</span><span style="color:#f92672">:</span> <span style="color:#f92672">none</span><span style="color:#f92672">;</span> 
+<span style="color:#f92672">margin-left</span><span style="color:#f92672">:</span> <span style="color:#f92672">-50</span><span style="color:#f92672">%</span><span style="color:#f92672">;</span>
+</code></pre></div><h3 id="存在的问题">存在的问题</h3>
+<p>在slider里，在图片滚动的时候会显示出溢出的部分</p>
+<h2 id="思路2-使用-css3-特性-object-fit">思路2. 使用 CSS3 特性 <code>object-fit</code></h2>
+<p>这个特性碉堡了。
+和上面的实例具有相同效果的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css"><span style="color:#f92672">height</span>:<span style="color:#a6e22e">350px</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">object-fit</span><span style="color:#f92672">:</span> <span style="color:#f92672">cover</span><span style="color:#f92672">;</span>
+</code></pre></div><p>设置好宽和高，图片自己就会进行裁剪和居中。</p>
+<h3 id="支持性问题">支持性问题</h3>
+<ul>
+<li><a href="http://caniuse.com/#feat=object-fit">浏览器支持</a></li>
+<li>使用<a href="https://github.com/anselmh/object-fit">Polyfill</a>来扩展支持的范围</li>
+</ul>
+<h3 id="参考">参考</h3>
+<ul>
+<li>
+<p><a href="http://www.w3.org/TR/css3-images/#the-object-fit">object-fit API @w3c</a></p>
+</li>
+<li>
+<p><a href="http://web.jobbole.com/82617/">用一行 CSS 居中并裁剪图片 @伯乐在线</a></p>
+</li>
+<li>
+<p>更多：<a href="http://www.alloyteam.com/2011/10/%E5%88%A4%E6%96%AD%E6%B5%8F%E8%A7%88%E5%99%A8%E6%98%AF%E5%90%A6%E6%94%AF%E6%8C%81%E6%8C%87%E5%AE%9Acss%E5%B1%9E%E6%80%A7%E5%92%8C%E6%8C%87%E5%AE%9A%E5%80%BC/">判断浏览器是否支持指定CSS属性和指定值</a></p>
+</li>
+</ul>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/dynamic-width-with-inline-block/">prev post</a>
+  <a href="https://drkbl.com/posts/how-to-make-tabs/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

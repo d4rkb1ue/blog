@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Algorithms Notes/Analysis of Algorithms (Week 1 Part 2) - d4rkb1ue&#39;s Blog</title>
+  <meta content='Algorithms Notes/Analysis of Algorithms (Week 1 Part 2) - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Algorithms Notes/Analysis of Algorithms (Week 1 Part 2) - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="algs4.jar/Stopwatch public static void main(String[] args){ int[] a = In.readInts(args[0]); Stopwatch stopwatch = new Stopwatch(); StdOut.println(ThreeSum.count(a)); double time = stopwatch.elapsedTime(); // time since creation (in seconds) } 复杂度计算 Log-log plot For given data like in standard plot,
+way to find out its T(N) is by: Log-log plot:
+where we calculate by
+lg(T (N)) = b lg N &#43; c T (N) = a N^b, where a = 2^c in this case," />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/algorithms-part-1-note-2/" />
+
+
+<meta property="article:published_time" content="2016-10-26T01:18:14&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-10-26T01:18:14&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Algorithms Notes/Analysis of Algorithms (Week 1 Part 2)</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>26 Oct 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/algorithms' class="link silver">Algorithms</a> <a href='/tags/coursera' class="link silver">Coursera</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="algs4jarstopwatch">algs4.jar/Stopwatch</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[</span><span style="color:#f92672">]</span> args<span style="color:#f92672">)</span><span style="color:#f92672">{</span>
+   <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span><span style="color:#f92672">]</span> a <span style="color:#f92672">=</span> In<span style="color:#f92672">.</span><span style="color:#a6e22e">readInts</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+   Stopwatch stopwatch <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stopwatch<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+   StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>ThreeSum<span style="color:#f92672">.</span><span style="color:#a6e22e">count</span><span style="color:#f92672">(</span>a<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+   <span style="color:#66d9ef">double</span> time <span style="color:#f92672">=</span> stopwatch<span style="color:#f92672">.</span><span style="color:#a6e22e">elapsedTime</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span> <span style="color:#75715e">// time since creation (in seconds)
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><h1 id="复杂度计算">复杂度计算</h1>
+<h2 id="log-log-plot">Log-log plot</h2>
+<p>For given data like in standard plot,</p>
+<p><img src="/images/algorithem_coursera/standard_plot.png" alt="standard plot.png"></p>
+<p>way to find out its T(N) is by: Log-log plot:</p>
+<p><img src="/images/algorithem_coursera/log-log-plot.png" alt="log-log-plot.png"></p>
+<p>where we calculate by</p>
+<pre><code>lg(T (N)) = b lg N + c 
+T (N) = a N^b, where a = 2^c
+</code></pre><p>in this case,</p>
+<pre><code>b = 2.999
+c = -33.2103
+</code></pre><p>so,</p>
+<pre><code>T(N) = 1.006 × 10^–10 × N^2.999
+</code></pre><p>Assume <code>b = 3</code>, run multi times to estimate <code>a</code>.</p>
+<p><img src="/images/algorithem_coursera/validation_a.png" alt="validation_a.png"></p>
+<h2 id="常用公式">常用公式</h2>
+<p><img src="/images/algorithem_coursera/estimating_discrete.png" alt="estimating_discrete.png"></p>
+<h2 id="log-log-plot-对应-复杂度">log-log plot 对应 复杂度</h2>
+<p><img src="/images/algorithem_coursera/log-log-vs-expansive.png" alt="log-log-vs-expansive.png"></p>
+<h2 id="常见复杂度">常见复杂度</h2>
+<p><img src="/images/algorithem_coursera/commen-classifacation-expansive.png" alt="commen-classifacation-expansive.png"></p>
+<h1 id="复杂度对比">复杂度对比</h1>
+<h2 id="cases">Cases</h2>
+<ul>
+<li>Best case. Lower bound on cost.</li>
+<li>Worst case. Upper bound on cost.</li>
+<li>Average case. “Expected” cost.</li>
+</ul>
+<h3 id="衡量算法的方式">衡量算法的方式</h3>
+<ul>
+<li>看最差：design for the worst case.</li>
+<li>算预期：randomize, depend on probabilistic guarantee.</li>
+</ul>
+<h2 id="常用衡量符号">常用衡量符号</h2>
+<p><img src="/images/algorithem_coursera/commonly-used-notations-of-algorithms-analyse.png" alt="commonly-used-notations-of-algorithms-analyse"></p>
+<h2 id="衡量一个具体问题的复杂度的例子">衡量一个具体问题的复杂度的例子</h2>
+<h3 id="goals">Goals</h3>
+<ul>
+<li>Establish “difficulty” of a problem 确定一个<strong>问题</strong>的复杂度（不是算法的复杂度）</li>
+<li>Develop “optimal” algorithms.</li>
+<li>Ex. Q: 1-SUM(“Is there a 0 in the array? ”)</li>
+</ul>
+<h3 id="upper-bound-of-a-specific-algorithm">Upper bound. of A specific algorithm.</h3>
+<ul>
+<li>Ex. Brute-force algorithm for 1-SUM: Look at every array entry.</li>
+<li>Running time of the optimal algorithm for 1-SUM is O(N).</li>
+</ul>
+<p>对于一个确定算法——“依次寻找每个值”，它的最坏情况下（如果每个都不是0）的复杂度，是 O(N)</p>
+<h3 id="lower-bound-proof-that-no-algorithm-can-do-better">Lower bound. Proof that no algorithm can do better.</h3>
+<ul>
+<li>Ex. Have to examine all N entries (any unexamined one might be 0).</li>
+<li>Running time of the optimal algorithm for 1-SUM is Ω(N).</li>
+</ul>
+<p>事实上，对于任何一个算法，都必须检查每个值，因此这个问题下的所有算法，它们的最好时间复杂度也是 O(N)，因此本问题的最低时间复杂度Ω，是 Ω(N)</p>
+<h3 id="optimal-algorithm">Optimal algorithm.</h3>
+<ul>
+<li>Lower bound equals upper bound</li>
+<li>Ex. Brute-force algorithm for 1-SUM is optimal: its running time is Big Theta of N.</li>
+</ul>
+<p>于是我们获得结论，刚刚那个确定算法，的确是最佳算法了。</p>
+<h2 id="算法进化论">算法进化论</h2>
+<ul>
+<li>如果当前的 Upper bound 和 问题的实际最低复杂度 Lower bound 不相等，即中间还有 Gap， 那么就是说这个算法还有优化空间</li>
+<li>新算法就要落在 Upper bound 和 Lower bound 之间，不能超过暨有的最优值。也就是说新算法肯定要比老算法强，以老算法为上限。</li>
+</ul>
+<p><em>注意每个符号的意义，不要误将O(n)认为是算法复杂度，其实~(n)才是</em></p>
+<h1 id="memory">Memory</h1>
+<h2 id="basic">Basic</h2>
+<ul>
+<li>Bit. 0 or 1.</li>
+<li>Byte. 8 bits.</li>
+<li>32-bit machine: with 4 byte (32/8=4) pointers</li>
+<li>64-bit machine: with 8 byte pointers</li>
+<li>32/64 diff: Can address more memory; Pointers use more space.</li>
+</ul>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/mac-os-system-shortcut-override/">prev post</a>
+  <a href="https://drkbl.com/posts/algorithms-part-1-note-3/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Babel on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/babel/</link>
+    <description>Recent content in Babel on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 15 Mar 2017 22:19:05 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/babel/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>React &#43; Babel &#43; Webpack &#43; antd 入门</title>
+      <link>https://drkbl.com/posts/react-hello-world/</link>
+      <pubDate>Wed, 15 Mar 2017 22:19:05 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/react-hello-world/</guid>
+      <description>从零开始构建一个前端脚手架，技术栈：
+ React 为数据提供渲染为 HTML 的视图的开源 JavaScript 库 Babel 是一个 JavaScript 编译器，用于转化 ES2015/JSX 代码 Webpack 前端资源加载/打包工具，满足前端工程化需要 antd-react 使用 Ant Design UI 库的 React 实现  Git: d4rkb1ue/react-helloworld
+运行指南 $ git clone https://github.com/d4rkb1ue/react-helloworld.git $ cd react-helloworld $ npm i $ npm run test 已知问题 npm i 卡死 $ npm i 这步可能会卡在 extract:webpack-dev-server: sill doParallel extract 589 这里，这个问题已经被 Node Issue 了 https://github.com/npm/npm/issues/13782
+解决办法，单独安装 webpack ， webpack-dev-server ， babel-cli ， babel-loader
+$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&#39;t be accessed via IP github issue</description>
+    </item>
+    
+  </channel>
+</rss>

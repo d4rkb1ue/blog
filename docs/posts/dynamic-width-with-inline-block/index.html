@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>同一行中固定宽度div和响应式宽度div的配合 - d4rkb1ue&#39;s Blog</title>
+  <meta content='同一行中固定宽度div和响应式宽度div的配合 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='同一行中固定宽度div和响应式宽度div的配合 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="目标 简单说就是在一行里面希望放置2个 div。
+  其中1个固定在一侧，并且具有固定的大小
+  另外那个占据这一行剩余的所有空间
+  思路1 inline-block   使用 auto 宽度，不可行
+  使用百分比，不可行
+  使用js检测宽度之后用 $(window).width - fix_another_width - other_padding_or_margin 动态生成宽度，可行，但是一点也不优雅。
+  思路2 不要使用inline-block，改为float 对于
+&lt;div id=&#34;container&#34;&gt; &lt;div id=&#34;DivB&#34;&gt;b&lt;/div&gt; &lt;div id=&#34;DivA&#34;&gt;a&lt;/div&gt; &lt;/div&gt; 使用CSS：
+#container { /* 这行是stackoverflow给出的答案 */ /* 溢出操作，我觉得没什么必要，一旦溢出也不符合要求，隐藏掉无异于掩耳盗铃 */ overflow: hidden; } #DivA { overflow: hidden; } #DivB { float: right; width: 100px; } 参考 Dynamic width with inline-block @StackOverflow" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/dynamic-width-with-inline-block/" />
+
+
+<meta property="article:published_time" content="2016-05-04T21:43:45&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-05-04T21:43:45&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">同一行中固定宽度div和响应式宽度div的配合</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>04 May 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/web' class="link silver">Web</a> <a href='/tags/css' class="link silver">CSS</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="目标">目标</h1>
+<p>简单说就是在一行里面希望放置2个 <code>div</code>。</p>
+<ul>
+<li>
+<p>其中1个固定在一侧，并且具有固定的大小</p>
+</li>
+<li>
+<p>另外那个占据这一行剩余的所有空间</p>
+</li>
+</ul>
+<h1 id="思路1-inline-block">思路1 inline-block</h1>
+<ul>
+<li>
+<p>使用 auto 宽度，不可行</p>
+</li>
+<li>
+<p>使用百分比，不可行</p>
+</li>
+<li>
+<p>使用js检测宽度之后用 <code>$(window).width - fix_another_width - other_padding_or_margin</code> 动态生成宽度，可行，但是一点也不优雅。</p>
+</li>
+</ul>
+<h1 id="思路2-不要使用inline-block改为float">思路2 不要使用<code>inline-block</code>，改为<code>float</code></h1>
+<p>对于</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container&#34;</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;DivB&#34;</span>&gt;b&lt;/<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;DivA&#34;</span>&gt;a&lt;/<span style="color:#f92672">div</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><p>使用CSS：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css">#container {
+    <span style="color:#75715e">/* 这行是stackoverflow给出的答案 */</span>
+    <span style="color:#75715e">/* 溢出操作，我觉得没什么必要，一旦溢出也不符合要求，隐藏掉无异于掩耳盗铃 */</span>
+    <span style="color:#66d9ef">overflow</span>: <span style="color:#66d9ef">hidden</span>;
+}
+#DivA {
+    <span style="color:#66d9ef">overflow</span>: <span style="color:#66d9ef">hidden</span>;
+}
+#DivB {
+    <span style="color:#66d9ef">float</span>: <span style="color:#66d9ef">right</span>;
+    <span style="color:#66d9ef">width</span>: <span style="color:#ae81ff">100</span><span style="color:#66d9ef">px</span>;
+}
+</code></pre></div><h1 id="参考">参考</h1>
+<p><a href="http://stackoverflow.com/questions/6931581/dynamic-width-with-inline-block">Dynamic width with inline-block @StackOverflow</a></p>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/callback-already-called/">prev post</a>
+  <a href="https://drkbl.com/posts/css-responsable-image-cut-without-distort/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

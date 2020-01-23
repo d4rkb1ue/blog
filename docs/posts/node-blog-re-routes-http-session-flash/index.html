@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>nswbmw/N-blog 学习-4-routes 的重构, 响应 HTTP 请求, sesson 和 flash 的研究, 界面匹配显示 - d4rkb1ue&#39;s Blog</title>
+  <meta content='nswbmw/N-blog 学习-4-routes 的重构, 响应 HTTP 请求, sesson 和 flash 的研究, 界面匹配显示 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='nswbmw/N-blog 学习-4-routes 的重构, 响应 HTTP 请求, sesson 和 flash 的研究, 界面匹配显示 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="重构 被supervisor app.js坑惨了！这样程序入口就变成了 app.js ，于是没有 bin/www 给它传 port:3000这样的参数。于是拒绝访问。因为3000端口压根没开嘛。 找了半天问题，fuckyousonofbitch! 还是老老实实的按照教程的办法重置了 app.js 和 route/index.js
+坑们  node app.js是不会自动重启的哟！ 不要开着全局Shadowsocks访问node:3000!  注册响应 models/user.js vi models/user.js:
+var mongodb = require(&#39;./db&#39;); function User(user) { this.name = user.name; this.password = user.password; this.email = user.email; }; module.exports = User; //存储用户信息 //@d4rkb1ue 使用User.prototype.save定义函数，那么在产生user实例的时候，就会存在user.save这个函数！ User.prototype.save = function(callback) { //要存入数据库的用户文档  var user = { name: this.name, password: this.password, email: this.email }; //打开数据库  //@d4rkb1ue mongodb.open(callback) 这个函数是mongo提供的函数，我猜大约是在执行完毕数据库开启之后执行传入的回调函数，也就是下面这个匿名函数，如果出现错误，就直接callback(err),没有错误的话，就callback(null,db)这样。于是下面这个代码就能发现是否出错了。db应该是数据库连接实例吧。  mongodb.open(function (err, db) { if (err) { return callback(err);//错误，返回 err 信息  } //读取 users 集合  // db." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/node-blog-re-routes-http-session-flash/" />
+
+
+<meta property="article:published_time" content="2016-04-01T02:41:16&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-04-01T02:41:16&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">nswbmw/N-blog 学习-4-routes 的重构, 响应 HTTP 请求, sesson 和 flash 的研究, 界面匹配显示</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>01 Apr 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/nblog' class="link silver">Nblog</a> <a href='/tags/node.js' class="link silver">Node.js</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="重构">重构</h1>
+<p>被<code>supervisor app.js</code>坑惨了！这样程序入口就变成了 app.js ，于是没有 bin/www 给它传 <code>port:3000</code>这样的参数。于是拒绝访问。因为3000端口压根没开嘛。
+找了半天问题，fuckyousonofbitch!
+还是老老实实的按照教程的办法重置了 app.js 和 route/index.js</p>
+<h2 id="坑们">坑们</h2>
+<ol>
+<li><code>node app.js</code>是不会自动重启的哟！</li>
+<li>不要开着全局Shadowsocks访问node:3000!</li>
+</ol>
+<h1 id="注册响应">注册响应</h1>
+<h2 id="modelsuserjs">models/user.js</h2>
+<p><code>vi models/user.js</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">mongodb</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./db&#39;</span>);
+
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">User</span>(<span style="color:#a6e22e">user</span>) {
+  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">name</span>;
+  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">password</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">password</span>;
+  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">email</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">email</span>;
+};
+
+<span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">User</span>;
+
+<span style="color:#75715e">//存储用户信息
+</span><span style="color:#75715e"></span><span style="color:#75715e">//@d4rkb1ue 使用User.prototype.save定义函数，那么在产生user实例的时候，就会存在user.save这个函数！
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">User</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">save</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">callback</span>) {
+  <span style="color:#75715e">//要存入数据库的用户文档
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> {
+      <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">name</span>,
+      <span style="color:#a6e22e">password</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">password</span>,
+      <span style="color:#a6e22e">email</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">email</span>
+  };
+  <span style="color:#75715e">//打开数据库
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">//@d4rkb1ue mongodb.open(callback) 这个函数是mongo提供的函数，我猜大约是在执行完毕数据库开启之后执行传入的回调函数，也就是下面这个匿名函数，如果出现错误，就直接callback(err),没有错误的话，就callback(null,db)这样。于是下面这个代码就能发现是否出错了。db应该是数据库连接实例吧。
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">mongodb</span>.<span style="color:#a6e22e">open</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">db</span>) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) {
+      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">err</span>);<span style="color:#75715e">//错误，返回 err 信息
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#75715e">//读取 users 集合
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// db.collection 依然是mongodb提供的，也是类似的结构
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;users&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">collection</span>) {
+      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) {
+        <span style="color:#a6e22e">mongodb</span>.<span style="color:#a6e22e">close</span>();
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">err</span>);<span style="color:#75715e">//错误，返回 err 信息
+</span><span style="color:#75715e"></span>      }
+      <span style="color:#75715e">//将用户数据插入 users 集合
+</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">collection</span>.<span style="color:#a6e22e">insert</span>(<span style="color:#a6e22e">user</span>, {
+        <span style="color:#a6e22e">safe</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+      }, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">user</span>) {
+        <span style="color:#a6e22e">mongodb</span>.<span style="color:#a6e22e">close</span>();
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) {
+          <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">err</span>);<span style="color:#75715e">//错误，返回 err 信息
+</span><span style="color:#75715e"></span>        }
+        <span style="color:#75715e">// callback 是调用 user.save时传入的函数，应该也模仿mongodb这样的调用结构
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">callback</span>(<span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">user</span>[<span style="color:#ae81ff">0</span>]);<span style="color:#75715e">//成功！err 为 null，并返回存储后的用户文档
+</span><span style="color:#75715e"></span>      });
+    });
+  });
+};
+
+<span style="color:#75715e">//读取用户信息
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">User</span>.<span style="color:#a6e22e">get</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">callback</span>) {
+  <span style="color:#75715e">//打开数据库
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">mongodb</span>.<span style="color:#a6e22e">open</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">db</span>) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) {
+      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">err</span>);<span style="color:#75715e">//错误，返回 err 信息
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#75715e">//读取 users 集合
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;users&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">collection</span>) {
+      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) {
+        <span style="color:#a6e22e">mongodb</span>.<span style="color:#a6e22e">close</span>();
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">err</span>);<span style="color:#75715e">//错误，返回 err 信息
+</span><span style="color:#75715e"></span>      }
+      <span style="color:#75715e">//查找用户名（name键）值为 name 一个文档
+</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">collection</span>.<span style="color:#a6e22e">findOne</span>({
+        <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">name</span>
+      }, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">user</span>) {
+        <span style="color:#a6e22e">mongodb</span>.<span style="color:#a6e22e">close</span>();
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) {
+          <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">err</span>);<span style="color:#75715e">//失败！返回 err 信息
+</span><span style="color:#75715e"></span>        }
+        <span style="color:#a6e22e">callback</span>(<span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">user</span>);<span style="color:#75715e">//成功！返回查询的用户信息
+</span><span style="color:#75715e"></span>      });
+    });
+  });
+};
+</code></pre></div><h2 id="routesindexjs">routes/index.js</h2>
+<p>在最前面添加如下代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">crypto</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;crypto&#39;</span>),
+    <span style="color:#a6e22e">User</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;../models/user.js&#39;</span>);
+</code></pre></div><blockquote>
+<p>crypto 是 Node.js 的一个核心模块，我们用它生成散列值来加密密码。</p>
+</blockquote>
+<p><code>app.post('/reg')</code>改动为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/reg&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">name</span>,
+      <span style="color:#a6e22e">password</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">password</span>,
+      <span style="color:#a6e22e">password_re</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>[<span style="color:#e6db74">&#39;password-repeat&#39;</span>];
+  <span style="color:#75715e">//检验用户两次输入的密码是否一致
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">password_re</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">password</span>) {
+    <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;error&#39;</span>, <span style="color:#e6db74">&#39;两次输入的密码不一致!&#39;</span>); 
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/reg&#39;</span>);<span style="color:#75715e">//返回注册页
+</span><span style="color:#75715e"></span>  }
+  <span style="color:#75715e">//生成密码的 md5 值
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">md5</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">crypto</span>.<span style="color:#a6e22e">createHash</span>(<span style="color:#e6db74">&#39;md5&#39;</span>),
+      <span style="color:#a6e22e">password</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">md5</span>.<span style="color:#a6e22e">update</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">password</span>).<span style="color:#a6e22e">digest</span>(<span style="color:#e6db74">&#39;hex&#39;</span>);
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">newUser</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">User</span>({
+      <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">name</span>,
+      <span style="color:#a6e22e">password</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">password</span>,
+      <span style="color:#a6e22e">email</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">email</span>
+  });
+  <span style="color:#75715e">//检查用户名是否已经存在 
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">User</span>.<span style="color:#a6e22e">get</span>(<span style="color:#a6e22e">newUser</span>.<span style="color:#a6e22e">name</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">user</span>) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) {
+      <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;error&#39;</span>, <span style="color:#a6e22e">err</span>);
+      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/&#39;</span>);
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">user</span>) {
+      <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;error&#39;</span>, <span style="color:#e6db74">&#39;用户已存在!&#39;</span>);
+      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/reg&#39;</span>);<span style="color:#75715e">//返回注册页
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#75715e">//如果不存在则新增用户
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">newUser</span>.<span style="color:#a6e22e">save</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">user</span>) {
+      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>) {
+        <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;error&#39;</span>, <span style="color:#a6e22e">err</span>);
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/reg&#39;</span>);<span style="color:#75715e">//注册失败返回主册页
+</span><span style="color:#75715e"></span>      }
+      <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">newUser</span>;<span style="color:#75715e">//用户信息存入 session
+</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;success&#39;</span>, <span style="color:#e6db74">&#39;注册成功!&#39;</span>);
+      <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/&#39;</span>);<span style="color:#75715e">//注册成功后返回主页
+</span><span style="color:#75715e"></span>    });
+  });
+});
+</code></pre></div><ul>
+<li><code>req.body</code>中的信息来自 reg.ejs:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post&#34;</span>&gt;
+        user name: &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;name&#34;</span> /&gt;&lt;<span style="color:#f92672">br</span> /&gt;
+        password: &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span> /&gt;&lt;<span style="color:#f92672">br</span> /&gt;
+        confirm pw:&lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password-repeat&#34;</span>/&gt; &lt;<span style="color:#f92672">br</span> /&gt;
+        email: &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;email&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;email&#34;</span> /&gt;&lt;<span style="color:#f92672">br</span> /&gt;
+                &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;register!&#34;</span>/&gt;
+&lt;/<span style="color:#f92672">form</span>&gt;
+</code></pre></div><ul>
+<li><code>res.redirect</code> :重定向</li>
+</ul>
+<h2 id="测试注册">测试注册</h2>
+<ol>
+<li>
+<p>注册完毕会跳转回 /</p>
+</li>
+<li>
+<p>前往mongodb查看数据是否存在：</p>
+<pre><code> ray0@ubuntu:~/blog/routes$ mongo
+ MongoDB shell version: 3.2.4
+ connecting to: test
+ &gt; use blog
+ switched to db blog
+ &gt; db.users.find()
+ { &quot;_id&quot; : ObjectId(&quot;56fc2394a20a60f4631a7d32&quot;), &quot;name&quot; : &quot;a&quot;, &quot;password&quot; : &quot;0cc175b9c0f1b6a831c399e269772661&quot;, &quot;email&quot; : &quot;a@a&quot; }
+</code></pre>
+</li>
+<li>
+<p>顺便看下 session 的在数据库里储存的结构：</p>
+<pre><code> &gt; show collections
+ sessions
+ users
+ &gt; db.sessions.find()
+ { &quot;_id&quot; : &quot;TKcqS6XfuhObSk2vFY1UuNI_ehtpn8MM&quot;, &quot;session&quot; : &quot;{\&quot;cookie\&quot;:{\&quot;originalMaxAge\&quot;:2591999998,\&quot;expires\&quot;:\&quot;2016-04-29T19:26:00.311Z\&quot;,\&quot;httpOnly\&quot;:true,\&quot;path\&quot;:\&quot;/\&quot;},\&quot;flash\&quot;:{},\&quot;user\&quot;:{\&quot;name\&quot;:\&quot;a\&quot;,\&quot;password\&quot;:\&quot;0cc175b9c0f1b6a831c399e269772661\&quot;,\&quot;email\&quot;:\&quot;a@a\&quot;}}&quot;, &quot;expires&quot; : ISODate(&quot;2016-04-29T19:26:00.311Z&quot;) }
+</code></pre>
+</li>
+</ol>
+<h3 id="flash里面空空如也">flash里面空空如也?</h3>
+<p>令我好奇的是，flash里面空空如也！
+我怀疑是不是flash在一次刷新之后就消失了，重新执行一次注册试下。
+的确可以正确显示在网页中，但是数据库里面始终没有。的确刷新页面之后，这个flash就空了。</p>
+<p>更改下 index.js 让注册完毕之后不自动跳转到 &lsquo;/':</p>
+<pre><code>...
+
+res.send('OK');
+//res.redirect('/');//注册成功后返回主页
+
+...
+</code></pre><p>再看下session：</p>
+<pre><code>{ &quot;_id&quot; : &quot;Q1wK_BigddTo9H1U-LdugZT8o5bl7sRX&quot;, &quot;session&quot; : &quot;{\&quot;cookie\&quot;:{\&quot;originalMaxAge\&quot;:2592000000,\&quot;expires\&quot;:\&quot;2016-04-29T20:19:51.588Z\&quot;,\&quot;httpOnly\&quot;:true,\&quot;path\&quot;:\&quot;/\&quot;},\&quot;flash\&quot;:{\&quot;success\&quot;:[\&quot;注册成功!\&quot;]},\&quot;user\&quot;:{\&quot;name\&quot;:\&quot;33333\&quot;,\&quot;password\&quot;:\&quot;182be0c5cdcd5072bb1864cdee4d3d6e\&quot;,\&quot;email\&quot;:\&quot;33@33\&quot;}}&quot;, &quot;expires&quot; : ISODate(&quot;2016-04-29T20:19:51.588Z&quot;) }
+</code></pre><p>Yeah!!!的确出现了。再刷新到主页，主页显示“注册成功！”，再看下session：</p>
+<pre><code>&quot;flash\&quot;:{}
+</code></pre><h2 id="注册状态显示">注册状态显示</h2>
+<blockquote>
+<p>实现当注册成功返回主页时，左侧导航显示 HOME 、POST 、LOGOUT ，右侧显示 注册成功！ 字样，即添加 flash 的页面通知功能。</p>
+</blockquote>
+<h3 id="viewheaderejs">view/header.ejs</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">...
+
+&lt;<span style="color:#f92672">nav</span>&gt;
+&lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">title</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;主页&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/&#34;</span>&gt;home&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+<span style="color:#960050;background-color:#1e0010">&lt;</span>% if (user) { %&gt;
+  &lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">title</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;发表&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/post&#34;</span>&gt;post&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+  &lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">title</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;登出&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/logout&#34;</span>&gt;logout&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+<span style="color:#960050;background-color:#1e0010">&lt;</span>% } else { %&gt;
+  &lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">title</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;登录&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/login&#34;</span>&gt;login&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+  &lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">title</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;注册&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/reg&#34;</span>&gt;register&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+<span style="color:#960050;background-color:#1e0010">&lt;</span>% } %&gt;
+&lt;/<span style="color:#f92672">nav</span>&gt;
+
+...
+</code></pre></div><p><strong>注意！此时因为header.ejs是所有页面的模版，其他ejs都引用了这个ejs，因此需要对所有<code>GET</code>请求都附加上 <code>user</code> 的属性！下面的<code>success</code>/<code>error</code>也是同理</strong></p>
+<p>教程中还要求了：</p>
+<blockquote>
+<p>在 <!-- raw HTML omitted --> 后添加如下代码：</p>
+</blockquote>
+<blockquote>
+<p>&lt;% if (success) { %&gt;</p>
+<!-- raw HTML omitted -->
+</blockquote>
+<p>再试试做成弹窗呢：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">...
+
+<span style="color:#960050;background-color:#1e0010">&lt;</span>% if (success || error){ %&gt;
+&lt;<span style="color:#f92672">script</span>&gt;
+<span style="color:#a6e22e">alert</span>( <span style="color:#e6db74">&#34; &lt;%= success || error %&gt;&#34;</span> );
+<span style="color:#75715e">//错误示范：alert( &lt;%= success || error %&gt;);
+</span><span style="color:#75715e"></span>&lt;/<span style="color:#f92672">script</span>&gt;
+<span style="color:#960050;background-color:#1e0010">&lt;</span>% } %&gt;
+
+...
+</code></pre></div><h2 id="routesindexjs-1">routes/index.js</h2>
+<p>现在ejs需要的属性变多了，需要告诉index.js这些属性的来源：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
+  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">render</span>(<span style="color:#e6db74">&#39;index&#39;</span>, {
+    <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;主页&#39;</span>,
+    <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">user</span>,
+    <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;success&#39;</span>).<span style="color:#a6e22e">toString</span>(),
+    <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;error&#39;</span>).<span style="color:#a6e22e">toString</span>()
+  });
+});
+</code></pre></div><p>由于 reg.ejs 里也同样调用了 header.ejs （包含对<code>user</code>的判定），因此事实上也需要对 <code>/reg</code> 进行传参：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/reg&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
+  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">render</span>(<span style="color:#e6db74">&#39;reg&#39;</span>, {
+    <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;注册&#39;</span>,
+    <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">user</span>,
+    <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;success&#39;</span>).<span style="color:#a6e22e">toString</span>(),
+    <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;error&#39;</span>).<span style="color:#a6e22e">toString</span>()
+  });
+});
+</code></pre></div><blockquote>
+<p><code>success: req.flash('success').toString()</code> 的意思是将成功的信息赋值给变量 <code>success</code>。</p>
+</blockquote>
+<h2 id="像-sesson-flash-这样的信息在server端存储可在db中找到为什么要写成-reqflashsuccess-">像 sesson, flash 这样的信息在Server端存储（可在db中找到），为什么要写成 <code>req.flash('success')</code> ?</h2>
+<p>之前在会话支持里，老师指出：</p>
+<blockquote>
+<p>服务器生成一个唯一标识符并发送给客户端浏览器，浏览器将这个唯一标识符存储在 Cookie 中，以后每次再发起请求，客户端浏览器都会向服务器传送这个唯一标识符，服务器通过这个唯一标识符来识别用户。</p>
+</blockquote>
+<p>呢么应该是server根据requset传进来的标识符，去db里找相应的session，再把数据写入到这个session里。于是有了 <code>req.flash</code> .也就是这个flash 唯一和这个 <strong>requset的发起方</strong> 相关联。</p>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/node-blog-routes-mongodb-session-cookie-flash-ui/">prev post</a>
+  <a href="https://drkbl.com/posts/node-blog-logout-session-flash-cookie-secret/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

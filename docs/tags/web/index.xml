@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/web/</link>
+    <description>Recent content in Web on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 19 Jul 2017 16:49:31 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/web/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Inject git commit hash on webpack</title>
+      <link>https://drkbl.com/posts/inject-git-commit-hash-var-on-webpack/</link>
+      <pubDate>Wed, 19 Jul 2017 16:49:31 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/inject-git-commit-hash-var-on-webpack/</guid>
+      <description>Output @ Chrome Dev-tool console
+console.log(__VERSION__); &amp;quot;da7698330a678f77.............&amp;quot; // git commit HEAD&#39;s hash You can use the DefinePlugin that will make your build info available inlined with your code:
+webpack.config.js const childProcess = require(&amp;#39;child_process&amp;#39;); plugins = [ // ...  new webpack.DefinePlugin({ __VERSION__: JSON.stringify(childProcess .execSync(&amp;#39;git rev-list HEAD --max-count=1&amp;#39;).toString()), }) ]; app.js if (typeof __VERSION__ === &amp;#39;string&amp;#39;) { (window as any).__VERSION__ = __VERSION__; } If you use typescript, append to types/index.d.ts to omit type error</description>
+    </item>
+    
+    <item>
+      <title>DOM No Response To Keyboard Event</title>
+      <link>https://drkbl.com/posts/div-not-response-to-keyboard-event-without-tabindex/</link>
+      <pubDate>Fri, 16 Jun 2017 15:25:49 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/div-not-response-to-keyboard-event-without-tabindex/</guid>
+      <description>Register onKeyDownListener on HTML Element &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;script src=&amp;#34;../build/react.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/react-dom.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/browser.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;div id=&amp;#34;app&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;script type=&amp;#34;text/babel&amp;#34;&amp;gt; class App extends React.Component { handleKeyDown(event) { console.log(&amp;#39;handling a key press&amp;#39;); } render() { return ( &amp;lt;div onKeyDown={this.handleKeyDown}&amp;gt; here! &amp;lt;/div&amp;gt; ); } } ReactDOM.render(&amp;lt;App /&amp;gt;, document.getElementById(&amp;#39;app&amp;#39;)); &amp;lt;/script&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; There are NO response here. You press any thing and there is NO response. It&#39;s doesn&#39;t matter you mouse focus on div or not.</description>
+    </item>
+    
+    <item>
+      <title>Chrome Console 过滤器黑名单</title>
+      <link>https://drkbl.com/posts/chrome-dev-tools-console-filter-blacklist/</link>
+      <pubDate>Fri, 09 Jun 2017 11:24:36 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/chrome-dev-tools-console-filter-blacklist/</guid>
+      <description>别人的库频繁报错怎么办，让人心情很不好。外部引入的库比如 .js lib 或者 node_modules 里面的库，无法修改的时候。
+是 node_modules 内部的库报错，过滤器很强大，看起来好像是白名单，其实加一个 ! 就可以实现黑名单。像这样：
+!./node_modules/mlz_student/build/js/index.js 就可以屏蔽掉所有含有这个关键词的 log 了！
+比如，</description>
+    </item>
+    
+    <item>
+      <title>Chrome Devtools 实时对比不同代码的渲染效率</title>
+      <link>https://drkbl.com/posts/compare-animation-performance-in-chrome/</link>
+      <pubDate>Mon, 24 Apr 2017 15:36:00 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/compare-animation-performance-in-chrome/</guid>
+      <description>问题 公司项目有一个更新动画的函数需要每帧调用来更新动画，需要对比
+ setTimeout requestAnimationFrame  哪一个在更新上效率更佳。
+if (this.internal_tick_control) { // window.requestAnimationFrame(this.update.bind(this));  setTimeout(this.update.bind(this), 1000/60); } requestAnimationFrame 会让动画函数执行会先于浏览器重绘动作执行。其功能都是在绘制新一帧之前先对状态（动画内容）进行更新，然后调用重绘。setTimeout 是手动指定每隔多长时间进行更新，这有时会导致不精确的更新间隔；而 requestAnimationFrame 是浏览器自带优化，并且自带精确间隔调用的调用方式。理论上来说 requestAnimationFrame 应该会有更好的性能，我来证明一下。
+工具   用了公司项目内置的 API 来保证每次测试的动画内容一致；
+  使用 Chrome Dev-tools - FPS Meter 来显示实时性能；
+  使用 CPU performance limiting setting. (I use 20x slow down to maximize the difference) 限制 CPU 性能扩大对比差距；
+  同时运行多个不同代码的项目的方法 (A little trick to run these two different code simultaneously):</description>
+    </item>
+    
+    <item>
+      <title>HTML Tabs 标签页的实现方式和对比</title>
+      <link>https://drkbl.com/posts/how-to-make-tabs/</link>
+      <pubDate>Thu, 12 May 2016 01:41:14 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/how-to-make-tabs/</guid>
+      <description>HTML网页里的Tabs的意义是什么？   &amp;lt;div class=&amp;quot;content&amp;quot;&amp;gt; 的显示内容
+  &amp;lt;li class=&amp;quot;tab&amp;quot;&amp;gt; 类型的按钮，需要通过例如添加 active 的方式调节选中状态，通过点击，可以修改 div.content 内的内容
+  其实可以完全不存在 ul-&amp;gt;div 1对1的关系。其实是点按一个按钮，更改部分位置的html内容
+静态Tabs 内容直接保存在 响应的 div HTML 代码中。
+  在静态 HTML 网页中，tabs的只需要执行隐藏，显示 &amp;lt;div&amp;gt;
+  最好可以通过 /panel#tab* url的方式直接显示为某一个tab
+  动态Tabs 如果使用AJAX或者其他异步加载技术，动态的获取 tab 下的内容。
+  默认 tab。如果直接调用 /panel 需要显示什么内容。应该直接显示 tab1 下的内容
+  未加载内容的加载方式，时机，和加载后的通知
+  加载内容的前后端分离
+ 使用异步获取 HTML 内容？ JSON 内容再动态生成HTML？    已加载内容的删除
+ $.hide() 直接 $(&#39;div&#39;).</description>
+    </item>
+    
+    <item>
+      <title>使用CSS实现响应式图片不变形裁剪</title>
+      <link>https://drkbl.com/posts/css-responsable-image-cut-without-distort/</link>
+      <pubDate>Thu, 05 May 2016 21:13:43 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/css-responsable-image-cut-without-distort/</guid>
+      <description>思路1. 使用overflow裁剪 大致的思想就是对图片固定高或宽，然后另一个选项为auto. 记得单独设置
+max-width: none; 保证图片不会被裁剪/变形. 如果需要让图片居中，就设置
+margin-left: -50% 可以让图像向右移动50%即一半啦
+完整实例 height:350px; overflow: hidden; max-width: none; margin-left: -50%; 存在的问题 在slider里，在图片滚动的时候会显示出溢出的部分
+思路2. 使用 CSS3 特性 object-fit 这个特性碉堡了。 和上面的实例具有相同效果的：
+height:350px; object-fit: cover; 设置好宽和高，图片自己就会进行裁剪和居中。
+支持性问题  浏览器支持 使用Polyfill来扩展支持的范围  参考   object-fit API @w3c
+  用一行 CSS 居中并裁剪图片 @伯乐在线
+  更多：判断浏览器是否支持指定CSS属性和指定值
+  </description>
+    </item>
+    
+    <item>
+      <title>同一行中固定宽度div和响应式宽度div的配合</title>
+      <link>https://drkbl.com/posts/dynamic-width-with-inline-block/</link>
+      <pubDate>Wed, 04 May 2016 21:43:45 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/dynamic-width-with-inline-block/</guid>
+      <description>目标 简单说就是在一行里面希望放置2个 div。
+  其中1个固定在一侧，并且具有固定的大小
+  另外那个占据这一行剩余的所有空间
+  思路1 inline-block   使用 auto 宽度，不可行
+  使用百分比，不可行
+  使用js检测宽度之后用 $(window).width - fix_another_width - other_padding_or_margin 动态生成宽度，可行，但是一点也不优雅。
+  思路2 不要使用inline-block，改为float 对于
+&amp;lt;div id=&amp;#34;container&amp;#34;&amp;gt; &amp;lt;div id=&amp;#34;DivB&amp;#34;&amp;gt;b&amp;lt;/div&amp;gt; &amp;lt;div id=&amp;#34;DivA&amp;#34;&amp;gt;a&amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; 使用CSS：
+#container { /* 这行是stackoverflow给出的答案 */ /* 溢出操作，我觉得没什么必要，一旦溢出也不符合要求，隐藏掉无异于掩耳盗铃 */ overflow: hidden; } #DivA { overflow: hidden; } #DivB { float: right; width: 100px; } 参考 Dynamic width with inline-block @StackOverflow</description>
+    </item>
+    
+    <item>
+      <title>把 Github 用作 DNS 设置二级域名跳转</title>
+      <link>https://drkbl.com/posts/use-github-as-dns/</link>
+      <pubDate>Sun, 24 Apr 2016 02:02:03 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/use-github-as-dns/</guid>
+      <description>背景 这个博客使用 Github Pages 托管。绑定了drkbl.com为CNAME。默认情况下，Github支持
+ drkbl.com www.drkbl.com  两个域名跳转到我的个人主页 d4rkb1ue.github.io
+我想开通subdomain指向我的不同项目，希望跳转到我想要的地址。就像这样
+sub.drkbl.com --跳转到--&amp;gt; https://somesome.com/lalala/hahha 因为DNS是无法直接设置根目录以下的CNAME的。因此无法直接在DNS服务商那里处理这样的跳转。
+gh-pages 的分支跳转 Github 的项目支持使用 gh-pages 分支生成项目页。绑定在
+http://d4rkblue.github.io/project-name 并且也支持设置CNAME。
+使用 gh-pages 分支 + CNAME + HTML 302 redirect 跳转任何网页 1. 初始化库   在github上建立一个用做 DNS 跳转的库，以 dns-test 为例
+  复制到本地
+  git clone git@github.com:d4rkb1ue/dns-test.git  在本地库目录里，切换到 gh-pages 分支  cd dns-test git checkout --orphan gh-pages 2. 设置跳转  创建 HTML 302跳转文件 命名为 index.html。以跳转到百毒为例。  &amp;lt;head&amp;gt; &amp;lt;meta http-equiv=&amp;#34;refresh&amp;#34; content=&amp;#34;0; url= http://www.</description>
+    </item>
+    
+    <item>
+      <title>JavaScript Array.prototype.sort() 可以 call 哪些对象？</title>
+      <link>https://drkbl.com/posts/array-prototype-sort-call-cannot-apply-on-dom/</link>
+      <pubDate>Mon, 18 Apr 2016 05:51:34 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/array-prototype-sort-call-cannot-apply-on-dom/</guid>
+      <description>问题背景 对于从document中获取的nodeList:
+[&amp;lt;li&amp;gt;​JavaScript​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​Swift​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​HTML​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​ANSI C​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​CSS​&amp;lt;/li&amp;gt;​, &amp;lt;li&amp;gt;​DirectX​&amp;lt;/li&amp;gt;​] 想要对它进行排序，实时显示出来。
+要注意它不是一个 Array !
+cs instanceof Array; //false 很费解啊。
+于是我在代码里使用了for循环改为一个array。
+更简便的方式是：@stackoverflow
+var arr = Array.prototype.slice.call( htmlCollection ); // 或，更简单的方式： var arr = [].slice.call(htmlCollection); 但是我发现一个问题，不做拷贝直接对原DOM的排序无效：
+[].sort.call([3,4,1]); //[1, 3, 4] 正常 [].forEach.call(document.getElementById(&amp;#39;test-list&amp;#39;).children,function(ee){console.log(ee);}); //正常输出所有的孩子  [].sort.call([3,4,1],function(a,b){console.log(a+&amp;#34;,&amp;#34;+b)}); //3,4; 4,1; [3, 4, 1]; 正常遍历执行。  var e = document.getElementById(&amp;#39;test-list&amp;#39;).children; [].sort.call(e,function(a,b){console.log(a+&amp;#34;,&amp;#34;+b)}); // 但是这个就输出不了任何东西！ 整理问题的格式发到zhihu 我想使用 Array.prototype.sort() 对DOM的Element进行排序。
+HTML如下
+&amp;lt;ol id=&amp;#34;test-list&amp;#34;&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;Scheme&amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;JavaScript&amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;Python&amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;Ruby&amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;lang&amp;#34;&amp;gt;Haskell&amp;lt;/li&amp;gt; &amp;lt;/ol&amp;gt; 我做了如下尝试。</description>
+    </item>
+    
+    <item>
+      <title>廖雪峰 JavaScript 教程-浏览器对象, DOM, 操作表单</title>
+      <link>https://drkbl.com/posts/lxf-lesson-1/</link>
+      <pubDate>Wed, 10 Feb 2016 21:13:59 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/lxf-lesson-1/</guid>
+      <description>浏览器对象 1. window window对象首先是全局作用域。 window对象有 innerWidth 和 innerHeight 可以获取浏览器窗口的内部宽度和高度。内部宽高是指除去菜单栏、工具栏、边框等占位元素后，用于显示网页的净宽高。
+2. navigator navigator对象表示浏览器的信息
+ navigator.appName：浏览器名称； navigator.appVersion：浏览器版本； navigator.language：浏览器设置的语言； navigator.platform：操作系统类型； navigator.userAgent：浏览器设定的User-Agent字符串。  {0} 3. screen
+ screen.width：屏幕宽度，以像素为单位； screen.height：屏幕高度，以像素为单位； screen.colorDepth：返回颜色位数，如8、16、24。  4. location location对象表示当前页面的URL信息
+  location.href : http://www.example.com:8080/path/index.html?a=1&amp;amp;b=2#TOP
+  location.protocol; // &amp;lsquo;http&amp;rsquo;
+  location.host; // &amp;lsquo;www.example.com&#39;
+  location.port; // &amp;lsquo;8080&amp;rsquo;
+  location.pathname; // &amp;lsquo;/path/index.html&amp;rsquo;
+  location.search; // &amp;lsquo;?a=1&amp;amp;b=2&amp;rsquo;
+  location.hash; // &amp;lsquo;TOP&amp;rsquo;
+  也可以通过操作location对象进行跳转或刷新
+ location.reload(); // 刷新 location.</description>
+    </item>
+    
+  </channel>
+</rss>

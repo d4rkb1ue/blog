@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>把 Github 用作 DNS 设置二级域名跳转 - d4rkb1ue&#39;s Blog</title>
+  <meta content='把 Github 用作 DNS 设置二级域名跳转 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='把 Github 用作 DNS 设置二级域名跳转 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="背景 这个博客使用 Github Pages 托管。绑定了drkbl.com为CNAME。默认情况下，Github支持
+ drkbl.com www.drkbl.com  两个域名跳转到我的个人主页 d4rkb1ue.github.io
+我想开通subdomain指向我的不同项目，希望跳转到我想要的地址。就像这样
+sub.drkbl.com --跳转到--&gt; https://somesome.com/lalala/hahha 因为DNS是无法直接设置根目录以下的CNAME的。因此无法直接在DNS服务商那里处理这样的跳转。
+gh-pages 的分支跳转 Github 的项目支持使用 gh-pages 分支生成项目页。绑定在
+http://d4rkblue.github.io/project-name 并且也支持设置CNAME。
+使用 gh-pages 分支 &#43; CNAME &#43; HTML 302 redirect 跳转任何网页 1. 初始化库   在github上建立一个用做 DNS 跳转的库，以 dns-test 为例
+  复制到本地
+  git clone git@github.com:d4rkb1ue/dns-test.git  在本地库目录里，切换到 gh-pages 分支  cd dns-test git checkout --orphan gh-pages 2. 设置跳转  创建 HTML 302跳转文件 命名为 index.html。以跳转到百毒为例。  &lt;head&gt; &lt;meta http-equiv=&#34;refresh&#34; content=&#34;0; url= http://www." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/use-github-as-dns/" />
+
+
+<meta property="article:published_time" content="2016-04-24T02:02:03&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-04-24T02:02:03&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">把 Github 用作 DNS 设置二级域名跳转</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>24 Apr 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/git' class="link silver">Git</a> <a href='/tags/web' class="link silver">Web</a> <a href='/tags/tools' class="link silver">Tools</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="背景">背景</h1>
+<p>这个博客使用 Github Pages 托管。绑定了<code>drkbl.com</code>为CNAME。默认情况下，Github支持</p>
+<ul>
+<li>drkbl.com</li>
+<li><a href="http://www.drkbl.com">www.drkbl.com</a></li>
+</ul>
+<p>两个域名跳转到我的个人主页 <code>d4rkb1ue.github.io</code></p>
+<p>我想开通subdomain指向我的不同项目，希望跳转到我想要的地址。就像这样</p>
+<pre><code>sub.drkbl.com
+
+--跳转到--&gt;
+
+https://somesome.com/lalala/hahha
+</code></pre><p>因为DNS是无法直接设置根目录以下的CNAME的。因此无法直接在DNS服务商那里处理这样的跳转。</p>
+<h1 id="gh-pages-的分支跳转">gh-pages 的分支跳转</h1>
+<p>Github 的项目支持使用 <code>gh-pages</code> 分支生成项目页。绑定在</p>
+<pre><code>http://d4rkblue.github.io/project-name
+</code></pre><p>并且也支持设置CNAME。</p>
+<h1 id="使用-gh-pages-分支--cname--html-302-redirect-跳转任何网页">使用 gh-pages 分支 + CNAME + HTML 302 redirect 跳转任何网页</h1>
+<h2 id="1-初始化库">1. 初始化库</h2>
+<ol>
+<li>
+<p>在github上建立一个用做 DNS 跳转的库，以 <code>dns-test</code> 为例</p>
+</li>
+<li>
+<p>复制到本地</p>
+</li>
+</ol>
+<pre><code>git clone git@github.com:d4rkb1ue/dns-test.git
+</code></pre><ol>
+<li>在本地库目录里，切换到 gh-pages 分支</li>
+</ol>
+<pre><code>cd dns-test
+git checkout --orphan gh-pages
+</code></pre><h2 id="2-设置跳转">2. 设置跳转</h2>
+<ol>
+<li>创建 HTML 302跳转文件 命名为 <code>index.html</code>。以跳转到百毒为例。</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">head</span>&gt;
+	&lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">http-equiv</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;refresh&#34;</span> <span style="color:#a6e22e">content</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0; url= http://www.baidu.com&#34;</span> /&gt;
+&lt;/<span style="color:#f92672">head</span>&gt;
+</code></pre></div><ol start="2">
+<li>add, commit</li>
+</ol>
+<pre><code>git add index.html
+git commit -m &quot;302 baidu.com&quot;
+</code></pre><ol start="3">
+<li>提交到 gh-pages 分支</li>
+</ol>
+<pre><code>git push origin gh-pages
+</code></pre><ol start="4">
+<li>等待上传完成后，就可以测试</li>
+</ol>
+<pre><code>http://d4rkb1ue.github.io/dns-test
+</code></pre><p><em>如果 d4rkb1ue.github.io 本身就是用户pages的话，会跳转两次</em></p>
+<h2 id="3-修改-dns-设置">3. 修改 DNS 设置</h2>
+<p>在 DNS 服务商那里修改 DNS 设置。添加 CNAME 记录。有两种方式</p>
+<ul>
+<li>
+<p>设置全局 <code>*.domain.com</code> 跳转到 <code>username.github.io</code></p>
+</li>
+<li>
+<p>设置具体域名 <code>baidu.domain.com</code> 跳转到 <code>username.github.io</code></p>
+</li>
+</ul>
+<p><em>我采取了全局 CNAME。这个域名完全绑定在 Github 上了。</em></p>
+<h2 id="4-设置-cname-文件">4. 设置 CNAME 文件</h2>
+<ol>
+<li>创建 CNAME 文件</li>
+</ol>
+<pre><code>echo &quot;baidu.drkbl.com&quot; &gt;&gt; CNAME
+</code></pre><ol start="2">
+<li>add, commit, push</li>
+</ol>
+<pre><code>git add CNAME
+git commit -m &quot;add CNAME&quot;
+git push origin gh-pages
+</code></pre><ol start="3">
+<li>可以在项目 setting -&gt; GitHub Pages 部分中看到</li>
+</ol>
+<blockquote>
+<p>Your site is published at <a href="http://baidu.drkbl.com">http://baidu.drkbl.com</a>.</p>
+</blockquote>
+<h2 id="5-完成">5. 完成</h2>
+<p><strong>现在可以使用 <a href="http://baidu.drkbl.com">http://baidu.drkbl.com</a> 跳转到 <a href="http://www.baidu.com">http://www.baidu.com</a> 啦！</strong></p>
+<hr>
+<h1 id="参考">参考</h1>
+<ul>
+<li>
+<p><a href="https://help.github.com/articles/using-a-custom-domain-with-github-pages/">Github pages help</a></p>
+</li>
+<li>
+<p><a href="http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html">搭建一个免费的，无限流量的Blog&mdash;-github Pages和Jekyll入门 @阮一峰</a></p>
+</li>
+</ul>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/hexo-init/">prev post</a>
+  <a href="https://drkbl.com/posts/callback-already-called/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

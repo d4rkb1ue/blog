@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>在 Chrome Devtools 中调试本地代码 - d4rkb1ue&#39;s Blog</title>
+  <meta content='在 Chrome Devtools 中调试本地代码 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='在 Chrome Devtools 中调试本地代码 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="创建这样的文档结构
+$ find . -print | sed -e &#39;s;[^/]*/;|____;g;s;____|; |;g&#39; . |____index.html |____partition.js partition.js 是要挑试的 js 代码，index.html 是用来辅助以运行在 Chrome 中。
+index.html 引用 js 即可。
+&lt;!doctype html&gt; &lt;html&gt; &lt;head&gt; &lt;script src=&#34;partition.js&#34;&gt;&lt;/script&gt; &lt;/head&gt; &lt;body&gt;&lt;/body&gt; &lt;/html&gt; 然后将 index.html 拖入 Chrome 中（以 Chrome 打开也一样）。 可以在 Source 选项卡中左侧打开文件树形图。可以修改直接在 Chrome 中保存！
+然后进入 Console 面板 (macOS 下可用 Command &#43; [ 和 Command &#43; ] 来作用切换面板) 愉快的运行吧。当然，这个（些） js 文件都已经在加载时被执行了一遍。
+macOS 的 tree:
+find . -print | sed -e &#39;s;[^/]*/;|____;g;s;____|; |;g&#39; by OSXDaily" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/debug-javascript-chrome-devtools/" />
+
+
+<meta property="article:published_time" content="2017-03-21T19:05:19&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-03-21T19:05:19&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">在 Chrome Devtools 中调试本地代码</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>21 Mar 2017</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/javascript' class="link silver">JavaScript</a> <a href='/tags/tools' class="link silver">Tools</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><p>创建这样的文档结构</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ find . -print | sed -e <span style="color:#e6db74">&#39;s;[^/]*/;|____;g;s;____|; |;g&#39;</span>
+.
+|____index.html
+|____partition.js
+</code></pre></div><p>partition.js 是要挑试的 js 代码，index.html 是用来辅助以运行在 Chrome 中。</p>
+<p>index.html 引用 js 即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!doctype html&gt;</span>
+&lt;<span style="color:#f92672">html</span>&gt;
+    &lt;<span style="color:#f92672">head</span>&gt;
+        &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;partition.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+    &lt;/<span style="color:#f92672">head</span>&gt;
+    &lt;<span style="color:#f92672">body</span>&gt;&lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><p>然后将 index.html 拖入 Chrome 中（以 Chrome 打开也一样）。
+可以在 Source 选项卡中左侧打开文件树形图。可以修改直接在 Chrome 中保存！</p>
+<p>然后进入 Console 面板 (macOS 下可用 <code>Command + [</code> 和 <code>Command + ]</code> 来作用切换面板) 愉快的运行吧。当然，这个（些） js 文件都已经在加载时被执行了一遍。</p>
+<p><img src="/images/debug-javascript-chrome-devtools.png" alt="/images/debug-javascript-chrome-devtools.png"></p>
+<p><em>macOS 的 <code>tree</code>:</em></p>
+<pre><code>find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
+</code></pre><p><a href="http://osxdaily.com/2016/09/09/view-folder-tree-terminal-mac-os-tree-equivalent/">by OSXDaily</a></p>
+</div>
+</main>
+ 
+
+
+
+
+
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/react-hello-world/">prev post</a>
+  <a href="https://drkbl.com/posts/javascript-array-map-debug/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+
+</script>
+
+
+
+
+</body>
+</html>

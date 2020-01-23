@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>CS193p, iOS developing with Swift, Class 1 - d4rkb1ue&#39;s Blog</title>
+  <meta content='CS193p, iOS developing with Swift, Class 1 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='CS193p, iOS developing with Swift, Class 1 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="introduction to iOS environment initial files hello world function a calculator variable optional: Type   iOS system layers  Cocoa Touch: UI/Objects: multi-touch, motion, view hierarchy, web view, camera; Media: OpenAL, Core Audio, PDF; Core Services: Core Services: collections, networking, file access; Core OS (bottom): Unix;  platform  Tools: Xcode Language: 1. swift 2. obj-c  initial files  assets.xcassets: Media files: icon, sounds, images ViewController.swift: Controller in MVC Main." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/cp193p-ios-dev-class-1/" />
+
+
+<meta property="article:published_time" content="2017-01-15T02:35:33&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-01-15T02:35:33&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">CS193p, iOS developing with Swift, Class 1</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>15 Jan 2017</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/ios' class="link silver">ios</a> <a href='/tags/cs193p' class="link silver">cs193p</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><ul>
+<li>introduction to iOS environment</li>
+<li>initial files</li>
+<li>hello world</li>
+<li>function</li>
+<li>a calculator</li>
+<li>variable</li>
+<li>optional: Type</li>
+</ul>
+<hr>
+<h1 id="ios-system-layers">iOS system layers</h1>
+<ul>
+<li>Cocoa Touch: UI/Objects: multi-touch, motion, view hierarchy, web view, camera;</li>
+<li>Media: OpenAL, Core Audio, PDF;</li>
+<li>Core Services: Core Services: collections, networking, file access;</li>
+<li>Core OS (bottom): Unix;</li>
+</ul>
+<h1 id="platform">platform</h1>
+<ul>
+<li>Tools: Xcode</li>
+<li>Language: 1. swift 2. obj-c</li>
+</ul>
+<h1 id="initial-files">initial files</h1>
+<ul>
+<li>assets.xcassets: Media files: icon, sounds, images</li>
+<li>ViewController.swift: Controller in MVC</li>
+<li>Main.storyboard: View in MVC, edit it just with mouse</li>
+</ul>
+<h2 id="viewcontrollerswift">ViewController.swift</h2>
+<ul>
+<li><code>import UIKit</code> import a module, like Java; <code>Foundation</code> is another important module</li>
+<li><code>class ViewController: UIViewController</code>: <code>: UIViewController</code> inherits form <code>UIViewController</code>; all MVC controllers inherits from <code>UIViewController</code>, either directly or indirectly;</li>
+</ul>
+<h2 id="mainstoryboard">Main.storyboard</h2>
+<ul>
+<li>Components: from</li>
+</ul>
+<p><img src="/images/cs193p/ios_components_panel.png" alt="/images/cs193p/ios_components_panel.png"></p>
+<h1 id="hello-world">Hello world!</h1>
+<p>Clear the ViewController.swift, like this:</p>
+<pre><code>import UIKit
+class ViewController: UIViewController {}
+</code></pre><p>Add a button: In the view, components panel, drug a button to the “screen”</p>
+<p>Show the assistant editor on the right: Click on</p>
+<p><img src="/images/cs193p/ios_assistant_editor_button.png" alt="/images/cs193p/ios_assistant_editor_button.png"></p>
+<p>Add an action: holding down the <code>control</code>, drug the button to the code</p>
+<p><img src="/images/cs193p/ios_button_add_function.png" alt="/images/cs193p/ios_button_add_function.png"></p>
+<p>Function editing: the connection should be <code>action</code>, the arguments should be <code>sender</code>(the button being touched itself); change the Type to <code>UIButton</code>, the sender is expected to be an <code>UIButton</code>; event for <code>touch up inside</code> means “after push down and loosen it”, simply a click.</p>
+<h2 id="first-function">First Function</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">@IBAction</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">touchDigit</span>(<span style="color:#66d9ef">_</span> sender: UIButton) {}
+</code></pre></div><ul>
+<li><code>@IBAction</code>: label, not a part of function;</li>
+<li><code>func</code>: this is the function on a class; <code>func</code> can be add outside of the <code>{}</code>(a class), to be a Globe Function;</li>
+<li><code>touchDigit</code> is the function’s name;</li>
+<li><code>()</code>is the parameters;</li>
+<li><code>_</code> is used to define that the parameter has no external name (more on <a href="http://stackoverflow.com/questions/30876068/what-is-in-swift-telling-me">stackoverflow</a> );</li>
+<li><code>sender</code> is the para name, <code>UIButton</code> is its type (use <code>:</code> to define its type);</li>
+</ul>
+<p>Add a return. it can be like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">@IBAction</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">touchDigit</span>(<span style="color:#66d9ef">_</span> sender: UIButton) -&gt; Double{<span style="color:#960050;background-color:#1e0010">…</span>}
+</code></pre></div><p>add a <code>-&gt; Double</code>;</p>
+<p>Add another argument. like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">(<span style="color:#66d9ef">_</span> sender: UIButton, anotherPara: Int)
+</code></pre></div><p>the Type here is a Integer.</p>
+<h3 id="call-this-function">Call this function</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">Object.touchDigit(someButton, anotherPara: <span style="color:#ae81ff">5</span>)
+</code></pre></div><p>Do clarify the name of the parameters! Like <code>anotherPara: 5</code>. the <code>anotherPara:</code> should not be ignored; but the first argument must be ignored. (see below)</p>
+<p>Diff between <code>(sender: UIButton)</code> and <code>(_ sender: UIButton)</code>:</p>
+<ul>
+<li>1st <strong>MUST</strong> be called like <code>.funcName(sender: self, anotherPara: 5)</code>;</li>
+<li>2nd with <code>_</code> <strong>MUST</strong> be called like <code>.funcName((self, anotherPara: 5)</code></li>
+</ul>
+<p>Call <code>self</code>: <code>self.function(para, para)</code>, <code>self</code>is THIS object.</p>
+<h2 id="add-statement">Add statement:</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">@IBAction</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">touchDigit</span>(<span style="color:#66d9ef">_</span> sender: UIButton) {
+    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">hello world!</span><span style="color:#e6db74">&#34;</span>)
+}
+</code></pre></div><p>do not need <code>;</code> at the end of the line. If need two statements on the same line, you should add a <code>;</code>;</p>
+<p>Run!</p>
+<p><img src="/images/cs193p/ios_run_hello_world.png" alt="/images/cs193p/ios_run_hello_world.png"></p>
+<h1 id="a-calculator">A Calculator</h1>
+<p>Add a <code>var</code>: <code>var digit = 1</code>; <code>var</code> and <code>let</code> can define a variable.</p>
+<h2 id="var">var</h2>
+<p>Diff <code>var</code> &amp; <code>let</code>:</p>
+<ul>
+<li><code>var</code> is a variable;</li>
+<li><code>let</code> define a <strong>READ-ONLY</strong>  variable
+<ul>
+<li>is clear to read: it’s a <strong>constant</strong>;</li>
+<li>if use the Array or Dictionary, <code>let</code> means nothing can be taken out or into, it’s <strong>READ-ONLY</strong>.</li>
+</ul>
+</li>
+</ul>
+<p><em>Reference for Objects or Functions: press <code>option</code> and click.</em></p>
+<p>get UIButton’s title: <code>UIButton.currentTitle</code>. it’s a property, can only be <code>get</code>;</p>
+<blockquote>
+<p>The current title that is displayed on the button.
+<code>var currentTitle: String? { get }</code></p>
+</blockquote>
+<p>Print something: <code>print(&quot;touched \(digit) digit”)</code>. use <code>\(variable_name_here)</code> to as a replacer.</p>
+<ul>
+<li>when run the statement <code>print(&quot;touched \(digit) digit”)</code>, we get this output: <code>touched Optional(&quot;5&quot;) digit</code>. So what is <code>Optional()</code>?</li>
+</ul>
+<p>we <strong>MUST</strong> always initialize a variable with a initial value. otherwise, we will get a ERROR. Except for <code>Optional</code>, it has a default value: “not set”, aka <code>nil</code>.</p>
+<p>we can init a variable by:</p>
+<pre><code>var a: bool = false
+// var a = false
+</code></pre><p>2nd line is good enough cause <code>false</code> can only be a <code>bool</code>:</p>
+<p><img src="/images/cs193p/ios_var_lake_of_type.png" alt="/images/cs193p/ios_var_lake_of_type.png"></p>
+<h2 id="optional-type">optional: Type</h2>
+<p>Back to the API doc:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">var</span> currentTitle: String? { <span style="color:#66d9ef">get</span> }
+</code></pre></div><p>we get a <code>?</code> after <code>String</code>.  <code>String?</code> is a Type, like <code>int</code> or <code>bool</code>.
+An <code>optional</code> has two values:</p>
+<ul>
+<li>Not set. in Swift, it’s <code>nil</code>. means this <code>optional</code> is not set.</li>
+</ul>
+<ul>
+<li>Set. it has an “associate value”, can be any Type, like <code>int</code> or <code>double</code>.</li>
+</ul>
+<p><code>String?</code> means this is an <code>optional</code>, whose “associate value” is a <code>String</code>; we call it “optional string”.</p>
+<p>we <code>let var = var: String?</code>, it will be also a optional String:</p>
+<p><img src="/images/cs193p/ios_let_var_optional_string.png" alt="/images/cs193p/ios_let_var_optional_string.png"></p>
+<h3 id="why-we-need-an-optional">Why we need an <code>optional</code>?</h3>
+<p>A button can have no title.  When we get its title, it print like this:</p>
+<pre><code>touched Optional(&quot;3&quot;) digit
+touched nil digit
+</code></pre><p>it might have no value, aka a <code>nil</code>.</p>
+<p>Why not a <code>0</code>? If the variable has no value, create a <code>””</code>(empty string) for a <code>String</code>) or a <code>0</code> for a <code>int</code>. But it’s not cover all the cases. “empty string” is different between “not set”. We can set a <code>String</code> to <code>””</code>, we can not judge a String from “empty” from “either set”.</p>
+<p>But we do not need a String?: <code>Optional(“3”)</code>, we need a <code>”3”</code>. We can simply put:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">let</span> digit = sender.currentTitle!
+</code></pre></div><p>we add a <code>!</code> after a <code>?</code> Type, aka the optional Type, to unwrap it.</p>
+<p>After <code>!</code>, we unzip a <code>option</code> Type. If the optional is currently a <code>nil</code>, the App will <strong>CRASH</strong>.</p>
+<pre><code>fatal error: unexpectedly found nil while unwrapping an Optional value
+</code></pre><p>But it’s a good thing, because it’s very informative.  So the the variable becomes a <code>String</code>:</p>
+<p><img src="/images/cs193p/ios_let_var_unzip_optional.png" alt="/images/cs193p/ios_let_var_unzip_optional.png"></p>
+<h3 id="set-an-optional">Set an optional</h3>
+<p>we can set an <code>option</code> to <code>nil</code> by:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">var1 = <span style="color:#66d9ef">nil</span>
+</code></pre></div><p>we set  an <code>option</code>’s “associate value” by:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">var1 = <span style="color:#ae81ff">1</span>
+</code></pre></div><p>if the <code>var1</code> is an <code>optional</code>, this will change its “associate value”.</p>
+<h3 id="declare-an-optional">Declare an optional</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">var</span> display: UILabel!
+<span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">v</span><span style="color:#75715e">a</span><span style="color:#75715e">r</span><span style="color:#75715e"> </span><span style="color:#75715e">d</span><span style="color:#75715e">i</span><span style="color:#75715e">s</span><span style="color:#75715e">p</span><span style="color:#75715e">l</span><span style="color:#75715e">a</span><span style="color:#75715e">y</span><span style="color:#75715e">:</span><span style="color:#75715e"> </span><span style="color:#75715e">U</span><span style="color:#75715e">I</span><span style="color:#75715e">L</span><span style="color:#75715e">a</span><span style="color:#75715e">b</span><span style="color:#75715e">e</span><span style="color:#75715e">l</span><span style="color:#75715e">?</span>
+</code></pre></div><p>you can either declare it with <code>!</code> or <code>?</code>.</p>
+<p>Diff:</p>
+<ul>
+<li><code>!</code> will automatically and implicitly unwrap this <code>optional</code> everywhere. When we call a <code>var2!</code>, it should be <code>var2</code>.</li>
+</ul>
+<ul>
+<li><code>?</code> will <strong>not</strong> implicitly unwrap. So we call <code>var2?</code> by <code>var2!</code></li>
+</ul>
+<h3 id="if-optional">if optional</h3>
+<p><code>let mathSymbol = sender.currentTitle!</code> is too risky, it might cause crash. So we use:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> mathSymbol = sender.currentTitle {
+}
+</code></pre></div><p><em><code>if</code> statement do not have <code>()</code></em></p>
+<p>In this case, <code>if</code> means “if this currentTitle has value(associate value)”, aka “if this <code>currentTitle?</code> is not <code>nil</code>”  then <code>let mathSymbol = sender.currentTitle!</code></p>
+<p>outside this statement <code>if .. {}</code> this <code>mathSymbol</code> will not even be defined.</p>
+<h2 id="if-equal">if equal</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">if</span> mathSymbol == <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">π</span><span style="color:#e6db74">&#34;</span> {
+    display.text = String(M_PI)
+}
+</code></pre></div><p><code>String()</code> initialize a new String Object.</p>
+<p><img src="/images/cs193p/ios_m_pi.png" alt="/images/cs193p/ios_m_pi.png"></p>
+<h2 id="remove-a-function-from-a-button">Remove A Function From A Button</h2>
+<p>When we copy a button, we copy its parameters like title, size, and also, the functions it relates. But we may need to remove the linkers.</p>
+<p>Right click on a button:</p>
+<p><img src="/images/cs193p/ios_button_remove_function.png" alt="/images/cs193p/ios_button_remove_function.png"></p>
+<p>we can click on the “x” button to remove this button’s function.</p>
+<h2 id="auto-shrink-font-size-on-label">Auto Shrink Font Size On Label</h2>
+<p><img src="/images/cs193p/ios_label_autoshrink.png" alt="/images/cs193p/ios_label_autoshrink.png"></p>
+<p>set the minimum font size. if the text is too long, it will automatically shrink the font to contain more numbers.</p>
+<p><img src="/images/cs193p/ios_label_shrink_result.jpg" alt="/images/cs193p/ios_label_shrink_result.jpg"></p>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/use-numbers-vlook-function-match-gpa/">prev post</a>
+  <a href="https://drkbl.com/posts/format-hfs-on-windows/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

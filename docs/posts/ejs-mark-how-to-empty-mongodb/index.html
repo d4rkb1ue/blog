@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>nswbmw/N-blog 学习-7-使用 markdown, ejs 模版的 &lt;%- / &lt;%=, 清空数据库的正确姿势 - d4rkb1ue&#39;s Blog</title>
+  <meta content='nswbmw/N-blog 学习-7-使用 markdown, ejs 模版的 &lt;%- / &lt;%=, 清空数据库的正确姿势 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='nswbmw/N-blog 学习-7-使用 markdown, ejs 模版的 &lt;%- / &lt;%=, 清空数据库的正确姿势 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="现在我们来给博客添加支持 markdown 发表文章的功能。
+安装 npm install markdown --save 先看下未使用markdown时候，数据库保存的格式：
+{ &quot;_id&quot; : ObjectId(&quot;5700ccade40784880eda687e&quot;), &quot;name&quot; : &quot;tamper&quot;, &quot;time&quot; : { &quot;date&quot; : ISODate(&quot;2016-04-03T07:56:29.017Z&quot;), &quot;year&quot; : 2016, &quot;month&quot; : 4, &quot;day&quot; : 3, &quot;hour&quot; : 15, &quot;minute&quot; : 56 }, &quot;title&quot; : &quot;第2章 使用 Markdown&quot;, &quot;post&quot; : &quot;现在我们来给博客添加支持 markdown 发表文章的功能。\r\n假如你不还熟悉 markdown，请转到：http://wowubuntu.com/markdown/\r\n\r\n打开 package.json ，添加一行代码：\r\n\r\n\&quot;markdown\&quot;: \&quot;0.5.0\&quot;\r\n使用 npm install 安装 markdown 模块。\r\n\r\n打开 post.js，在 mongodb = require(&#39;./db&#39;) 后添加一行代码：\r\n\r\nmarkdown = require(&#39;markdown&#39;).markdown;\r\n在 Post.get 函数里的 callback(null, docs); 前添加以下代码：&quot; } views/index." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/ejs-mark-how-to-empty-mongodb/" />
+
+
+<meta property="article:published_time" content="2016-04-04T15:05:46&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-04-04T15:05:46&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">nswbmw/N-blog 学习-7-使用 markdown, ejs 模版的 &lt;%- / &lt;%=, 清空数据库的正确姿势</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>04 Apr 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/nblog' class="link silver">Nblog</a> <a href='/tags/node.js' class="link silver">Node.js</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><p>现在我们来给博客添加支持 markdown 发表文章的功能。</p>
+<h1 id="安装">安装</h1>
+<pre><code>npm install markdown --save
+</code></pre><p>先看下未使用markdown时候，数据库保存的格式：</p>
+<pre><code>{ &quot;_id&quot; : ObjectId(&quot;5700ccade40784880eda687e&quot;), &quot;name&quot; : &quot;tamper&quot;, &quot;time&quot; : { &quot;date&quot; : ISODate(&quot;2016-04-03T07:56:29.017Z&quot;), &quot;year&quot; : 2016, &quot;month&quot; : 4, &quot;day&quot; : 3, &quot;hour&quot; : 15, &quot;minute&quot; : 56 }, &quot;title&quot; : &quot;第2章 使用 Markdown&quot;, &quot;post&quot; : &quot;现在我们来给博客添加支持 markdown 发表文章的功能。\r\n假如你不还熟悉 markdown，请转到：http://wowubuntu.com/markdown/\r\n\r\n打开 package.json ，添加一行代码：\r\n\r\n\&quot;markdown\&quot;: \&quot;0.5.0\&quot;\r\n使用 npm install 安装 markdown 模块。\r\n\r\n打开 post.js，在 mongodb = require('./db') 后添加一行代码：\r\n\r\nmarkdown = require('markdown').markdown;\r\n在 Post.get 函数里的 callback(null, docs); 前添加以下代码：&quot; }
+</code></pre><h1 id="viewsindexejs">views/index.ejs</h1>
+<p>现在突然明白为什么在views/index.ejs中使用 <code>&lt;p&gt;&lt;%- post.post %&gt;&lt;/p&gt;</code> 而不是 <code>&lt;%=</code> 了。就是为了markdown渲染出来的html代码正常执行。但是话说这样很危险啊。</p>
+<blockquote>
+<p>Tips about Cookies [http only]: Javascript 中的document.cookie语句不能获取到cookie</p>
+</blockquote>
+<p>//TODO: 网站安全问题。比如对于所有搜索框和url请求的检查。</p>
+<p>很讨巧的，其实渲染是发生在导出而不是存储的阶段：</p>
+<h1 id="postjs">post.js</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">markdown</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;markdown&#39;</span>).<span style="color:#a6e22e">markdown</span>;
+...
+<span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;posts&#39;</span>,<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">err</span>,<span style="color:#a6e22e">collection</span>){
+    ...
+    <span style="color:#a6e22e">docs</span>.<span style="color:#a6e22e">forEach</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">doc</span>){
+            <span style="color:#a6e22e">doc</span>.<span style="color:#a6e22e">post</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">markdown</span>.<span style="color:#a6e22e">toHTML</span>(<span style="color:#a6e22e">doc</span>.<span style="color:#a6e22e">post</span>);
+    });
+
+    <span style="color:#a6e22e">callback</span>(<span style="color:#66d9ef">null</span>,<span style="color:#a6e22e">docs</span>);
+});
+</code></pre></div><h1 id="post本章节">Post本章节</h1>
+<h2 id="数据库显示">数据库显示</h2>
+<pre><code>{ &quot;_id&quot; : ObjectId(&quot;5700d247e96e99c70e337605&quot;), &quot;name&quot; : &quot;tamper&quot;, &quot;time&quot; : { &quot;date&quot; : ISODate(&quot;2016-04-03T08:20:23.754Z&quot;), &quot;year&quot; : 2016, &quot;month&quot; : 4, &quot;day&quot; : 3, &quot;hour&quot; : 16, &quot;minute&quot; : 20 }, &quot;title&quot; : &quot;#第2章 使用 Markdown 2016/4/3&quot;, &quot;post&quot; : &quot;#第2章 使用 Markdown 2016/4/3\r\n\r\n现在我们来给博客添加支持 markdown 发表文章的功能。\r\n\r\n```\r\nnpm install markdown --save\r\n```\r\n\r\n先看下未使用markdown时候，数据库保存的格式：\r\n\r\n```\r\n{ \&quot;_id\&quot; : ObjectId(\&quot;5700ccade40784880eda687e\&quot;), \&quot;name\&quot; : \&quot;tamper\&quot;, \&quot;time\&quot; : { \&quot;date\&quot; : ISODate(\&quot;2016-04-03T07:56:29.017Z\&quot;), \&quot;year\&quot; : 2016, \&quot;month\&quot; : 4, \&quot;day\&quot; : 3, \&quot;hour\&quot; : 15, \&quot;minute\&quot; : 56 }, \&quot;title\&quot; : \&quot;第2章 使用 Markdown\&quot;, \&quot;post\&quot; : \&quot;现在我们来给博客添加支持 markdown 发表文章的功能。\\r\\n假如你不还熟悉 markdown，请转到：http://wowubuntu.com/markdown/\\r\\n\\r\\n打开 package.json ，添加一行代码：\\r\\n\\r\\n\\\&quot;markdown\\\&quot;: \\\&quot;0.5.0\\\&quot;\\r\\n使用 npm install 安装 markdown 模块。\\r\\n\\r\\n打开 post.js，在 mongodb = require('./db') 后添加一行代码：\\r\\n\\r\\nmarkdown = require('markdown').markdown;\\r\\n在 Post.get 函数里的 callback(null, docs); 前添加以下代码：\&quot; }\r\n```\r\n\r\n现在突然明白为什么在views/index.ejs中使用 `&lt;p&gt;&lt;%- post.post %&gt;&lt;/p&gt;` 而不是 `&lt;%=` 了。就是为了让html代码正常执行。但是话说这样很危险啊。\r\n\r\n&gt;Tips about Cookies [http only]: Javascript 中的document.cookie语句不能获取到cookie\r\n\r\n//TODO: 网站安全问题。比如对于所有搜索框和url请求的检查。\r\n\r\n\r\n&quot; }
+</code></pre><p>值得注意的是，所有<code>\ &quot; ' </code>其实都已经被转义了。也就是说不会出现输入框崩溃我的服务器的情况。</p>
+<h1 id="清空数据库">清空数据库</h1>
+<h2 id="不要直接删除文件">不要直接删除文件！</h2>
+<p><del>使用 <code>rm -rf db-blog/*</code> 清空数据库.</del>
+这样的话，回报：</p>
+<pre><code>2016-04-03T16:48:03.284+0800 E STORAGE  [initandlisten] WiredTiger (2) [1459673283:284405][1748:0x7fabf999bd00], file:WiredTiger.wt, connection: /home/ray0/db-blog//WiredTiger.wt: No such file or directory
+2016-04-03T16:48:03.288+0800 I -        [initandlisten] Assertion: 28718:2: No such file or directory
+2016-04-03T16:48:03.289+0800 I STORAGE  [initandlisten] exception in initAndListen: 28718 2: No such file or directory, terminating
+2016-04-03T16:48:03.290+0800 I CONTROL  [initandlisten] dbexit:  rc: 100
+</code></pre><p>错误。即使重启服务器，也解决不了。</p>
+<p>我估计是和日志文件冲突。就是本来应该有文件的地方没有了，而且这个文件的删除还不经过数据库系统的操作。</p>
+<h2 id="删除了要怎么办">删除了要怎么办</h2>
+<p>用<code>mongod --repair --dbpath /database/db --storageEngine wiredTiger</code>也是屁用没有。</p>
+<p>反正数据也不要了。直接</p>
+<pre><code>mkdir db-blog2
+sudo mongod --dbpath ~/db-blog2
+</code></pre><p>做一个新的文件夹当数据库好了。记得先终止之前的服务。
+改文件夹之后，db.name 没有改变，是因为定义name是在程序中的。</p>
+<h2 id="正确的删除姿势">正确的删除姿势</h2>
+<pre><code>mongo db 
+&gt;  db.dropDatabase();
+</code></pre></div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/admission-control-middleware-next-routes-prototype/">prev post</a>
+  <a href="https://drkbl.com/posts/form-multer-static-file-access-summary/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

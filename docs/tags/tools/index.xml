@@ -24,6 +24,203 @@ hugo new posts/my-first-post.md echo &amp;#39;Hello Hugo!&amp;#39; &amp;gt;&amp;
     </item>
     
     <item>
+      <title>整理曲库整理到一处</title>
+      <link>https://drkbl.com/posts/manage-all-music-playlist/</link>
+      <pubDate>Thu, 10 Jan 2019 23:37:52 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/manage-all-music-playlist/</guid>
+      <description>研究整理把所有喜欢的歌曲整理到一个 csv 中，
+Netease Music  使用 Chrome+油猴脚本 网易云音乐怎么导出歌单？ - 知乎
+  导出网易云音乐歌单  每次需要等待几秒按钮才会刷新出来。切换到新的歌单需要刷新。
+Douban FM let titles = []; document.querySelectorAll(&amp;#39;#app &amp;gt; div &amp;gt; div.explore &amp;gt; div.mine-page &amp;gt; div.section-content &amp;gt; div &amp;gt; div.container &amp;gt; ul &amp;gt; li &amp;gt; div.top &amp;gt; div.titles &amp;gt; h3&amp;#39;).forEach(a =&amp;gt; titles.push(a.innerText)); // 只选择第一个歌手，方便对齐 let artists = []; document.querySelectorAll(&amp;#39;#app &amp;gt; div &amp;gt; div.explore &amp;gt; div.mine-page &amp;gt; div.section-content &amp;gt; div &amp;gt; div.container &amp;gt; ul &amp;gt; li &amp;gt; div.</description>
+    </item>
+    
+    <item>
+      <title>Chrome 59 新功能 - 整页截图</title>
+      <link>https://drkbl.com/posts/full-size-screenshot-in-chrome-v59/</link>
+      <pubDate>Mon, 08 May 2017 00:22:27 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/full-size-screenshot-in-chrome-v59/</guid>
+      <description>最新的 Chrome 59 在 DevTools 中加入一个特别有用的日常功能，整页截图。Chrome Blog
+不过隐藏的蛮深的。需要进入 DevTools, 开启 Device Toolbar 也就是我们常用来调试不同屏幕尺寸和设备的界面。打开更多功能（右上方的三个小点点），里面就有一个 Capture Full Size Screenshot 的选项，点击即可截屏啦。而且截的还不错，不会带上一些悬浮元素。</description>
+    </item>
+    
+    <item>
+      <title>Chrome Devtools 实时对比不同代码的渲染效率</title>
+      <link>https://drkbl.com/posts/compare-animation-performance-in-chrome/</link>
+      <pubDate>Mon, 24 Apr 2017 15:36:00 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/compare-animation-performance-in-chrome/</guid>
+      <description>问题 公司项目有一个更新动画的函数需要每帧调用来更新动画，需要对比
+ setTimeout requestAnimationFrame  哪一个在更新上效率更佳。
+if (this.internal_tick_control) { // window.requestAnimationFrame(this.update.bind(this));  setTimeout(this.update.bind(this), 1000/60); } requestAnimationFrame 会让动画函数执行会先于浏览器重绘动作执行。其功能都是在绘制新一帧之前先对状态（动画内容）进行更新，然后调用重绘。setTimeout 是手动指定每隔多长时间进行更新，这有时会导致不精确的更新间隔；而 requestAnimationFrame 是浏览器自带优化，并且自带精确间隔调用的调用方式。理论上来说 requestAnimationFrame 应该会有更好的性能，我来证明一下。
+工具   用了公司项目内置的 API 来保证每次测试的动画内容一致；
+  使用 Chrome Dev-tools - FPS Meter 来显示实时性能；
+  使用 CPU performance limiting setting. (I use 20x slow down to maximize the difference) 限制 CPU 性能扩大对比差距；
+  同时运行多个不同代码的项目的方法 (A little trick to run these two different code simultaneously):</description>
+    </item>
+    
+    <item>
+      <title>在 Chrome Devtools 中调试本地代码</title>
+      <link>https://drkbl.com/posts/debug-javascript-chrome-devtools/</link>
+      <pubDate>Tue, 21 Mar 2017 19:05:19 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/debug-javascript-chrome-devtools/</guid>
+      <description>创建这样的文档结构
+$ find . -print | sed -e &amp;#39;s;[^/]*/;|____;g;s;____|; |;g&amp;#39; . |____index.html |____partition.js partition.js 是要挑试的 js 代码，index.html 是用来辅助以运行在 Chrome 中。
+index.html 引用 js 即可。
+&amp;lt;!doctype html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;script src=&amp;#34;partition.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt;&amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; 然后将 index.html 拖入 Chrome 中（以 Chrome 打开也一样）。 可以在 Source 选项卡中左侧打开文件树形图。可以修改直接在 Chrome 中保存！
+然后进入 Console 面板 (macOS 下可用 Command + [ 和 Command + ] 来作用切换面板) 愉快的运行吧。当然，这个（些） js 文件都已经在加载时被执行了一遍。
+macOS 的 tree:
+find . -print | sed -e &#39;s;[^/]*/;|____;g;s;____|; |;g&#39; by OSXDaily</description>
+    </item>
+    
+    <item>
+      <title>Sublime Select Tricks</title>
+      <link>https://drkbl.com/posts/sublime-select-tricks/</link>
+      <pubDate>Sat, 18 Feb 2017 23:56:53 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/sublime-select-tricks/</guid>
+      <description>问题 在选择的时候遇到了一些问题，如下面的代码
+if (max &amp;amp;&amp;amp; p.compareTo(ret) &amp;gt; 0) ret = p; 我在选择变量p的时候，shift选中p然后Command + D，后果就是同时选中了compareTo中的p。
+解决方案1 选中p之后，Command + D选中compareTo中的p，此时Command + K，Command + D可以取消选择上个选中的p，即compareTo中的p，并选中下一个p。
+不过这个方法很麻烦。其实 Sublime 是可以识别变量的。
+解决方案2 不要选中p！ 不要选中p！ 不要选中p！
+直接将光标放在p之前或之后，Command + D即可自动选择变量。
+ 还有一个关于选择的快捷键，Command + U 可以撤销最后一个选择。  其他快捷键   选择全部 token Ctrl + Command + G
+  HTML 中选中一对标签（需要 Emmet） Command + Shift + K
+   Reference   sublimetext2 - Sublime Text: Select all instances of a variable and edit variable name - Stack Overflow</description>
+    </item>
+    
+    <item>
+      <title>Automator as AutoHotKey</title>
+      <link>https://drkbl.com/posts/automator-as-autohotkey/</link>
+      <pubDate>Wed, 01 Feb 2017 17:19:55 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/automator-as-autohotkey/</guid>
+      <description>使用 Automator 当作 Safari@macOS 的按键精灵，敲简单的。此方法不兼容 Chrome@macOS。
+例子 - 在 Safari 上循环点击按钮 目标：每隔一段时间，自动点击 Safari 网页上的一个按钮。
+打开 Automator，新建一个“服务”。
+在左侧资源库中，选择“实用工具” —&amp;gt; “开启应用程序“。拖到右侧工作流程中。
+开启“Safari.app”。（如有多个窗口，将会切换到最近窗口）
+接下来，录制。点击红色按钮开始录制。
+切换到 Safari，点击按钮。
+在控制面板上点结束。
+录制结果如下：
+可以点击“运行”（Command+R）测试一下。（这里有2个条目，其实删除一个也完全OK。选择条目敲击“delete”即可。）
+加入循环：左侧资源库 —&amp;gt; 实用工具 —&amp;gt; 循环，拖到右侧。放在“我做给您看”后面即可。
+将“要求继续”改为“自动循环”。可自选按重复时间（分钟）计，还是按重复次数计。我这里选择按照重复次数。
+运行，测试一下。
+可以将本脚本保存起来。以备后用。
+如果需要提前终止，将当前程序焦点切换到 Automator，快捷键 Command + .(句号) 即可停止。
+完成文件：safariAutoClick.workflow</description>
+    </item>
+    
+    <item>
+      <title>NTFS on macOS</title>
+      <link>https://drkbl.com/posts/ntfs-on-macos/</link>
+      <pubDate>Wed, 18 Jan 2017 15:56:25 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/ntfs-on-macos/</guid>
+      <description>最近在重造文件备份系统的时候，因为 Synology 默认支持 NTFS，而 macOS 也可以开启对 NTFS 的支持，计划建立这样的结构：
+ 2T+1T Raid 0@Synology NAS : 日常大型文件存放   TimeMachine@ macbook, nas：系统级备份 Resilio Sync@ macbook, nas, iPhone ：日常工作文件夹同步 2T 外置硬盘 (NTFS)：连接 NAS 做计划备份（Synology 支持 NTFS）；在 mac 上开启对NTFS的支持；使用虚拟机使用 everything 检索文件 2T 外置硬盘 2 (NTFS)：长期冷备份  下面解决怎么让 mac 直接读写 NTFS。
+@macOS Sierra, 10.12.2
+有这么几个办法：
+ Tuxera NTFS for Mac, 收费 Paragon NTFS for Mac, 收费 NTFS-3G, free 开启 macOS 内置支持, free windows 虚拟机  虚拟机已经有了，但是不太方便。试试开启内置支持，尽量不安新软件。</description>
+    </item>
+    
+    <item>
+      <title>Format HFS&#43; on Windows</title>
+      <link>https://drkbl.com/posts/format-hfs-on-windows/</link>
+      <pubDate>Wed, 18 Jan 2017 15:37:37 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/format-hfs-on-windows/</guid>
+      <description>在 Windows 10 上格式化原有 HFS+ 格式的外置硬盘时，发现有一个 200MB 的分区无法删除，可以使用 Diskpart 来解决。
+ Microsoft DiskPart on Windows  进入 CMD，执行 diskpart 进入程序。list disk 可以看到所有的磁盘，select disk x 选择指定磁盘。
+选择好了再 list disk 一下，确认该硬盘被 * … * 围住
+执行
+clean 即可删除所有分区。
+这么删除之后，会发现在计算机管理-磁盘工具中，无法直接建立新分区。应该是没有分区表。
+怎么建立，可以help一下。执行help可以看到命令列表。具体到某一个命令可以执行，比如creat命令，执行 help create，下面还可以再继续 help create partition 等等。create 可以创建 volumn(卷) 或者 partition(分区)，不过这俩又啥区别呢。
+Diff Partitions &amp;amp; Volumes:
+ A partition is a just a space crafted out of a disk. For example- you could set aside a space of 100 GB for a partition from a hard disk of 1 TB.</description>
+    </item>
+    
+    <item>
+      <title>使用 Numbers 的 Vlookup 函数 match GPA</title>
+      <link>https://drkbl.com/posts/use-numbers-vlook-function-match-gpa/</link>
+      <pubDate>Thu, 05 Jan 2017 01:59:08 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/use-numbers-vlook-function-match-gpa/</guid>
+      <description>https://youtu.be/ncAebK6Mi3M
+说明   函数里面输入的数字2是指查找目标区域中的第‘二’列，即ABCD所在的列；相应的，第一列是4321。
+  要选中查找目标的整个两个列。如果只选中有数据的那部分区域，结果就是在拖动函数应用到下面的参数时，选中数据区域也会随之向下移动。
+  </description>
+    </item>
+    
+    <item>
+      <title>私有翻墙服务搭建指南</title>
+      <link>https://drkbl.com/posts/fanqiang-guide/</link>
+      <pubDate>Wed, 04 Jan 2017 16:38:37 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/fanqiang-guide/</guid>
+      <description>简介  如何购买服务器？ 如何配置服务器？ 在 Mac, Windows, iOS, Android 设备上通过配置好的服务器翻墙 高级玩法  购买 VPS  费用：以下两家服务商提供的最低配价格都是$5/月*；如果使用快照服务，DigitalOcean 收取极少量费用，Vultr 免费。  服务商推荐  DigitalOcean $10 优惠: DigitalOcean 的新加坡, 旧金山, 纽约服务器都还可以。 Vultr 限时 $20 优惠, Vultr $10 优惠: Vultr 的日本东京服务器速度飞快！ 阿里云国际, 推荐香港。CN2 线路, 当前最优选择。  注：通过以上链接注册，在你将获得优惠的同时，作者也将获得相应的推广回报。使用以下链接可以避免给作者回报 http://digitalocean.com/，http://www.vultr.com/
+使用 DigitalOcean  测速地址 懒人推荐：SGP1, SFO2, NYC1  流程  点击 Create Droplets Image 选择 Ubuntu 16.04.x x64 Size 选择最低的$5版本即可 Datacenter Region 选择刚刚选好的那个服务器 （*按需）SSH keys, New SSH key, 输入.</description>
+    </item>
+    
+    <item>
+      <title>下载 github 单个文件</title>
+      <link>https://drkbl.com/posts/download-single-file-from-github/</link>
+      <pubDate>Mon, 02 Jan 2017 23:08:37 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/download-single-file-from-github/</guid>
+      <description>以下载以下文件为例。
+https://github.com/Supervisor/initscripts/blob/master/ubuntu 要下载这个文件，点击按钮 Raw ，得到下载地址。
+https://raw.githubusercontent.com/Supervisor/initscripts/master/ubuntu 执行
+curl https://raw.githubusercontent.com/Supervisor/initscripts/master/ubuntu &amp;gt; a.txt 即这个文件下载到本地a.txt了。</description>
+    </item>
+    
+    <item>
+      <title>修复 Hexo 博客 Next 主题无法载入</title>
+      <link>https://drkbl.com/posts/fix-hexo-next-theme-404/</link>
+      <pubDate>Sat, 12 Nov 2016 23:51:18 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/fix-hexo-next-theme-404/</guid>
+      <description>Error 刚刚遇到的问题，如往常一样执行
+hexo clean hexo d -g 重新部署的时候莫名出现vendors下的css, js资源无法载入问题。 而在public文件夹下其实vendors文件夹及其文件是正常存在的，权限也正常。
+ 这个问题很费解，原因没找到  Solution 修改blog/themes/hexo-theme-next/_config.yml文件中：
+... vendors: # Internal path prefix. Please do not edit it. # _internal: vendors 将此行注释，并改为下面的样子 _internal: lib ...   解释
+将静态文件地址从public/vendors改到public/lib。
+  </description>
+    </item>
+    
+    <item>
+      <title>Mac OS (OS X) 系统级快捷键重载</title>
+      <link>https://drkbl.com/posts/mac-os-system-shortcut-override/</link>
+      <pubDate>Thu, 20 Oct 2016 23:14:22 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/mac-os-system-shortcut-override/</guid>
+      <description>meta Mac 系统默认的所有程序退出快捷键是 Command + Q 有的时候按快了而没注意焦点位置，容易误操作。以下用 Sublime 为例将默认的退出快捷键由 Command + Q 改为 Control + Command + Q。
+环境 Mac OS Sierra 10.12
+步骤   System Preference(系统设置) -&amp;gt; Keyboard(键盘) -&amp;gt; Shortcut(快捷键)，在左侧列表的最后一项，应用快捷键。
+  点击 + 添加新快捷键。
+  在程序列表中选择 Sublime Text.app， 菜单标题照抄原快捷键说明：Quit Sublime Text (注意大小写，空格，都不能差)
+  键盘快捷键录入新快捷键。
+  结果如图。
+  结果 在 Sublime 中使用 Command + Q 没有任何效果。新快捷键 Control + Command + Q 生效。完全覆盖。
+Trouble shooting   快捷键说明注意大小写，空格，都不能差。</description>
+    </item>
+    
+    <item>
+      <title>Safari on Mac check history EXACT time stamp</title>
+      <link>https://drkbl.com/posts/safari-history-exact-time-stamp/</link>
+      <pubDate>Sat, 23 Jul 2016 02:45:58 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/safari-history-exact-time-stamp/</guid>
+      <description>One Line ls -ogtrT ~/Library/Caches/Metadata/Safari/History/ Explanation -o: do not list group information -g: but do not list owner -t: sort by time(Last first) -r: reverse(so -tr is Last last) -T: time style = &amp;quot;MM DD hh:mm:ss YYYY&amp;quot; 从今天开始试试英文Blog :P</description>
+    </item>
+    
+    <item>
       <title>Vim 安装自动缩进插件</title>
       <link>https://drkbl.com/posts/vim-install-plugin/</link>
       <pubDate>Wed, 20 Jul 2016 00:50:35 +0000</pubDate>
@@ -39,6 +236,71 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim �
 测试 进入vi，执行
 gg=G 成功的indent了。
  参考  像 IDE 一样使用 vim  </description>
+    </item>
+    
+    <item>
+      <title>VSCode 调试例子</title>
+      <link>https://drkbl.com/posts/vs-code-debug-handbook/</link>
+      <pubDate>Tue, 07 Jun 2016 22:34:15 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/vs-code-debug-handbook/</guid>
+      <description>/* 保存本js为文件。按 F5 可以启动执行。选择Node.js的执行环境。 在生成的 launch.json 中修改 &amp;quot;program&amp;quot;: &amp;quot;${workspaceRoot}/js.js&amp;quot;, 这样以来，就可以在调试中启动js.js了。 选择最下面的debug界面，可以动态追踪变量。 */ var rt = test(); function mySort(dom, func) { var num = dom.length; var i, j = 0; var tmp; var ret; for (i = 0; i + 1 &amp;lt; num; i++) { for (j = i + 1; j &amp;lt; num; j++) { if ( ret = func(dom[i], dom[j]) &amp;lt; 0) { tmp = dom[i].innerText; dom[i].innerText = dom[j].innerText; dom[j].</description>
+    </item>
+    
+    <item>
+      <title>把 Github 用作 DNS 设置二级域名跳转</title>
+      <link>https://drkbl.com/posts/use-github-as-dns/</link>
+      <pubDate>Sun, 24 Apr 2016 02:02:03 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/use-github-as-dns/</guid>
+      <description>背景 这个博客使用 Github Pages 托管。绑定了drkbl.com为CNAME。默认情况下，Github支持
+ drkbl.com www.drkbl.com  两个域名跳转到我的个人主页 d4rkb1ue.github.io
+我想开通subdomain指向我的不同项目，希望跳转到我想要的地址。就像这样
+sub.drkbl.com --跳转到--&amp;gt; https://somesome.com/lalala/hahha 因为DNS是无法直接设置根目录以下的CNAME的。因此无法直接在DNS服务商那里处理这样的跳转。
+gh-pages 的分支跳转 Github 的项目支持使用 gh-pages 分支生成项目页。绑定在
+http://d4rkblue.github.io/project-name 并且也支持设置CNAME。
+使用 gh-pages 分支 + CNAME + HTML 302 redirect 跳转任何网页 1. 初始化库   在github上建立一个用做 DNS 跳转的库，以 dns-test 为例
+  复制到本地
+  git clone git@github.com:d4rkb1ue/dns-test.git  在本地库目录里，切换到 gh-pages 分支  cd dns-test git checkout --orphan gh-pages 2. 设置跳转  创建 HTML 302跳转文件 命名为 index.html。以跳转到百毒为例。  &amp;lt;head&amp;gt; &amp;lt;meta http-equiv=&amp;#34;refresh&amp;#34; content=&amp;#34;0; url= http://www.</description>
+    </item>
+    
+    <item>
+      <title>Hexo 初始化笔记</title>
+      <link>https://drkbl.com/posts/hexo-init/</link>
+      <pubDate>Fri, 22 Apr 2016 06:32:48 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/hexo-init/</guid>
+      <description>TODO   NexT说明
+  添加About Me
+  RSS订阅
+  头部添加tag和图片的尝试
+  Sitemap站点地图
+  使用了NexT主题。执行主题的安装说明。轻松的添加多说！
+流程注意  push前先 hexo g 生成静态文件 安装hexo-deployer-git, 部署方式见官方网站, hexo d 部署 更换主题后需要先 hexo clean 清除静态文件，再g, d d,g命令可以合为一行 hexo d -g  问题和解决 无法git CNAME文件 CNAME文件不会被上传。
+解决 CNAME需放在source文件夹下。事实上，所有放在source/根目录的文件都会原样上传。
+不支持 #Title (无空格)渲染 解决方式 对存在无空格使用#标记的md，用Sublime或VS Code执行全局替换：
+Find:
+^(#+)
+Replace:
+$1 
+注意$1之后有空格.
+说明 可以匹配所有#,##,###,… 并且在之后加上一个” “(空格)。
+应对不支持”#Title”(无空格)渲染的垃圾引擎比如hexo用的。
+^(#+) 用 () 括上的部分在Replace里面经$引用。第一个()就是$1
+界面为德语 _config.yml: language: zh-Hans 而不是 language: zh-CN CN 会导致界面为德语。“Veröffentlicht“</description>
+    </item>
+    
+    <item>
+      <title>Git 初步入门</title>
+      <link>https://drkbl.com/posts/git-starter/</link>
+      <pubDate>Wed, 09 Mar 2016 22:55:17 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/git-starter/</guid>
+      <description>创建版本库 把这个目录变成Git可以管理的仓库： git init 也不一定必须在空目录下创建Git仓库，选择一个已经有东西的目录也是可以的。
+把文件添加到仓库： git add readme.txt （设置用户信息：） git config --global user.email &amp;quot;7874364@gmail.com&amp;quot; git config --global user.name &amp;quot;ray0&amp;quot; 只要设置一次，好像只有在从来没用过git的情况下才会出现
+提交文件到仓库 git commit 为什么Git添加文件需要add，commit一共两步呢？因为commit可以一次提交很多文件，所以你可以多次add不同的文件，比如：
+ray0@ubuntu:~/learngit$ touch b.txt ray0@ubuntu:~/learngit$ touch c.c ray0@ubuntu:~/learngit$ git add b.txt ray0@ubuntu:~/learngit$ git add c.c ray0@ubuntu:~/learngit$ git commit -m &amp;quot;add b/c&amp;quot; [master 5ccb1c8] add b/c 2 files changed, 0 insertions(+), 0 deletions(-) create mode 100644 b.txt create mode 100644 c.c 发生变化 状态 查看目前状态：
+git status 出现修改之后，需要重新add才能commit</description>
     </item>
     
   </channel>

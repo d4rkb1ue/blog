@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>同步函数调用异步函数导致的 setState 问题 - d4rkb1ue&#39;s Blog</title>
+  <meta content='同步函数调用异步函数导致的 setState 问题 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='同步函数调用异步函数导致的 setState 问题 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="问题描述 根据用户输入计算结果，实时将结果打印到界面上。原本的接口大约是这样：
+function output(text) { var mypre = document.getElementById(&#34;output&#34;); // append 而不是覆盖  mypre.innerHTML = mypre.innerHTML &#43; text; } // calculate yield 一个结果后会调用 output(res) 输出 calculate(paras, output); 将 output() 转为 React 的写法时，像这样：
+function output(text) { this.setState({mypre: this.state.mypre &#43; text}); } ... &lt;div className=&#39;mypre&#39;&gt; {this.state.mypre} &lt;/div&gt; 于是问题来了。
+以下都是不认真看教程的结果 React - Docs
+ State Updates May Be Asynchronous React may batch multiple setState() calls into a single update for performance.
+Because this.props and this." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/call-async-func-in-sync-func/" />
+
+
+<meta property="article:published_time" content="2017-05-18T20:53:40&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-05-18T20:53:40&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">同步函数调用异步函数导致的 setState 问题</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>18 May 2017</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/javascript' class="link silver">JavaScript</a> <a href='/tags/react' class="link silver">React</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="问题描述">问题描述</h1>
+<p>根据用户输入计算结果，实时将结果打印到界面上。原本的接口大约是这样：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">output</span>(<span style="color:#a6e22e">text</span>) {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">mypre</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#34;output&#34;</span>);
+    <span style="color:#75715e">// append 而不是覆盖
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">mypre</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">mypre</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">text</span>;
+}
+<span style="color:#75715e">// calculate yield 一个结果后会调用 output(res) 输出
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">calculate</span>(<span style="color:#a6e22e">paras</span>, <span style="color:#a6e22e">output</span>);
+</code></pre></div><p>将 <code>output()</code> 转为 React 的写法时，像这样：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">output</span>(<span style="color:#a6e22e">text</span>) {
+  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">setState</span>({<span style="color:#a6e22e">mypre</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">mypre</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">text</span>});
+}
+...
+<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">div</span> <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mypre&#39;</span><span style="color:#f92672">&gt;</span>
+    {<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">mypre</span>}
+<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#960050;background-color:#1e0010">d</span><span style="color:#960050;background-color:#1e0010">i</span><span style="color:#960050;background-color:#1e0010">v</span><span style="color:#960050;background-color:#1e0010">&gt;</span>
+</code></pre></div><p>于是问题来了。</p>
+<h1 id="以下都是不认真看教程的结果">以下都是不认真看教程的结果</h1>
+<p><a href="https://facebook.github.io/react/docs/state-and-lifecycle.html">React - Docs</a></p>
+<blockquote>
+<h1 id="state-updates-may-be-asynchronous">State Updates May Be Asynchronous</h1>
+<p>React may batch multiple setState() calls into a single update for performance.</p>
+<p>Because this.props and this.state may be updated asynchronously, you should not rely on their values for calculating the next state.</p>
+<p>For example, this code may fail to update the counter:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">
+</code></pre></div></blockquote>
+<p>// Wrong
+this.setState({
+counter: this.state.counter + this.props.increment,
+});</p>
+<pre><code>&gt; 
+&gt; To fix it, use a second form of setState() that accepts a function rather than an object. That function will receive the previous state as the first argument, and the props at the time the update is applied as the second argument:
+&gt;
+&gt; ```js
+// Correct
+this.setState((prevState, props) =&gt; ({
+  counter: prevState.counter + props.increment
+}));
+</code></pre><h2 id="执行结果">执行结果</h2>
+<p>在实际的调用中，正确结果是每次计算出来都要输出一个结果，应该输出多行。但是这么调用的结果是只有<strong>最后一个结果</strong>被成功输出。中间的结果都被吞掉了。</p>
+<p>如果在 <code>setState</code> 中设置回调，set 后打印的话，</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">output</span>(<span style="color:#a6e22e">text</span>) {
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;start set state to\n&#39;</span>, <span style="color:#a6e22e">text</span>);
+  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">setState</span>({
+    <span style="color:#a6e22e">mypre</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">mypre</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">text</span>
+    }, () =&gt; {
+      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;finish set state&#39;</span>);
+    });
+}
+</code></pre></div><p>会发现所有的 <code>'finish set state'</code> 都会在最后被打印出来，在所有的 <code>'start set state to'</code> 之后。也就是说每次获取的原有 <code>this.state.mypre</code> 都是一样的，都是初始值。因此只有最后一个结果被附加到了结果中。</p>
+<h1 id="原因">原因</h1>
+<p>因为 <code>calculate()</code> 是个同步函数，而 <code>setState()</code> 是异步的。同步函数在调用异步函数，但是同步函数却又时时获取异步函数的结果： <code>mypre: this.state.mypre + text</code> 。</p>
+<p>因此，因为异步函数必然和同步函数执行速度不同，所以同步函数就会获取到旧的的参数，而不是实时的结果。于是导致了，</p>
+<blockquote>
+<p>每次获取的原有 <code>this.state.mypre</code> 都是一样的</p>
+</blockquote>
+<p>因为直到在最后一个获取 <code>state</code> 的时候，所有 <code>setState</code> 都没有完成。</p>
+<h1 id="解决方式">解决方式</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">output</span>(<span style="color:#a6e22e">text</span>) {
+  <span style="color:#75715e">// use this to force synchronous setState
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">setState</span>((<span style="color:#a6e22e">prev_state</span>) =&gt; {
+    <span style="color:#66d9ef">return</span> {<span style="color:#a6e22e">mypre</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">prev_state</span>.<span style="color:#a6e22e">mypre</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">text</span>};
+  })
+}
+</code></pre></div><p>如此 React 会自己管理 <code>setState</code> 的流程，并且保证下一个 set 之前一定能获取准确的 state。多看 API 解决一切。</p>
+<blockquote>
+<p>Both prevState and props received by the updater function are guaranteed to be up-to-date. The output of the updater is shallowly merged with prevState.</p>
+<pre><code></code></pre></blockquote>
+<p>this.setState((prevState, props) =&gt; {
+return {counter: prevState.counter + props.step};
+});</p>
+<pre><code>
+</code></pre></div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/full-size-screenshot-in-chrome-v59/">prev post</a>
+  <a href="https://drkbl.com/posts/diff-promise-generator-async/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

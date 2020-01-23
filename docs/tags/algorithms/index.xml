@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Algorithms on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/algorithms/</link>
+    <description>Recent content in Algorithms on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Feb 2017 00:05:28 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/algorithms/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Algs4/Selection Sort, Insertion Sort, Shell Sort (Week 3 Part 1)</title>
+      <link>https://drkbl.com/posts/algorithms-part-1-note-5/</link>
+      <pubDate>Fri, 17 Feb 2017 00:05:28 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/algorithms-part-1-note-5/</guid>
+      <description>Assertions MergeSort Botton-up MergeSort Sorting Complexity Java: Comparator interface Stability  Assertions // after sort assert isSorted(a, lo, hi); Can enable or disable at runtime
+# enable assertions $ java -ea MyProgram # disable assertions (default) $ java -da MyProgram Best practices  Use assertions to check internal invariants assume assertions will be disabled in production code do not use for external argument checking  MergeSort Animation: Merge Sort</description>
+    </item>
+    
+    <item>
+      <title>Algs4/Selection Sort, Insertion Sort, Shell Sort (Week 2 Part 2)</title>
+      <link>https://drkbl.com/posts/algorithms-part-1-note-4/</link>
+      <pubDate>Wed, 15 Feb 2017 05:05:48 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/algorithms-part-1-note-4/</guid>
+      <description>Comparable Selection Sort Insertion Sort Shell Sort Shuffle Convex hull  Comparable Implement the Comparable interface to make the sort() universal.
+public class File implements Comparable&amp;lt;File&amp;gt;{ … public int compareTo(File b){ … return -1; // this less than b  … return +1; // this greater than b  … return 0; // equal  } … } public static void sort(Comparable[] a){ int N = a.length; for (int i = 0; i &amp;lt; N; i++){ for (int j = i; j &amp;gt; 0; j--){ if (a[j].</description>
+    </item>
+    
+    <item>
+      <title>Algorithms Notes/Stack&amp;Queue (Week 2 Part 1)</title>
+      <link>https://drkbl.com/posts/algorithms-part-1-note-3/</link>
+      <pubDate>Sat, 12 Nov 2016 22:53:08 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/algorithms-part-1-note-3/</guid>
+      <description>Why Stack?   Why not other Java powerful colllection libraries?
+Powerful like &amp;ldquo;Swiss Knife&amp;rdquo; but lack of efficiency.
+  Except for efficiency, when stack is more convenient?
+  Parsing in a compiler.
+  Back button in a Web browser.
+  Implementing function calls in a compiler. (Function call: push local environment and return address; Return: pop return address and local environment.)
+  Recursive function: Can always use an explicit stack to remove recursion.</description>
+    </item>
+    
+    <item>
+      <title>Algorithms Notes/Analysis of Algorithms (Week 1 Part 2)</title>
+      <link>https://drkbl.com/posts/algorithms-part-1-note-2/</link>
+      <pubDate>Wed, 26 Oct 2016 01:18:14 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/algorithms-part-1-note-2/</guid>
+      <description>algs4.jar/Stopwatch public static void main(String[] args){ int[] a = In.readInts(args[0]); Stopwatch stopwatch = new Stopwatch(); StdOut.println(ThreeSum.count(a)); double time = stopwatch.elapsedTime(); // time since creation (in seconds) } 复杂度计算 Log-log plot For given data like in standard plot,
+way to find out its T(N) is by: Log-log plot:
+where we calculate by
+lg(T (N)) = b lg N + c T (N) = a N^b, where a = 2^c in this case,</description>
+    </item>
+    
+    <item>
+      <title>渗透问题 (Percolation) 中 backwash 的解决</title>
+      <link>https://drkbl.com/posts/quote-avoid-backwash-in-percolation/</link>
+      <pubDate>Mon, 10 Oct 2016 02:49:48 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/quote-avoid-backwash-in-percolation/</guid>
+      <description>参考 Avoid Backwash Issue in Percolation Problem
+Q: 渗透问题 Percolation-week1
+将一个不透水的均质方块分割为矩阵N*N，最上方为水源。随机打开矩阵中任意格子，重复此项操作多次，直到产生一条路径使水能穿过这个方块到达最下方。
+思路 采用weighted-quick-union算法（with Path compression）
+数据结构 和课上所用的weighted-quick-union算法一致，采用PPT的写法，模拟出2个虚拟点，分别是top和bottom。isFull就是判断这个点是否 is_connected(self,top)
+Bug：backwash  In the context of Percolation, the backwash issue is that some site might be mistakenly judged as a full site (A full site is an open site that can be connected to an open site in the top row via a chain of neighboring (left, right, up, down) open sites.) if we directly adopt the dummy nodes suggested in the course material, i.</description>
+    </item>
+    
+    <item>
+      <title>Algorithms Notes/Dynamic Connectivity (Week 1 Part 1)</title>
+      <link>https://drkbl.com/posts/algorithms-part-1-note-1/</link>
+      <pubDate>Sat, 17 Sep 2016 19:28:29 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/algorithms-part-1-note-1/</guid>
+      <description>Question: Dynamic Connectivity Q: Given two points, are there any path connecting them? We also connect points dynamically.
+Modeling  Reflexive: p is connected to p Symmetric: if p is connected to q, then q is connected to p Transitive: if p is connected to q and q is connected to r, then p is connected to r. Connected components: Given points, we can create connected componenets. Then we should deal with the question: Is P and Q connected?</description>
+    </item>
+    
+  </channel>
+</rss>

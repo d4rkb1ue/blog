@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>折腾 Ubuntu 18.04 做 NAS - d4rkb1ue&#39;s Blog</title>
+  <meta content='折腾 Ubuntu 18.04 做 NAS - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='折腾 Ubuntu 18.04 做 NAS - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="一直在用 Deskmini 搭了黑群晖，但是其实用不到群晖的生态系统，索性自己安装个 Ubuntu 还方便自己自由维护使用。
+ 远程界面 挂载 NTFS 备份 开启 SMB 服务 开启 Time Machine 服务：Time Machine On Ubuntu 18 with samba  远程界面 Ubuntu 没有网页端的 GUI，有时候还是想用界面来操作。不能总连着个显示器。所以用远程桌面替代，可以满足的选择有很多。
+ 18.04 自带了 vino，如果是 minimal install 需要自行安装， sudo apt-get install vino ssh  重启后进入设置，开启 sharing -&gt; desktop 开启密码。
+客户端：VNC Viewer https://www.realvnc.com/
+connect by,
+192.168.1.110:5900
+(your ip ip:5900)
+Trouble Shooting encryption 登录失败 如果远程登录因为 encryption 的原因不成功，改一条设置即可，
+gsettings set org.gnome.Vino require-encryption false 注意安全，如果不暴露到外网还好。
+重启后无法登录 原因很简单，重启后未登录 Gnome 用户的情况下，服务进程还没启动，每次启动后在 Gnome 上登录一次就好了，但是还是很麻烦，每次重启要连一次键盘鼠标很淡疼啊，(ssh 登录没用)，解决办法：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/using-ubuntu-18-as-nas/" />
+
+
+<meta property="article:published_time" content="2018-07-22T21:11:31&#43;00:00"/>
+
+<meta property="article:modified_time" content="2018-07-22T21:11:31&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">折腾 Ubuntu 18.04 做 NAS</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>22 Jul 2018</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/gadget' class="link silver">Gadget</a> <a href='/tags/linux' class="link silver">Linux</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><p>一直在用 Deskmini 搭了黑群晖，但是其实用不到群晖的生态系统，索性自己安装个 Ubuntu 还方便自己自由维护使用。</p>
+<ul>
+<li>远程界面</li>
+<li>挂载 NTFS</li>
+<li>备份</li>
+<li>开启 SMB 服务</li>
+<li>开启 Time Machine 服务：<a href="https://drkbl.com/ubuntu-18-samba-time-machine/">Time Machine On Ubuntu 18 with samba</a></li>
+</ul>
+<h1 id="远程界面">远程界面</h1>
+<p>Ubuntu 没有网页端的 GUI，有时候还是想用界面来操作。不能总连着个显示器。所以用远程桌面替代，可以满足的选择有很多。</p>
+<ul>
+<li>18.04 自带了 vino，如果是 minimal install 需要自行安装， <code>sudo apt-get install vino ssh</code></li>
+</ul>
+<p>重启后进入设置，开启 sharing -&gt; desktop 开启密码。</p>
+<h2 id="客户端vnc-viewer">客户端：VNC Viewer</h2>
+<p><a href="https://www.realvnc.com/">https://www.realvnc.com/</a></p>
+<p>connect by,</p>
+<p><code>192.168.1.110:5900</code></p>
+<p>(your ip <code>ip:5900</code>)</p>
+<h2 id="trouble-shooting">Trouble Shooting</h2>
+<h3 id="encryption-登录失败">encryption 登录失败</h3>
+<p>如果远程登录因为 encryption 的原因不成功，改一条设置即可，</p>
+<pre><code>gsettings set org.gnome.Vino require-encryption false
+</code></pre><p>注意安全，如果不暴露到外网还好。</p>
+<h3 id="重启后无法登录">重启后无法登录</h3>
+<p>原因很简单，重启后未登录 Gnome 用户的情况下，服务进程还没启动，每次启动后在 Gnome 上登录一次就好了，但是还是很麻烦，每次重启要连一次键盘鼠标很淡疼啊，(ssh 登录没用)，解决办法：</p>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-ubuntu-18-04">https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-ubuntu-18-04</a></p>
+<h1 id="mount-ntfs">Mount NTFS</h1>
+<p>In ubuntu 18, you can just using the stock app: &ldquo;Disks&rdquo;  to mount and manage disks.</p>
+<h2 id="mount-in-terminal">Mount in terminal</h2>
+<ul>
+<li>Ref: <a href="https://askubuntu.com/questions/978746/how-to-mount-ntfs-partition-in-ubuntu-16-04/978750">How to Mount NTFS partition in Ubuntu 16.04 - Ask Ubuntu</a></li>
+</ul>
+<p>For mount once,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># show all devices/partitions to find the target path</span>
+<span style="color:#75715e"># remember use</span>
+sudo fdisk -l
+
+<span style="color:#75715e"># create mount destination</span>
+sudo mkdir /media/ntfs
+
+<span style="color:#75715e"># may like /dev/sdc1</span>
+sudo mount -t ntfs -o nls<span style="color:#f92672">=</span>utf8,umask<span style="color:#f92672">=</span><span style="color:#ae81ff">0222</span> /dev/sdc1 /media/ntfs
+
+<span style="color:#75715e"># unmount</span>
+sudo umount /media/ntfs
+</code></pre></div><p>For auto mount,
+<a href="https://askubuntu.com/questions/46588/how-to-automount-ntfs-partitions">https://askubuntu.com/questions/46588/how-to-automount-ntfs-partitions</a></p>
+<h2 id="mount-exfat">Mount ExFAT</h2>
+<p><a href="https://www.howtogeek.com/235655/how-to-mount-and-use-an-exfat-drive-on-linux/">https://www.howtogeek.com/235655/how-to-mount-and-use-an-exfat-drive-on-linux/</a></p>
+<h1 id="备份">备份</h1>
+<pre><code>rsync -av /src /des
+</code></pre><h1 id="smb">SMB</h1>
+<p>如果需要开启 Time Machine，不要直接这么安装，版本不够新，还得折腾。请看另一篇博客关于开启 Time Machine 的。</p>
+<p><a href="https://tutorials.ubuntu.com/tutorial/install-and-configure-samba#0">Install and Configure Samba | Ubuntu tutorials</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt update
+sudo apt install samba
+sudo nano /etc/samba/smb.conf
+
+<span style="color:#75715e">#! /etc/samba/smb.conf</span>
+<span style="color:#75715e">#! sambashare will be the name of share path</span>
+<span style="color:#f92672">[</span>sambashare<span style="color:#f92672">]</span> 
+    path <span style="color:#f92672">=</span> /path/to/share/folder
+    read only <span style="color:#f92672">=</span> no
+    browsable <span style="color:#f92672">=</span> yes
+<span style="color:#75715e"># 	  valid users = user_only_can_access</span>
+sudo service smbd restart
+
+<span style="color:#75715e"># Username used must belong to a system account</span>
+sudo smbpasswd -a username
+</code></pre></div><p>On Windows,
+<code>\\ip-address\sambashare</code></p>
+<p>On Mac,
+<code>smb://ip-address/</code></p>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/inject-git-commit-hash-var-on-webpack/">prev post</a>
+  <a href="https://drkbl.com/posts/ubuntu-18-samba-time-machine/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

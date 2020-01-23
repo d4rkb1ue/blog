@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Git 初步入门 - d4rkb1ue&#39;s Blog</title>
+  <meta content='Git 初步入门 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Git 初步入门 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="创建版本库 把这个目录变成Git可以管理的仓库： git init 也不一定必须在空目录下创建Git仓库，选择一个已经有东西的目录也是可以的。
+把文件添加到仓库： git add readme.txt （设置用户信息：） git config --global user.email &quot;7874364@gmail.com&quot; git config --global user.name &quot;ray0&quot; 只要设置一次，好像只有在从来没用过git的情况下才会出现
+提交文件到仓库 git commit 为什么Git添加文件需要add，commit一共两步呢？因为commit可以一次提交很多文件，所以你可以多次add不同的文件，比如：
+ray0@ubuntu:~/learngit$ touch b.txt ray0@ubuntu:~/learngit$ touch c.c ray0@ubuntu:~/learngit$ git add b.txt ray0@ubuntu:~/learngit$ git add c.c ray0@ubuntu:~/learngit$ git commit -m &quot;add b/c&quot; [master 5ccb1c8] add b/c 2 files changed, 0 insertions(&#43;), 0 deletions(-) create mode 100644 b.txt create mode 100644 c.c 发生变化 状态 查看目前状态：
+git status 出现修改之后，需要重新add才能commit" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/git-starter/" />
+
+
+<meta property="article:published_time" content="2016-03-09T22:55:17&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-03-09T22:55:17&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Git 初步入门</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>09 Mar 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/tools' class="link silver">Tools</a> <a href='/tags/git' class="link silver">Git</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="创建版本库">创建版本库</h1>
+<h2 id="把这个目录变成git可以管理的仓库">把这个目录变成Git可以管理的仓库：</h2>
+<pre><code>git init
+</code></pre><p><em>也不一定必须在空目录下创建Git仓库，选择一个已经有东西的目录也是可以的。</em></p>
+<h2 id="把文件添加到仓库">把文件添加到仓库：</h2>
+<pre><code>git add readme.txt
+</code></pre><h2 id="设置用户信息">（设置用户信息：）</h2>
+<pre><code>git config --global user.email &quot;7874364@gmail.com&quot;
+git config --global user.name &quot;ray0&quot;
+</code></pre><p><em>只要设置一次，好像只有在从来没用过git的情况下才会出现</em></p>
+<h2 id="提交文件到仓库">提交文件到仓库</h2>
+<pre><code>git commit
+</code></pre><p>为什么Git添加文件需要add，commit一共两步呢？因为commit可以一次提交很多文件，所以你可以多次add不同的文件，比如：</p>
+<pre><code>ray0@ubuntu:~/learngit$ touch b.txt
+ray0@ubuntu:~/learngit$ touch c.c
+ray0@ubuntu:~/learngit$ git add b.txt 
+ray0@ubuntu:~/learngit$ git add c.c 
+ray0@ubuntu:~/learngit$ git commit -m &quot;add b/c&quot;
+[master 5ccb1c8] add b/c
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 b.txt
+ create mode 100644 c.c
+</code></pre><h1 id="发生变化">发生变化</h1>
+<h2 id="状态">状态</h2>
+<p>查看目前状态：</p>
+<pre><code>git status
+</code></pre><p><strong>出现修改之后，需要重新<code>add</code>才能<code>commit</code></strong></p>
+<h2 id="查看区别">查看区别</h2>
+<pre><code>git diff
+</code></pre><h1 id="回退">回退</h1>
+<h2 id="日志">日志</h2>
+<p>每次commit的说明：</p>
+<pre><code>git log
+</code></pre><p>或者 <code>git log --pretty=oneline</code> 显示在单行</p>
+<h2 id="head--版本号">HEAD &amp; 版本号</h2>
+<p>表示当前版本。
+上一个版本: <code>HEAD^</code>
+上上一个版本: <code>HEAD^^</code>
+往上100个版本: <code>HEAD~100</code>
+<code>5b892195a65c3e4886f27c170b55b354e041928a</code> 版本前的指纹就是版本号。在作为参数使用的时候，<strong>无需写全。</strong></p>
+<h2 id="reset">reset</h2>
+<p>回退到上一个版本：</p>
+<pre><code>git reset --hard HEAD^
+</code></pre><p>此时，<code>git log</code> <code>git diff</code> 就像刚刚提交了这个 commit 的状态一样。完全没有未来版本的痕迹。毁尸灭迹的非常严重。</p>
+<p>回退到某一个版本：</p>
+<pre><code>git reset --hard 5b892195a65c3e4886f27c170b55b354e041928a
+</code></pre><p>参数是长长的sha码。就是指定要的那个版本的指纹。使用这个命令，当然也可以不写全版本号，至少四位。
+<strong>这个指纹可以是未来的版本号哦！hard reset之后可以rest到在log里看不到但是存在过的未来的那个版本</strong></p>
+<h2 id="操作日志">操作日志</h2>
+<pre><code>git reflog
+</code></pre><p>这个指令可以查看全部对库发生改变的指令。被 hard reset 替换的版本也会被记录下。</p>
+<h2 id="checkout-">CheckOut :)</h2>
+<pre><code>git checkout -- readme.txt
+</code></pre><p>把readme.txt文件在工作区的修改全部撤销。首先看，如果有<code>add</code>的版本就回退到那个版本，否则退到<code>commit</code>的版本。</p>
+<h2 id="撤销add">撤销<code>add</code></h2>
+<pre><code>git reset HEAD file
+</code></pre><p>再次撤销工作区修改的话：</p>
+<pre><code>git checkout -- readme.txt
+</code></pre><p>现在依次撤销了 <code>add</code> 和 本地修改。</p>
+<h1 id="删除">删除</h1>
+<pre><code>git rm test.txt
+</code></pre><p>同时在本地和<code>add</code>库中删除了该文件。如果需要撤销，<code>git reset HEAD c.c</code>，<code>git checkout -- c.c</code>依次撤销<code>add</code>库的修改，和 本地修改。</p>
+<h1 id="使用github">使用Github</h1>
+<h2 id="首次使用">首次使用</h2>
+<p>需要建立ssh-keygen</p>
+<pre><code>ssh-keygen -t rsa -C &quot;youremail@example.com&quot;
+</code></pre><p>GitHub，打开“Account settings”，“SSH Keys”,“Add SSH Key”，填上任意Title，在Key文本框里粘贴<code>~/.ssh/id_rsa.pub</code>的内容</p>
+<h2 id="新建远程库">新建远程库</h2>
+<p><del>GitHub，“Create a new repo”。按照github的指示操作。</del></p>
+<p>不要使用默认的HTTPS的同步方式，这个方式不支持两步验证，应使用 SSH式的，可以改为：</p>
+<pre><code>git remote set-url origin git@github.com:username/repo.git
+</code></pre><h2 id="推送到远程">推送到远程</h2>
+<pre><code>git push origin master
+</code></pre><p>推送的时候，完全将远程和本地的库一致。无需每次<code>commit</code>后都<code>push</code>。只要<code>push</code>一次，全部的版本都会存在。</p>
+<h2 id="部署到服务器">部署到服务器</h2>
+<p>在远程服务器执行</p>
+<pre><code>git clone https://github.com/d4rkb1ue/joker.git
+</code></pre><p>会在本地建立一个joker文件夹并下载全部。如果本身就有一个joker, 那就先删除了他呗。</p>
+<p>**注意，<code>git clone git@github.com:d4rkb1ue/joker.git</code>要求下载这个git的客户端也需要把ssh_pub记录到github上。所以安心用https吧。</p>
+<pre><code>npm install 
+</code></pre><p>因为npm_modules我没有上传。直接在本地下载好啦。反正所有的dependance都是自带版本号的：</p>
+<pre><code>&quot;dependencies&quot;: {
+    &quot;body-parser&quot;: &quot;~1.13.2&quot;,
+    &quot;cookie-parser&quot;: &quot;~1.3.5&quot;,
+    &quot;debug&quot;: &quot;~2.2.0&quot;,
+    &quot;ejs&quot;: &quot;~2.3.3&quot;,
+    &quot;express&quot;: &quot;~4.13.1&quot;,
+    &quot;morgan&quot;: &quot;~1.6.1&quot;,
+    &quot;serve-favicon&quot;: &quot;~2.3.0&quot;
+  }
+
+</code></pre><hr>
+<h1 id="参考">参考</h1>
+<ol>
+<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">廖雪峰-Git</a></li>
+</ol>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/lxf-lesson-1/">prev post</a>
+  <a href="https://drkbl.com/posts/node-blog-express-start/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

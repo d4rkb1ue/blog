@@ -1,3 +1,3 @@
 #!/bin/bash
 
-hugo server
+hugo server -d docs

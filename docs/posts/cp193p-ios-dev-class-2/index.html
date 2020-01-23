@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>CS193p, iOS developing with Swift, Class 2 - d4rkb1ue&#39;s Blog</title>
+  <meta content='CS193p, iOS developing with Swift, Class 2 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='CS193p, iOS developing with Swift, Class 2 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="Computed Property Apply the MVC Struct Closure Enumerations  Computed Property var displayValue: Double { get{ return Double(display.text!)! } set{ display.text = String(newValue) } it’s a var. but contains some functions. newValue is a pre-defined keyword.
+When we call
+displayValue = some_value aka, the displayValue is being SET the function set well be executed. Similarly, when we call
+new_some_value = displayValue aka, the displayValue is being GET, the function get will be executed; or like func(displayValue)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/cp193p-ios-dev-class-2/" />
+
+
+<meta property="article:published_time" content="2017-01-30T10:57:13&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-01-30T10:57:13&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">CS193p, iOS developing with Swift, Class 2</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>30 Jan 2017</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/ios' class="link silver">ios</a> <a href='/tags/cs193p' class="link silver">cs193p</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><ul>
+<li>Computed Property</li>
+<li>Apply the MVC</li>
+<li>Struct</li>
+<li>Closure</li>
+<li>Enumerations</li>
+</ul>
+<h1 id="computed-property">Computed Property</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">var</span> displayValue: Double {
+    <span style="color:#66d9ef">get</span>{
+        <span style="color:#66d9ef">return</span> Double(display.text!)<span style="color:#f92672">!</span>
+    }
+    <span style="color:#66d9ef">set</span>{
+        display.text = String(newValue)
+    } 
+</code></pre></div><p>it’s a var. but contains some functions.  <code>newValue</code> is a pre-defined keyword.</p>
+<p>When we call</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">displayValue = some_value
+</code></pre></div><p>aka, the <code>displayValue</code> is being SET the function <code>set</code> well be executed.  Similarly, when we call</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">new_some_value = displayValue
+</code></pre></div><p>aka, the <code>displayValue</code> is being GET, the function <code>get</code> will be executed; or like <code>func(displayValue)</code>.</p>
+<p>if we don’t specify a <code>set</code>, this property will be READ-ONLY; if no <code>get</code>, it will be WRITE-ONLY;</p>
+<p>So the computed property react with the sign <code>=</code>. <code>==</code> or <code>&lt;</code>, <code>&gt;</code> will not call the function.</p>
+<h1 id="apply-the-mvc">Apply the MVC</h1>
+<ul>
+<li>Model: the datas, algorithms, calculations; don’t know the view;</li>
+</ul>
+<ul>
+<li>View: interact with users, show things to them; don’t know the model;</li>
+<li>Controller: listen to the models, tell the models; interact with view;</li>
+</ul>
+<h2 id="model">Model</h2>
+<p>new file, iOS, swift, name it “CalculatorModel”.</p>
+<p>create a new object:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">var</span> model = CalculatorModel()
+</code></pre></div><p>since it is <code>= CalculatorModel()</code> , we do not need to specify <code>model: Calculator</code>; the same as, <code>var kkk: Double = 0.0;</code> simply, it can be <code>var kkk = 0.0</code>; the Xcode can refer it as a <code>Double</code>:</p>
+<p><img src="/images/cs193p/swift_refer_double.png" alt="swift_refer_double.png"></p>
+<p>if <code>var i = 0</code> it will be refer to an <code>Int</code></p>
+<h3 id="authority">authority</h3>
+<p>Private: make func/var private firstly. If need, change them to public, not the opposite.
+Show class’s interface:</p>
+<p><img src="/images/cs193p/xcode_show_interface.png" alt="xcode_show_interface.png"></p>
+<p>like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ViewController</span> : UIViewController {
+
+<span style="color:#66d9ef">@IBOutlet</span> <span style="color:#66d9ef">weak</span> <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">var</span> display: UILabel!
+
+<span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">var</span> userIsInTheMiddleOfTyping: Bool
+
+<span style="color:#66d9ef">@IBAction</span> <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">touchDigit</span>(<span style="color:#66d9ef">_</span> sender: UIButton) -&gt; <span style="color:#f92672">&lt;&lt;</span>error type&gt;<span style="color:#f92672">&gt;</span>
+
+<span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">var</span> displayValue: Double { <span style="color:#66d9ef">get</span> <span style="color:#66d9ef">set</span> }
+
+<span style="color:#66d9ef">@IBAction</span> <span style="color:#66d9ef">internal</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">performOperation</span>(<span style="color:#66d9ef">_</span> sender: UIButton) -&gt; <span style="color:#f92672">&lt;&lt;</span>error type&gt;<span style="color:#f92672">&gt;</span>
+}
+</code></pre></div><p>Diff: <code>internel</code> &amp; <code>public</code></p>
+<ul>
+<li><code>internal</code> is public in the module; since we have only one app, the internal basically is the <code>public</code></li>
+</ul>
+<ul>
+<li><code>public</code> is public in other modules; like <code>UIkit</code>, it has many public methods, but also a lot of internal methods which can be called between themselves in the <code>UIkit</code></li>
+</ul>
+<p>reformat(indent): <strong>Ctrl + I</strong></p>
+<p><strong>about <code>var</code>:</strong></p>
+<ul>
+<li>if it start with small case, it will be a local variable: <code>var localVar</code></li>
+</ul>
+<ul>
+<li>otherwise, a public variable: <code>var PublicVar</code></li>
+<li>also, always use Camel Case(驼峰)</li>
+</ul>
+<h1 id="enumerations">Enumerations</h1>
+<h2 id="example">Example</h2>
+<p>Define:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">CompassPoint</span> {
+    <span style="color:#66d9ef">case</span> north
+    <span style="color:#66d9ef">case</span> south
+    <span style="color:#66d9ef">case</span> east
+    <span style="color:#66d9ef">case</span> west
+}
+<span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">i</span><span style="color:#75715e">n</span><span style="color:#75715e"> </span><span style="color:#75715e">a</span><span style="color:#75715e"> </span><span style="color:#75715e">l</span><span style="color:#75715e">i</span><span style="color:#75715e">n</span><span style="color:#75715e">e</span>
+<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Planet</span> {
+    <span style="color:#66d9ef">case</span> mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
+}
+</code></pre></div><p>Usage:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">var</span> directionToHead = CompassPoint.west
+
+directionToHead = .east
+</code></pre></div><p>Once the variable is defined by the enum type, next time, things will be simpler. (also when the Xcode can guess this type)</p>
+<p>use with <code>switch</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">directionToHead = .south
+<span style="color:#66d9ef">switch</span> directionToHead {
+<span style="color:#66d9ef">case</span> .north:
+    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Lots of planets have a north</span><span style="color:#e6db74">&#34;</span>)
+<span style="color:#66d9ef">case</span> .south:
+    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Watch out for penguins</span><span style="color:#e6db74">&#34;</span>)
+<span style="color:#66d9ef">case</span> .east:
+    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Where the sun rises</span><span style="color:#e6db74">&#34;</span>)
+<span style="color:#66d9ef">case</span> .west:
+    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Where the skies are blue</span><span style="color:#e6db74">&#34;</span>)
+<span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">s</span><span style="color:#75715e">i</span><span style="color:#75715e">n</span><span style="color:#75715e">c</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">w</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">c</span><span style="color:#75715e">o</span><span style="color:#75715e">v</span><span style="color:#75715e">e</span><span style="color:#75715e">r</span><span style="color:#75715e"> </span><span style="color:#75715e">a</span><span style="color:#75715e">l</span><span style="color:#75715e">l</span><span style="color:#75715e"> </span><span style="color:#75715e">t</span><span style="color:#75715e">h</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">c</span><span style="color:#75715e">a</span><span style="color:#75715e">s</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">d</span><span style="color:#75715e">e</span><span style="color:#75715e">f</span><span style="color:#75715e">i</span><span style="color:#75715e">n</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">i</span><span style="color:#75715e">n</span><span style="color:#75715e"> </span><span style="color:#75715e">t</span><span style="color:#75715e">h</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">e</span><span style="color:#75715e">n</span><span style="color:#75715e">u</span><span style="color:#75715e">m</span><span style="color:#75715e">,</span><span style="color:#75715e"> </span><span style="color:#75715e">w</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">d</span><span style="color:#75715e">o</span><span style="color:#75715e"> </span><span style="color:#75715e">n</span><span style="color:#75715e">o</span><span style="color:#75715e">t</span><span style="color:#75715e"> </span><span style="color:#75715e">n</span><span style="color:#75715e">e</span><span style="color:#75715e">e</span><span style="color:#75715e">d</span>
+<span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">d</span><span style="color:#75715e">e</span><span style="color:#75715e">f</span><span style="color:#75715e">a</span><span style="color:#75715e">u</span><span style="color:#75715e">l</span><span style="color:#75715e">t</span><span style="color:#75715e">:</span><span style="color:#75715e"> </span><span style="color:#75715e">.</span><span style="color:#75715e">.</span><span style="color:#75715e">.</span>
+}
+</code></pre></div><p>since we cover all the case define in the enum, we do not need a <code>default: …</code>; but this do not mean we <strong>must</strong> be exhaustive, omit some cases and provide a <code>default</code> is acceptable.</p>
+<h2 id="associated-values">Associated Values</h2>
+<blockquote>
+<p>it is sometimes useful to be able to store associated values of other types alongside these case values. This enables you to store additional custom information along with the case value, and permits this information to vary each time you use that case in your code.</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Barcode</span> {
+    <span style="color:#66d9ef">case</span> upc(Int, Int, Int, Int)
+    <span style="color:#66d9ef">case</span> qrCode(String)
+}
+</code></pre></div><p>define the enum type, must have an associated value.</p>
+<p>usage:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">var</span> productBarcode = Barcode.upc(<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">85909</span>, <span style="color:#ae81ff">51226</span>, <span style="color:#ae81ff">3</span>)
+<span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">o</span><span style="color:#75715e">n</span><span style="color:#75715e">c</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">t</span><span style="color:#75715e">h</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">t</span><span style="color:#75715e">y</span><span style="color:#75715e">p</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">i</span><span style="color:#75715e">s</span><span style="color:#75715e"> </span><span style="color:#75715e">s</span><span style="color:#75715e">e</span><span style="color:#75715e">t</span><span style="color:#75715e">t</span><span style="color:#75715e">l</span><span style="color:#75715e">e</span><span style="color:#75715e">d</span><span style="color:#75715e">,</span><span style="color:#75715e"> </span><span style="color:#75715e">t</span><span style="color:#75715e">h</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">e</span><span style="color:#75715e">n</span><span style="color:#75715e">u</span><span style="color:#75715e">m</span><span style="color:#75715e"> </span><span style="color:#75715e">n</span><span style="color:#75715e">a</span><span style="color:#75715e">m</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">c</span><span style="color:#75715e">a</span><span style="color:#75715e">n</span><span style="color:#75715e"> </span><span style="color:#75715e">b</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">i</span><span style="color:#75715e">g</span><span style="color:#75715e">n</span><span style="color:#75715e">o</span><span style="color:#75715e">r</span><span style="color:#75715e">e</span><span style="color:#75715e">d</span>
+productBarcode = .qrCode(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ABCDEFGHIJKLMNOP</span><span style="color:#e6db74">&#34;</span>)
+</code></pre></div><p>use with <code>switch</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">switch</span> productBarcode {
+<span style="color:#66d9ef">case</span> .upc(<span style="color:#66d9ef">let</span> numberSystem, <span style="color:#66d9ef">let</span> manufacturer, <span style="color:#66d9ef">let</span> product, <span style="color:#66d9ef">let</span> check):
+    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">UPC: </span><span style="color:#e6db74">\(</span>numberSystem<span style="color:#e6db74">)</span><span style="color:#e6db74">, </span><span style="color:#e6db74">\(</span>manufacturer<span style="color:#e6db74">)</span><span style="color:#e6db74">, </span><span style="color:#e6db74">\(</span>product<span style="color:#e6db74">)</span><span style="color:#e6db74">, </span><span style="color:#e6db74">\(</span>check<span style="color:#e6db74">)</span><span style="color:#e6db74">.</span><span style="color:#e6db74">&#34;</span>)
+<span style="color:#66d9ef">case</span> .qrCode(<span style="color:#66d9ef">let</span> productCode):
+    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">QR code: </span><span style="color:#e6db74">\(</span>productCode<span style="color:#e6db74">)</span><span style="color:#e6db74">.</span><span style="color:#e6db74">&#34;</span>)
+}
+</code></pre></div><p>all the associated values can be <code>let</code> to get the value. it can be write like this: <code>case let .upc(numberSystem, manufacturer, product, check):</code>  (= <code>case .upc(let numberSystem, let manufacturer, let product, let check)</code>)</p>
+<p>Actually, <code>optional</code>, aka, <code>TYPE ?</code>is an enum.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Optional</span>&lt;T&gt; {
+    <span style="color:#66d9ef">case</span> None
+    <span style="color:#66d9ef">case</span> Some&lt;T&gt;
+}
+</code></pre></div><h1 id="closure">Closure</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">multiply</span>(op1: Double, op2: Double) -&gt; Double {
+    <span style="color:#66d9ef">return</span> op1 <span style="color:#f92672">*</span> op2
+}
+</code></pre></div><p>Function is a type of value. Same as Double or String. Most important, it can has its own attributes when claim:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">passAFunction</span>((Double, Double) <span style="color:#960050;background-color:#1e0010">—</span><span style="color:#f92672">&gt;</span> Double) {
+        ...
+}
+<span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">c</span><span style="color:#75715e">a</span><span style="color:#75715e">l</span><span style="color:#75715e">l</span><span style="color:#75715e"> </span><span style="color:#75715e">i</span><span style="color:#75715e">t</span>
+passAFunction(multiply)
+</code></pre></div><p>function  <code>multiply</code> is not decent, it can be turned like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">n</span><span style="color:#75715e">e</span><span style="color:#75715e">e</span><span style="color:#75715e">d</span><span style="color:#75715e"> </span><span style="color:#75715e">a</span><span style="color:#75715e"> </span><span style="color:#75715e">&#34;</span><span style="color:#75715e">i</span><span style="color:#75715e">n</span><span style="color:#75715e">&#34;</span><span style="color:#75715e"> </span><span style="color:#75715e">b</span><span style="color:#75715e">e</span><span style="color:#75715e">t</span><span style="color:#75715e">w</span><span style="color:#75715e">e</span><span style="color:#75715e">e</span><span style="color:#75715e">n</span><span style="color:#75715e"> </span><span style="color:#75715e">d</span><span style="color:#75715e">e</span><span style="color:#75715e">c</span><span style="color:#75715e">l</span><span style="color:#75715e">a</span><span style="color:#75715e">r</span><span style="color:#75715e">a</span><span style="color:#75715e">t</span><span style="color:#75715e">i</span><span style="color:#75715e">o</span><span style="color:#75715e">n</span><span style="color:#75715e"> </span><span style="color:#75715e">a</span><span style="color:#75715e">n</span><span style="color:#75715e">d</span><span style="color:#75715e"> </span><span style="color:#75715e">s</span><span style="color:#75715e">t</span><span style="color:#75715e">a</span><span style="color:#75715e">t</span><span style="color:#75715e">e</span><span style="color:#75715e">m</span><span style="color:#75715e">e</span><span style="color:#75715e">n</span><span style="color:#75715e">t</span>
+passAFuction( 
+    { (op1: Double, op2: Double) -&gt; Double <span style="color:#66d9ef">in</span>
+    <span style="color:#66d9ef">return</span> op1 <span style="color:#f92672">*</span> op2
+    }
+)
+</code></pre></div><p>because Swift know that  <code>passAFunction </code> need a <code>(Double, Double) —&gt; Double)</code> , we can proceed,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">passAFunction(
+    { (op1, op2) <span style="color:#66d9ef">in</span>
+    <span style="color:#66d9ef">return</span> op1 <span style="color:#f92672">*</span> op2
+    }
+)
+</code></pre></div><p>Closure has default value name, <code>$0</code> for the 1st parameter, <code>$1</code> for the 2nd, <code>$2</code> for the 3rd and go on. So, proceed,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">passAFunction( 
+    {
+        <span style="color:#66d9ef">return</span> $0 <span style="color:#f92672">*</span> $1
+    }
+)
+</code></pre></div><p>Moreover,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">passAFunction({ $0 <span style="color:#f92672">*</span> $1 } )
+</code></pre></div><p>another example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">[...
+ <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">±</span><span style="color:#e6db74">&#34;</span> : Operation.UnaryOp({ <span style="color:#f92672">-</span>$0 }),
+...]
+</code></pre></div><h1 id="struct">Struct</h1>
+<p>Struct is very similar to Class. Diff Struct &amp; Class</p>
+<ul>
+<li>Can not inherit</li>
+<li>Pass value by value, not reference(Struct always get copied)</li>
+<li>Struct’s default constructer function contains all the parameters, while Class has none</li>
+</ul>
+<p><em>In fact, a passed Struct not always get copied unless the new reference get touched.</em></p>
+<h1 id="questions">Questions!</h1>
+<h2 id="function-as-parameter">function as parameter</h2>
+<p>if I put</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">multiply</span>(op1: Double, op2: Double) -&gt; Double {
+    <span style="color:#66d9ef">return</span> op1 <span style="color:#f92672">*</span> op2
+}
+</code></pre></div><p>inside the Class like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CalculatorModel</span> {
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">multiply</span>(op1: Double, op2: Double) -&gt; Double {
+    <span style="color:#66d9ef">return</span> op1 <span style="color:#f92672">*</span> op2
+}
+
+<span style="color:#66d9ef">var</span> operations: Dictionary&lt;String, Operation&gt; = [
+        <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">×</span><span style="color:#e6db74">&#34;</span> : Operation.BinaryOp(multiply)
+    ]
+</code></pre></div><p>and it’s just wrong!</p>
+<pre><code>Cannot convert value of type '(CalculatorModel) -&gt; (Double, Double) -&gt; Double' to expected argument type '(Double, Double) -&gt; Double'
+</code></pre><p>but when I put the multiply function out of the Class. It turns OK.</p>
+<hr>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Enumerations.html#//apple_ref/doc/uid/TP40014097-CH12-ID145">The Swift Programming Language (Swift 3.0.1): Enumerations</a></li>
+</ul>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/phicomm-k2-asus-ap-bridge/">prev post</a>
+  <a href="https://drkbl.com/posts/automator-as-autohotkey/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/java/</link>
+    <description>Recent content in Java on d4rkb1ue&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 10 Oct 2016 02:49:48 +0000</lastBuildDate>
+    
+	<atom:link href="https://drkbl.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>渗透问题 (Percolation) 中 backwash 的解决</title>
+      <link>https://drkbl.com/posts/quote-avoid-backwash-in-percolation/</link>
+      <pubDate>Mon, 10 Oct 2016 02:49:48 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/quote-avoid-backwash-in-percolation/</guid>
+      <description>参考 Avoid Backwash Issue in Percolation Problem
+Q: 渗透问题 Percolation-week1
+将一个不透水的均质方块分割为矩阵N*N，最上方为水源。随机打开矩阵中任意格子，重复此项操作多次，直到产生一条路径使水能穿过这个方块到达最下方。
+思路 采用weighted-quick-union算法（with Path compression）
+数据结构 和课上所用的weighted-quick-union算法一致，采用PPT的写法，模拟出2个虚拟点，分别是top和bottom。isFull就是判断这个点是否 is_connected(self,top)
+Bug：backwash  In the context of Percolation, the backwash issue is that some site might be mistakenly judged as a full site (A full site is an open site that can be connected to an open site in the top row via a chain of neighboring (left, right, up, down) open sites.) if we directly adopt the dummy nodes suggested in the course material, i.</description>
+    </item>
+    
+    <item>
+      <title>Unix 正确编译运行多文件 Java</title>
+      <link>https://drkbl.com/posts/how-to-run-multi-java-file/</link>
+      <pubDate>Mon, 19 Sep 2016 18:38:14 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/how-to-run-multi-java-file/</guid>
+      <description>0基础 Java 命令行编译~
+目录结构  建立 package 文件夹，如 ~/project/myPackage 在 ~/project/myPackage 下存放多个 java 文件 每个 java 文件除注释外首行应为本 package 名 package myPackage;  编译  在 ~/project 目录下执行 javac myPackage/*.java 编译全部 java 文件  运行  在 ~/project 目录下执行 java myPackage.MainClass 或 java myPackage/MainClass 均可  </description>
+    </item>
+    
+  </channel>
+</rss>

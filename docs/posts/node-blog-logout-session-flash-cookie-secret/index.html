@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>nswbmw/N-blog 学习-5-登出 logout, session 和 flash 的再次研究, cookie.id 和 cookieSecret 的研究 - d4rkb1ue&#39;s Blog</title>
+  <meta content='nswbmw/N-blog 学习-5-登出 logout, session 和 flash 的再次研究, cookie.id 和 cookieSecret 的研究 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='nswbmw/N-blog 学习-5-登出 logout, session 和 flash 的再次研究, cookie.id 和 cookieSecret 的研究 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="登出响应 logout 的实现 index.js app.post(&#39;/login&#39;) :
+app.post(&#39;/login&#39;, function (req, res) { //生成密码的 md5 值  var md5 = crypto.createHash(&#39;md5&#39;), password = md5.update(req.body.password).digest(&#39;hex&#39;); //检查用户是否存在  User.get(req.body.name, function (err, user) { if (!user) { req.flash(&#39;error&#39;, &#39;用户不存在!&#39;); //@d4rkb1ue 在这里return res.() 其实并不是在return response.  //res.redirect 肯定返回了一个无所谓的值。其实就是  //res.redirect();return null;  return res.redirect(&#39;/login&#39;);//用户不存在则跳转到登录页  } //检查密码是否一致  if (user.password != password) { req.flash(&#39;error&#39;, &#39;密码错误!&#39;); return res.redirect(&#39;/login&#39;);//密码错误则跳转到登录页  } //用户名密码都匹配后，将用户信息存入 session  req.session.user = user; req.flash(&#39;success&#39;, &#39;登陆成功!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/node-blog-logout-session-flash-cookie-secret/" />
+
+
+<meta property="article:published_time" content="2016-04-02T22:43:57&#43;00:00"/>
+
+<meta property="article:modified_time" content="2016-04-02T22:43:57&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">nswbmw/N-blog 学习-5-登出 logout, session 和 flash 的再次研究, cookie.id 和 cookieSecret 的研究</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>02 Apr 2016</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/nblog' class="link silver">Nblog</a> <a href='/tags/node.js' class="link silver">Node.js</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="登出响应-logout-的实现">登出响应 logout 的实现</h1>
+<h2 id="indexjs">index.js</h2>
+<p><code>app.post('/login')</code> :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/login&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
+  <span style="color:#75715e">//生成密码的 md5 值
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">md5</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">crypto</span>.<span style="color:#a6e22e">createHash</span>(<span style="color:#e6db74">&#39;md5&#39;</span>),
+      <span style="color:#a6e22e">password</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">md5</span>.<span style="color:#a6e22e">update</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">password</span>).<span style="color:#a6e22e">digest</span>(<span style="color:#e6db74">&#39;hex&#39;</span>);
+  <span style="color:#75715e">//检查用户是否存在
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">User</span>.<span style="color:#a6e22e">get</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">name</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">user</span>) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">user</span>) {
+      <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;error&#39;</span>, <span style="color:#e6db74">&#39;用户不存在!&#39;</span>); 
+      <span style="color:#75715e">//@d4rkb1ue 在这里return res.() 其实并不是在return response.
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">//res.redirect 肯定返回了一个无所谓的值。其实就是
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">//res.redirect();return null;
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/login&#39;</span>);<span style="color:#75715e">//用户不存在则跳转到登录页
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#75715e">//检查密码是否一致
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">password</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">password</span>) {
+      <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;error&#39;</span>, <span style="color:#e6db74">&#39;密码错误!&#39;</span>); 
+      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/login&#39;</span>);<span style="color:#75715e">//密码错误则跳转到登录页
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#75715e">//用户名密码都匹配后，将用户信息存入 session
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">user</span>;
+    <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;success&#39;</span>, <span style="color:#e6db74">&#39;登陆成功!&#39;</span>);
+    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/&#39;</span>);<span style="color:#75715e">//登陆成功后跳转到主页
+</span><span style="color:#75715e"></span>  });
+});
+</code></pre></div><h3 id="对这段代码的研究">对这段代码的研究</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">user</span>;
+<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;success&#39;</span>,<span style="color:#e6db74">&#39;welcome!&#39;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">name</span>);
+<span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/&#39;</span>);
+</code></pre></div><p>首先req.session/flash的操作都是本地的。即去修改本地数据库里面session信息。
+之后在res.redirect是在给予用户反馈。但是当然的，这次发送其实是告诉用户去 <code>GET /</code>而不是直接送给用户<code>/</code>的内容（可以在包拦截中看到实际上是给了一个302,临时转址）。然后之后用户<code>/</code>的请求，自带了cookie.id，因此服务器返回的是符合这个id的内容，包括去属于这个id的session里拿到flash，给用户。之后删除flash。</p>
+<p><code>app.get('/login')</code> :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/login&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
+    <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">render</span>(<span style="color:#e6db74">&#39;login&#39;</span>, {
+        <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;登录&#39;</span>,
+        <span style="color:#a6e22e">user</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">user</span>,
+        <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;success&#39;</span>).<span style="color:#a6e22e">toString</span>(),
+        <span style="color:#a6e22e">error</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;error&#39;</span>).<span style="color:#a6e22e">toString</span>()});
+});
+</code></pre></div><p>不加这段，在不登陆状态访问 <code>/reg</code> 就会报错找不到 <code>user</code>。</p>
+<p><code>app.get('/logout')</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/logout&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
+  <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">session</span>.<span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+  <span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">flash</span>(<span style="color:#e6db74">&#39;success&#39;</span>, <span style="color:#e6db74">&#39;登出成功!&#39;</span>);
+  <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">redirect</span>(<span style="color:#e6db74">&#39;/&#39;</span>);<span style="color:#75715e">//登出成功后跳转到主页
+</span><span style="color:#75715e"></span>});
+</code></pre></div><p>在 <code>req.session.user</code> 中把 <code>user</code> 信息赋值为空。就等于这个用户的cookie.id来数据库中找的时候，发现没有user。于是就返回未登录状态的界面。</p>
+<p><strong>Tips:用<code>db.sessions.remove({})</code>可以删除所有的session。</strong></p>
+<h1 id="第一次研究登陆的过程我觉得漏洞很多">第一次研究登陆的过程，我觉得漏洞很多</h1>
+<ol>
+<li>首先，密码原文是明文传输的。只是在server端不保存原文而已。</li>
+<li>server判定用户是通过cookie id，那么如果有人伪造id呢？</li>
+<li>md5保存密码没有问题，一定程度上减少了被拖库的威胁。但是session数据库被拖库了以后，对方不就知道这个用户的cookie id了吗，继而就可以仿造cookie了。</li>
+</ol>
+<h2 id="对-cookieid--cookiesecret--猜测">对 cookie.id &amp; cookieSecret  猜测</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">session</span>({
+<span style="color:#a6e22e">secret</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">settings</span>.<span style="color:#a6e22e">cookieSecret</span>
+<span style="color:#a6e22e">key</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">settings</span>.<span style="color:#a6e22e">db</span>,<span style="color:#75715e">//cookie name
+</span><span style="color:#75715e"></span>...
+})}));
+</code></pre></div><p>在session中，我们添加了一个 cookieSecret 我猜测这个东西对我们的 cookie 做了加密。</p>
+<h3 id="查看clientcookie">查看Client:Cookie</h3>
+<p>看下cookie（从chrome的开发者工具的 Resources-&gt;Cookies 可以看到 Cookies):</p>
+<pre><code>Name: blog
+Value: s%3ATKcqS6XfuhObSk2vFY1UuNI_ehtpn8MM.b8NAkCxLu85FB2OiusE8FftGMKS2VEOJppODD2eD5%2FU
+Domain: node
+Path: /
+Exp. time: 2016-05-01T09:23:32.673Z
+Size: 86
+HTTP: ✓ true
+</code></pre><p>我在同一个浏览器中重新注册了一个账号'r&rsquo;，看看新的Cookie：</p>
+<pre><code>blog    
+s%3ATKcqS6XfuhObSk2vFY1UuNI_ehtpn8MM.b8NAkCxLu85FB2OiusE8FftGMKS2VEOJppODD2eD5%2FU
+node
+/   
+2016-05-02T11:23:50.520Z    
+86  
+✓       
+</code></pre><p>也就是说，value没变！只是Expire Time变了。</p>
+<h3 id="查看servercookie">查看Server:Cookie</h3>
+<p>再来看看数据库的存储：</p>
+<pre><code>&gt; db.sessions.find()
+{ &quot;_id&quot; : &quot;TKcqS6XfuhObSk2vFY1UuNI_ehtpn8MM&quot;, &quot;session&quot; : &quot;{\&quot;cookie\&quot;:{\&quot;originalMaxAge\&quot;:2591999997,\&quot;expires\&quot;:\&quot;2016-04-30T21:36:25.235Z\&quot;,\&quot;httpOnly\&quot;:true,\&quot;path\&quot;:\&quot;/\&quot;},\&quot;flash\&quot;:{},\&quot;user\&quot;:{\&quot;name\&quot;:\&quot;r\&quot;,\&quot;password\&quot;:\&quot;c4ca4238a0b923820dcc509a6f75849b\&quot;,\&quot;email\&quot;:\&quot;1@1\&quot;}}&quot;, &quot;expires&quot; : ISODate(&quot;2016-04-30T21:36:25.235Z&quot;) }
+</code></pre><p>可以看到 user:name:r 就是刚刚申请的那个。值得注意的是，expire time 没变！看来client 和 server各自维护自己的expire时间。</p>
+<p>注意<code>_id</code>正是Client:Cookie存储的<code>s%3ATKcqS6XfuhObSk2vFY1UuNI_ehtpn8MM.</code>只是多了个<code>s%3A</code>前缀罢了。那么我说的这种cookie欺骗是有可能的。</p>
+<h3 id="新注册一个cookie">新注册一个Cookie</h3>
+<p>再看一个cookie, 使用chrome隐身模式，注册一个 &lsquo;niming&rsquo; 的user：
+得到Cookie:</p>
+<pre><code>blog    s%3ADLGJsEugpRcnMGtH37frp_uQQ2B-RXUp.iL5i3ATdzjoABjwAHZF554jkpfFtY%2B%2FICrOFzADEH2A    node    /   2016-05-02T11:43:58.855Z    88  ✓       
+ 
+</code></pre><p><code>&gt;db.sessions.find()</code>:</p>
+<pre><code>{ &quot;_id&quot; : &quot;DLGJsEugpRcnMGtH37frp_uQQ2B-RXUp&quot;, &quot;session&quot; : &quot;{\&quot;cookie\&quot;:{\&quot;originalMaxAge\&quot;:2592000000,\&quot;expires\&quot;:\&quot;2016-04-30T21:56:26.531Z\&quot;,\&quot;httpOnly\&quot;:true,\&quot;path\&quot;:\&quot;/\&quot;},\&quot;flash\&quot;:{},\&quot;user\&quot;:{\&quot;name\&quot;:\&quot;niming\&quot;,\&quot;password\&quot;:\&quot;c4ca4238a0b923820dcc509a6f75849b\&quot;,\&quot;email\&quot;:\&quot;1@1\&quot;}}&quot;, &quot;expires&quot; : ISODate(&quot;2016-04-30T21:56:26.531Z&quot;) }
+</code></pre><p>//TODO: expire time 到底怎么回事。。不是很关键。日后再说。
+问题是，依然一样。前缀也依然是<code>s%3A</code>，后面一样。</p>
+<h3 id="更改-cookiesecret--myblog">更改 <code>cookieSecret = myblog?</code></h3>
+<p>我更改下 <code>cookieSecret = myblog?</code> 看看是不是影响前缀。</p>
+<ol>
+<li>
+<p>首先修改cookieSecret后，用户端的原cookie失效了。并且申领了一个新的cookie:</p>
+<pre><code> s%3A82YXnbBiTqEbnFWVtkyaQPcZ0yxAD1Oz.97K96xtAF186ejUJMWCMcGg7Hq9J5w017YiqCzR8RTg
+</code></pre>
+</li>
+<li>
+<p>注册一个新用户 &ldquo;new&rdquo;. Client.Cookie.Value 并没有发生改变。</p>
+</li>
+<li>
+<p>看看 Server.db.Session.Cookie:</p>
+<pre><code> { &quot;_id&quot; : &quot;82YXnbBiTqEbnFWVtkyaQPcZ0yxAD1Oz&quot;, &quot;session&quot; : &quot;{\&quot;cookie\&quot;:{\&quot;originalMaxAge\&quot;:2592000000,\&quot;expires\&quot;:\&quot;2016-04-30T22:07:14.027Z\&quot;,\&quot;httpOnly\&quot;:true,\&quot;path\&quot;:\&quot;/\&quot;},\&quot;flash\&quot;:{},\&quot;user\&quot;:{\&quot;name\&quot;:\&quot;new\&quot;,\&quot;password\&quot;:\&quot;c4ca4238a0b923820dcc509a6f75849b\&quot;,\&quot;email\&quot;:\&quot;1@1\&quot;}}&quot;, &quot;expires&quot; : ISODate(&quot;2016-04-30T22:07:14.027Z&quot;) }
+</code></pre>
+</li>
+<li>
+<p>可以看到前缀没有变化。但是是不是Client.Cookie.Value的后半部分<code>.97K96xtAF186ejUJMWCMcGg7Hq9J5w017YiqCzR8RTg</code>有用呢？是不是Client在Request的时候传入了后者。而后者是由Server之前对前半部分用 种子为 cookieSecret 进行加密的结果，传给Client作为凭证。</p>
+</li>
+<li>
+<p>尝试注释掉 <code>secret: settings.cookieSecret</code> 这一行。结果是报错，<code>Error: secret option required for sessions</code>。把setting.js里的secret设为空。也报一样的错误。</p>
+</li>
+<li>
+<p>后者就是Server给的！可以去chrome的network点击'node&rsquo;（也就是索取的host)页面,就可以看到response,request,和里面的cookie了！可以看到的确server提供了value的后半段，而且每次发送的时候也发送全部的。</p>
+</li>
+</ol>
+<h3 id="使用chrome-extension-tamper-chrome">使用Chrome Extension Tamper Chrome</h3>
+<h4 id="安装tamper-chrome">安装Tamper Chrome</h4>
+<p>两部分，分为 Application 和 Extension:</p>
+<p><a href="https://chrome.google.com/webstore/detail/tamper-chrome-extension/hifhgpdkfodlpnlmlnmhchnkepplebkb">Application</a></p>
+<p><a href="https://chrome.google.com/webstore/detail/tamper-chrome-application/odldmflbckacdofpepkdkmkccgdfaemb">Extension</a></p>
+<p>都要安装。Extension负责拦截，App负责显示。</p>
+<h4 id="启动">启动</h4>
+<p>在地址栏输入 <code>chrome://apps</code> 进入应用启动界面。开启Tamper App.
+在开发者工具 <code>Element Console ...</code> 这一行点击最后面的 <code>&gt;&gt;</code> 开启Tamper Ext.之后可以选择拦截什么东西。第一个应该是总开关。后面是拦截的所有选项。
+开启 <code>block / reroute requests</code> 和 <code>request headers</code> 可选 ignore 一些 request。不必去拦截这些。</p>
+<h4 id="修改-requestcookie">修改 request.cookie</h4>
+<p>当注册成功返回主页的时候，register 选项不可见。证明已经是已登陆状态。
+再次刷新依然是已登陆状态的。</p>
+<p>再次刷新的时候，拦截，并且修改cookie的后半段。就是<code>.</code>之后的部分。哈哈！的确是<strong>退出登陆状态</strong>了。而且server的返回也再分派给client一个新的cookie。</p>
+<h3 id="结论">结论</h3>
+<p>如果把cookie.value分为 <code>x.y</code> 的话。这2部分都是由server生成的。<code>x</code>存储在数据库中。<code>y</code>存储在用户cookie中。在用户发送request的时候，同时发送<code>x.y</code>。由server判断 <code>加密(x,cookieSecret) === y</code>，如果不等于，就认为用户有误。不予登录。</p>
+<p>因此，如果要达成欺骗，就需要同时获取到 <code>x.y</code>，单单更改<code>x</code>是不行的。</p>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/node-blog-re-routes-http-session-flash/">prev post</a>
+  <a href="https://drkbl.com/posts/admission-control-middleware-next-routes-prototype/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

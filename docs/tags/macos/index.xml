@@ -6,10 +6,102 @@
     <description>Recent content in macOS on d4rkb1ue&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Jul 2016 00:50:35 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Feb 2017 17:19:55 +0000</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/tags/macos/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Automator as AutoHotKey</title>
+      <link>https://drkbl.com/posts/automator-as-autohotkey/</link>
+      <pubDate>Wed, 01 Feb 2017 17:19:55 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/automator-as-autohotkey/</guid>
+      <description>使用 Automator 当作 Safari@macOS 的按键精灵，敲简单的。此方法不兼容 Chrome@macOS。
+例子 - 在 Safari 上循环点击按钮 目标：每隔一段时间，自动点击 Safari 网页上的一个按钮。
+打开 Automator，新建一个“服务”。
+在左侧资源库中，选择“实用工具” —&amp;gt; “开启应用程序“。拖到右侧工作流程中。
+开启“Safari.app”。（如有多个窗口，将会切换到最近窗口）
+接下来，录制。点击红色按钮开始录制。
+切换到 Safari，点击按钮。
+在控制面板上点结束。
+录制结果如下：
+可以点击“运行”（Command+R）测试一下。（这里有2个条目，其实删除一个也完全OK。选择条目敲击“delete”即可。）
+加入循环：左侧资源库 —&amp;gt; 实用工具 —&amp;gt; 循环，拖到右侧。放在“我做给您看”后面即可。
+将“要求继续”改为“自动循环”。可自选按重复时间（分钟）计，还是按重复次数计。我这里选择按照重复次数。
+运行，测试一下。
+可以将本脚本保存起来。以备后用。
+如果需要提前终止，将当前程序焦点切换到 Automator，快捷键 Command + .(句号) 即可停止。
+完成文件：safariAutoClick.workflow</description>
+    </item>
+    
+    <item>
+      <title>NTFS on macOS</title>
+      <link>https://drkbl.com/posts/ntfs-on-macos/</link>
+      <pubDate>Wed, 18 Jan 2017 15:56:25 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/ntfs-on-macos/</guid>
+      <description>最近在重造文件备份系统的时候，因为 Synology 默认支持 NTFS，而 macOS 也可以开启对 NTFS 的支持，计划建立这样的结构：
+ 2T+1T Raid 0@Synology NAS : 日常大型文件存放   TimeMachine@ macbook, nas：系统级备份 Resilio Sync@ macbook, nas, iPhone ：日常工作文件夹同步 2T 外置硬盘 (NTFS)：连接 NAS 做计划备份（Synology 支持 NTFS）；在 mac 上开启对NTFS的支持；使用虚拟机使用 everything 检索文件 2T 外置硬盘 2 (NTFS)：长期冷备份  下面解决怎么让 mac 直接读写 NTFS。
+@macOS Sierra, 10.12.2
+有这么几个办法：
+ Tuxera NTFS for Mac, 收费 Paragon NTFS for Mac, 收费 NTFS-3G, free 开启 macOS 内置支持, free windows 虚拟机  虚拟机已经有了，但是不太方便。试试开启内置支持，尽量不安新软件。</description>
+    </item>
+    
+    <item>
+      <title>Format HFS&#43; on Windows</title>
+      <link>https://drkbl.com/posts/format-hfs-on-windows/</link>
+      <pubDate>Wed, 18 Jan 2017 15:37:37 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/format-hfs-on-windows/</guid>
+      <description>在 Windows 10 上格式化原有 HFS+ 格式的外置硬盘时，发现有一个 200MB 的分区无法删除，可以使用 Diskpart 来解决。
+ Microsoft DiskPart on Windows  进入 CMD，执行 diskpart 进入程序。list disk 可以看到所有的磁盘，select disk x 选择指定磁盘。
+选择好了再 list disk 一下，确认该硬盘被 * … * 围住
+执行
+clean 即可删除所有分区。
+这么删除之后，会发现在计算机管理-磁盘工具中，无法直接建立新分区。应该是没有分区表。
+怎么建立，可以help一下。执行help可以看到命令列表。具体到某一个命令可以执行，比如creat命令，执行 help create，下面还可以再继续 help create partition 等等。create 可以创建 volumn(卷) 或者 partition(分区)，不过这俩又啥区别呢。
+Diff Partitions &amp;amp; Volumes:
+ A partition is a just a space crafted out of a disk. For example- you could set aside a space of 100 GB for a partition from a hard disk of 1 TB.</description>
+    </item>
+    
+    <item>
+      <title>使用 Numbers 的 Vlookup 函数 match GPA</title>
+      <link>https://drkbl.com/posts/use-numbers-vlook-function-match-gpa/</link>
+      <pubDate>Thu, 05 Jan 2017 01:59:08 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/use-numbers-vlook-function-match-gpa/</guid>
+      <description>https://youtu.be/ncAebK6Mi3M
+说明   函数里面输入的数字2是指查找目标区域中的第‘二’列，即ABCD所在的列；相应的，第一列是4321。
+  要选中查找目标的整个两个列。如果只选中有数据的那部分区域，结果就是在拖动函数应用到下面的参数时，选中数据区域也会随之向下移动。
+  </description>
+    </item>
+    
+    <item>
+      <title>Mac OS (OS X) 系统级快捷键重载</title>
+      <link>https://drkbl.com/posts/mac-os-system-shortcut-override/</link>
+      <pubDate>Thu, 20 Oct 2016 23:14:22 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/mac-os-system-shortcut-override/</guid>
+      <description>meta Mac 系统默认的所有程序退出快捷键是 Command + Q 有的时候按快了而没注意焦点位置，容易误操作。以下用 Sublime 为例将默认的退出快捷键由 Command + Q 改为 Control + Command + Q。
+环境 Mac OS Sierra 10.12
+步骤   System Preference(系统设置) -&amp;gt; Keyboard(键盘) -&amp;gt; Shortcut(快捷键)，在左侧列表的最后一项，应用快捷键。
+  点击 + 添加新快捷键。
+  在程序列表中选择 Sublime Text.app， 菜单标题照抄原快捷键说明：Quit Sublime Text (注意大小写，空格，都不能差)
+  键盘快捷键录入新快捷键。
+  结果如图。
+  结果 在 Sublime 中使用 Command + Q 没有任何效果。新快捷键 Control + Command + Q 生效。完全覆盖。
+Trouble shooting   快捷键说明注意大小写，空格，都不能差。</description>
+    </item>
+    
+    <item>
+      <title>Safari on Mac check history EXACT time stamp</title>
+      <link>https://drkbl.com/posts/safari-history-exact-time-stamp/</link>
+      <pubDate>Sat, 23 Jul 2016 02:45:58 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/safari-history-exact-time-stamp/</guid>
+      <description>One Line ls -ogtrT ~/Library/Caches/Metadata/Safari/History/ Explanation -o: do not list group information -g: but do not list owner -t: sort by time(Last first) -r: reverse(so -tr is Last last) -T: time style = &amp;quot;MM DD hh:mm:ss YYYY&amp;quot; 从今天开始试试英文Blog :P</description>
+    </item>
     
     <item>
       <title>Vim 安装自动缩进插件</title>

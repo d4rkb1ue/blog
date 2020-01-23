@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>斐讯k2刷华硕固件&#43;作中继 - d4rkb1ue&#39;s Blog</title>
+  <meta content='斐讯k2刷华硕固件&#43;作中继 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='斐讯k2刷华硕固件&#43;作中继 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="免费的 斐讯k2 来一发尝尝
+版本支持与恢复 支持的版本
+ V22.3.15.128 V22.3.15.232 V22.3.17.148 V22.4.2.8 V22.4.2.9
+ V22.4.5.39版本需要降级到测试版V22.4.2.8或者V22.4.2.9。V22.4.5.42 降级就可以了。
+(官方ROM备份链接: http://code.taobao.org/svn/hopol-bak/K2/phicomm/K2/ )
+如果是V21.4.6.12版本请下载新版手动升级，斐讯官方固件下载地址： http://file.soho.phicomm.com.cn/upload/k2/k2/
+刷 点击下载下面的文件 http://code.taobao.org/svn/hopol-bak/K2/tianbaoha_breed_ssh.dat 右键另存为
+登陆路由器：默认 p.to 或者 phicomm.me 或者 192.168.2.1
+进入： 高级设置—-系统设置—-备份恢复—-浏览—–选择下载的tianbaoha_breed_ssh.dat—-点击恢复备份—-等待进度条完成(大约需要2分钟)。
+重启以后使用新的管理密码：tianbaoha 登陆，如果登陆成功就说明breed和ssh刷好了。
+进入 ：高级设置—-系统设置—-手动升级—-按图所示 点击下载备份EEPROM
+如果继续使用斐讯固件自己改个密码就行了，如果想刷第三方固件就： 点击 浏览—–选择需要刷入的固件—-点击升级即可。
+华硕 Padavan 固件： http://www.right.com.cn/forum/thread-161324-1-1.html K2 版本：RT-AC54U_GPIO_1_PSG1208_64M K2 JD介绍规格为PSG1218
+中继设置 中继主路由 netgear R6220
+安装完毕 Padavan 后，默认登入信息：
+ 默认 SSID：PDCN 默认 Wifi 密码： 1234567890 网关：192.168.123.1   管理账号：admin/admin 按键10秒原厂默认值  修改 K2 网关 修改 K2 的网关地址到与主路由同一网段： 内部网络（LAN）— IP 地址，子网掩码。例如主路由为 10." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/phicomm-k2-asus-ap-bridge/" />
+
+
+<meta property="article:published_time" content="2017-01-21T21:45:14&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-01-21T21:45:14&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">斐讯k2刷华硕固件&#43;作中继</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>21 Jan 2017</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/gadget' class="link silver">Gadget</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><p>免费的 斐讯k2 来一发尝尝</p>
+<h1 id="版本支持与恢复">版本支持与恢复</h1>
+<p>支持的版本</p>
+<blockquote>
+<p>V22.3.15.128
+V22.3.15.232
+V22.3.17.148
+V22.4.2.8
+V22.4.2.9</p>
+</blockquote>
+<p>V22.4.5.39版本需要降级到测试版V22.4.2.8或者V22.4.2.9。V22.4.5.42 降级就可以了。</p>
+<p>(官方ROM备份链接: <a href="http://code.taobao.org/svn/hopol-bak/K2/phicomm/K2/">http://code.taobao.org/svn/hopol-bak/K2/phicomm/K2/</a> )</p>
+<p>如果是V21.4.6.12版本请下载新版手动升级，斐讯官方固件下载地址：
+<a href="http://file.soho.phicomm.com.cn/upload/k2/k2/">http://file.soho.phicomm.com.cn/upload/k2/k2/</a></p>
+<h1 id="刷">刷</h1>
+<p>点击下载下面的文件
+<a href="http://code.taobao.org/svn/hopol-bak/K2/tianbaoha_breed_ssh.dat">http://code.taobao.org/svn/hopol-bak/K2/tianbaoha_breed_ssh.dat</a>
+<em>右键另存为</em></p>
+<p>登陆路由器：默认 p.to 或者 phicomm.me 或者 192.168.2.1</p>
+<p>进入： 高级设置—-系统设置—-备份恢复—-浏览—–选择下载的tianbaoha_breed_ssh.dat—-点击恢复备份—-等待进度条完成(大约需要2分钟)。</p>
+<p>重启以后使用新的管理密码：tianbaoha 登陆，如果登陆成功就说明breed和ssh刷好了。</p>
+<p>进入 ：高级设置—-系统设置—-手动升级—-按图所示 点击下载备份EEPROM</p>
+<p>如果继续使用斐讯固件自己改个密码就行了，如果想刷第三方固件就：
+点击 浏览—–选择需要刷入的固件—-点击升级即可。</p>
+<p>华硕 Padavan 固件：
+<a href="http://www.right.com.cn/forum/thread-161324-1-1.html">http://www.right.com.cn/forum/thread-161324-1-1.html</a>
+K2 版本：RT-AC54U_GPIO_1_PSG1208_64M
+<em>K2 JD介绍规格为PSG1218</em></p>
+<h1 id="中继设置">中继设置</h1>
+<p><em>中继主路由 netgear R6220</em></p>
+<p>安装完毕 Padavan 后，默认登入信息：</p>
+<ul>
+<li>默认 SSID：PDCN</li>
+<li>默认 Wifi 密码： 1234567890</li>
+<li>网关：192.168.123.1</li>
+</ul>
+<ul>
+<li>管理账号：admin/admin</li>
+<li>按键10秒原厂默认值</li>
+</ul>
+<h2 id="修改-k2-网关">修改 K2 网关</h2>
+<p>修改 K2 的网关地址到与主路由同一网段：
+内部网络（LAN）— IP 地址，子网掩码。例如主路由为 <code>10.0.0.1</code>，K2 可以设置为 <code>10.0.0.20</code>，子网掩码 <code>255.255.255.0</code>。</p>
+<h2 id="24ghz-网络设置">2.4GHz 网络设置</h2>
+<h3 id="通用">通用</h3>
+<p><em>（需在主副路由同时设置）</em></p>
+<ul>
+<li>信道带宽：固定20MHz</li>
+<li>无线信道：根据 wifi 分析，选择人少的信道</li>
+<li>区域：USA</li>
+</ul>
+<h3 id="无线桥接">无线桥接</h3>
+<p>AP：AP-Client+AP
+AP-Client: LAN bridge
+<em>如果设置为 LAN 那么在主路由里会连接 K2 的设备会显示为“有线连接”。如果是 WAN 会显示为“无线连接”</em></p>
+<p>SSID 自动搜寻主路由信号
+信道自动搜寻
+输入 SSID 密码</p>
+<h3 id="关闭-dhcp">关闭 DHCP</h3>
+<p>内部网络（LAN）— DHCP 服务器 — 关闭</p>
+<h3 id="未做开启相同-ssid">(未做)开启相同 SSID</h3>
+<p>将 K2 的SSID和密码改为和主路由相同，信道不同。例如主路由信道为11，K2改为9，7等等。
+如此以来，设备会在信号变差的时候自动切换连接主副路由，但是切换过程中仍然会卡顿。</p>
+<h2 id="trouble-shooting">Trouble Shooting</h2>
+<ul>
+<li>如果一直通过 wifi 设置，在关闭 dhcp 前用来登陆路由器的电脑可能会 ip 错乱。关闭 dhcp 并关闭启动电脑的 wifi 一次即可。或者重启一次 K2</li>
+<li>如果连接 K2 无法上网，在 K2 首页外部网络状态中，点击重新连接</li>
+</ul>
+<h1 id="注意事项">注意事项</h1>
+<p>默认开启了telnet检测开关，使用斐讯固件的话恢复出厂或升级新版telnet也不会关闭。</p>
+<p>第三方固件的管理地址 因固件而异，比如hiyboy编译的华硕padavan是192.168.123.1，可以根据获取到的IP判断。
+刷了不同版本的固件或者第三方固件时，清除一下浏览器缓存文件，推荐使用Chromium内核的或者Firefox浏览器。</p>
+<p>路由的指示灯是由固件控制的，有的第三方固件没有适配造成显示不正常（比如红灯长亮），不必惊慌，能正常使用固件，没有任何其他副作用，强迫症除外。</p>
+<p>需要可用空间大于170KB，如果你以前装软件装满了请恢复出厂设置。</p>
+<p>支持上传刷入默认50000分区的固件(比如潘多拉、华硕padavan)，上传官网下载的新版固件不会覆盖breed，会保留当前版本配置。
+如果你上传了错误的固件或者压缩包会卡在breed界面，需要自己手动进breed重新刷。</p>
+<h1 id="修改斐讯固件root密码">修改斐讯固件root密码</h1>
+<p>putty登陆后输入</p>
+<pre><code># 密码admin,改成自己的
+passwd=admin
+echo -e &quot;$passwd\n$passwd&quot; | passwd root
+</code></pre><h1 id="进入breed方法">进入breed方法</h1>
+<p>路由WAN口的网线拔掉，电脑网线连接路由LAN口，电脑网卡设置为自动获取IP。
+路由断电3秒—-按住复位键不要松手—-插入电源—-等待5秒松手—-浏览器输入192.168.1.1—-固件更新—-选择固件刷入。</p>
+<hr>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="http://www.right.com.cn/forum/thread-161906-1-1.html">breed作者原帖</a></li>
+</ul>
+<ul>
+<li><a href="http://www.right.com.cn/Forum/thread-191833-1-1.html">教程作者原帖</a></li>
+</ul>
+<ul>
+<li><a href="http://www.right.com.cn/forum/thread-161324-1-1.html">改华硕Padavan固件</a></li>
+</ul>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/ntfs-on-macos/">prev post</a>
+  <a href="https://drkbl.com/posts/cp193p-ios-dev-class-2/">next post</a>
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>
