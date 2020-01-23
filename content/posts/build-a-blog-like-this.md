@@ -70,7 +70,9 @@ Test your blog in your browser,
    - For apex domain, make a CNAME record with Name `drkbl.com`, and Content `d4rkb1ue.github.io`
    - For subdomain, make a CNAME record with Name `blog`(anything you want), and Content `d4rkb1ue.github.io`.
 2. edit `baseURL` in `config.toml`
-3. In `GitHub Pages` setting, type your apex domain or subdomain, for ex, `drkbl.com`
+3. `echo drkbl.com > docs/CNAME`
+4. `git push`
+5. Visit your custom domain!
 
 
 # Ref.

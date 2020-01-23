@@ -2,39 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on d4rkb1ue&#39;s Blog</title>
-    <link>https://d4rkb1ue.github.io/blog/tags/</link>
+    <link>https://drkbl.com/tags/</link>
     <description>Recent content in Tags on d4rkb1ue&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 22 Jan 2020 16:58:49 -0800</lastBuildDate>
     
-	<atom:link href="https://d4rkb1ue.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://drkbl.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Tools</title>
-      <link>https://d4rkb1ue.github.io/blog/tags/tools/</link>
+      <link>https://drkbl.com/tags/tools/</link>
       <pubDate>Wed, 22 Jan 2020 16:58:49 -0800</pubDate>
       
-      <guid>https://d4rkb1ue.github.io/blog/tags/tools/</guid>
+      <guid>https://drkbl.com/tags/tools/</guid>
       <description></description>
     </item>
     
     <item>
       <title>macOS</title>
-      <link>https://d4rkb1ue.github.io/blog/tags/macos/</link>
+      <link>https://drkbl.com/tags/macos/</link>
       <pubDate>Wed, 20 Jul 2016 00:50:35 +0000</pubDate>
       
-      <guid>https://d4rkb1ue.github.io/blog/tags/macos/</guid>
+      <guid>https://drkbl.com/tags/macos/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Vim</title>
-      <link>https://d4rkb1ue.github.io/blog/tags/vim/</link>
+      <link>https://drkbl.com/tags/vim/</link>
       <pubDate>Wed, 20 Jul 2016 00:50:35 +0000</pubDate>
       
-      <guid>https://d4rkb1ue.github.io/blog/tags/vim/</guid>
+      <guid>https://drkbl.com/tags/vim/</guid>
       <description></description>
     </item>
     

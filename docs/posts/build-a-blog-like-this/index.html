@@ -14,7 +14,7 @@ brew install hugo # verify hugo version # blog will be the git folder hugo new s
 hugo new posts/my-first-post.md echo &#39;Hello Hugo!&#39; &gt;&gt; content/posts/my-first-post.md hugo server -D Create a repo on Github.
  Github Pages provides two types of sites. But," />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://d4rkb1ue.github.io/blog/posts/build-a-blog-like-this/" />
+<meta property="og:url" content="https://drkbl.com/posts/build-a-blog-like-this/" />
 
 
 <meta property="article:published_time" content="2020-01-22T16:58:49-08:00"/>
@@ -40,22 +40,22 @@ hugo new posts/my-first-post.md echo &#39;Hello Hugo!&#39; &gt;&gt; content/post
   --heading-text-color: #383838;
   --background-color: #fff;
 }</style>
-<link href='/blog/css/tachyons.min.css' rel="stylesheet">
-<link href='/blog/css/styles.css' rel="stylesheet">
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
 
 
 <link rel="icon" 
  
-  href='/blog/favicon.ico'
+  href='/favicon.ico'
 
 type="image/x-icon"/>
 
-<link href='/blog/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
 </head>
 <body class="global-font">
   <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
   <div class="flex">
-    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/blog/' title="Home">d4rkb1ue&#39;s Blog</a>
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
   </div>
   
 </nav>
@@ -67,7 +67,7 @@ type="image/x-icon"/>
      | 
     
     
-    tags: [ <a href='/blog/tags/tools' class="link silver">Tools</a>  ]
+    tags: [ <a href='/tags/tools' class="link silver">Tools</a>  ]
     
   </p>
   <div class="lh-copy post-content"><p>Install Hugo and theme <a href="https://github.com/lingxz/er">https://github.com/lingxz/er</a>.</p>
@@ -92,6 +92,7 @@ hugo server -D
 <p>The following steps assume you're using &ldquo;project site&rdquo;.</p>
 <p>If you want to use &ldquo;user or organization sites&rdquo;, you need another way to manage your raw contents and public static website.</p>
 </blockquote>
+<p>Change <code>baseURL</code> in <code>config.toml</code> to <code>https://d4rkb1ue.github.io/blog</code></p>
 <p>Press Ctrl+C to stop server.</p>
 <p>Publish to a new Github Repo.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git init
@@ -113,13 +114,16 @@ git push -u origin
 </ul>
 <p>*Optionally, you can also change to a custom domain,</p>
 <ol>
-<li>In <code>GitHub Pages</code> setting, type your apex domain or subdomain, for ex, <code>drkbl.com</code></li>
 <li>Go to your Domain DNS provider, add/change the record for the domain you choose to <code>d4rkb1ue.github.io</code> (<code>d4rkb1ue</code> should be changed to your Github username)
 <ul>
 <li>For apex domain, make a CNAME record with Name <code>drkbl.com</code>, and Content <code>d4rkb1ue.github.io</code></li>
 <li>For subdomain, make a CNAME record with Name <code>blog</code>(anything you want), and Content <code>d4rkb1ue.github.io</code>.</li>
 </ul>
 </li>
+<li>edit <code>baseURL</code> in <code>config.toml</code></li>
+<li><code>echo drkbl.com &gt; docs/CNAME</code></li>
+<li><code>git push</code></li>
+<li>Visit your custom domain!</li>
 </ol>
 <h1 id="ref">Ref.</h1>
 <ol>
@@ -145,7 +149,7 @@ git push -u origin
 <a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
 <br>
   <p class="mb0 mt2">
-  <a href="https://d4rkb1ue.github.io/blog/posts/vim-install-plugin/">prev post</a>
+  <a href="https://drkbl.com/posts/vim-install-plugin/">prev post</a>
   
   </p>
 </div>
