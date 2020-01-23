@@ -3,42 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://drkbl.com/</loc>
+    <loc>https://d4rkb1ue.github.io/blog/posts/build-a-blog-like-this/</loc>
+    <lastmod>2020-01-22T16:58:49-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/</loc>
+    <lastmod>2020-01-22T16:58:49-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/posts/</loc>
+    <lastmod>2020-01-22T16:58:49-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/tags/</loc>
+    <lastmod>2020-01-22T16:58:49-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/tags/tools/</loc>
+    <lastmod>2020-01-22T16:58:49-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://d4rkb1ue.github.io/blog/tags/macos/</loc>
     <lastmod>2016-07-20T00:50:35+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://drkbl.com/tags/macos/</loc>
+    <loc>https://d4rkb1ue.github.io/blog/tags/vim/</loc>
     <lastmod>2016-07-20T00:50:35+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://drkbl.com/posts/</loc>
+    <loc>https://d4rkb1ue.github.io/blog/posts/vim-install-plugin/</loc>
     <lastmod>2016-07-20T00:50:35+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://drkbl.com/tags/</loc>
-    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://drkbl.com/tags/tools/</loc>
-    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://drkbl.com/tags/vim/</loc>
-    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://drkbl.com/posts/vim-install-plugin/</loc>
-    <lastmod>2016-07-20T00:50:35+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://drkbl.com/categories/</loc>
+    <loc>https://d4rkb1ue.github.io/blog/categories/</loc>
   </url>
   
 </urlset>

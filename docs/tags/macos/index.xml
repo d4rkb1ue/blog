@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>macOS on d4rkb1ue&#39;s Blog</title>
-    <link>http://drkbl.com/tags/macos/</link>
+    <link>https://d4rkb1ue.github.io/blog/tags/macos/</link>
     <description>Recent content in macOS on d4rkb1ue&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 20 Jul 2016 00:50:35 +0000</lastBuildDate>
     
-	<atom:link href="http://drkbl.com/tags/macos/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://d4rkb1ue.github.io/blog/tags/macos/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Vim 安装自动缩进插件</title>
-      <link>http://drkbl.com/posts/vim-install-plugin/</link>
+      <link>https://d4rkb1ue.github.io/blog/posts/vim-install-plugin/</link>
       <pubDate>Wed, 20 Jul 2016 00:50:35 +0000</pubDate>
       
-      <guid>http://drkbl.com/posts/vim-install-plugin/</guid>
+      <guid>https://d4rkb1ue.github.io/blog/posts/vim-install-plugin/</guid>
       <description>以 vim-javascript v0.10.0 (为JS提供自动缩进) 为例
 安装 Vundle vundle让管理插件变得更清晰、智能。
 vundle 会接管 .vim/ 下的所有原生目录，所以先清空该目录，再通过如下命令安装 vundle：
