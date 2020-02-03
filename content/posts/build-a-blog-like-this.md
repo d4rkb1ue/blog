@@ -1,7 +1,7 @@
 ---
 title: "Build a Blog Like This"
 date: 2020-01-22T16:58:49-08:00
-tags: [Tools]
+tags: ['Tools', 'Blog']
 ---
 
 

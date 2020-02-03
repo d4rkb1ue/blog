@@ -1,7 +1,7 @@
 ---
 title: Hexo 初始化笔记
 date: 2016-04-22 06:32:48
-tags: [Tools, Blog, Hexo]
+tags: [Tools, Blog]
 ---
 
 

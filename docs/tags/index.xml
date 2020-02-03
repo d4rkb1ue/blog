@@ -6,10 +6,37 @@
     <description>Recent content in Tags on d4rkb1ue&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 22 Jan 2020 16:58:49 -0800</lastBuildDate>
+    <lastBuildDate>Sun, 02 Feb 2020 19:55:40 -0800</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker</title>
+      <link>https://drkbl.com/tags/docker/</link>
+      <pubDate>Sun, 02 Feb 2020 19:55:40 -0800</pubDate>
+      
+      <guid>https://drkbl.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SRE</title>
+      <link>https://drkbl.com/tags/sre/</link>
+      <pubDate>Sun, 02 Feb 2020 19:55:40 -0800</pubDate>
+      
+      <guid>https://drkbl.com/tags/sre/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Blog</title>
+      <link>https://drkbl.com/tags/blog/</link>
+      <pubDate>Wed, 22 Jan 2020 16:58:49 -0800</pubDate>
+      
+      <guid>https://drkbl.com/tags/blog/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Tools</title>
@@ -138,15 +165,6 @@
     </item>
     
     <item>
-      <title>Docker</title>
-      <link>https://drkbl.com/tags/docker/</link>
-      <pubDate>Mon, 20 Feb 2017 18:33:21 +0000</pubDate>
-      
-      <guid>https://drkbl.com/tags/docker/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Nblog</title>
       <link>https://drkbl.com/tags/nblog/</link>
       <pubDate>Mon, 20 Feb 2017 18:33:21 +0000</pubDate>
@@ -197,15 +215,6 @@
       <pubDate>Mon, 30 Jan 2017 10:57:13 +0000</pubDate>
       
       <guid>https://drkbl.com/tags/ios/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Blog</title>
-      <link>https://drkbl.com/tags/blog/</link>
-      <pubDate>Sat, 12 Nov 2016 23:51:18 +0000</pubDate>
-      
-      <guid>https://drkbl.com/tags/blog/</guid>
       <description></description>
     </item>
     
