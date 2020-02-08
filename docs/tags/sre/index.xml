@@ -6,10 +6,21 @@
     <description>Recent content in SRE on d4rkb1ue&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 02 Feb 2020 19:55:40 -0800</lastBuildDate>
+    <lastBuildDate>Fri, 07 Feb 2020 20:22:34 -0800</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/tags/sre/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Time Sync</title>
+      <link>https://drkbl.com/posts/time-sync/</link>
+      <pubDate>Fri, 07 Feb 2020 20:22:34 -0800</pubDate>
+      
+      <guid>https://drkbl.com/posts/time-sync/</guid>
+      <description>Case For distribute system, sometimes the datetime on every server in the cluster, or a group of servers need to be synced.
+Time on a Ubuntu Server Timekeepers in the System Timekeeper, who hold its own time.
+ System time: managed by the Linux kernel RTC: real-time clock, hardware clock on your motherboard CMOS  Should always in the UTC timezone. But there’s nothing in the hardware clock itself says which timezone is used.</description>
+    </item>
     
     <item>
       <title>Deploy Docker Registry</title>
