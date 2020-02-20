@@ -6,10 +6,28 @@
     <description>Recent content on d4rkb1ue&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 07 Feb 2020 20:22:34 -0800</lastBuildDate>
+    <lastBuildDate>Wed, 19 Feb 2020 20:50:46 -0800</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>图解密码技术[结城浩] 笔记</title>
+      <link>https://drkbl.com/posts/book-graphic-cryptography-hiroshi-yuki/</link>
+      <pubDate>Wed, 19 Feb 2020 20:50:46 -0800</pubDate>
+      
+      <guid>https://drkbl.com/posts/book-graphic-cryptography-hiroshi-yuki/</guid>
+      <description>一次性密码本 本质上是加密空间和信息空间相当. 所以任意一个密钥都会对应一个信息.
+只要这个&amp;quot;密钥&amp;quot;只被使用一次, 那就什么统计信息都得不到.
+因为空间相当, 密钥和要传递的信息本身包含的信息一样多. 所以产生了密钥配送悖论: 能送密钥为啥不直接送信息本身?
+但是有意义, 可以提前送密钥, 晚送信息, 那么信息可以得到瞬间的解密. 产生时间上的价值.
+对称密码   feistel 算法 就是用信息本身作为密钥的一部分. round 的概念和 enigma 的轮转 几乎是一样的.
+  书里完全没有提 DES 的子密钥 是如何被产生的, 只是说这个是每 round 都不同的. 其实也就是通过 根密钥 通过其他某些算法得到的.
+  有函数没有反函数这个事情好有意思
+  对称密码里大量使用 XOR 为了方便加解密
+  Hash   HASH 一定会碰撞. 因为信息空间大于指纹(散列值)空间. 比如用 sin/cos, 即便 x 轴无限延伸, 但是 y 轴只会在 [-1, 1].
+  (对实现签名的猜测, 在后文得到验证) 非对称密钥本来是, 公开的加密+隐私的解密密钥的组合. 如果反过来, 私密的加密+公开的解密 密钥组合, 就可以实现 &amp;ldquo;签名&amp;rdquo; 这样的功能.</description>
+    </item>
     
     <item>
       <title>Time Sync</title>

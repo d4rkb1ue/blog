@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>图解密码技术[结城浩] 笔记 - d4rkb1ue&#39;s Blog</title>
+  <meta content='图解密码技术[结城浩] 笔记 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='图解密码技术[结城浩] 笔记 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="一次性密码本 本质上是加密空间和信息空间相当. 所以任意一个密钥都会对应一个信息.
+只要这个&quot;密钥&quot;只被使用一次, 那就什么统计信息都得不到.
+因为空间相当, 密钥和要传递的信息本身包含的信息一样多. 所以产生了密钥配送悖论: 能送密钥为啥不直接送信息本身?
+但是有意义, 可以提前送密钥, 晚送信息, 那么信息可以得到瞬间的解密. 产生时间上的价值.
+对称密码   feistel 算法 就是用信息本身作为密钥的一部分. round 的概念和 enigma 的轮转 几乎是一样的.
+  书里完全没有提 DES 的子密钥 是如何被产生的, 只是说这个是每 round 都不同的. 其实也就是通过 根密钥 通过其他某些算法得到的.
+  有函数没有反函数这个事情好有意思
+  对称密码里大量使用 XOR 为了方便加解密
+  Hash   HASH 一定会碰撞. 因为信息空间大于指纹(散列值)空间. 比如用 sin/cos, 即便 x 轴无限延伸, 但是 y 轴只会在 [-1, 1].
+  (对实现签名的猜测, 在后文得到验证) 非对称密钥本来是, 公开的加密&#43;隐私的解密密钥的组合. 如果反过来, 私密的加密&#43;公开的解密 密钥组合, 就可以实现 &ldquo;签名&rdquo; 这样的功能." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/book-graphic-cryptography-hiroshi-yuki/" />
+
+
+<meta property="article:published_time" content="2020-02-19T20:50:46-08:00"/>
+
+<meta property="article:modified_time" content="2020-02-19T20:50:46-08:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74825078-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">图解密码技术[结城浩] 笔记</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>19 Feb 2020</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/readingnotes' class="link silver">readingnotes</a> <a href='/tags/cryptography' class="link silver">cryptography</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="一次性密码本">一次性密码本</h1>
+<p>本质上是加密空间和信息空间相当. 所以任意一个密钥都会对应一个信息.</p>
+<p>只要这个&quot;密钥&quot;只被使用一次, 那就什么统计信息都得不到.</p>
+<p>因为空间相当, 密钥和要传递的信息本身包含的信息一样多. 所以产生了<code>密钥配送悖论</code>: 能送密钥为啥不直接送信息本身?</p>
+<p>但是有意义, 可以提前送密钥, 晚送信息, 那么信息可以得到瞬间的解密. 产生时间上的价值.</p>
+<h1 id="对称密码">对称密码</h1>
+<ol>
+<li>
+<p><code>feistel 算法</code> 就是用信息本身作为密钥的一部分. <code>round</code> 的概念和 <code>enigma 的轮转</code> 几乎是一样的.</p>
+</li>
+<li>
+<p>书里完全没有提 <code>DES 的子密钥</code> 是如何被产生的, 只是说这个是每 <code>round</code> 都不同的. 其实也就是通过 <code>根密钥</code> 通过其他某些算法得到的.</p>
+</li>
+<li>
+<p>有函数没有反函数这个事情好有意思</p>
+</li>
+<li>
+<p>对称密码里大量使用 <code>XOR</code> 为了方便加解密</p>
+</li>
+</ol>
+<h1 id="hash">Hash</h1>
+<ol>
+<li>
+<p>HASH 一定会碰撞. 因为信息空间大于指纹(散列值)空间. 比如用 <code>sin</code>/<code>cos</code>, 即便 <code>x</code> 轴无限延伸, 但是 <code>y</code> 轴只会在 <code>[-1, 1]</code>.</p>
+</li>
+<li>
+<p><em>(对实现签名的猜测, 在后文得到验证)</em> 非对称密钥本来是, 公开的加密+隐私的解密密钥的组合. 如果反过来, 私密的加密+公开的解密 密钥组合, 就可以实现 &ldquo;签名&rdquo; 这样的功能. 比如一份信息, 加上 <code>encrypt(hash(信息) + &quot;是真的&quot;)</code> 传给别人, 就可以.</p>
+</li>
+</ol>
+<h1 id="消息认证码-mac">消息认证码 MAC</h1>
+<ol>
+<li>
+<p><code>nonce</code> 其实和 序号一样啊. 都需要接收者记录. 序号只记录一个就行. 但是要保证 <code>nonce</code> 的唯一性, 要记录的要多的多. 为啥比序号好呢？为了不可预测？</p>
+</li>
+<li>
+<p><code>防止否认</code> 好像和 <code>让第三方确认</code> 是等价的.</p>
+</li>
+</ol>
+<h1 id="证书">证书</h1>
+<ol>
+<li>
+<p>自签名有什么意义? 既然大家有你的解密公钥(如此签名才可以被认可), 你再签名一个干啥? 再给大家显摆一遍&quot;我有你手上的公钥对应的私钥&rdquo;? 但是如果去掉 (图10-5) 的第一级, 有什么区别吗?</p>
+</li>
+<li>
+<p>任何人都可以成为 CA 这个事情有意思. 所以对认证机构本身的认可也十分重要啊.</p>
+</li>
+<li>
+<blockquote>
+<p>我自己所持有的公钥中, 哪一个最可信.</p>
+</blockquote>
+</li>
+</ol>
+<h1 id="密钥的保密性">密钥的保密性</h1>
+<p>Q: 用口令和盐加密的 <code>CEK</code>/<code>KEK</code> 不就等同于降低了 <code>CEK</code> 的强度吗?(只要 <code>口令</code> 比 <code>Key</code> 短) 而且增加了一层让破解的机会多了一个. 所以这样有啥意义? 还不如直接用口令当作 CEK.</p>
+<p>A: 当然还是比直接用口令强. 到底是一种 &ldquo;记得住&rdquo; 和 &ldquo;保密&rdquo; 的 trade-off. 肯定没有&quot;直接安全保存 <code>CEK</code>&rdquo; 安全, 但是比 &ldquo;弱 <code>口令</code> 直接加密&rdquo; 强.</p>
+<p>更有意义的是, 这里有一种 &ldquo;分离&rdquo; 的思想: 可以通过组合一些 <code>密钥</code> , 并且对 <code>密钥</code> 执行不同的加密保存方式, 比如随机数打印下来, <code>口令</code> 记在脑子里, <code>私钥</code> 保存在 U 盘里, 对于不同特征, 用不同的方式.</p>
+<p>理想情况下, 保证攻击者得到任何一部分都不会导致问题. 所以最终的关系是,</p>
+<blockquote>
+<p>如果对于每一个环节, 假设 <code>P(泄漏+碰撞+社工+...) = Pi</code>,<br>
+如果能让被攻破的概率是乘法, <code>P1*P2*..*Pn</code>. 即, <strong>让每个环节之间的关系是 <code>&amp;&amp;</code> 而不是 <code>||</code></strong><br>
+(任何一个点被攻破, 相当于那个 <code>P</code> 变成 <code>1</code>)</p>
+</blockquote>
+<h1 id="随机数">随机数</h1>
+<ol>
+<li>
+<p>Q: 是不是&quot;只要是有限域离散的 <code>随机数</code> (比如骰子, 只能是 <code>1,2..6</code> ) 就一定是可复现的&rdquo;?<br>
+A: 错. 骰子的值是 <code>真随机数</code> . 序列不可复现.</p>
+</li>
+<li>
+<p><code>伪随机生成器</code> 好像一定是会有内部状态. 无论如何也无法摆脱一个可能被泄漏的 <code>种子</code>. 好 <code>伪随机数生成器</code> 其实就是内部状态的保密的好. +加入不可预测的随机搅乱随机状态. +无法被反推的内部状态.</p>
+</li>
+<li>
+<p>因此 <code>随机生成器</code> 是 <code>密钥</code> 的源头. 如此, 为了避免它成为脆弱点, 使用大量分离的各自独立的 <code>密钥</code> 就很宝贵. 和上文呼应.</p>
+</li>
+</ol>
+<h1 id="pgpgp">PGPGP</h1>
+<ol>
+<li>
+<p>被破解不一定没意义. <code>SHA1</code> 还在被大量使用. <code>MD5</code> 属于非常容易被破解, 但是 <code>SHA1</code> 还处在&quot;确定能被艰难破解&quot;的阶段. 所以并不是没有价值.</p>
+</li>
+<li>
+<p>从 <code>GPG</code> 的用法看出来, <code>自签名</code> 就是为了统一所有 <code>密钥</code> 的 &ldquo;接口&rdquo;. 这样可以所有的流程都是通用的, 可以代入自己 <code>密钥</code>, 不过拥有最高的权限罢了</p>
+</li>
+<li>
+<p>为什么会有人想统一 <code>签名的解密公钥</code> 和作为 <code>非对称加密的加密公钥</code>? 为什么要复用这个?</p>
+</li>
+<li>
+<p>关于信任网: &ldquo;相信你是你&rdquo; 和 &ldquo;相信你的判断&rdquo; 是两回事.</p>
+</li>
+</ol>
+<h1 id="ssltls">SSL/TLS</h1>
+<ol>
+<li>
+<p>因为 <code>SSL/TLS</code> 实际是给 <code>transport layer</code> 加密, 所以其实连 <code>URL</code> 都不会被暴露. 不过 <code>FQDN</code> 代表的 <code>IP</code> 是无法幸免的</p>
+</li>
+<li>
+<p>关于 <code>心脏流血</code>: 即便这些被广泛使用的 <code>suite</code> 都有这么明显致命的漏洞啊.</p>
+</li>
+</ol>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/time-sync/">prev post</a>
+  
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>
