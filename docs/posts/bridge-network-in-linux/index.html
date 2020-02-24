@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Bridge Network in Linux - d4rkb1ue&#39;s Blog</title>
+  <meta content='Bridge Network in Linux - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Bridge Network in Linux - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="Case We want to combine two physical Network Interfaces(NIC) on a single machine, which,
+ shares the same IP address, combines routing tables supporting circuit/swithing for different NICs, &ldquo;extends&rdquo; the upstream network(connected to NIC1) to be used by another device(connected to NIC2), eventually make the machine work tranparently as a network bridge.  Bridge in Linux How Linux handle net bridge in stacks For the Linux Kernel, normal user space processes can only utilize Socket with (IP, port, proto) 3-tuple for Network connection, which means that Kernel only provide L4 network communication interface." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/bridge-network-in-linux/" />
+
+
+<meta property="article:published_time" content="2020-02-24T05:27:21-08:00"/>
+
+<meta property="article:modified_time" content="2020-02-24T05:27:21-08:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74825078-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Bridge Network in Linux</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>24 Feb 2020</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/network' class="link silver">Network</a> <a href='/tags/linux' class="link silver">Linux</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="case">Case</h1>
+<p>We want to combine two physical Network Interfaces(NIC) on a single machine, which,</p>
+<ol>
+<li>shares the same IP address,</li>
+<li>combines routing tables supporting circuit/swithing for different NICs,</li>
+<li>&ldquo;extends&rdquo; the upstream network(connected to NIC1) to be used by another device(connected to NIC2),</li>
+<li>eventually make the machine work tranparently as a network bridge.</li>
+</ol>
+<h1 id="bridge-in-linux">Bridge in Linux</h1>
+<h2 id="how-linux-handle-net-bridge-in-stacks">How Linux handle net bridge in stacks</h2>
+<p>For the Linux Kernel, normal user space processes can only utilize <code>Socket</code> with <code>(IP, port, proto)</code> 3-tuple for Network connection, which means that Kernel only provide <strong>L4</strong> network communication interface.</p>
+<ul>
+<li><code>IP</code> will be consumed by the Kernel routing table to determine the target device, (can be virtual or real)</li>
+</ul>
+<p>Package will be handled in kernel space for lower network levels.</p>
+<h2 id="bridge-device"><code>Bridge Device</code></h2>
+<p>If the next destination device is a virtual bridge,</p>
+<blockquote>
+<p>the bridge device is a software switch, and each of its slave devices and the bridge itself are ports of the switch. (<code>systemd.netdev(5)</code>)</p>
+</blockquote>
+<p>The target <code>IP</code> and <code>MAC</code> are belongs to this virtual eth port(name it with <code>veth0</code>) on of this bridge(name <code>br0</code>).</p>
+<p><code>veth0</code> should have a random virtual <code>MAC</code> when created, which will show in the <code>ip a</code> as the attributes of the <code>br0</code>.</p>
+<p>If we further connect this to the physical interfaces(name <code>eth0</code>, <code>eth1</code>&hellip;), by,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ip link set dev eth0 master br0
+ip link set dev eth0 master br1
+</code></pre></div><p>these <code>eth*</code>s will become transparent in the <code>LAN</code>, just like the physical ports on a real switch(bridge). <code>eth*</code>'s MAC does not matter any more for <code>MAC address masking</code>.</p>
+<p>After this, the <code>veth0</code> become &ldquo;real&rdquo; in the <code>LAN</code> since it's now addressable and masking-able. In this case, for not conflicting with other devices on the LAN accidentally, <code>veth0</code> will choose to reuse one of the MACs of <code>eth*</code>s.</p>
+<p>Since the <code>eth*</code>s are connected to a single bridge, theoretically, any traffic comes from <code>eth*</code> will be either broadcasted, or selectively redirected to other <code>eth*</code> base on the MAC switching table. Software side, this can be implemented with the table and pipe with no magic.</p>
+<pre><code>        Server1
+           |
+      +---------+
+      |   br0   |
+      +---------+
+      /   |   \     ...
+   Dev0  Dev1  Dev2
+</code></pre><p>The above graph is just schematic. In real, it's just a server (<code>Server1</code>) with three ethernet ports and they're going to behave like above. So,</p>
+<ul>
+<li><code>Dev*</code>, and <code>Server1</code> act like they're connected in L2.</li>
+</ul>
+<p>If we assign an IP for the <code>br0</code>, i.e. the <code>veth0</code>, and make it as the default <code>0.0.0.0/0</code> gateway,</p>
+<ul>
+<li><code>Server1</code> act like a dedicate device connected to the <code>br0</code>.</li>
+</ul>
+<h3 id="configs-of-bridge-device">Configs of <code>Bridge Device</code></h3>
+<p>So how are the configs and statuses of the <code>br0</code> being maintained? Like <code>ARP table(s)</code>, <code>switching table(s)</code>, <code>routing table(s)</code>?</p>
+<p>They are all maintained in the Kernel.</p>
+<ul>
+<li>Switch(<code>br0</code>) does not need routing table. Kernel only need the routing entry to make the <code>br0</code>(or say <code>veth0</code>) as the default first hop for all the traffics.</li>
+<li>Switch need switching table. It can found by <code>bridge fdb</code> (<a href="http://man7.org/linux/man-pages/man8/bridge.8.html">http://man7.org/linux/man-pages/man8/bridge.8.html</a>)</li>
+<li>ARP table does not needed by <code>br0</code> either. Its maintained by <code>Server1</code> and it need the <code>ARP table</code> to route the <code>IP</code> package to different <code>MAC</code>s, thus different ports. Ports are, in theory, ports on the <code>br0</code>, but in real, ports on the server.</li>
+</ul>
+<h2 id="network-namespace-and-veth">Network Namespace and <code>veth</code></h2>
+<p>Just for clarification, <strong>these're unrelated</strong>.</p>
+<p>Network namespace is a high level abstration for process.</p>
+<blockquote>
+<p><code>network_namespaces(7)</code> is isolation of the system resources associated with networking: network devices, IPv4 and IPv6 protocol stacks, IP routing tables, firewall rule.</p>
+</blockquote>
+<blockquote>
+<p><code>veth(4)</code> device pair provides a pipe-like abstraction that can be used to create tunnels between network namespaces</p>
+</blockquote>
+<h2 id="prerequisites-to-build-the-bridge">Prerequisites To Build The Bridge</h2>
+<ol>
+<li>All devices should share the same maximum packet size (<code>MTU</code>). The bridge doesn't fragment packets.</li>
+<li>All devices should support promiscuous operation. The bridge needs to be able to receive all network traffic, not just traffic destined for its own address.</li>
+<li>All devices should allow source address spoofing.</li>
+</ol>
+<h2 id="build-a-bridge">Build A Bridge</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># clean current settings</span>
+mv /etc/network/interfaces /etc/network/interfaces.bak
+/bin/echo -e <span style="color:#e6db74">&#34;auto lo\niface lo inet loopback&#34;</span> &gt; /etc/network/interfaces
+systemctl restart NetworkManager
+systemctl restart networking
+
+<span style="color:#75715e"># clean all nics&#39; IP</span>
+nics<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>ip -o l | grep <span style="color:#e6db74">&#34;state UP&#34;</span> | awk <span style="color:#e6db74">&#39;{ gsub(/:/,&#34;&#34;); print $2 }&#39;</span> | grep -v <span style="color:#e6db74">&#39;^docker\|^br\|^lo&#39;</span><span style="color:#66d9ef">)</span>
+<span style="color:#66d9ef">for</span> nic in $nics; <span style="color:#66d9ef">do</span> ip addr flush $nic; <span style="color:#66d9ef">done</span>
+
+<span style="color:#75715e"># create bridge</span>
+ip link add name br0 type bridge
+ip link set dev br0 up
+
+<span style="color:#75715e"># connect it with two physical nics</span>
+ip link set dev eth0 master br0
+ip link set dev eth1 master br0
+
+<span style="color:#75715e"># assume this machine has static IP</span>
+ip addr add dev br0 192.168.1.2/24
+
+<span style="color:#75715e"># assume the upstream router is</span>
+ip r add default via 192.168.1.1
+sed -i.bak <span style="color:#e6db74">&#34;1i nameserver 192.168.1.1&#34;</span> /etc/resolv.conf
+
+<span style="color:#75715e"># enable promiscuousm, bridge, and set MTU</span>
+nics<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>ip -o l | grep <span style="color:#e6db74">&#34;state UP&#34;</span> | awk <span style="color:#e6db74">&#39;{ gsub(/:/,&#34;&#34;); print $2 }&#39;</span> | grep -v <span style="color:#e6db74">&#39;^docker\|^lo&#39;</span><span style="color:#66d9ef">)</span>
+<span style="color:#66d9ef">for</span> nic in $nics; <span style="color:#66d9ef">do</span> ip link set $nic promisc on; <span style="color:#66d9ef">done</span>
+sysctl -w net.bridge.bridge-nf-call-iptables<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+<span style="color:#66d9ef">for</span> nic in $nics; <span style="color:#66d9ef">do</span> ip link set dev $nic mtu 1500; <span style="color:#66d9ef">done</span>
+
+<span style="color:#75715e"># Loose mode as defined in RFC3704 Loose Reverse Path https://access.redhat.com/solutions/53031</span>
+sysctl -w net.ipv4.conf.all.rp_filter<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
+</code></pre></div><h1 id="ref">Ref.</h1>
+<ol>
+<li><a href="http://man7.org/linux/man-pages/man4/veth.4.html">http://man7.org/linux/man-pages/man4/veth.4.html</a></li>
+<li><a href="http://man7.org/linux/man-pages/man7/network_namespaces.7.html">http://man7.org/linux/man-pages/man7/network_namespaces.7.html</a></li>
+<li><a href="https://wiki.debian.org/BridgeNetworkConnections#Bridging_with_a_wireless_NIC">https://wiki.debian.org/BridgeNetworkConnections#Bridging_with_a_wireless_NIC</a></li>
+<li><code>man 5 systemd.netdev</code></li>
+<li><a href="https://unix.stackexchange.com/questions/255484/how-can-i-bridge-two-interfaces-with-ip-iproute2">https://unix.stackexchange.com/questions/255484/how-can-i-bridge-two-interfaces-with-ip-iproute2</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Network_bridge">https://wiki.archlinux.org/index.php/Network_bridge</a></li>
+<li><a href="https://techdifferences.com/difference-between-bridge-and-switch.html">https://techdifferences.com/difference-between-bridge-and-switch.html</a></li>
+<li><a href="https://wiki.linuxfoundation.org/networking/bridge">https://wiki.linuxfoundation.org/networking/bridge</a></li>
+<li>Ubuntu 16.04 Desktop is not using Systemd-networkd, ~~<a href="https://wiki.archlinux.org/index.php/Systemd-networkd~~">https://wiki.archlinux.org/index.php/Systemd-networkd~~</a></li>
+<li><a href="https://jlk.fjfi.cvut.cz/arch/manpages/man/systemd.netdev.5#SUPPORTED_NETDEV_KINDS">https://jlk.fjfi.cvut.cz/arch/manpages/man/systemd.netdev.5#SUPPORTED_NETDEV_KINDS</a></li>
+<li><a href="https://serverfault.com/questions/117788/linux-bridging-not-forwarding-packets">https://serverfault.com/questions/117788/linux-bridging-not-forwarding-packets</a></li>
+<li><a href="https://wiki.debian.org/BridgeNetworkConnections">https://wiki.debian.org/BridgeNetworkConnections</a></li>
+<li><a href="https://superuser.com/questions/1211852/why-linux-bridge-doesnt-work">https://superuser.com/questions/1211852/why-linux-bridge-doesnt-work</a></li>
+<li>Linux not answer to ARP requests from other VLANs: <a href="https://access.redhat.com/solutions/53031">https://access.redhat.com/solutions/53031</a></li>
+<li><a href="https://www.kernel.org/doc/Documentation/networking/bonding.txt">https://www.kernel.org/doc/Documentation/networking/bonding.txt</a></li>
+<li><a href="http://man7.org/linux/man-pages/man8/bridge.8.html">http://man7.org/linux/man-pages/man8/bridge.8.html</a></li>
+<li><a href="https://developers.redhat.com/blog/2018/10/22/introduction-to-linux-interfaces-for-virtual-networking/">https://developers.redhat.com/blog/2018/10/22/introduction-to-linux-interfaces-for-virtual-networking/</a></li>
+<li><a href="http://ebtables.netfilter.org/br_fw_ia/br_fw_ia.html">http://ebtables.netfilter.org/br_fw_ia/br_fw_ia.html</a></li>
+</ol>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/book-graphic-cryptography-hiroshi-yuki/">prev post</a>
+  
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>
