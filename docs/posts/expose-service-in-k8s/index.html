@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Expose Service in K8s - d4rkb1ue&#39;s Blog</title>
+  <meta content='Expose Service in K8s - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Expose Service in K8s - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="Publishing Services We want the service in k8s cluster to be accessed from outside.
+Depending on either the Pod inside the cluster can communication with each other directly or not, there&#39;re three different approaches,
+  Global Gateway.
+No direct communication between Pods. All traffic will be routed by the gateway.
+&#43;- k8s cluster --&#43; | *********** | Pod &lt;---&gt; * global * | Pod &lt;---&gt; * gateway * &lt;---&gt; Clients | Pod &lt;---&gt; * &quot;entry&quot; * | *********** &#43;---------------&#43;   Service Mesh." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/expose-service-in-k8s/" />
+
+
+<meta property="article:published_time" content="2020-03-01T23:41:46-08:00"/>
+
+<meta property="article:modified_time" content="2020-03-01T23:41:46-08:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74825078-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Expose Service in K8s</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>01 Mar 2020</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/k8s' class="link silver">k8s</a> <a href='/tags/sre' class="link silver">sre</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="publishing-services">Publishing Services</h1>
+<p><strong>We want the service in k8s cluster to be accessed from outside.</strong></p>
+<p>Depending on either the Pod inside the cluster can communication with each other <strong>directly</strong> or not, there're three different approaches,</p>
+<ol>
+<li>
+<p>Global Gateway.<br>
+No direct communication between Pods. All traffic will be routed by the gateway.</p>
+<pre><code>+- k8s cluster --+
+|           ***********
+| Pod &lt;---&gt; *  global *
+| Pod &lt;---&gt; * gateway * &lt;---&gt; Clients
+| Pod &lt;---&gt; * &quot;entry&quot; *
+|           ***********
++---------------+
+</code></pre></li>
+<li>
+<p>Service Mesh.<br>
+Pods can talk directly with each others. Only external access will pass the edge gateway.</p>
+<pre><code>+-- k8s cluster --------+
+|                   ***********
+|     Pod &lt;-------&gt; *         *
+|    /   \          *  edge   * &lt;---&gt; Clients
+| Pod    Pod &lt;----&gt; * gateway *
+|    \   /          *         *
+|     Pod &lt;-------&gt; *         *
+|                   ***********
+| (Powered by internal  |
+|  infras like Istio.)  |
++-----------------------+
+</code></pre><p>*<em>Of course, service mesh has way more features and components. We're only focusing on the communication plane in a single cluster.</em></p>
+<blockquote>
+<p>You use a gateway to manage inbound and outbound traffic for your mesh, letting you specify which traffic you want to enter or leave the mesh. Gateway configurations are applied to standalone Envoy proxies that are running at the edge of the mesh, rather than sidecar Envoy proxies running alongside your service workloads. <a href="https://istio.io/docs/concepts/traffic-management/#gateways">^istio</a></p>
+</blockquote>
+</li>
+<li>
+<p>Just Expose.<br>
+Implementations like,</p>
+<ul>
+<li>Calico in BGP mode</li>
+<li>Bare MetalLB w/o Gateway</li>
+</ul>
+<pre><code>+-- k8s cluster --------
+|                        
+|     Pod &lt;------------------------------+
+|    /   \                               |
+| Pod    Pod &lt;-----------------------&gt; Clients
+|    \   /                               |
+|     Pod &lt;------------------------------+
+|                         
+| (Cluster and outside networks *merged* with
+|  protocals like BGP, or
+|  techs like macvlan, ipvlan, MetalLB in L2)
++-----------------------
+</code></pre><p>just as no &ldquo;k8s cluster boundary&rdquo; any more.</p>
+</li>
+</ol>
+<h2 id="api-gateway">API Gateway</h2>
+<p>The API gateway can combines,</p>
+<ul>
+<li>load balancing in L4</li>
+<li>security</li>
+<li>rate limiting</li>
+<li>monitoring</li>
+<li>&hellip;other cross-cutting concerns for API services <a href="https://www.haproxy.com/blog/using-haproxy-as-an-api-gateway-part-1/">^1</a></li>
+</ul>
+<h1 id="service-in-k8s">Service In K8s</h1>
+<p><em>k8s v1.17</em></p>
+<h2 id="k8sservice">k8s.Service</h2>
+<blockquote>
+<p>In theory, you could talk to these pods directly, but what happens when a node dies? The <code>pod</code>s die with it, and the <code>Deployment</code> will create new ones, with different <code>IP</code>s. This is the problem a <code>Service</code> solves.</p>
+</blockquote>
+<p><a href="https://kubernetes.io/docs/concepts/services-networking/service/">Service</a> is an overlay of Pod's <code>IP:Port</code> for <strong>exposing</strong>, with dynamic config and LB.</p>
+<blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+  ports:
+    - protocol: TCP
+      port: <span style="color:#ae81ff">80</span>
+      targetPort: <span style="color:#ae81ff">9376</span>
+</code></pre></div><p>This specification creates a new <code>Service</code> object, which targets TCP port <code>9376</code> on any <code>Pod</code> with the <code>app=MyApp</code> label.</p>
+</blockquote>
+<p>As the backend, k8s assigns this <code>Service</code> an Virtual IP (known as <code>clusterIP</code>), which is used by the service proxies (known as <code>kube-proxy</code>).</p>
+<h3 id="k8sendpoint-dns-kube-proxy">k8s.Endpoint, DNS, kube-proxy</h3>
+<p>All the services with <code>clusterIP</code> <strong>only routable within the cluster network</strong>.</p>
+<pre><code>-----------------------------k8s cluster-----------------------------
+
+ +--------------+
+ | Pod          |-+
+ |           Endpoint----&gt; +----------------+
+ |            IP:Port      | Service        |  +--------------------+
+ +--------------+ | ^      |  - clusterIP  ----&gt; coreDNS            |
+   +--------------+ |      |  - Port        |  | (SRV.NS,clusterIP) |
+  (Pods selected    |      |                |  +--------------------+
+   by `Selector`)   |      +----------------+      ^
+                    |                       ^      |
+                    *-------------------*   |      #1
+                                        |   #2     |           
+                                        #3  |      |
+                                        |   |      |
+ +---k8s.Node(Host)-------------------- | - | ---- | ----------+
+ |                                      |   |      |           |
+ |  +-------------+        Request      *-------------------+  |-+
+ |  | client Pods |-+  --------------&gt;  | kube-proxy        |  | |
+ |  +-------------+ |      service      | [ user space ]    |  | |
+ |    +-------------+ (IP, Port, Proto) | [ proxy mode ]    |  | |
+ |                                      +-------------------+  | |
+ |                                                             | |
+ +-------------------------------------------------------------+ |
+   +-------------------------------------------------------------+
+
+-----------------------------k8s cluster-----------------------------
+
+&quot;^&quot;: path regarding workload service request
+
+kube-proxy works as,
+
+- Step #1: get clusterIP
+- Step #2: get LB-ed PodIP
+- Step #3: proxy request to server
+</code></pre><p><code>kube-proxy</code> runs on every <code>k8s.Node</code>, which translate <code>Service.clusterIP</code> to <code>Pod's IP:Port</code> with load balancing options.</p>
+<p>In <code>user space proxy mode</code>: works as a transparent reverse proxy.</p>
+<p><a href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/">More on DNS</a>.</p>
+<p>Environment Variables will be created <strong>during the creation</strong> of the pod, which means it's not dynamic. Refer to <a href="https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#environment-variables">an ordering problem</a>. I don't think it's a good idea of using <code>env</code>.</p>
+<h3 id="headless-services">Headless Services</h3>
+<p><code>service</code> w/o LB.</p>
+<blockquote>
+<p>For headless Services, a cluster IP is not allocated, kube-proxy does not handle these Services, and there is no load balancing or proxying done by the platform for them.</p>
+</blockquote>
+<h2 id="k8sservicetype">k8s.Service.type</h2>
+<p>Using k8s built-in <a href="https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types">ServiceTypes</a> is not ideal, as mode of,</p>
+<ul>
+<li><code>ClusterIP</code>: why even call this as &ldquo;Publish&rdquo;. Since this's just the default behavior handled by <a href="#k8sendpoint-dns-kube-proxy"><code>kube-proxy</code></a>.</li>
+<li><code>NodePort</code>: NAT. <code>HostIP:Port -&gt; (Service.clusterIP:Port -&gt;) Pod(Container)IP:Port</code></li>
+<li><code>LoadBalancer</code>: Must use cloud provider? Yes. <a href="https://kubernetes.io/docs/tasks/administer-cluster/developing-cloud-controller-manager/">^1</a>, <a href="https://github.com/kubernetes/kubernetes/issues/36220">^issue</a>, <a href="https://stackoverflow.com/questions/55162890/loadbalancing-for-kubernetes-in-non-cloud-environment">^2</a></li>
+<li><code>externalName</code>: just add the FQDN CNAME support, which translate FQDN CNAME to services.</li>
+<li><code>externalIPs</code>: works like <code>externalName</code>, <strong>mask</strong> (like <code>MASQUERADE</code> in <code>iptables</code> ) user-defined destination <code>IP</code> to <code>clusterIP</code>.</li>
+</ul>
+<h2 id="k8singress">k8s.Ingress</h2>
+<blockquote>
+<p><code>Ingress</code> exposes <code>HTTP</code> and <code>HTTPS</code> routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the <code>Ingress</code> resource.</p>
+</blockquote>
+<p>Ingress is a set of <code>HTTP</code> <strong>router-rules</strong> and <strong>firewall-rules</strong> for <code>k8s.Service</code>.</p>
+<blockquote>
+<p>In order for the <code>Ingress</code> resource to work, the cluster must have an <a href="https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/"><code>ingress controller</code></a> running.</p>
+</blockquote>
+<p>Since <code>Ingress</code> only describes rules and connect to <code>k8s.Service</code>, we need <code>Ingress Controllers</code> to do the heavy-lifting and &ldquo;stand before&rdquo; the cluster.</p>
+<pre><code>       User &amp; Clients
+            |
+    Ingress Controllers
+            |
+ +-- k8s cluster ----------------------+
+ |          |                          |
+ |      Ingress -&gt; Services -&gt; Pods    |
+ |                                     |
+ | (Powered by internal Network infra, |
+ |  like Calico.)                      |
+ +-------------------------------------+
+</code></pre><p>Since we're aiming at creating L4 LB, we can't use <code>Ingress</code>.</p>
+<h1 id="implementations">Implementations</h1>
+<h2 id="concerns">Concerns</h2>
+<ol>
+<li>Sticky sessions</li>
+<li>Keeping real source IP address</li>
+</ol>
+<h2 id="implementation-1-nat">Implementation 1: NAT</h2>
+<pre><code>           User &amp; Clients
+                |
+ +---------+---Host.Port---+---+---Host.Port---+--+
+ | k8s     |Host(k8s.Node) |   |Host(k8s.Node) |  |
+ | cluster | - Pod(Ngnix)  |   | - Pod(HAProxy)|  |
+ |         +---------------+   +---------------+  |
+ |                      |      |                  |
+ |                      +      +                  |
+ |                      Services -&gt; Pods          |
+ |                                                |
+ |(Powered by internal Network infra, like Calico)|
+ |                                                |
+ +------------------------------------------------+
+</code></pre><ul>
+<li><em><code>k8s.Service.type[NodePort]</code></em></li>
+</ul>
+<p>The easiest way, is to make API gateway running as Pod on a <strong>static</strong> host(<code>k8s.Node</code>), having,</p>
+<ul>
+<li>all exposed ports on the host bind to the Pod directly, like <code>N:N, M:M</code></li>
+<li>gateway forwarding the traffic to internal services utilizating k8s network infra</li>
+</ul>
+<h3 id="cons">Cons</h3>
+<ol>
+<li>
+<p>Besides HTTP(S) services that can ultize HTTP headers to determine the destination, other L4 services can't share the same ports.</p>
+</li>
+<li>
+<p>Also, by default,</p>
+<blockquote>
+<p>Kubernetes master will allocate a port from a flag-configured range (default: <code>30000–32767</code>), and each Node will proxy that port</p>
+</blockquote>
+<p>So we can only publish service on such ports to external users. This can be solved either by setting the available port to the Pods or use <code>network=host</code> (<code>k8s.DaemonSet.template.spec.hostNetwork</code>)</p>
+</li>
+</ol>
+<h3 id="load-balancing-of-the-api-gateway-itself">Load Balancing Of The API Gateway Itself</h3>
+<ol>
+<li>Deploy DNS-level LB to LB multiple hosts.</li>
+<li>Use BGP protocal to let upstream routers know the the nexthop of <code>Service.ClusterIP</code>, which are the hosts of the API Gateways.</li>
+</ol>
+<h2 id="implementation-12-ambassador">Implementation 1.2: Ambassador</h2>
+<p>Ambassador provide a turnkey solution.</p>
+<p><a href="https://www.getambassador.io/user-guide/bare-metal/">https://www.getambassador.io/user-guide/bare-metal/</a></p>
+<h2 id="implementation-2-metallb">Implementation 2: MetalLB</h2>
+<blockquote>
+<p>MetalLB is a young project. You should treat it as a beta system. The project maturity page explains what that implies. <a href="https://metallb.universe.tf/concepts/maturity/">MetalLB PROJECT MATURITY</a>.</p>
+</blockquote>
+<blockquote>
+<p>Kubernetes does not currently allow multiprotocol LoadBalancer services. This would normally make it impossible to run services like DNS, because they have to listen on both TCP and UDP.
+<a href="https://metallb.universe.tf/usage/#ip-address-sharing">https://metallb.universe.tf/usage/#ip-address-sharing</a> <strong>This problem is shared by all the solutions.</strong></p>
+</blockquote>
+<p>MetalLB responds to ARP requests for IPv4 services. So it just use <a href="https://en.wikipedia.org/wiki/IP_aliasing"><strong>IP aliasing</strong></a> to allow multiple IP address for a single MAC address. Like <strong>ipvlan</strong>.</p>
+<ul>
+<li>Layer 2 (ipvlan) mode need static IP allocation.</li>
+</ul>
+<h1 id="ref">Ref.</h1>
+<ol start="0">
+<li><a href="https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/">https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/an-introduction-to-haproxy-and-load-balancing-concepts">https://www.digitalocean.com/community/tutorials/an-introduction-to-haproxy-and-load-balancing-concepts</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/services-networking/service/">https://kubernetes.io/docs/concepts/services-networking/service/</a> (Covered in this note)</li>
+<li><a href="https://kubernetes.io/docs/concepts/services-networking/ingress/">https://kubernetes.io/docs/concepts/services-networking/ingress/</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/">https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/</a></li>
+<li><a href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/">https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/</a></li>
+<li><a href="https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0">https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0</a></li>
+<li><a href="https://github.com/kubernetes/kubernetes/issues/36220">https://github.com/kubernetes/kubernetes/issues/36220</a></li>
+<li><a href="https://medium.com/@maniankara/kubernetes-tcp-load-balancer-service-on-premise-non-cloud-f85c9fd8f43c">https://medium.com/@maniankara/kubernetes-tcp-load-balancer-service-on-premise-non-cloud-f85c9fd8f43c</a></li>
+<li><a href="https://www.weave.works/blog/kubernetes-faq-how-can-i-route-traffic-for-kubernetes-on-bare-metal">https://www.weave.works/blog/kubernetes-faq-how-can-i-route-traffic-for-kubernetes-on-bare-metal</a></li>
+<li><a href="https://collabnix.com/3-node-kubernetes-cluster-on-bare-metal-system-in-5-minutes/">https://collabnix.com/3-node-kubernetes-cluster-on-bare-metal-system-in-5-minutes/</a></li>
+<li><a href="https://sreeninet.wordpress.com/2016/05/29/macvlan-and-ipvlan/">https://sreeninet.wordpress.com/2016/05/29/macvlan-and-ipvlan/</a></li>
+<li><a href="https://kubernetes.github.io/ingress-nginx/deploy/baremetal/">https://kubernetes.github.io/ingress-nginx/deploy/baremetal/</a></li>
+<li>[Chinese] <a href="https://vqiu.cn/metallb-si-you-ji-qun-loadbalancer/">https://vqiu.cn/metallb-si-you-ji-qun-loadbalancer/</a></li>
+<li><a href="https://www.getambassador.io/user-guide/bare-metal/">https://www.getambassador.io/user-guide/bare-metal/</a></li>
+<li><a href="https://istio.io/docs/ops/deployment/deployment-models/">https://istio.io/docs/ops/deployment/deployment-models/</a></li>
+<li><a href="https://istio.io/docs/concepts/traffic-management/#gateways">https://istio.io/docs/concepts/traffic-management/#gateways</a></li>
+<li><a href="https://www.getambassador.io/about/alternatives/">https://www.getambassador.io/about/alternatives/</a></li>
+</ol>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/bridge-network-in-linux/">prev post</a>
+  
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

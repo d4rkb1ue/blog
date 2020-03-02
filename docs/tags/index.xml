@@ -6,10 +6,28 @@
     <description>Recent content in Tags on d4rkb1ue&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 24 Feb 2020 05:27:21 -0800</lastBuildDate>
+    <lastBuildDate>Sun, 01 Mar 2020 23:41:46 -0800</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>k8s</title>
+      <link>https://drkbl.com/tags/k8s/</link>
+      <pubDate>Sun, 01 Mar 2020 23:41:46 -0800</pubDate>
+      
+      <guid>https://drkbl.com/tags/k8s/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sre</title>
+      <link>https://drkbl.com/tags/sre/</link>
+      <pubDate>Sun, 01 Mar 2020 23:41:46 -0800</pubDate>
+      
+      <guid>https://drkbl.com/tags/sre/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Linux</title>
@@ -44,15 +62,6 @@
       <pubDate>Wed, 19 Feb 2020 20:50:46 -0800</pubDate>
       
       <guid>https://drkbl.com/tags/readingnotes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>SRE</title>
-      <link>https://drkbl.com/tags/sre/</link>
-      <pubDate>Fri, 07 Feb 2020 20:22:34 -0800</pubDate>
-      
-      <guid>https://drkbl.com/tags/sre/</guid>
       <description></description>
     </item>
     

@@ -3,12 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://drkbl.com/posts/bridge-network-in-linux/</loc>
-    <lastmod>2020-02-24T05:27:21-08:00</lastmod>
+    <loc>https://drkbl.com/</loc>
+    <lastmod>2020-03-01T23:41:46-08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://drkbl.com/</loc>
+    <loc>https://drkbl.com/posts/expose-service-in-k8s/</loc>
+    <lastmod>2020-03-01T23:41:46-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/k8s/</loc>
+    <lastmod>2020-03-01T23:41:46-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/</loc>
+    <lastmod>2020-03-01T23:41:46-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/sre/</loc>
+    <lastmod>2020-03-01T23:41:46-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/</loc>
+    <lastmod>2020-03-01T23:41:46-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/bridge-network-in-linux/</loc>
     <lastmod>2020-02-24T05:27:21-08:00</lastmod>
   </url>
   
@@ -19,16 +44,6 @@
   
   <url>
     <loc>https://drkbl.com/tags/network/</loc>
-    <lastmod>2020-02-24T05:27:21-08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/posts/</loc>
-    <lastmod>2020-02-24T05:27:21-08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/</loc>
     <lastmod>2020-02-24T05:27:21-08:00</lastmod>
   </url>
   
@@ -45,11 +60,6 @@
   <url>
     <loc>https://drkbl.com/posts/book-graphic-cryptography-hiroshi-yuki/</loc>
     <lastmod>2020-02-19T20:50:46-08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/sre/</loc>
-    <lastmod>2020-02-07T20:22:34-08:00</lastmod>
   </url>
   
   <url>

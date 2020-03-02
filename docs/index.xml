@@ -6,10 +6,23 @@
     <description>Recent content on d4rkb1ue&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 24 Feb 2020 05:27:21 -0800</lastBuildDate>
+    <lastBuildDate>Sun, 01 Mar 2020 23:41:46 -0800</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Expose Service in K8s</title>
+      <link>https://drkbl.com/posts/expose-service-in-k8s/</link>
+      <pubDate>Sun, 01 Mar 2020 23:41:46 -0800</pubDate>
+      
+      <guid>https://drkbl.com/posts/expose-service-in-k8s/</guid>
+      <description>Publishing Services We want the service in k8s cluster to be accessed from outside.
+Depending on either the Pod inside the cluster can communication with each other directly or not, there&#39;re three different approaches,
+  Global Gateway.
+No direct communication between Pods. All traffic will be routed by the gateway.
++- k8s cluster --+ | *********** | Pod &amp;lt;---&amp;gt; * global * | Pod &amp;lt;---&amp;gt; * gateway * &amp;lt;---&amp;gt; Clients | Pod &amp;lt;---&amp;gt; * &amp;quot;entry&amp;quot; * | *********** +---------------+   Service Mesh.</description>
+    </item>
     
     <item>
       <title>Bridge Network in Linux</title>
