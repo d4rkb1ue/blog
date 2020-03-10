@@ -1,7 +1,7 @@
 ---
 title: "Bridge Network in Linux"
 date: 2020-02-24T05:27:21-08:00
-tags: ['Network', 'Linux']
+tags: ['Networking', 'Linux']
 ---
 
 # Case

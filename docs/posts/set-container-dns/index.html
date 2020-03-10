@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>DNS 101 - d4rkb1ue&#39;s Blog</title>
+  <meta content='DNS 101 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='DNS 101 - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="DNS In General DNS Server All DNS servers fall into one of four categories:
+ Recursive Resolvers Root Nameservers TLD Nameservers Authoritative Nameservers  A recursive resolver (also known as a DNS recursor) is almost always the first stop in a DNS query. The recursive resolver acts as a middleman between a client and a DNS nameserver.
+cc @ https://www.cloudflare.com/learning/dns/dns-server-types/
+ DNS primarily uses UDP on port number 53 to serve requests." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/set-container-dns/" />
+
+
+<meta property="article:published_time" content="2020-03-10T00:59:54-07:00"/>
+
+<meta property="article:modified_time" content="2020-03-10T00:59:54-07:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74825078-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">DNS 101</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>10 Mar 2020</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/sre' class="link silver">SRE</a> <a href='/tags/docker' class="link silver">docker</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h1 id="dns-in-general">DNS In General</h1>
+<h2 id="dns-server">DNS Server</h2>
+<p>All DNS servers fall into one of four categories:</p>
+<ol>
+<li>Recursive Resolvers</li>
+<li>Root Nameservers</li>
+<li>TLD Nameservers</li>
+<li>Authoritative Nameservers</li>
+</ol>
+<p>A recursive resolver (also known as a DNS recursor) is almost always the first stop in a DNS query. The recursive resolver acts as a middleman between a client and a DNS nameserver.</p>
+<p><img src="/images/recursive-resolver.png" alt="https://www.cloudflare.com/learning/dns/dns-server-types/"></p>
+<p><em>cc @ <a href="https://www.cloudflare.com/learning/dns/dns-server-types/">https://www.cloudflare.com/learning/dns/dns-server-types/</a></em></p>
+<blockquote>
+<p>DNS primarily uses <code>UDP</code> on port number <code>53</code> to serve requests. DNS queries consist of a single <code>UDP</code> request from the client followed by a single <code>UDP</code> reply from the server. When the length of the answer exceeds 512 bytes and both client and server support <code>EDNS</code>, larger <code>UDP</code> packets are used. Otherwise, the query is sent again using the <code>TCP</code>. <code>TCP</code> is also used for tasks such as zone transfers. Some resolver implementations use <code>TCP</code> for all queries.</p>
+</blockquote>
+<h2 id="dns-messages">DNS Messages</h2>
+<p>The DNS protocol uses two types of DNS messages, queries and replies, and they both have the same format. Each message consists of,</p>
+<ul>
+<li>a header
+<ol>
+<li><code>Identification</code> (used to match responses with queries)</li>
+<li><code>Flags</code>
+<ol>
+<li>a single bit which indicates if the message is a query (0) or a reply (1)</li>
+<li>four bits indicating the type of query, or the type of query this message is a response to. 0 is a standard query, 1 is an inverse query, 2 is a server status request.</li>
+<li>a single-bit indicates if the DNS server is authoritative for the queried hostname</li>
+<li>a single-bit indicates if the client wants to send a recursive query (&ldquo;RD&rdquo;).</li>
+<li>a single-bit indicates if the replying DNS server supports recursion (&ldquo;RA&rdquo;), as not all DNS servers are configured to do this task.</li>
+<li>?-bit indicates if the message was truncated for some reason (&ldquo;TC&rdquo;)</li>
+<li>four-bit is used for error codes</li>
+</ol>
+</li>
+<li>Number of <code>questions</code></li>
+<li>Number of <code>answers</code></li>
+<li>Number of <a href="#resource-record"><code>authority Resource Records (RRs)</code></a></li>
+<li>Number of <code>additional Resource Records (RRs)</code></li>
+</ol>
+</li>
+<li>and four sections:
+<ol>
+<li><code>question</code>: has the domain name and <a href="#type-of-record">type of record</a> being resolved; each <a href="#label"><code>label</code></a> is prefixed by the length of that <a href="#label"><code>label</code></a>.</li>
+<li><code>answer</code>: has the <a href="#resource-record">resource records</a> of the queried name.</li>
+<li><code>authority</code></li>
+<li>an additional space</li>
+</ol>
+</li>
+</ul>
+<h3 id="type-of-record">Type Of Record</h3>
+<ol>
+<li><code>A</code> record - The record that holds the IP address of a domain.</li>
+<li><code>CNAME</code> record - Forwards one domain or subdomain to another domain, does NOT provide an IP address.</li>
+<li><code>TXT</code> record - Lets an admin store text notes in the record.</li>
+<li><code>NS</code> record - Stores the name server for a DNS entry.</li>
+<li><code>SOA</code> record - Stores admin information about a domain. The &ldquo;start of authority&rdquo; record can store important info about the domain such as the email address of the administrator, when the domain was last updated, and how long the server should wait between refreshes.</li>
+<li><code>SRV</code> record - Specifies a port for specific services. Ex. <code>[@_sip._tcp.example.com.] [SRV] [8080 example2.com] [TTL]</code>, <code>_sip</code> indicates the type of service, <code>_tcp</code> indicates the protocol, and <code>8080</code> indicates the port.</li>
+<li><code>PTR</code> record - Provides a domain name in reverse-lookups, which return the domain associated with a given IP address.</li>
+</ol>
+<h3 id="resource-record">Resource Record</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Length (octets)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME</td>
+<td>Name of the node to which this record pertains. <code>@</code> is a placeholder used to represent &ldquo;the current domain&rdquo; without any www or sub-domain name.</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td>TYPE</td>
+<td>Type of RR in numeric form (e.g., 15 for MX RRs)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>CLASS</td>
+<td>Class code, basically <code>IN</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>TTL</td>
+<td>Count of seconds that the RR stays valid (The maximum is 231−1, which is about 68 years)</td>
+<td>4</td>
+</tr>
+<tr>
+<td>RDLENGTH</td>
+<td>Length of RDATA field (specified in octets)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>RDATA</td>
+<td>Additional RR-specific data</td>
+<td>Variable, as per RDLENGTH</td>
+</tr>
+</tbody>
+</table>
+<h3 id="label">Label</h3>
+<pre><code>aaaaaa.bbbbbb.cccccc
+--^--  --^--  --^--
+label  label  label
+</code></pre><p>A <code>label</code> may contain zero to 63 characters. The null label, of length zero, is reserved for the root zone.</p>
+<h2 id="dns-setting-in-linux-ubuntu">DNS Setting In Linux (Ubuntu)</h2>
+<h3 id="etcresolvconf">/etc/resolv.conf</h3>
+<ul>
+<li>
+<p><code>nameserver</code>: at most 3 IP address. For multiple servers, the resolver library queries them <strong>in the order listed</strong>. The algorithm used here is,</p>
+<ol>
+<li>try first nameserver</li>
+<li>if the query times out, try next</li>
+<li>&hellip; until finish all (up to) 3 nameservers</li>
+<li>if the maximum number of retries have made, stop; else go back to step 1</li>
+</ol>
+</li>
+<li>
+<p><code>search</code>: Search list for host-name lookup. By default, it contains only the local domain name, ex, <code>my-mac.my-domain</code>. Query having w/o <code>.(dot)</code> in it will be attempted using each component of the search path in turn until a match is found. The search list is limited to six domains.</p>
+</li>
+<li>
+<p><code>options</code>:</p>
+<ul>
+<li><code>ndots</code>: sets a threshold for the number of dots which must appear in a name given to before an initial absolute query will be made. The default for n is 1, meaning that if there are any dots in a name, the name will be tried first as an absolute name before any <code>search</code> list elements are appended to it. Ex. Query <code>example.com</code> will be firstly send before searching for <code>example.com.my-mac.my-domain</code>.</li>
+</ul>
+</li>
+</ul>
+<h2 id="dnsmasq">Dnsmasq</h2>
+<p>Comes with the stock Ubuntu 16.04.</p>
+<p>To find the dnsmasq config,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ps -ef | grep dnsmasq
+
+<span style="color:#75715e">#/usr/sbin/dnsmasq --no-resolv --keep-in-foreground --no-hosts --bind-interfaces --pid-file=/var/run/NetworkManager/dnsmasq.pid --listen-address=127.0.1.1 --cache-size=0 --conf-file=/dev/null --proxy-dnssec --enable-dbus=org.freedesktop.NetworkManager.dnsmasq --conf-dir=/etc/NetworkManager/dnsmasq.d</span>
+</code></pre></div><p>To see NetworkManager managed <code>DHCP</code> and <code>DNS</code> info,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli d show enp0
+              ^
+       *your major NIC*
+</code></pre></div><p>Detailed info of dnsmasq,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">man dnsmasq
+</code></pre></div><h2 id="ways-to-override-dns-conf">Ways To Override DNS Conf</h2>
+<h3 id="dhcpconf">dhcp.conf</h3>
+<p>If use DHCP to get the dynamic IP.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#/etc/dhcp/dhcp.conf</span>
+supersede domain-name-servers 1.1.1.1,8.8.8.8,8.8.4.4;
+</code></pre></div><h3 id="resolvconf">resolv.conf</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#/etc/resolv.conf</span>
+nameserver 1.1.1.1
+</code></pre></div><h3 id="dnsmasqd">dnsmasq.d</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#e6db74">&#39;server=1.1.1.1&#39;</span> &gt; /etc/NetworkManager/dnsmasq.d/use-cloudflare-dns
+systemctl restart NetworkManager
+</code></pre></div><h2 id="reverse-lookup">Reverse lookup</h2>
+<blockquote>
+<p>For example, assuming the IPv4 address <code>208.80.152.2</code> is assigned to Wikimedia, it is represented as a DNS name in <strong>reverse order</strong>: <code>2.152.80.208.in-addr.arpa</code>. When the DNS resolver gets a pointer (PTR) request, it begins by querying the root servers, which point to the servers of American Registry for Internet Numbers (ARIN) for the <code>208.in-addr.arpa</code> zone. ARIN's servers delegate <code>152.80.208.in-addr.arpa</code> to Wikimedia to which the resolver sends another query for <code>2.152.80.208.in-addr.arpa</code>, which results in an authoritative response.</p>
+</blockquote>
+<h2 id="ddns">DDNS</h2>
+<p><strong>Clients can notify their respective DNS server of the updated IP address they had received from a DHCP server or through self-configuration.</strong></p>
+<p>If we use a single, combined DNS+DHCP solution which can maintain the consistency between both tables by itself, there's no need to enable DDNS.</p>
+<p>Else, we need to either,</p>
+<ol>
+<li>enable DDNS for clients notifying DNS server with the new IP address allocated by DHCP server, or,</li>
+<li>let DHCP server to notify DNS server the new assignments directly</li>
+</ol>
+<h1 id="dns-in-docker">DNS In Docker</h1>
+<p>For containers NOT using default <code>bridge</code> network, Dockerd will config DNS in the container as,</p>
+<ol>
+<li>
+<p>There's an embedded DNS server handling all DNS queries from containers (also for inter-container name resolving)</p>
+</li>
+<li>
+<p>If no config flag, docker use <strong>filtered</strong> host's <code>/etc/hosts</code> and <code>/etc/resolv.conf</code>. Fliter will eliminate <code>localhost</code> unreachables, like <code>nameserver 127.0.1.1</code>. Since <code>127.0.0.0/8</code> of host can't be accessed within containers except for <code>--network=host</code>. If empty after filtered, <code>8.8.8.8</code> is added by default</p>
+</li>
+<li>
+<p>Both <code>/etc/hosts</code> and <code>/etc/resolv.conf</code> <strong>inside the container</strong> are managed by Dockerd. So, to change the config, use <code>docker run --[flags]</code> instead of editing the files inside the container or using mount.</p>
+</li>
+<li>
+<p>Flag <code>--dns</code>. The IP address of a DNS server.</p>
+<ul>
+<li>For multiple DNS servers, use multiple flags</li>
+<li><strong><code>container:/etc/resolv.conf</code> will always be <code>127.0.0.11</code></strong> which will not be effected by this flag</li>
+<li>Instead, input value of <code>--dns</code> is keeped and used by the embedded DNS server to forward the DNS query if embedded DNS server is unable to resolve a name resolution request from the containers</li>
+<li>If you need access to the host's <code>localhost</code> resolver (like <code>dnsmasq</code>), modify DNS service on the host to listen on a non-localhost address which is reachable within the container. (<a href="https://stackoverflow.com/questions/35693117/how-can-i-give-docker-containers-access-to-a-dnsmasq-local-dns-resolver-on-the-h">^stackoverflow</a>)</li>
+</ul>
+</li>
+<li>
+<p>Flag <code>--dns-search</code>.	A DNS search domain to search non-fully-qualified hostnames</p>
+<ul>
+<li>For multiple DNS search prefixes, use multiple flags</li>
+</ul>
+</li>
+<li>
+<p>Flag <code>--hostname</code>. The hostname a container uses for itself. Defaults to the container's ID if not specified</p>
+</li>
+</ol>
+<h1 id="dns-in-k8s">DNS In K8s</h1>
+<p><a href="https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/">https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/</a></p>
+<h2 id="coredns">CoreDNS</h2>
+<p><a href="https://coredns.io/manual/toc/">https://coredns.io/manual/toc/</a></p>
+<p>Be aware that CoreDNS does NOT have a native recursive resolver. <a href="https://coredns.io/manual/toc/#recursive-resolver">^</a></p>
+<h2 id="service-discovery">Service Discovery</h2>
+<p>DNS can be use for service discovery by,</p>
+<ol>
+<li>Using <code>SRV</code> records in DNS as database and,</li>
+<li>Service actively send DDNS request to DNS to update the <code>SRV</code> record.</li>
+</ol>
+<p>However, DNS-SD also have cons:</p>
+<ul>
+<li>Uncontrolled TTLs</li>
+<li>Delay between the moment a node failure is detected and the moment the clients execute their DNS service discovery queries
+<ul>
+<li>while most JSON/REST implementations use long-polling mechanisms to trigger updates on the clients instantaneously</li>
+</ul>
+</li>
+</ul>
+<h1 id="build-your-own-dns-server">Build Your Own Dns Server</h1>
+<ul>
+<li><a href="http://www.dnspython.org/">http://www.dnspython.org/</a></li>
+<li><a href="https://scapy.readthedocs.io/en/latest/index.html">https://scapy.readthedocs.io/en/latest/index.html</a></li>
+</ul>
+<p>Be aware if the DNS has looped dependencies.</p>
+<h1 id="ref">Ref.</h1>
+<ol>
+<li><a href="https://docs.docker.com/v17.09/engine/userguide/networking/configure-dns/">https://docs.docker.com/v17.09/engine/userguide/networking/configure-dns/</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Domain_Name_System">https://en.wikipedia.org/wiki/Domain_Name_System</a></li>
+<li><a href="https://ns1.com/resources/dns-protocol">https://ns1.com/resources/dns-protocol</a></li>
+<li><a href="https://linux.die.net/man/5/resolv.conf">https://linux.die.net/man/5/resolv.conf</a></li>
+<li><a href="https://www.cloudflare.com/learning/dns/dns-server-types/">https://www.cloudflare.com/learning/dns/dns-server-types/</a></li>
+<li><a href="https://tools.ietf.org/html/rfc1035">https://tools.ietf.org/html/rfc1035</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Dynamic_DNS">https://en.wikipedia.org/wiki/Dynamic_DNS</a></li>
+<li><a href="https://www.haproxy.com/blog/dns-service-discovery-haproxy/">https://www.haproxy.com/blog/dns-service-discovery-haproxy/</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Multicast_DNS">https://en.wikipedia.org/wiki/Multicast_DNS</a></li>
+<li><a href="https://www.linux.com/tutorials/advanced-dnsmasq-tips-and-tricks/">https://www.linux.com/tutorials/advanced-dnsmasq-tips-and-tricks/</a></li>
+</ol>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="http://localhost:1313/posts/expose-service-in-k8s/">prev post</a>
+  
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  Contact me at 7874364@gmail.com
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+<script data-no-instant>document.write('<script src="/livereload.js?port=1313&mindelay=10&v=2"></' + 'script>')</script></body>
+</html>

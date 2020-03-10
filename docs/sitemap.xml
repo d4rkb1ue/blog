@@ -4,7 +4,37 @@
   
   <url>
     <loc>https://drkbl.com/</loc>
-    <lastmod>2020-03-01T23:41:46-08:00</lastmod>
+    <lastmod>2020-03-10T00:59:54-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/dns-101/</loc>
+    <lastmod>2020-03-10T00:59:54-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/docker/</loc>
+    <lastmod>2020-03-10T00:59:54-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/networking/</loc>
+    <lastmod>2020-03-10T00:59:54-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/</loc>
+    <lastmod>2020-03-10T00:59:54-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/sre/</loc>
+    <lastmod>2020-03-10T00:59:54-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/</loc>
+    <lastmod>2020-03-10T00:59:54-07:00</lastmod>
   </url>
   
   <url>
@@ -18,32 +48,12 @@
   </url>
   
   <url>
-    <loc>https://drkbl.com/posts/</loc>
-    <lastmod>2020-03-01T23:41:46-08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/sre/</loc>
-    <lastmod>2020-03-01T23:41:46-08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/</loc>
-    <lastmod>2020-03-01T23:41:46-08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://drkbl.com/posts/bridge-network-in-linux/</loc>
     <lastmod>2020-02-24T05:27:21-08:00</lastmod>
   </url>
   
   <url>
     <loc>https://drkbl.com/tags/linux/</loc>
-    <lastmod>2020-02-24T05:27:21-08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/network/</loc>
     <lastmod>2020-02-24T05:27:21-08:00</lastmod>
   </url>
   
@@ -69,11 +79,6 @@
   
   <url>
     <loc>https://drkbl.com/posts/deploy-docker-registry/</loc>
-    <lastmod>2020-02-02T19:55:40-08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/docker/</loc>
     <lastmod>2020-02-02T19:55:40-08:00</lastmod>
   </url>
   
