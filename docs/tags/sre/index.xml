@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>sre on d4rkb1ue&#39;s Blog</title>
+    <title>SRE on d4rkb1ue&#39;s Blog</title>
     <link>https://drkbl.com/tags/sre/</link>
-    <description>Recent content in sre on d4rkb1ue&#39;s Blog</description>
+    <description>Recent content in SRE on d4rkb1ue&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Tue, 10 Mar 2020 00:59:54 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 16 Mar 2020 01:52:09 -0700</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/tags/sre/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Init a Production K8s Cluster</title>
+      <link>https://drkbl.com/posts/init-a-production-k8s-cluster/</link>
+      <pubDate>Mon, 16 Mar 2020 01:52:09 -0700</pubDate>
+      
+      <guid>https://drkbl.com/posts/init-a-production-k8s-cluster/</guid>
+      <description>k8s v1.16.8, kubespray v2.12.0
+Init a Production K8s Cluster Kubespray works like a charm,
+git clone https://github.com/kubernetes-sigs/kubespray.git cd kubespray sudo pip install -r requirements.txt cp -rfp inventory/sample inventory/mycluster # create cluster hosts poll declare -a IPS=(10.10.1.3 10.10.1.4 10.10.1.5) CONFIG_FILE=inventory/mycluster/inventory.yml python3 contrib/inventory_builder/inventory.py ${IPS[@]} mv inventory/mycluster/inventory.ini inventory/mycluster/inventory.yml # Review and modify the cluster config vi inventory/mycluster/inventory.yml ansible-playbook -i inventory/aws-test/inventory.yml --become --become-user=root --user=ubuntu --private-key=$(pwd)/.ssh/aws-ec2-test.pem cluster.yml Get kubeconfig from $1st-kube-master:/root/.kube/config.
+One additional credentials will be available at inventory/mycluster/credentials.</description>
+    </item>
     
     <item>
       <title>DNS 101</title>

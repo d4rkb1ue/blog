@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Init a Production K8s Cluster - d4rkb1ue&#39;s Blog</title>
+  <meta content='Init a Production K8s Cluster - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Init a Production K8s Cluster - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="k8s v1.16.8, kubespray v2.12.0
+Init a Production K8s Cluster Kubespray works like a charm,
+git clone https://github.com/kubernetes-sigs/kubespray.git cd kubespray sudo pip install -r requirements.txt cp -rfp inventory/sample inventory/mycluster # create cluster hosts poll declare -a IPS=(10.10.1.3 10.10.1.4 10.10.1.5) CONFIG_FILE=inventory/mycluster/inventory.yml python3 contrib/inventory_builder/inventory.py ${IPS[@]} mv inventory/mycluster/inventory.ini inventory/mycluster/inventory.yml # Review and modify the cluster config vi inventory/mycluster/inventory.yml ansible-playbook -i inventory/aws-test/inventory.yml --become --become-user=root --user=ubuntu --private-key=$(pwd)/.ssh/aws-ec2-test.pem cluster.yml Get kubeconfig from $1st-kube-master:/root/.kube/config.
+One additional credentials will be available at inventory/mycluster/credentials." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/init-a-production-k8s-cluster/" />
+
+
+<meta property="article:published_time" content="2020-03-16T01:52:09-07:00"/>
+
+<meta property="article:modified_time" content="2020-03-16T01:52:09-07:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74825078-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Init a Production K8s Cluster</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>16 Mar 2020</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/sre' class="link silver">SRE</a> <a href='/tags/k8s' class="link silver">k8s</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><p><em>k8s v1.16.8, kubespray v2.12.0</em></p>
+<h1 id="init-a-production-k8s-cluster">Init a Production K8s Cluster</h1>
+<p>Kubespray works like a charm,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git clone https://github.com/kubernetes-sigs/kubespray.git
+cd kubespray
+sudo pip install -r requirements.txt
+cp -rfp inventory/sample inventory/mycluster
+
+<span style="color:#75715e"># create cluster hosts poll</span>
+declare -a IPS<span style="color:#f92672">=</span><span style="color:#f92672">(</span>10.10.1.3 10.10.1.4 10.10.1.5<span style="color:#f92672">)</span>
+CONFIG_FILE<span style="color:#f92672">=</span>inventory/mycluster/inventory.yml python3 contrib/inventory_builder/inventory.py <span style="color:#e6db74">${</span>IPS[@]<span style="color:#e6db74">}</span>
+mv inventory/mycluster/inventory.ini inventory/mycluster/inventory.yml
+
+<span style="color:#75715e"># Review and modify the cluster config</span>
+vi inventory/mycluster/inventory.yml
+
+ansible-playbook -i inventory/aws-test/inventory.yml --become --become-user<span style="color:#f92672">=</span>root --user<span style="color:#f92672">=</span>ubuntu --private-key<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>/.ssh/aws-ec2-test.pem cluster.yml
+</code></pre></div><p>Get kubeconfig from <code>$1st-kube-master:/root/.kube/config</code>.</p>
+<p><em>One additional credentials will be available at <code>inventory/mycluster/credentials</code>.</em></p>
+<p>Create an Admin token,</p>
+<blockquote>
+<p>@https://medium.com/@kanrangsan/creating-admin-user-to-access-kubernetes-dashboard-723d6c9764e4</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kube-system
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kube-system
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">kubectl apply -f <span style="color:#f92672">{</span>ServiceAccount, ClusterRoleBinding<span style="color:#f92672">}</span>.yaml
+kubectl -n kube-system describe secret <span style="color:#66d9ef">$(</span>kubectl -n kube-system get secret | grep admin-user | &gt; awk <span style="color:#e6db74">&#39;{print $1}&#39;</span><span style="color:#66d9ef">)</span>
+</code></pre></div></blockquote>
+<p>Access frontend at,
+<code>https://1st-kube-master:6443/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/login</code>
+using the generated token.</p>
+<p><em>Since kubeconfig login is <a href="https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md">by default disabled</a>.</em></p>
+<p>Troubleshooting on <a href="https://github.com/kubernetes-sigs/kubespray/issues/5347">Kubernetes dashboard reports that &ldquo;the server could not find the requested resource&rdquo;</a>,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># Delete 1.10.1 dashboard</span>
+kubectl delete deployments kubernetes-dashboard -n kube-system
+
+<span style="color:#75715e"># Install v2.0.0-rc2 dashboard</span>
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-rc2/aio/deploy/recommended.yaml
+</code></pre></div><h2 id="k8s-api-servers-ha">K8s API-Servers HA</h2>
+<p>Kubespray, by default, creates multiple,</p>
+<ul>
+<li>etcd nodes</li>
+<li>api-servers(kube-master)</li>
+</ul>
+<h3 id="etcd">Etcd</h3>
+<p>Depends on the assigned roles of the servers, etcd cluster is coupled by default with api-server and even nodes, which something <strong>like</strong> <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/#stacked-etcd-topology">Stacked etcd topology</a>. Although it's <strong>actually still</strong> deployed as <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/#external-etcd-topology">External etcd topology</a>.</p>
+<h3 id="kube-master">Kube-master</h3>
+<p>Kubespray deploys <code>localhost</code> reverse proxy on non-Master kube-Nodes.</p>
+<blockquote>
+<p>K8s components require a loadbalancer to access the apiservers via a reverse proxy.<br>
+Kubespray includes support for an nginx-based proxy that resides on each non-master Kubernetes node. This is referred to as localhost loadbalancing.<br>
+This option is configured by the variable loadbalancer_apiserver_localhost (defaults to <code>True</code>)</p>
+</blockquote>
+<p>So on the traffic to API-Server will be like this,</p>
+<pre><code>+- non-Master k8s Node --+       +------- k8s Master --------+
+|                        |       |                           |
+|  kubelet --&gt; Nginx ----+-------+-&gt; API-Server &lt;-- kubelet  |---+
+|         localhost:6443 |       |  0.0.0.0:6443             |   |
++----------------+-------+       +---------------------------+   |
+                 +-----------------&gt;|    ...other Masters        |
+                                    +----------------------------+
+</code></pre><p>Nginx, as reverse proxy on every non-Master kube-Node will incharge of HA traffic redirecting.<br>
+Nginx proxy deployed as Pod, <code>pod/nginx-proxy-nodeN</code>, with config sit on local <code>/etc/nginx/nginx.conf</code>,</p>
+<pre><code class="language-conf" data-lang="conf">...
+stream {
+  upstream kube_apiserver {
+    least_conn;
+    # Master IPs
+    server 172.30.77.8:6443;
+    server 172.30.77.126:6443;
+  }
+
+  server {
+    listen        127.0.0.1:6443;
+    proxy_pass    kube_apiserver;
+    proxy_timeout 10m;
+    proxy_connect_timeout 1s;
+  }
+}
+...
+</code></pre><p>kubelet has setting in <code>/etc/kubernetes/kubelet.conf</code>,</p>
+<pre><code class="language-conf" data-lang="conf">apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: ...
+    server: https://localhost:6443
+  name: default-cluster
+kind: Config
+...
+</code></pre><p>For external access, there's actually only one entrypoint: <code>kube-master[0]</code>, the 1st-kube-master.</p>
+<h2 id="certificates-in-k8s">Certificates in K8s</h2>
+<p>These certs are created by Kubespray,</p>
+<ul>
+<li><code>apiserver.crt/key</code></li>
+<li><code>apiserver-kubelet-client.crt/key</code></li>
+<li><code>ca.crt/key</code></li>
+<li><code>front-proxy-ca.crt/key</code></li>
+<li><code>front-proxy-client.crt/key</code></li>
+<li><code>sa.key/pub</code></li>
+</ul>
+<h3 id="q-wheres-etcdca">Q: Where's etcd.ca?</h3>
+<blockquote>
+<p>&ldquo;certificates are not generated in case of external etcd.&rdquo;</p>
+</blockquote>
+<h3 id="q-client-certificates-is-the">Q: &ldquo;Client certificates&rdquo; is the,</h3>
+<ol>
+<li>certificates hold by client, or</li>
+<li>certificates have been signed to client's publich key, or</li>
+<li>both?</li>
+</ol>
+<p><strong>2</strong>. Public keys for both digital signature and key encipherment.</p>
+<h2 id="lb-for-users-services">LB for users&rsquo; services</h2>
+<p>In the case of no Pod/container in k8s cluster need to be accessed directly by users, we don't need to setup BGP edge routers.</p>
+<p>We can just keep the internal containers as internal, make them available for clients by gateway as also the load balancer.</p>
+<p>See <a href="https://drkbl.com/posts/expose-service-in-k8s/">expose-service-in-k8s</a> for details.</p>
+<h2 id="ref">Ref.</h2>
+<ol>
+<li><a href="https://github.com/kubernetes-sigs/kubespray/blob/master/docs/getting-started.md#accessing-kubernetes-api">https://github.com/kubernetes-sigs/kubespray/blob/master/docs/getting-started.md#accessing-kubernetes-api</a></li>
+<li><a href="https://medium.com/@kanrangsan/creating-admin-user-to-access-kubernetes-dashboard-723d6c9764e4">https://medium.com/@kanrangsan/creating-admin-user-to-access-kubernetes-dashboard-723d6c9764e4</a></li>
+<li><a href="https://kubernetes.io/docs/setup/best-practices/certificates/">https://kubernetes.io/docs/setup/best-practices/certificates/</a></li>
+<li><a href="https://kubespray.io/#/docs/getting-started">https://kubespray.io/#/docs/getting-started</a></li>
+<li>tagged playbook. <a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_tags.html">https://docs.ansible.com/ansible/latest/user_guide/playbooks_tags.html</a></li>
+<li>local reverse LB. <a href="https://kubespray.io/#/docs/ha-mode">https://kubespray.io/#/docs/ha-mode</a></li>
+</ol>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/dns-101/">prev post</a>
+  
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  Contact me at 7874364@gmail.com
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

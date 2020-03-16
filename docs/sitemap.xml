@@ -4,7 +4,32 @@
   
   <url>
     <loc>https://drkbl.com/</loc>
-    <lastmod>2020-03-10T00:59:54-07:00</lastmod>
+    <lastmod>2020-03-16T01:52:09-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/init-a-production-k8s-cluster/</loc>
+    <lastmod>2020-03-16T01:52:09-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/k8s/</loc>
+    <lastmod>2020-03-16T01:52:09-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/</loc>
+    <lastmod>2020-03-16T01:52:09-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/sre/</loc>
+    <lastmod>2020-03-16T01:52:09-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/</loc>
+    <lastmod>2020-03-16T01:52:09-07:00</lastmod>
   </url>
   
   <url>
@@ -23,27 +48,7 @@
   </url>
   
   <url>
-    <loc>https://drkbl.com/posts/</loc>
-    <lastmod>2020-03-10T00:59:54-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/sre/</loc>
-    <lastmod>2020-03-10T00:59:54-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/</loc>
-    <lastmod>2020-03-10T00:59:54-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://drkbl.com/posts/expose-service-in-k8s/</loc>
-    <lastmod>2020-03-01T23:41:46-08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/k8s/</loc>
     <lastmod>2020-03-01T23:41:46-08:00</lastmod>
   </url>
   

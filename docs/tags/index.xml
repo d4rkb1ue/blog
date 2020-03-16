@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Tue, 10 Mar 2020 00:59:54 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 16 Mar 2020 01:52:09 -0700</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>k8s</title>
+      <link>https://drkbl.com/tags/k8s/</link>
+      <pubDate>Mon, 16 Mar 2020 01:52:09 -0700</pubDate>
+      
+      <guid>https://drkbl.com/tags/k8s/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SRE</title>
+      <link>https://drkbl.com/tags/sre/</link>
+      <pubDate>Mon, 16 Mar 2020 01:52:09 -0700</pubDate>
+      
+      <guid>https://drkbl.com/tags/sre/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Docker</title>
@@ -22,29 +40,11 @@
     </item>
     
     <item>
-      <title>Networking</title>
+      <title>networking</title>
       <link>https://drkbl.com/tags/networking/</link>
       <pubDate>Tue, 10 Mar 2020 00:59:54 -0700</pubDate>
       
       <guid>https://drkbl.com/tags/networking/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>sre</title>
-      <link>https://drkbl.com/tags/sre/</link>
-      <pubDate>Tue, 10 Mar 2020 00:59:54 -0700</pubDate>
-      
-      <guid>https://drkbl.com/tags/sre/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>k8s</title>
-      <link>https://drkbl.com/tags/k8s/</link>
-      <pubDate>Sun, 01 Mar 2020 23:41:46 -0800</pubDate>
-      
-      <guid>https://drkbl.com/tags/k8s/</guid>
       <description></description>
     </item>
     
