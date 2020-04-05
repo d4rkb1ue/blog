@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Fri, 09 Jun 2017 11:24:36 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 05 Apr 2020 01:24:57 -0700</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/tags/chrome/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Learn Cookie From Chrome 80 Samesite</title>
+      <link>https://drkbl.com/posts/learn-cookie-from-chrome-80-samesite/</link>
+      <pubDate>Sun, 05 Apr 2020 01:24:57 -0700</pubDate>
+      
+      <guid>https://drkbl.com/posts/learn-cookie-from-chrome-80-samesite/</guid>
+      <description>Learn Cookie From Chrome 80 Samesite Chrome 80 enable a new flag by default, SameSite. Although revert this change later.
+ Google rolls back Chrome feature that blocks cross-site tracking.
+ Concepts Let&#39;s start with some concepts.
+ Cookie Setter Cookie Keeper Cookie Sender Cookie Reader Cookie Origin  Setter Cookie can be set by either Web Server or Front-end codes.
+When request for GET /index.html HTTP/1.1, the Web Server can send this back:</description>
+    </item>
     
     <item>
       <title>Chrome Console 过滤器黑名单</title>

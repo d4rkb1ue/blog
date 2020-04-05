@@ -7,10 +7,37 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Mon, 16 Mar 2020 01:52:09 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 05 Apr 2020 01:24:57 -0700</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Chrome</title>
+      <link>https://drkbl.com/tags/chrome/</link>
+      <pubDate>Sun, 05 Apr 2020 01:24:57 -0700</pubDate>
+      
+      <guid>https://drkbl.com/tags/chrome/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JavaScript</title>
+      <link>https://drkbl.com/tags/javascript/</link>
+      <pubDate>Sun, 05 Apr 2020 01:24:57 -0700</pubDate>
+      
+      <guid>https://drkbl.com/tags/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Web</title>
+      <link>https://drkbl.com/tags/web/</link>
+      <pubDate>Sun, 05 Apr 2020 01:24:57 -0700</pubDate>
+      
+      <guid>https://drkbl.com/tags/web/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>k8s</title>
@@ -22,7 +49,7 @@
     </item>
     
     <item>
-      <title>SRE</title>
+      <title>sre</title>
       <link>https://drkbl.com/tags/sre/</link>
       <pubDate>Mon, 16 Mar 2020 01:52:09 -0700</pubDate>
       
@@ -40,7 +67,7 @@
     </item>
     
     <item>
-      <title>networking</title>
+      <title>Networking</title>
       <link>https://drkbl.com/tags/networking/</link>
       <pubDate>Tue, 10 Mar 2020 00:59:54 -0700</pubDate>
       
@@ -112,38 +139,11 @@
     </item>
     
     <item>
-      <title>Web</title>
-      <link>https://drkbl.com/tags/web/</link>
-      <pubDate>Wed, 19 Jul 2017 16:49:31 +0000</pubDate>
-      
-      <guid>https://drkbl.com/tags/web/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Webpack</title>
       <link>https://drkbl.com/tags/webpack/</link>
       <pubDate>Wed, 19 Jul 2017 16:49:31 +0000</pubDate>
       
       <guid>https://drkbl.com/tags/webpack/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>JavaScript</title>
-      <link>https://drkbl.com/tags/javascript/</link>
-      <pubDate>Fri, 16 Jun 2017 15:25:49 +0000</pubDate>
-      
-      <guid>https://drkbl.com/tags/javascript/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Chrome</title>
-      <link>https://drkbl.com/tags/chrome/</link>
-      <pubDate>Fri, 09 Jun 2017 11:24:36 +0000</pubDate>
-      
-      <guid>https://drkbl.com/tags/chrome/</guid>
       <description></description>
     </item>
     
