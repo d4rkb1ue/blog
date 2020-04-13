@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Linux Uptime Mismatch - d4rkb1ue&#39;s Blog</title>
+  <meta content='Linux Uptime Mismatch - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Linux Uptime Mismatch - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="I found sometimes, the outputs of,
+last -x reboot who -b uptime -s sudo journalctl --list-boots Are showing different uptime since last booting which is annoying.
+An example is,
+last -x reboot # wtmp begins Wed Apr 1 10:29:40 2020 &lt;-- this is actually not a reboot time. Explain later who -b # system boot 2020-03-02 19:19 uptime -s # 2020-03-02 19:19:54 sudo journalctl --list-boots # 0 46e3eb28ab51489ab8eb236d65a5086f Mon 2020-04-13 10:51:31 PDT—Mon 2020-04-13 15:46:43 PDT Although this might be a better solution which always tells us the truth," />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/linux-uptime-mismatch/" />
+
+
+<meta property="article:published_time" content="2020-04-13T15:57:05-07:00"/>
+
+<meta property="article:modified_time" content="2020-04-13T15:57:05-07:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74825078-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Linux Uptime Mismatch</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>13 Apr 2020</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/linux' class="link silver">Linux</a> <a href='/tags/sre' class="link silver">SRE</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><p>I found sometimes, the outputs of,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">last -x reboot
+who -b
+uptime -s
+sudo journalctl --list-boots
+</code></pre></div><p>Are showing different <strong>uptime since last booting</strong> which is annoying.</p>
+<p>An example is,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">last -x reboot
+<span style="color:#75715e"># wtmp begins Wed Apr  1 10:29:40 2020 &lt;-- this is actually not a reboot time. Explain later</span>
+who -b
+<span style="color:#75715e"># system boot  2020-03-02 19:19</span>
+uptime -s
+<span style="color:#75715e"># 2020-03-02 19:19:54</span>
+sudo journalctl --list-boots
+<span style="color:#75715e">#  0 46e3eb28ab51489ab8eb236d65a5086f Mon 2020-04-13 10:51:31 PDT—Mon 2020-04-13 15:46:43 PDT</span>
+</code></pre></div><p>Although this might be a better solution which always tells us the truth,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">systemctl status docker.service | grep since
+<span style="color:#75715e"># Active: active (running) since Thu 2020-04-02 15:56:23 PDT; 1 weeks 3 days ago</span>
+</code></pre></div><p><em>(Assuming dockerd shouldn't be manually rebooted in a production environment. Any stable service should also do the job.)</em></p>
+<h2 id="reasons">Reasons</h2>
+<ol>
+<li>system time is inaccurate (probably no hwclock, or out of sync)</li>
+<li>these commands are using the different data sources</li>
+<li>data sources were <code>logrotate</code>-ed (old part has been deleted/renamed)</li>
+</ol>
+<p>The 1st one is easy to be determined.</p>
+<h3 id="last--x-reboot"><code>last -x reboot</code></h3>
+<blockquote>
+<p>At system bootstrap an entry would be written to <code>/var/log/wtmp</code> with the username <code>reboot</code>, and at shutdown an entry would be written to <code>/var/log/wtmp</code> with the username <code>shutdown</code>.<br>
+Finding the times that the system was rebooted was a matter of using the <code>last reboot</code> and <code>last shutdown</code> commands to print out these entries.</p>
+</blockquote>
+<p>Normally the output should be,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># shutdown system down  ... &lt;-- first the system shuts down</span>   
+<span style="color:#75715e"># reboot   system boot  ... &lt;-- afterwards the system boots</span>
+</code></pre></div><p>Although under unexpected shutdown like hard power off,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># reboot   system boot  ... &lt;-- then we&#39;ve a boot WITHOUT a prior shutdown</span>
+</code></pre></div><p><strong>Sometimes the <code>last</code> outputs only a part of info if there is too many login info.</strong> To find all the info, firstly find out all the <code>wtmp</code> logs by,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ls /var/log/wtmp*
+<span style="color:#75715e"># /var/log/wtmp  /var/log/wtmp.1</span>
+</code></pre></div><p>Then cat the old one,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">last -f /var/log/wtmp.1 reboot shutdown
+<span style="color:#75715e"># reboot   system boot  4.15.0-88-generi Mon Mar  2 19:19   still running</span>
+<span style="color:#75715e"># reboot   system boot  4.15.0-88-generi Mon Mar  2 19:14   still running</span>
+
+<span style="color:#75715e"># wtmp.1 begins Mon Mar  2 15:50:57 2020 &lt;-- this is just when the file begins</span>
+</code></pre></div><p>See, the output here matches the <code>uptime -s</code> and <code>who -b</code> in the first example.</p>
+<h3 id="who--b--uptime--s"><code>who -b &amp;&amp; uptime -s</code></h3>
+<p>Reads <code>/var/run/utmp</code>.</p>
+<blockquote>
+<p><code>/run/utmp</code> is a table of terminal login records, with special entries for bootup and shutdown. These entries are read by <code>uptime</code> and <code>who -b</code>. They are written by programs such as <code>systemd-update-utmp</code>, an analogue of the FreeBSD <code>utx</code> command, which are run as parts of the startup and shutdown procedures. They are not run first or last, as the relevant services are not (and indeed cannot be) ordered absolutely first or last. There may be journal entries with the relevant boot ID that precede the time that <code>systemd-update-utmp reboot</code> is run, and similar journal entries that postdate the time that <code>systemd-update-utmp shutdown</code> is run.</p>
+</blockquote>
+<h3 id="journalctl---list-boots"><code>journalctl --list-boots</code></h3>
+<blockquote>
+<p>(In new <code>systemd-journald</code>), every journal record has a field named the <code>boot ID</code>. You can see this with the <code>-o verbose option</code> to journalctl. A <code>boot ID</code> is generated by the kernel at bootstrap, and <code>systemd-journald</code> applies the current boot ID, taken from the kernel, <strong>to every log record</strong> as it is adding it to the journal.</p>
+<p>To implement the <code>list-boots</code> functionality, journalctl scans the entire journal, reading the timestamps and boot IDs of every record, and noting the earliest and latest timestamps associated with each unique boot ID.</p>
+<p><strong>Thus if parts of the journal are purged, or conversely stick around overlong, the apparent boot and shutdown times reported by journalctl will differ wildly from the actual boot and shutdown times.</strong></p>
+</blockquote>
+<p>In sum, the <code>journald</code> logs usually get purged (logrotate-ed). So it's not reliable.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Always use <code>uptime [-s]</code>.</p>
+<h2 id="refs">Refs.</h2>
+<ul>
+<li><a href="https://unix.stackexchange.com/questions/408936/why-journalctl-list-boots-doesnt-match-what-uptime-and-who-b-report">https://unix.stackexchange.com/questions/408936/why-journalctl-list-boots-doesnt-match-what-uptime-and-who-b-report</a></li>
+<li><code>man 5 utmp</code></li>
+<li><a href="https://unix.stackexchange.com/questions/9819/how-to-find-out-from-the-logs-what-caused-system-shutdown">https://unix.stackexchange.com/questions/9819/how-to-find-out-from-the-logs-what-caused-system-shutdown</a></li>
+</ul>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/learn-cookie-from-chrome-80-samesite/">prev post</a>
+  
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  Contact me at 7874364@gmail.com
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

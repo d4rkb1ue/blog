@@ -3,12 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://drkbl.com/tags/chrome/</loc>
-    <lastmod>2020-04-05T01:24:57-07:00</lastmod>
+    <loc>https://drkbl.com/</loc>
+    <lastmod>2020-04-13T15:57:05-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://drkbl.com/</loc>
+    <loc>https://drkbl.com/tags/linux/</loc>
+    <lastmod>2020-04-13T15:57:05-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/linux-uptime-mismatch/</loc>
+    <lastmod>2020-04-13T15:57:05-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/</loc>
+    <lastmod>2020-04-13T15:57:05-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/sre/</loc>
+    <lastmod>2020-04-13T15:57:05-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/</loc>
+    <lastmod>2020-04-13T15:57:05-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/chrome/</loc>
     <lastmod>2020-04-05T01:24:57-07:00</lastmod>
   </url>
   
@@ -19,16 +44,6 @@
   
   <url>
     <loc>https://drkbl.com/posts/learn-cookie-from-chrome-80-samesite/</loc>
-    <lastmod>2020-04-05T01:24:57-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/posts/</loc>
-    <lastmod>2020-04-05T01:24:57-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/</loc>
     <lastmod>2020-04-05T01:24:57-07:00</lastmod>
   </url>
   
@@ -44,11 +59,6 @@
   
   <url>
     <loc>https://drkbl.com/tags/k8s/</loc>
-    <lastmod>2020-03-16T01:52:09-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/sre/</loc>
     <lastmod>2020-03-16T01:52:09-07:00</lastmod>
   </url>
   
@@ -74,11 +84,6 @@
   
   <url>
     <loc>https://drkbl.com/posts/bridge-network-in-linux/</loc>
-    <lastmod>2020-02-24T05:27:21-08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/linux/</loc>
     <lastmod>2020-02-24T05:27:21-08:00</lastmod>
   </url>
   

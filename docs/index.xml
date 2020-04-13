@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Sun, 05 Apr 2020 01:24:57 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 13 Apr 2020 15:57:05 -0700</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux Uptime Mismatch</title>
+      <link>https://drkbl.com/posts/linux-uptime-mismatch/</link>
+      <pubDate>Mon, 13 Apr 2020 15:57:05 -0700</pubDate>
+      
+      <guid>https://drkbl.com/posts/linux-uptime-mismatch/</guid>
+      <description>I found sometimes, the outputs of,
+last -x reboot who -b uptime -s sudo journalctl --list-boots Are showing different uptime since last booting which is annoying.
+An example is,
+last -x reboot # wtmp begins Wed Apr 1 10:29:40 2020 &amp;lt;-- this is actually not a reboot time. Explain later who -b # system boot 2020-03-02 19:19 uptime -s # 2020-03-02 19:19:54 sudo journalctl --list-boots # 0 46e3eb28ab51489ab8eb236d65a5086f Mon 2020-04-13 10:51:31 PDT—Mon 2020-04-13 15:46:43 PDT Although this might be a better solution which always tells us the truth,</description>
+    </item>
     
     <item>
       <title>Learn Cookie From Chrome 80 Samesite</title>
