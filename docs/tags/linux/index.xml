@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Mon, 13 Apr 2020 15:57:05 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 13 Apr 2020 17:16:38 -0700</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Service Account vs. User Account</title>
+      <link>https://drkbl.com/posts/service-account-vs-user-account/</link>
+      <pubDate>Mon, 13 Apr 2020 17:16:38 -0700</pubDate>
+      
+      <guid>https://drkbl.com/posts/service-account-vs-user-account/</guid>
+      <description>Firstly, we need to clarify where are we talking at,
+ Linux system K8s service orchestration Directory service Services with API  In Linux System User accounts are used by real users, service accounts are used by system services such as web servers, mail transport agents, databases etc. The kernel doesn&#39;t care, besides UID 0.
+ By convention, service accounts have user IDs in the low range, e.g. 100-999 or so Service accounts may own specific resources, even device special files, but they don&#39;t have superuser-like privileges Service accounts can be created like ordinary user accounts Service accounts shouldn&#39;t have a login shell, i.</description>
+    </item>
     
     <item>
       <title>Linux Uptime Mismatch</title>
