@@ -4,17 +4,42 @@
   
   <url>
     <loc>https://drkbl.com/</loc>
-    <lastmod>2020-04-13T17:16:38-07:00</lastmod>
+    <lastmod>2020-07-19T03:25:38-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://drkbl.com/tags/linux/</loc>
-    <lastmod>2020-04-13T17:16:38-07:00</lastmod>
+    <lastmod>2020-07-19T03:25:38-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/multithread/</loc>
+    <lastmod>2020-07-19T03:25:38-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/networking/</loc>
+    <lastmod>2020-07-19T03:25:38-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://drkbl.com/posts/</loc>
-    <lastmod>2020-04-13T17:16:38-07:00</lastmod>
+    <lastmod>2020-07-19T03:25:38-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/python/</loc>
+    <lastmod>2020-07-19T03:25:38-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/socket-web-server-with-multithread-in-python/</loc>
+    <lastmod>2020-07-19T03:25:38-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/</loc>
+    <lastmod>2020-07-19T03:25:38-07:00</lastmod>
   </url>
   
   <url>
@@ -24,11 +49,6 @@
   
   <url>
     <loc>https://drkbl.com/tags/sre/</loc>
-    <lastmod>2020-04-13T17:16:38-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/</loc>
     <lastmod>2020-04-13T17:16:38-07:00</lastmod>
   </url>
   
@@ -74,11 +94,6 @@
   
   <url>
     <loc>https://drkbl.com/tags/docker/</loc>
-    <lastmod>2020-03-10T00:59:54-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/networking/</loc>
     <lastmod>2020-03-10T00:59:54-07:00</lastmod>
   </url>
   
