@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Sun, 19 Jul 2020 03:25:38 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 26 Jul 2020 05:10:46 -0700</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>interview</title>
+      <link>https://drkbl.com/tags/interview/</link>
+      <pubDate>Sun, 26 Jul 2020 05:10:46 -0700</pubDate>
+      
+      <guid>https://drkbl.com/tags/interview/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Linux</title>
@@ -31,7 +40,7 @@
     </item>
     
     <item>
-      <title>Networking</title>
+      <title>networking</title>
       <link>https://drkbl.com/tags/networking/</link>
       <pubDate>Sun, 19 Jul 2020 03:25:38 -0700</pubDate>
       

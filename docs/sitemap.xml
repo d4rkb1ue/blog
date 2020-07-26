@@ -4,7 +4,27 @@
   
   <url>
     <loc>https://drkbl.com/</loc>
-    <lastmod>2020-07-19T03:25:38-07:00</lastmod>
+    <lastmod>2020-07-26T05:10:46-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/interview/</loc>
+    <lastmod>2020-07-26T05:10:46-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/pass-system-design-interview/</loc>
+    <lastmod>2020-07-26T05:10:46-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/</loc>
+    <lastmod>2020-07-26T05:10:46-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/</loc>
+    <lastmod>2020-07-26T05:10:46-07:00</lastmod>
   </url>
   
   <url>
@@ -23,22 +43,12 @@
   </url>
   
   <url>
-    <loc>https://drkbl.com/posts/</loc>
-    <lastmod>2020-07-19T03:25:38-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://drkbl.com/tags/python/</loc>
     <lastmod>2020-07-19T03:25:38-07:00</lastmod>
   </url>
   
   <url>
     <loc>https://drkbl.com/posts/socket-web-server-with-multithread-in-python/</loc>
-    <lastmod>2020-07-19T03:25:38-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/</loc>
     <lastmod>2020-07-19T03:25:38-07:00</lastmod>
   </url>
   
