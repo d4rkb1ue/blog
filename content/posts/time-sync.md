@@ -1,5 +1,5 @@
 ---
-title: "Time Sync"
+title: "Time Sync in Linux"
 date: 2020-02-07T20:22:34-08:00
 tags: [Linux, SRE]
 ---

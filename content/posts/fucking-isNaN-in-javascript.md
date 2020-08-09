@@ -1,5 +1,5 @@
 ---
-title: isNaN 也是个大坑
+title: isNaN is a bad boy
 date: 2017-06-12 12:09:53
 tags: [JavaScript]
 ---

@@ -73,7 +73,7 @@ No direct communication between Pods. All traffic will be routed by the gateway.
     </item>
     
     <item>
-      <title>Time Sync</title>
+      <title>Time Sync in Linux</title>
       <link>https://drkbl.com/posts/time-sync/</link>
       <pubDate>Fri, 07 Feb 2020 20:22:34 -0800</pubDate>
       

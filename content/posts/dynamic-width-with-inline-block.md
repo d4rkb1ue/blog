@@ -1,5 +1,5 @@
 ---
-title: 同一行中固定宽度div和响应式宽度div的配合
+title: 同一行中固定宽度 div 和响应式宽度 div 的配合
 date: 2016-05-04 21:43:45
 tags: [Web, CSS]
 ---

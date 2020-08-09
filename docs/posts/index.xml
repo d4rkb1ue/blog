@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>Debug Log - Python Mongoengine Dup ID</title>
+      <title>Debug 日志 - Python Mongoengine Dup ID</title>
       <link>https://drkbl.com/posts/debug-log-python-mongoengine-dup-id/</link>
       <pubDate>Sun, 09 Aug 2020 01:16:34 -0700</pubDate>
       
@@ -149,7 +149,7 @@ No direct communication between Pods. All traffic will be routed by the gateway.
     </item>
     
     <item>
-      <title>Time Sync</title>
+      <title>Time Sync in Linux</title>
       <link>https://drkbl.com/posts/time-sync/</link>
       <pubDate>Fri, 07 Feb 2020 20:22:34 -0800</pubDate>
       
@@ -202,8 +202,8 @@ Douban FM let titles = []; document.querySelectorAll(&amp;#39;#app &amp;gt; div 
       <pubDate>Sun, 22 Jul 2018 21:49:46 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</guid>
-      <description>折腾 NAS 第二篇，配置 time machine base on smb at ubuntu 18.04
- Ref: HowTo make time machine backups on a samba fileserver without netatalk : homelab  安装 Samba 4.8+ If you install older version of samba, uninstall it,
+      <description>Play with NAS Chapter 2 - config time machine base on smb at ubuntu 18.04
+ Ref: HowTo make time machine backups on a samba fileserver without netatalk : homelab  Install Samba 4.8+ If you install older version of samba, uninstall it,
 sudo apt-get remove --purge samba compile prerequisites,
 sudo apt-get update sudo apt-get install acl attr autoconf bind9utils bison build-essential debhelper dnsutils docbook-xml docbook-xsl flex gdb libjansson-dev krb5-user \ libacl1-dev libaio-dev libarchive-dev libattr1-dev libblkid-dev libbsd-dev \ libcap-dev libcups2-dev libgnutls28-dev libgpgme11-dev libjson-perl \ libldap2-dev libncurses5-dev libpam0g-dev libparse-yapp-perl \ libpopt-dev libreadline-dev nettle-dev perl perl-modules pkg-config \ python-all-dev python-crypto python-dbg python-dev python-dnspython \ python3-dnspython python-markdown python3-markdown python3-dev xsltproc zlib1g-dev download,</description>
     </item>
@@ -247,7 +247,7 @@ webpack.config.js const childProcess = require(&amp;#39;child_process&amp;#39;);
     </item>
     
     <item>
-      <title>Why array.indexOf(undefined) doesn&#39;t work if array is sparse</title>
+      <title>为什么 array.indexOf(undefined) 不 work 如果 array 是稀疏的?</title>
       <link>https://drkbl.com/posts/js-array-indexof-undefined/</link>
       <pubDate>Thu, 15 Jun 2017 11:50:00 +0000</pubDate>
       
@@ -259,7 +259,7 @@ but if just run [true, undefined, true].indexOf(undefined) in chrome dev tools i
     </item>
     
     <item>
-      <title>isNaN 也是个大坑</title>
+      <title>isNaN is a bad boy</title>
       <link>https://drkbl.com/posts/fucking-isnan-in-javascript/</link>
       <pubDate>Mon, 12 Jun 2017 12:09:53 +0000</pubDate>
       
@@ -295,7 +295,7 @@ func: function() { if (!this.status) { setTimeout(() =&amp;gt; { this.func(); },
     </item>
     
     <item>
-      <title>diff Promise Generator Async</title>
+      <title>区别 diff - Promise Generator Async</title>
       <link>https://drkbl.com/posts/diff-promise-generator-async/</link>
       <pubDate>Wed, 24 May 2017 17:52:22 +0000</pubDate>
       
@@ -459,7 +459,7 @@ http { # 其他的配置 # 加载所有conf目录下的配置文件 include conf
     </item>
     
     <item>
-      <title>diff 正向代理 反向代理</title>
+      <title>diff - 正向代理 反向代理</title>
       <link>https://drkbl.com/posts/proxy-forward-or-reverse/</link>
       <pubDate>Thu, 23 Feb 2017 05:44:39 +0000</pubDate>
       
@@ -475,7 +475,7 @@ http { # 其他的配置 # 加载所有conf目录下的配置文件 include conf
     </item>
     
     <item>
-      <title>Dockerize Node.js APP</title>
+      <title>Dockerize Node.js 程序</title>
       <link>https://drkbl.com/posts/dockerize-nodejs-app/</link>
       <pubDate>Mon, 20 Feb 2017 18:33:21 +0000</pubDate>
       
@@ -489,7 +489,7 @@ $ docker run -p 27017:27017 --name jokerdb -v ~/Development/joker/sample_databas
     </item>
     
     <item>
-      <title>Sublime Select Tricks</title>
+      <title>Sublime 如何选中</title>
       <link>https://drkbl.com/posts/sublime-select-tricks/</link>
       <pubDate>Sat, 18 Feb 2017 23:56:53 +0000</pubDate>
       
@@ -536,7 +536,7 @@ public class File implements Comparable&amp;lt;File&amp;gt;{ … public int comp
     </item>
     
     <item>
-      <title>Automator as AutoHotKey</title>
+      <title>用 macOS 的 Automator 做 AutoHotKey</title>
       <link>https://drkbl.com/posts/automator-as-autohotkey/</link>
       <pubDate>Wed, 01 Feb 2017 17:19:55 +0000</pubDate>
       
@@ -596,7 +596,7 @@ new_some_value = displayValue aka, the displayValue is being GET, the function g
     </item>
     
     <item>
-      <title>NTFS on macOS</title>
+      <title>macOS 读写 NTFS</title>
       <link>https://drkbl.com/posts/ntfs-on-macos/</link>
       <pubDate>Wed, 18 Jan 2017 15:56:25 +0000</pubDate>
       
@@ -609,7 +609,7 @@ new_some_value = displayValue aka, the displayValue is being GET, the function g
     </item>
     
     <item>
-      <title>Format HFS&#43; on Windows</title>
+      <title>格式化 HFS&#43; on Windows</title>
       <link>https://drkbl.com/posts/format-hfs-on-windows/</link>
       <pubDate>Wed, 18 Jan 2017 15:37:37 +0000</pubDate>
       
@@ -854,7 +854,7 @@ cat1 instanceof Cat; //true 第二种方式的弊端：浪费内存 为Cat对象
       <pubDate>Tue, 07 Jun 2016 22:34:15 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/vs-code-debug-handbook/</guid>
-      <description>/* 保存本js为文件。按 F5 可以启动执行。选择Node.js的执行环境。 在生成的 launch.json 中修改 &amp;quot;program&amp;quot;: &amp;quot;${workspaceRoot}/js.js&amp;quot;, 这样以来，就可以在调试中启动js.js了。 选择最下面的debug界面，可以动态追踪变量。 */ var rt = test(); function mySort(dom, func) { var num = dom.length; var i, j = 0; var tmp; var ret; for (i = 0; i + 1 &amp;lt; num; i++) { for (j = i + 1; j &amp;lt; num; j++) { if ( ret = func(dom[i], dom[j]) &amp;lt; 0) { tmp = dom[i].innerText; dom[i].innerText = dom[j].innerText; dom[j].</description>
+      <description>/* 保存本js为文件。按 F5 可以启动执行。选择 Node.js 的执行环境。 在生成的 launch.json 中修改 &amp;#34;program&amp;#34;: &amp;#34;${workspaceRoot}/js.js&amp;#34;, 这样以来，就可以在调试中启动js.js了。 选择最下面的debug界面，可以动态追踪变量。 */ var rt = test(); function mySort(dom, func) { var num = dom.length; var i, j = 0; var tmp; var ret; for (i = 0; i + 1 &amp;lt; num; i++) { for (j = i + 1; j &amp;lt; num; j++) { if ( ret = func(dom[i], dom[j]) &amp;lt; 0) { tmp = dom[i].innerText; dom[i].innerText = dom[j].</description>
     </item>
     
     <item>
@@ -878,7 +878,7 @@ cat1 instanceof Cat; //true 第二种方式的弊端：浪费内存 为Cat对象
     </item>
     
     <item>
-      <title>使用CSS实现响应式图片不变形裁剪</title>
+      <title>使用 CSS 实现响应式图片不变形裁剪</title>
       <link>https://drkbl.com/posts/css-responsable-image-cut-without-distort/</link>
       <pubDate>Thu, 05 May 2016 21:13:43 +0000</pubDate>
       
@@ -896,7 +896,7 @@ height:350px; object-fit: cover; 设置好宽和高，图片自己就会进行�
     </item>
     
     <item>
-      <title>同一行中固定宽度div和响应式宽度div的配合</title>
+      <title>同一行中固定宽度 div 和响应式宽度 div 的配合</title>
       <link>https://drkbl.com/posts/dynamic-width-with-inline-block/</link>
       <pubDate>Wed, 04 May 2016 21:43:45 +0000</pubDate>
       
@@ -913,7 +913,7 @@ height:350px; object-fit: cover; 设置好宽和高，图片自己就会进行�
     </item>
     
     <item>
-      <title>Node.js Err callback-already-called</title>
+      <title>问题记录 - Node.js Error callback-already-called</title>
       <link>https://drkbl.com/posts/callback-already-called/</link>
       <pubDate>Tue, 03 May 2016 21:54:58 +0000</pubDate>
       

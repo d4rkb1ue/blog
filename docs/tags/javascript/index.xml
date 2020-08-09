@@ -35,7 +35,7 @@ When request for GET /index.html HTTP/1.1, the Web Server can send this back:</d
     </item>
     
     <item>
-      <title>Why array.indexOf(undefined) doesn&#39;t work if array is sparse</title>
+      <title>为什么 array.indexOf(undefined) 不 work 如果 array 是稀疏的?</title>
       <link>https://drkbl.com/posts/js-array-indexof-undefined/</link>
       <pubDate>Thu, 15 Jun 2017 11:50:00 +0000</pubDate>
       
@@ -47,7 +47,7 @@ but if just run [true, undefined, true].indexOf(undefined) in chrome dev tools i
     </item>
     
     <item>
-      <title>isNaN 也是个大坑</title>
+      <title>isNaN is a bad boy</title>
       <link>https://drkbl.com/posts/fucking-isnan-in-javascript/</link>
       <pubDate>Mon, 12 Jun 2017 12:09:53 +0000</pubDate>
       
@@ -71,7 +71,7 @@ func: function() { if (!this.status) { setTimeout(() =&amp;gt; { this.func(); },
     </item>
     
     <item>
-      <title>diff Promise Generator Async</title>
+      <title>区别 diff - Promise Generator Async</title>
       <link>https://drkbl.com/posts/diff-promise-generator-async/</link>
       <pubDate>Wed, 24 May 2017 17:52:22 +0000</pubDate>
       
@@ -247,7 +247,7 @@ cat1 instanceof Cat; //true 第二种方式的弊端：浪费内存 为Cat对象
       <pubDate>Tue, 07 Jun 2016 22:34:15 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/vs-code-debug-handbook/</guid>
-      <description>/* 保存本js为文件。按 F5 可以启动执行。选择Node.js的执行环境。 在生成的 launch.json 中修改 &amp;quot;program&amp;quot;: &amp;quot;${workspaceRoot}/js.js&amp;quot;, 这样以来，就可以在调试中启动js.js了。 选择最下面的debug界面，可以动态追踪变量。 */ var rt = test(); function mySort(dom, func) { var num = dom.length; var i, j = 0; var tmp; var ret; for (i = 0; i + 1 &amp;lt; num; i++) { for (j = i + 1; j &amp;lt; num; j++) { if ( ret = func(dom[i], dom[j]) &amp;lt; 0) { tmp = dom[i].innerText; dom[i].innerText = dom[j].innerText; dom[j].</description>
+      <description>/* 保存本js为文件。按 F5 可以启动执行。选择 Node.js 的执行环境。 在生成的 launch.json 中修改 &amp;#34;program&amp;#34;: &amp;#34;${workspaceRoot}/js.js&amp;#34;, 这样以来，就可以在调试中启动js.js了。 选择最下面的debug界面，可以动态追踪变量。 */ var rt = test(); function mySort(dom, func) { var num = dom.length; var i, j = 0; var tmp; var ret; for (i = 0; i + 1 &amp;lt; num; i++) { for (j = i + 1; j &amp;lt; num; j++) { if ( ret = func(dom[i], dom[j]) &amp;lt; 0) { tmp = dom[i].innerText; dom[i].innerText = dom[j].</description>
     </item>
     
     <item>

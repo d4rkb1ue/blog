@@ -4,13 +4,11 @@ date: 2018-07-22 21:49:46
 tags: [Gadget, Linux]
 ---
 
-折腾 NAS 第二篇，配置 time machine base on smb at ubuntu 18.04
+Play with NAS Chapter 2 - config time machine base on smb at ubuntu 18.04
 
 - Ref: [HowTo make time machine backups on a samba fileserver without netatalk : homelab](https://www.reddit.com/r/homelab/comments/83vkaz/howto_make_time_machine_backups_on_a_samba/)
 
-
-
-# 安装 Samba 4.8+
+## Install Samba 4.8+
 
 If you install older version of samba, uninstall it,
 ```
@@ -54,7 +52,7 @@ Fixed some issues while starting the service,
 change all "Type=notify" to "Type=simple" for smb.service file.
 
 
-# Samba config
+## Samba config
 
 ```
 #! /etc/samba/smb.conf
@@ -115,20 +113,19 @@ chmod 744 /media/timemachine
 chown $USERNAME /media/timemachine
 ```
 
-# 启动 samba
+## Start samba
 
-```
+```sh
 systemctl enable smb.service; systemctl start smb.service
 ```
 
+## Install avahi
 
-# 安装 avahi
-
-```
+```sh
 apt -y install avahi-daemon
 ```
 
-配置文件，
+config file,
 
 ```
 #! /etc/avahi/services/timemachine.service
@@ -153,9 +150,9 @@ apt -y install avahi-daemon
 </service-group>
 ```
 
-其中，`<txt-record>dk0=adVN=tm,adVF=0x82</txt-record>` , "tm" is the name your mac will display.
+FYI, in `<txt-record>dk0=adVN=tm,adVF=0x82</txt-record>` , `tm` is the name your mac will display.
 
-# Trouble shooting
+## Trouble shooting
 
 - Time Machine Error 13:
 remember `/media` or any other father path of the target backup path must can be accessed by this user. 

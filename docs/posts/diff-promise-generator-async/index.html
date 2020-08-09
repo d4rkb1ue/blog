@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta content='text/html; charset=utf-8' http-equiv='content-type' />
 
-  <title>diff Promise Generator Async - d4rkb1ue&#39;s Blog</title>
-  <meta content='diff Promise Generator Async - d4rkb1ue&#39;s Blog' property='title' />
-  <meta content='diff Promise Generator Async - d4rkb1ue&#39;s Blog' property='og:title' />
+  <title>区别 diff - Promise Generator Async - d4rkb1ue&#39;s Blog</title>
+  <meta content='区别 diff - Promise Generator Async - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='区别 diff - Promise Generator Async - d4rkb1ue&#39;s Blog' property='og:title' />
 
 
 <meta property="og:description" content="绝佳例子 var fs = require(&#39;fs&#39;); // callback 写法 fs.readFile(&#39;/etc/fstab&#39;, function (err, f1) { if (err) throw err; console.log(f1.toString()); fs.readFile(&#39;/etc/shells&#39;, function (err, f2) { if (err) throw err; console.log(f2.toString()); } }); // 出现了两层嵌套。如果有更多文件的话，将会有更多嵌套  var readFile = function (fileName){ return new Promise(function (resolve, reject){ fs.readFile(fileName, function(error, data){ if (error) reject(error); resolve(data); }); }); }; // Promise 写法 readFile(fileA) .then(function(data){ console.log(data.toString()); }) .then(function(){ return readFile(fileB); }) .then(function(data){ console.log(data.toString()); }) .catch(function(err) { console.log(err); }); // generator 写法 var gen = function* (){ var f1 = yield readFile(&#39;/etc/fstab&#39;); console." />
@@ -69,7 +69,7 @@ if (!doNotTrack) {
 </nav>
   
 <main class="center mv4 content-width ph3">
-  <div class="f3 fw6 heading-color heading-font post-title">diff Promise Generator Async</div>
+  <div class="f3 fw6 heading-color heading-font post-title">区别 diff - Promise Generator Async</div>
   <p class="silver f6 mt1 mb4 post-meta">
     <time>24 May 2017</time> 
      | 
@@ -78,7 +78,7 @@ if (!doNotTrack) {
     tags: [ <a href='/tags/javascript' class="link silver">JavaScript</a>  ]
     
   </p>
-  <div class="lh-copy post-content"><h1 id="绝佳例子">绝佳例子</h1>
+  <div class="lh-copy post-content"><h2 id="绝佳例子">绝佳例子</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fs</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;fs&#39;</span>);
 <span style="color:#75715e">// callback 写法
 </span><span style="color:#75715e"></span><span style="color:#a6e22e">fs</span>.<span style="color:#a6e22e">readFile</span>(<span style="color:#e6db74">&#39;/etc/fstab&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">f1</span>) {
@@ -136,7 +136,7 @@ if (!doNotTrack) {
   <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">f1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>;
 })
 </code></pre></div><p>参考 <a href="http://www.ruanyifeng.com/blog/2015/04/generator.html">阮一峰 - Generator</a> 和 <a href="http://www.ruanyifeng.com/blog/2015/05/async.html">阮一峰 - Async</a></p>
-<h1 id="promise">Promise</h1>
+<h2 id="promise">Promise</h2>
 <p>Promise 是 <code>callback</code> 的语法糖。流式写法的 <code>callback</code> 。最基本的功能，用另一种方式写 <code>callback</code> 。再加上了 <code>.then</code> 提供的异步操作队列。但是本质上依然是 <code>callback</code> 而已。只是写法上的不同，并没有新的线程管理，任务管理机制的引入。</p>
 <blockquote>
 <p>Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的 API，各种异步操作都可以用同样的方法进行处理。</p>
@@ -149,7 +149,7 @@ if (!doNotTrack) {
 <p><a href="https://developers.google.com/web/fundamentals/getting-started/primers/promises">JavaScript Promises: an Introduction - Google Developers</a> （这个网页有中文，到最下可更改)</p>
 </li>
 </ul>
-<h1 id="async">Async</h1>
+<h2 id="async">Async</h2>
 <p>而 Async 又是 Promise 的语法糖。将 Promise 中的 <code>.then</code> 函数删掉， 直接将 <code>.then</code> 函数要执行的直接写就可以。 <code>await</code> 之后就是 <code>.then()</code> 里的内容。但是看起来和同步函数完全一样。而且支持把错误处理用原生 <code>try{} catch{}</code> 方式去处理。如此重新把在 Promise 中被代替的 catch 错误处理方式用起来。但是其实也可以支持 Promise 的 <code>.catch</code> ，效果一样：</p>
 <blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">
@@ -172,7 +172,7 @@ console.log(err);
 
 - [阮一峰 - Async](http://www.ruanyifeng.com/blog/2015/05/async.html) 称 async 是 generator 的语法糖。 但是本来都是语法糖，所以谁继承谁也都无所谓啦。
 
-# Generator 
+## Generator
 
 是另一个 Promise 的语法糖。 yield 类似 `await` 的意义。但是提供了 next() 作为控制异步流程的方法。 更像一个子线程一样的行为。**但是其实只是看起来像**一个子线程。本质还是用 `callback` 进行切换。**并没有某种任务管理器**来自动根据需求切换线程。
 

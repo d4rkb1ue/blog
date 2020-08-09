@@ -1,5 +1,5 @@
 ---
-title: "Debug Log - Python Mongoengine Dup ID"
+title: "Debug 日志 - Python Mongoengine Dup ID"
 date: 2020-08-09T01:16:34-07:00
 tags: ["debug", "python"]
 ---

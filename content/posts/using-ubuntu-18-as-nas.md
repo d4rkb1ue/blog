@@ -1,5 +1,5 @@
 ---
-title: 折腾 Ubuntu 18.04 做 NAS
+title: "折腾 Ubuntu 18.04 做 NAS"
 date: 2018-07-22 21:11:31
 tags: [Gadget, Linux]
 ---
@@ -11,7 +11,6 @@ tags: [Gadget, Linux]
 - 备份
 - 开启 SMB 服务
 - 开启 Time Machine 服务：[Time Machine On Ubuntu 18 with samba](https://drkbl.com/ubuntu-18-samba-time-machine/)
-
 
 
 # 远程界面

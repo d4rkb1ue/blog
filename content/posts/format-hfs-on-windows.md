@@ -1,5 +1,5 @@
 ---
-title: Format HFS+ on Windows
+title: 格式化 HFS+ on Windows
 date: 2017-01-18 15:37:37
 tags: [macOS, Tools]
 ---

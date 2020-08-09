@@ -9,8 +9,8 @@
   <meta content='Time Machine On Ubuntu 18 with samba - d4rkb1ue&#39;s Blog' property='og:title' />
 
 
-<meta property="og:description" content="折腾 NAS 第二篇，配置 time machine base on smb at ubuntu 18.04
- Ref: HowTo make time machine backups on a samba fileserver without netatalk : homelab  安装 Samba 4.8&#43; If you install older version of samba, uninstall it,
+<meta property="og:description" content="Play with NAS Chapter 2 - config time machine base on smb at ubuntu 18.04
+ Ref: HowTo make time machine backups on a samba fileserver without netatalk : homelab  Install Samba 4.8&#43; If you install older version of samba, uninstall it,
 sudo apt-get remove --purge samba compile prerequisites,
 sudo apt-get update sudo apt-get install acl attr autoconf bind9utils bison build-essential debhelper dnsutils docbook-xml docbook-xsl flex gdb libjansson-dev krb5-user \ libacl1-dev libaio-dev libarchive-dev libattr1-dev libblkid-dev libbsd-dev \ libcap-dev libcups2-dev libgnutls28-dev libgpgme11-dev libjson-perl \ libldap2-dev libncurses5-dev libpam0g-dev libparse-yapp-perl \ libpopt-dev libreadline-dev nettle-dev perl perl-modules pkg-config \ python-all-dev python-crypto python-dbg python-dev python-dnspython \ python3-dnspython python-markdown python3-markdown python3-dev xsltproc zlib1g-dev download," />
 <meta property="og:type" content="article" />
@@ -81,11 +81,11 @@ if (!doNotTrack) {
     tags: [ <a href='/tags/gadget' class="link silver">Gadget</a> <a href='/tags/linux' class="link silver">Linux</a>  ]
     
   </p>
-  <div class="lh-copy post-content"><p>折腾 NAS 第二篇，配置 time machine base on smb at ubuntu 18.04</p>
+  <div class="lh-copy post-content"><p>Play with NAS Chapter 2 - config time machine base on smb at ubuntu 18.04</p>
 <ul>
 <li>Ref: <a href="https://www.reddit.com/r/homelab/comments/83vkaz/howto_make_time_machine_backups_on_a_samba/">HowTo make time machine backups on a samba fileserver without netatalk : homelab</a></li>
 </ul>
-<h1 id="安装-samba-48">安装 Samba 4.8+</h1>
+<h2 id="install-samba-48">Install Samba 4.8+</h2>
 <p>If you install older version of samba, uninstall it,</p>
 <pre><code>sudo apt-get remove --purge samba
 </code></pre><p>compile prerequisites,</p>
@@ -109,7 +109,7 @@ make --jobs=`nproc --all` &amp;&amp; sudo make install
 <p>Fixed some issues while starting the service,
 <code>sed -i ’s/Type=notify/Type=simple/g’ /lib/systemd/system/smb.service</code></p>
 <p>change all &ldquo;Type=notify&rdquo; to &ldquo;Type=simple&rdquo; for smb.service file.</p>
-<h1 id="samba-config">Samba config</h1>
+<h2 id="samba-config">Samba config</h2>
 <pre><code>#! /etc/samba/smb.conf
 
 [global]
@@ -162,11 +162,11 @@ chmod 744 /media/timemachine
 
 # make this user the owner of this path
 chown $USERNAME /media/timemachine
-</code></pre><h1 id="启动-samba">启动 samba</h1>
-<pre><code>systemctl enable smb.service; systemctl start smb.service
-</code></pre><h1 id="安装-avahi">安装 avahi</h1>
-<pre><code>apt -y install avahi-daemon
-</code></pre><p>配置文件，</p>
+</code></pre><h2 id="start-samba">Start samba</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">systemctl enable smb.service; systemctl start smb.service
+</code></pre></div><h2 id="install-avahi">Install avahi</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">apt -y install avahi-daemon
+</code></pre></div><p>config file,</p>
 <pre><code>#! /etc/avahi/services/timemachine.service
 &lt;?xml version=&quot;1.0&quot; standalone='no'?&gt;
 &lt;!DOCTYPE service-group SYSTEM &quot;avahi-service.dtd&quot;&gt;
@@ -187,8 +187,8 @@ chown $USERNAME /media/timemachine
    &lt;txt-record&gt;dk0=adVN=tm,adVF=0x82&lt;/txt-record&gt;
  &lt;/service&gt;
 &lt;/service-group&gt;
-</code></pre><p>其中，<code>&lt;txt-record&gt;dk0=adVN=tm,adVF=0x82&lt;/txt-record&gt;</code> , &ldquo;tm&rdquo; is the name your mac will display.</p>
-<h1 id="trouble-shooting">Trouble shooting</h1>
+</code></pre><p>FYI, in <code>&lt;txt-record&gt;dk0=adVN=tm,adVF=0x82&lt;/txt-record&gt;</code> , <code>tm</code> is the name your mac will display.</p>
+<h2 id="trouble-shooting">Trouble shooting</h2>
 <ul>
 <li>
 <p>Time Machine Error 13:

@@ -1,5 +1,5 @@
 ---
-title: Automator as AutoHotKey
+title: 用 macOS 的 Automator 做 AutoHotKey
 date: 2017-02-01 17:19:55
 tags: [macOS, Tools]
 ---

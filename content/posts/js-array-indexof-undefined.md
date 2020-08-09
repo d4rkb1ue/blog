@@ -1,5 +1,5 @@
 ---
-title: Why array.indexOf(undefined) doesn't work if array is sparse
+title: 为什么 array.indexOf(undefined) 不 work 如果 array 是稀疏的?
 date: 2017-06-15 11:50:00
 tags: [JavaScript]
 ---

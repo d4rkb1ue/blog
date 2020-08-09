@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>Automator as AutoHotKey</title>
+      <title>用 macOS 的 Automator 做 AutoHotKey</title>
       <link>https://drkbl.com/posts/automator-as-autohotkey/</link>
       <pubDate>Wed, 01 Feb 2017 17:19:55 +0000</pubDate>
       
@@ -37,7 +37,7 @@
     </item>
     
     <item>
-      <title>NTFS on macOS</title>
+      <title>macOS 读写 NTFS</title>
       <link>https://drkbl.com/posts/ntfs-on-macos/</link>
       <pubDate>Wed, 18 Jan 2017 15:56:25 +0000</pubDate>
       
@@ -50,7 +50,7 @@
     </item>
     
     <item>
-      <title>Format HFS&#43; on Windows</title>
+      <title>格式化 HFS&#43; on Windows</title>
       <link>https://drkbl.com/posts/format-hfs-on-windows/</link>
       <pubDate>Wed, 18 Jan 2017 15:37:37 +0000</pubDate>
       
