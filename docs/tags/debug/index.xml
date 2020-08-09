@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>python on d4rkb1ue&#39;s Blog</title>
-    <link>https://drkbl.com/tags/python/</link>
-    <description>Recent content in python on d4rkb1ue&#39;s Blog</description>
+    <title>debug on d4rkb1ue&#39;s Blog</title>
+    <link>https://drkbl.com/tags/debug/</link>
+    <description>Recent content in debug on d4rkb1ue&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
     <lastBuildDate>Sun, 09 Aug 2020 01:16:34 -0700</lastBuildDate>
     
-	<atom:link href="https://drkbl.com/tags/python/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://drkbl.com/tags/debug/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -22,15 +22,6 @@
 from mongoengine import * class MyModel: name = StringField(primary_key=True, required=True) def clean(): cnt = MyModel.objects.count() self.name = &amp;#34;Prefix&amp;#34; + str(cnt+1) 但是在, 多线程下（例如 websever 根据用户请求创建 MyModel）发现会出现 Dup ID 的报错. 于是我们加上锁,
 _lock = threading.Lock() def clean(): with _lock: cnt = MyModel.objects.count() self.name = &amp;#34;Prefix&amp;#34; + str(cnt+1) 测试发现问题 测试下,
 def test_create_regen_name(): st = set() with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor: todos = {executor.submit( MyModel.objects.create) for _ in range(10)} for future in concurrent.</description>
-    </item>
-    
-    <item>
-      <title>Socket Web Server With Multithread in Python</title>
-      <link>https://drkbl.com/posts/socket-web-server-with-multithread-in-python/</link>
-      <pubDate>Sun, 19 Jul 2020 03:25:38 -0700</pubDate>
-      
-      <guid>https://drkbl.com/posts/socket-web-server-with-multithread-in-python/</guid>
-      <description>Socket in Unix/Linux  Socket in Unix/Linux is just file descriptor, which means you can just treat it as file. Socket exists on the both ends of the communicators as the endpoints. Socket can be full duplex. Since Socket are inherently file, then it has its own buffer for both Reading and Writing. The communication process is like,  Reading data from its reading buffer and write data to its writing buffer When the writing buffer is full(or call flush), the data will be passed to the peer&#39;s reading buffer Peer will refuse to be inputed when full    Socket Server/Client in Python  Server&#39;s serversocket.</description>
     </item>
     
   </channel>

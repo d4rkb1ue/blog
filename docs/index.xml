@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Sun, 26 Jul 2020 05:10:46 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 09 Aug 2020 01:16:34 -0700</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Debug Log - Python Mongoengine Dup ID</title>
+      <link>https://drkbl.com/posts/debug-log-python-mongoengine-dup-id/</link>
+      <pubDate>Sun, 09 Aug 2020 01:16:34 -0700</pubDate>
+      
+      <guid>https://drkbl.com/posts/debug-log-python-mongoengine-dup-id/</guid>
+      <description>需求和实现 需求是要实现 ID 递增, 一开始这么实现.
+from mongoengine import * class MyModel: name = StringField(primary_key=True, required=True) def clean(): cnt = MyModel.objects.count() self.name = &amp;#34;Prefix&amp;#34; + str(cnt+1) 但是在, 多线程下（例如 websever 根据用户请求创建 MyModel）发现会出现 Dup ID 的报错. 于是我们加上锁,
+_lock = threading.Lock() def clean(): with _lock: cnt = MyModel.objects.count() self.name = &amp;#34;Prefix&amp;#34; + str(cnt+1) 测试发现问题 测试下,
+def test_create_regen_name(): st = set() with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor: todos = {executor.submit( MyModel.objects.create) for _ in range(10)} for future in concurrent.</description>
+    </item>
     
     <item>
       <title>Pass 系统设计面试</title>

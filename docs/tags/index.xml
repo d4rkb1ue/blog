@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Sun, 26 Jul 2020 05:10:46 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 09 Aug 2020 01:16:34 -0700</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>debug</title>
+      <link>https://drkbl.com/tags/debug/</link>
+      <pubDate>Sun, 09 Aug 2020 01:16:34 -0700</pubDate>
+      
+      <guid>https://drkbl.com/tags/debug/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://drkbl.com/tags/python/</link>
+      <pubDate>Sun, 09 Aug 2020 01:16:34 -0700</pubDate>
+      
+      <guid>https://drkbl.com/tags/python/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>interview</title>
@@ -49,16 +67,7 @@
     </item>
     
     <item>
-      <title>python</title>
-      <link>https://drkbl.com/tags/python/</link>
-      <pubDate>Sun, 19 Jul 2020 03:25:38 -0700</pubDate>
-      
-      <guid>https://drkbl.com/tags/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>sre</title>
+      <title>SRE</title>
       <link>https://drkbl.com/tags/sre/</link>
       <pubDate>Mon, 13 Apr 2020 17:16:38 -0700</pubDate>
       
