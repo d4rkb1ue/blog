@@ -89,8 +89,8 @@ tags: ['interview']
 #### 例子3 - 设计一个全国温度收集系统
 
 - `get_now() -> dict of {location: celsiusdegree)`
-- `get_history(location, [list of date]) -> [list of (date, min, max, avg)]` - 因为上面和面试官确认查询精度最多时每天
-- `put([list of (latitude, longitude, timestamp, celsiusdegree)])` 也就是 sensor/二级节点汇报用的 API. 因为每个数据太小, 用 list 打包下显然能大大减少总 pkg 的数量. 
+- `get_history(location, [list of date] or [date range]) -> [list of (date, min, max, avg)]` - 因为上面和面试官确认查询精度最多到 `天`
+- `put([list of (latitude, longitude, timestamp, celsiusdegree)])` 也就是 sensor/二级节点汇报用的 API. 因为每个数据太小, 在二级节点汇报时用 list 打包下显然能大大减少总 pkg 的数量. 
 
 ### 4. 考虑核心算法和业务性质主导的 Distribution
 
@@ -119,9 +119,11 @@ tags: ['interview']
 
 这个问题的算法就很重要了. 
 
-1. 通过 Object 的属性 hash 出来 ID. 比如 Shorten Original URL - `base64(url)`. 或者订单 ID, `userid_productid_timestamp`. 不过也许我们并不想让 ID 是一个有逻辑的 ID, 可能会暴露数据本身. 
+1. 通过 Object 的属性 hash 出来 ID. 比如 Shorten Original URL - `base64(url)`. 或者订单 ID == `userid_productid_timestamp`. 不过也许我们并不想让 ID 是一个有逻辑的 ID, 可能会暴露数据本身, 有时我们并不想让 ID 可以被预测
 2. increasing sequence number. 这对于单个 server 是最简单的方法了. 
-3. 随机数字. 这个当然很简单, 但是如果我们对 ID 长度有限制, 那么随机可能会冲突, 对于关键系统, 比如订单, 任何冲突都是受不了的. 或者如果我们要求时间上后分配的 ID 要比前面的 ID 大方便 query. 随机无法满足这样的要求. 
+3. 随机数字. 这个当然很简单, 不过有一些问题, 
+   1. ID 长度必然有限制, 那么随机就会产生碰撞 (如果数据域太小的话，比如 8 位随机数字，其实 10000 个 ID 就很大概率出现碰撞了), 而对于关键系统, 比如订单, 任何碰撞都是受不了的. 
+   2. 再比如我们要求时间上后分配的 ID 要比前面的 ID 大方便 query. 随机无法满足这样的要求. 
 4. 提前准备好批量取用. 这个是很棒的主意. 我们抽象出一个 Key Generation Service (KGS). 
    1. 直接生成大量 Key 放在数据库准备好. 就可以让一个进程完成, 于是没有冲突问题. 
    2. 一开始每个 API server 有一个 Key pool, 启动时去数据库里申领几千几万个 unique ID. 创建新的订单时在自己的 pool 里面拿一个. 当用完了, 比如 30min, 再去拿一次. 这样其实每个 server 的休息时间也很短. 
@@ -137,10 +139,10 @@ For single point of failure, uniform, consistent, scale-up.
 
 1. 系统内部的 LB - 在 database 和 app 之间, 在 API server 之间, 在 worker 和 API server 之间, etc. 比如数据库是抽象出来的, 数据库可以有多个地址. API server 之间可以用 service-mesh 服务发现来让每个组件都是高可用的. 
 2. 系统整体对用户间的 LB - 可以按网络模型安排多层 LB. 
-   1. 首先单个 API server 必然是有多个进程的, 前面可以先有个 HTTP-Level LB 比如 Nginx 调度. 
+   1. 首先单个 API server 必然是有多个进程/线程的, 前面可以先有个 HTTP-Level LB 比如 Nginx 调度. 
    2. 然后多个 server 间可以用 Nginx 或者 HAProxy 做 API gateway. 
    3. 那么又要给多个 L4/7 的 API gateway 前面加上 L3 的 float IP 的 LB, 用 MACVLAN, IPVLAN 什么的. 
-   4. 再前面又可以有 DNS 层的 LB. DNS 直接 round-robin 或者高级的 Consul.io 提供的自带健康监测/复杂 LB 算法 (Least Connection/Response time/Traffic/Round robin/Hashing) 的 DNS. 
+   4. 再前面又可以有 DNS 层的 LB. DNS 直接 round-robin 或者高级的 Consul.io 提供的自带健康监测/有状态 LB 算法 (Least Connection/Response time/Traffic/Round robin/Hashing) 的 DNS. 
 
 #### Stand-by
 
@@ -148,7 +150,7 @@ For single point of failure, uniform, consistent, scale-up.
 
 #### Cache
 
-只要费劲的地方就加一层 Cache. 除了数据 Cache, 还有比如数据库的连接池也是 Cache. 只要花时间的地方, 都可以用空间复杂度换时间复杂度. 
+只要感觉费劲就加一层 Cache. 除了数据 Cache, 还有比如数据库的连接池也是 Cache. 花时间的地方, 大都可以用空间复杂度换时间复杂度. 
 
 - 内存里先安排个 Cache
 - API server 可以来个 Cache. 分一层就放一层 Cache. 数据库可以有自己的 Cache (Index 比如)
@@ -168,7 +170,7 @@ Data partition 一下, 比如
 1. 横向分, 分段分块
     - 比如屏蔽词检索. 按开头首字母各自有各自的 server. 
     - 比如订单搜索. 按不同年份有不同的 server. 
-2. 纵向分, 分层 - 一层指向一层, 指针, 指针组, 指向指针组的指针, 像 B+ Tree. 或者 Abstract metadata 数据表树形再分布. 
+2. 纵向分, 分层分级 - 一层指向一层, 指针, 指针组, 指向指针组的指针, 像 B+ Tree. 或者 Abstract metadata 数据表树形再分布. 
     - 比如订单. 2020 年的一层, 每月的一层, 每日的一层, 每小时的... etc. 于是在 query 的时候, 一个请求会一步步转发到下一个 server. 当然也可以把这样的转发关系放在一个单独的 mapping service 里, 这个 server 的内存里就有这棵树, 可以根据时间戳直接返回应该去找哪个数据库节点. API server 直达那个节点, 避免层层转发. 
     - 比如屏蔽词检索. `T` 开头的一个问一个 server, 再看是 `TM` 开头的, 再转发, 再转发负责 `TMD` 开头的 server, 一个 Tire 一样的服务器分配. 
 
@@ -176,13 +178,13 @@ Data partition 一下, 比如
 
 1. 实时性/一致性/可用性 的 trade off. 比如是不是可以给用户展示 5 分钟前的数据? 
 2. 顶级功能/次级功能, 高感知属性/次感知属性. 用户常用的功能优化下? 
-3. 精确. 比如在温度查询的例子里. 我们想要平均值可以提前计算出一天 86400 数据, 或者可以抽取每小时第一秒的数据计算平均值. 鉴于温度不会忽上忽下, 这样稍微牺牲了精度但是只要计算 24 个数据即可. 
+3. 精确. 比如在温度查询的例子里. 我们想要平均值可以需要计算一天 86400 个数据的平均, 或者, 只抽取每小时第一秒的数据计算平均值. 鉴于温度不会忽上忽下, 这样稍微牺牲了精度但是只要计算 24 个数据即可. 
 4. 性能. 那些地方运算多? 
-6. 稳定. LB 和 Stand-by 太贵的地方放弃下? 
-7. 备份. 冷备, 热备, 多地备
-8. 可以异步做的高计算/高延迟步骤就异步做. 比如提前计算好每日的平均温度. 
-9. 感觉冲突/互相影响就分开, 中间加个同步机制. 
-10. 服务间 或 服务和 client 间的同步问题. pull model, push model, 或者混合.
+5. 稳定. LB 和 Stand-by 太贵的地方放弃下? 
+6. 备份. 冷备, 热备, 多地备
+7. 可以异步做的高计算/高延迟步骤就异步做. 比如提前计算好每日的平均温度. 
+8. 感觉冲突/互相影响就分开, 中间加个同步机制. 
+9.  服务间 或 服务和 client 间的同步问题. pull model, push model, 或者混合.
 
 
 ## Refs.

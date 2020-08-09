@@ -156,8 +156,8 @@ if (!doNotTrack) {
 <h4 id="例子3---设计一个全国温度收集系统-1">例子3 - 设计一个全国温度收集系统</h4>
 <ul>
 <li><code>get_now() -&gt; dict of {location: celsiusdegree)</code></li>
-<li><code>get_history(location, [list of date]) -&gt; [list of (date, min, max, avg)]</code> - 因为上面和面试官确认查询精度最多时每天</li>
-<li><code>put([list of (latitude, longitude, timestamp, celsiusdegree)])</code> 也就是 sensor/二级节点汇报用的 API. 因为每个数据太小, 用 list 打包下显然能大大减少总 pkg 的数量.</li>
+<li><code>get_history(location, [list of date] or [date range]) -&gt; [list of (date, min, max, avg)]</code> - 因为上面和面试官确认查询精度最多到 <code>天</code></li>
+<li><code>put([list of (latitude, longitude, timestamp, celsiusdegree)])</code> 也就是 sensor/二级节点汇报用的 API. 因为每个数据太小, 在二级节点汇报时用 list 打包下显然能大大减少总 pkg 的数量.</li>
 </ul>
 <h3 id="4-考虑核心算法和业务性质主导的-distribution">4. 考虑核心算法和业务性质主导的 Distribution</h3>
 <p>这个指的是, 当我们通过设计 API 把需求抽象到代码层面之后, 下面可以用数据结构和算法, 分布式设计来进一步细化我们的设计.</p>
@@ -181,9 +181,14 @@ if (!doNotTrack) {
 </ol>
 <p>这个问题的算法就很重要了.</p>
 <ol>
-<li>通过 Object 的属性 hash 出来 ID. 比如 Shorten Original URL - <code>base64(url)</code>. 或者订单 ID, <code>userid_productid_timestamp</code>. 不过也许我们并不想让 ID 是一个有逻辑的 ID, 可能会暴露数据本身.</li>
+<li>通过 Object 的属性 hash 出来 ID. 比如 Shorten Original URL - <code>base64(url)</code>. 或者订单 ID == <code>userid_productid_timestamp</code>. 不过也许我们并不想让 ID 是一个有逻辑的 ID, 可能会暴露数据本身, 有时我们并不想让 ID 可以被预测</li>
 <li>increasing sequence number. 这对于单个 server 是最简单的方法了.</li>
-<li>随机数字. 这个当然很简单, 但是如果我们对 ID 长度有限制, 那么随机可能会冲突, 对于关键系统, 比如订单, 任何冲突都是受不了的. 或者如果我们要求时间上后分配的 ID 要比前面的 ID 大方便 query. 随机无法满足这样的要求.</li>
+<li>随机数字. 这个当然很简单, 不过有一些问题,
+<ol>
+<li>ID 长度必然有限制, 那么随机就会产生碰撞 (如果数据域太小的话，比如 8 位随机数字，其实 10000 个 ID 就很大概率出现碰撞了), 而对于关键系统, 比如订单, 任何碰撞都是受不了的. </li>
+<li>再比如我们要求时间上后分配的 ID 要比前面的 ID 大方便 query. 随机无法满足这样的要求.</li>
+</ol>
+</li>
 <li>提前准备好批量取用. 这个是很棒的主意. 我们抽象出一个 Key Generation Service (KGS).
 <ol>
 <li>直接生成大量 Key 放在数据库准备好. 就可以让一个进程完成, 于是没有冲突问题.</li>
@@ -200,17 +205,17 @@ if (!doNotTrack) {
 <li>系统内部的 LB - 在 database 和 app 之间, 在 API server 之间, 在 worker 和 API server 之间, etc. 比如数据库是抽象出来的, 数据库可以有多个地址. API server 之间可以用 service-mesh 服务发现来让每个组件都是高可用的.</li>
 <li>系统整体对用户间的 LB - 可以按网络模型安排多层 LB.
 <ol>
-<li>首先单个 API server 必然是有多个进程的, 前面可以先有个 HTTP-Level LB 比如 Nginx 调度.</li>
+<li>首先单个 API server 必然是有多个进程/线程的, 前面可以先有个 HTTP-Level LB 比如 Nginx 调度.</li>
 <li>然后多个 server 间可以用 Nginx 或者 HAProxy 做 API gateway.</li>
 <li>那么又要给多个 L4/7 的 API gateway 前面加上 L3 的 float IP 的 LB, 用 MACVLAN, IPVLAN 什么的.</li>
-<li>再前面又可以有 DNS 层的 LB. DNS 直接 round-robin 或者高级的 Consul.io 提供的自带健康监测/复杂 LB 算法 (Least Connection/Response time/Traffic/Round robin/Hashing) 的 DNS.</li>
+<li>再前面又可以有 DNS 层的 LB. DNS 直接 round-robin 或者高级的 Consul.io 提供的自带健康监测/有状态 LB 算法 (Least Connection/Response time/Traffic/Round robin/Hashing) 的 DNS.</li>
 </ol>
 </li>
 </ol>
 <h4 id="stand-by">Stand-by</h4>
 <p>不至于/不方便上 LB 的地方统统来个 stand-by server, 比如上面提到的 Key Generation Service 因为一致性的原因, 上 LB 太麻烦. 那就 Stand-by 一下吧.</p>
 <h4 id="cache">Cache</h4>
-<p>只要费劲的地方就加一层 Cache. 除了数据 Cache, 还有比如数据库的连接池也是 Cache. 只要花时间的地方, 都可以用空间复杂度换时间复杂度.</p>
+<p>只要感觉费劲就加一层 Cache. 除了数据 Cache, 还有比如数据库的连接池也是 Cache. 花时间的地方, 大都可以用空间复杂度换时间复杂度.</p>
 <ul>
 <li>内存里先安排个 Cache</li>
 <li>API server 可以来个 Cache. 分一层就放一层 Cache. 数据库可以有自己的 Cache (Index 比如)</li>
@@ -233,7 +238,7 @@ if (!doNotTrack) {
 <li>比如订单搜索. 按不同年份有不同的 server.</li>
 </ul>
 </li>
-<li>纵向分, 分层 - 一层指向一层, 指针, 指针组, 指向指针组的指针, 像 B+ Tree. 或者 Abstract metadata 数据表树形再分布.
+<li>纵向分, 分层分级 - 一层指向一层, 指针, 指针组, 指向指针组的指针, 像 B+ Tree. 或者 Abstract metadata 数据表树形再分布.
 <ul>
 <li>比如订单. 2020 年的一层, 每月的一层, 每日的一层, 每小时的&hellip; etc. 于是在 query 的时候, 一个请求会一步步转发到下一个 server. 当然也可以把这样的转发关系放在一个单独的 mapping service 里, 这个 server 的内存里就有这棵树, 可以根据时间戳直接返回应该去找哪个数据库节点. API server 直达那个节点, 避免层层转发.</li>
 <li>比如屏蔽词检索. <code>T</code> 开头的一个问一个 server, 再看是 <code>TM</code> 开头的, 再转发, 再转发负责 <code>TMD</code> 开头的 server, 一个 Tire 一样的服务器分配.</li>
@@ -244,7 +249,7 @@ if (!doNotTrack) {
 <ol>
 <li>实时性/一致性/可用性 的 trade off. 比如是不是可以给用户展示 5 分钟前的数据?</li>
 <li>顶级功能/次级功能, 高感知属性/次感知属性. 用户常用的功能优化下?</li>
-<li>精确. 比如在温度查询的例子里. 我们想要平均值可以提前计算出一天 86400 数据, 或者可以抽取每小时第一秒的数据计算平均值. 鉴于温度不会忽上忽下, 这样稍微牺牲了精度但是只要计算 24 个数据即可.</li>
+<li>精确. 比如在温度查询的例子里. 我们想要平均值可以需要计算一天 86400 个数据的平均, 或者, 只抽取每小时第一秒的数据计算平均值. 鉴于温度不会忽上忽下, 这样稍微牺牲了精度但是只要计算 24 个数据即可.</li>
 <li>性能. 那些地方运算多?</li>
 <li>稳定. LB 和 Stand-by 太贵的地方放弃下?</li>
 <li>备份. 冷备, 热备, 多地备</li>
