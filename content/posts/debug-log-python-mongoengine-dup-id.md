@@ -77,31 +77,26 @@ Time		Thread1			    Thread2
 
 这样的需求, 其实应该, 
 
-在 MongoDB 创建一个独立的 `collection`, 独立的 `doc`, 像是这样. 
+在 MongoDB 创建一个独立的 `collection`, 像是这样. 
 
 ```py
-{
-    '_id'   : 'UNIQUE COUNT DOCUMENT IDENTIFIER',
-    'COUNT' : 0,
-    'NOTES' : 'Increment COUNT using findAndModify to ensure that the COUNT field will be incremented atomically with the fetch of this document',
-}
-
+class DocIdCounter(Document):
+    prefix = StringField(default="prefix")
+    count = IntField(default=0)
 ```
 
-然后用这样的代码去得到一个 seq number, 
+然后用这样的代码去得到一个 `seq number`, 
 
-```js
-counter = db.uniqueIdentifierCounter.findAndModify({
-    query: { _id: 'UNIQUE COUNT DOCUMENT IDENTIFIER' },
-    update: {
-        $inc: { COUNT: 1 },
-    },
-    writeConcern: 'majority'
-})
+```py
+class MyModel:
+     _counter_lock = threading.Lock()
+	def clean():
+        prefix = "prefix"
+        with self._counter_lock:
+            DocIdCounter.objects(prefix=prefix).update_one(upsert=True, inc__count=1)
+            cnt = DocIdCounter.objects(date=prefix).first()
 
-db.mymodel.insert({
-  _id: counter['_id'],
-})
+        self.name = "Prefix" + str(cnt)
 ```
 
 `findAndModify` 保证了 `count++` 操作的原子性. 
