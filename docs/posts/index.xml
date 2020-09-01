@@ -7,10 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Sun, 09 Aug 2020 01:16:34 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 01 Sep 2020 02:19:57 -0700</lastBuildDate>
     
 	<atom:link href="https://drkbl.com/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>测试替身 - Test Double</title>
+      <link>https://drkbl.com/posts/test-double/</link>
+      <pubDate>Tue, 01 Sep 2020 02:19:57 -0700</pubDate>
+      
+      <guid>https://drkbl.com/posts/test-double/</guid>
+      <description>做测试的时候我们希望避免副作用。谁都不希望执行一遍测试，导致数据库塞满垃圾数据。 我们还希望可以控制变量。希望在验证单一模块的时候不被其他潜在的坏模块/坏网络环境影响。在控制变量的时候，需要控制被替换模块的输入输出。尽量仿真。 当然顺便可以加速测试避免做大批量计算和 IO，节约资源。  既然是测试，那么被测单元就是本身，但是我们要替换掉所有围着被测单元的其他环境。比如数据库相关的 lib，模块，网络模块，文件读写 lib 等等。这些用来承担模拟环境，替换真东西的假东西就是测试替身。
+于是实现替身有这些方式。
+Fake object 最通用的情况下，可以自己造一个完全自定义的 Fake object。比如 patch 现存的一个 lib，自己去手写应该有什么假函数 - 该函数应该在什么被测单元输入时返回什么（即提供被测单元间接输入），应在在什么时候调用什么（即提供被测单元间接输出）。
+实现上，可以是纯粹 echo 回音壁，或者是带计算+反射功能的哈哈镜（类似于一个 lambda function）。例如为了避免读写真数据库，用个简单的 list/dict 来记录状态的 data model - moke object。这是最灵活也是最麻烦的方式。
+简单的 stub 桩 但如果是非常简单的替身，比如被测单元怎么调用都在返回/输出一样的东西，可以用 stub 桩模块。这样的就是间接输入。因为有些输入不是一开始以参数形式传入函数的，而是在运行通过 query 数据库，文件，远程 API 获取实时动态状态，以及为了接耦，安全，体积考虑单独获取的静态信息。
+datetime = Mock() datetime.today.return_value = tuesday datetime.today() # tuesday datetime.today(whatever_para=1) # tuesday Mock object - 懒人版的 Fake object 如果需求稍微高点，希望对一些指定的输入返回输出，可以尝试 Mock object，这是一种懒人版的 Fake object。如果不想手写里面的状态管理，或者状态很简单，或者我知道我就会只用指定的一些输入去计算。
+举个例子，我要替换掉一个求导公式，如果我知道我在 test 中只有 2 种 call 这个 object 的输入，一个是 x^2 一个是 ln(x) 那我直接用个静态的 dict 来返回值就好了， 不用写一遍求导的完整公式。</description>
+    </item>
     
     <item>
       <title>Debug 日志 - Python Mongoengine Dup ID</title>

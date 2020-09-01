@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>测试替身 - Test Double - d4rkb1ue&#39;s Blog</title>
+  <meta content='测试替身 - Test Double - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='测试替身 - Test Double - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="做测试的时候我们希望避免副作用。谁都不希望执行一遍测试，导致数据库塞满垃圾数据。 我们还希望可以控制变量。希望在验证单一模块的时候不被其他潜在的坏模块/坏网络环境影响。在控制变量的时候，需要控制被替换模块的输入输出。尽量仿真。 当然顺便可以加速测试避免做大批量计算和 IO，节约资源。  既然是测试，那么被测单元就是本身，但是我们要替换掉所有围着被测单元的其他环境。比如数据库相关的 lib，模块，网络模块，文件读写 lib 等等。这些用来承担模拟环境，替换真东西的假东西就是测试替身。
+于是实现替身有这些方式。
+Fake object 最通用的情况下，可以自己造一个完全自定义的 Fake object。比如 patch 现存的一个 lib，自己去手写应该有什么假函数 - 该函数应该在什么被测单元输入时返回什么（即提供被测单元间接输入），应在在什么时候调用什么（即提供被测单元间接输出）。
+实现上，可以是纯粹 echo 回音壁，或者是带计算&#43;反射功能的哈哈镜（类似于一个 lambda function）。例如为了避免读写真数据库，用个简单的 list/dict 来记录状态的 data model - moke object。这是最灵活也是最麻烦的方式。
+简单的 stub 桩 但如果是非常简单的替身，比如被测单元怎么调用都在返回/输出一样的东西，可以用 stub 桩模块。这样的就是间接输入。因为有些输入不是一开始以参数形式传入函数的，而是在运行通过 query 数据库，文件，远程 API 获取实时动态状态，以及为了接耦，安全，体积考虑单独获取的静态信息。
+datetime = Mock() datetime.today.return_value = tuesday datetime.today() # tuesday datetime.today(whatever_para=1) # tuesday Mock object - 懒人版的 Fake object 如果需求稍微高点，希望对一些指定的输入返回输出，可以尝试 Mock object，这是一种懒人版的 Fake object。如果不想手写里面的状态管理，或者状态很简单，或者我知道我就会只用指定的一些输入去计算。
+举个例子，我要替换掉一个求导公式，如果我知道我在 test 中只有 2 种 call 这个 object 的输入，一个是 x^2 一个是 ln(x) 那我直接用个静态的 dict 来返回值就好了， 不用写一遍求导的完整公式。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/test-double/" />
+
+
+<meta property="article:published_time" content="2020-09-01T02:19:57-07:00"/>
+
+<meta property="article:modified_time" content="2020-09-01T02:19:57-07:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.62.2" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74825078-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">测试替身 - Test Double</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>01 Sep 2020</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/test' class="link silver">test</a> <a href='/tags/coding' class="link silver">coding</a> <a href='/tags/python' class="link silver">python</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><ol>
+<li>做测试的时候我们希望避免副作用。谁都不希望执行一遍测试，导致数据库塞满垃圾数据。</li>
+<li>我们还希望可以控制变量。希望在验证单一模块的时候不被其他潜在的坏模块/坏网络环境影响。在控制变量的时候，需要控制被替换模块的输入输出。尽量仿真。</li>
+<li>当然顺便可以加速测试避免做大批量计算和 IO，节约资源。</li>
+</ol>
+<p>既然是测试，那么被测单元就是本身，但是我们要替换掉所有围着被测单元的其他环境。比如数据库相关的 lib，模块，网络模块，文件读写 lib 等等。这些用来承担模拟环境，替换真东西的假东西就是测试替身。</p>
+<p>于是实现替身有这些方式。</p>
+<h2 id="fake-object">Fake object</h2>
+<p>最通用的情况下，可以自己造一个完全自定义的 <code>Fake object</code>。比如 patch 现存的一个 <code>lib</code>，自己去手写应该有什么假函数 - 该函数应该在什么被测单元输入时返回什么（即提供被测单元<strong>间接输入</strong>），应在在什么时候调用什么（即提供被测单元<strong>间接输出</strong>）。</p>
+<p>实现上，可以是纯粹 echo 回音壁，或者是带计算+反射功能的哈哈镜（类似于一个 <code>lambda function</code>）。例如为了避免读写真数据库，用个简单的 <code>list</code>/<code>dict</code> 来记录状态的 <code>data model</code> - <code>moke object</code>。这是最灵活也是最麻烦的方式。</p>
+<h2 id="简单的-stub-桩">简单的 stub 桩</h2>
+<p>但如果是非常简单的替身，比如被测单元怎么调用都在返回/输出一样的东西，可以用 <code>stub</code> 桩模块。这样的就是<strong>间接输入</strong>。因为有些输入不是一开始以参数形式传入函数的，而是在运行通过 query 数据库，文件，远程 API 获取实时动态状态，以及为了接耦，安全，体积考虑单独获取的静态信息。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3">datetime <span style="color:#f92672">=</span> Mock()
+datetime<span style="color:#f92672">.</span>today<span style="color:#f92672">.</span>return_value <span style="color:#f92672">=</span> tuesday
+
+datetime<span style="color:#f92672">.</span>today()
+<span style="color:#75715e"># tuesday</span>
+datetime<span style="color:#f92672">.</span>today(whatever_para<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+<span style="color:#75715e"># tuesday</span>
+</code></pre></div><h2 id="mock-object---懒人版的-fake-object">Mock object - 懒人版的 Fake object</h2>
+<p>如果需求稍微高点，希望<strong>对一些指定的输入返回输出</strong>，可以尝试 <code>Mock object</code>，这是一种懒人版的 <code>Fake object</code>。如果不想手写里面的状态管理，或者状态很简单，或者我知道我就会只用指定的一些输入去计算。</p>
+<p>举个例子，我要替换掉一个求导公式，如果我知道我在 test 中只有 2 种 <code>call</code> 这个 <code>object</code> 的输入，一个是 <code>x^2</code> 一个是 <code>ln(x)</code> 那我直接用个静态的 <code>dict</code> 来返回值就好了， 不用写一遍求导的完整公式。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">output <span style="color:#f92672">=</span> {
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">x^2</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">2x</span><span style="color:#e6db74">&#34;</span>,
+    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ln(x)</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ln(x)</span><span style="color:#e6db74">&#34;</span>,
+}
+</code></pre></div><h2 id="mock-object---间接输出">Mock object - 间接输出</h2>
+<p>反过来，如果对返回值没要求，却对<strong>间接输出</strong>感兴趣，比如对被测模块怎么<code>call</code> 别人十分在意，那就用永远都不会报错的 <code>(Magic) Mock object</code> - 这就像一个厚厚软软的白雪地一样，任由被测者随意在上面印出印记，只是个忠实的记录者。也叫做拥有 <code>Lazy Attributes and Methods</code> 的 <code>Mock object</code>。它的方法/属性在你 <code>call</code> 它的时候被产生，不会报错。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">from</span> unittest.mock <span style="color:#66d9ef">import</span> Mock
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> mock <span style="color:#f92672">=</span> Mock()
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> mock<span style="color:#f92672">.</span>some_attribute
+<span style="color:#f92672">&lt;</span>Mock name<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">mock.some_attribute</span><span style="color:#e6db74">&#39;</span> id<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">4394778696</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> mock<span style="color:#f92672">.</span>do_something()
+<span style="color:#f92672">&lt;</span>Mock name<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">mock.do_something()</span><span style="color:#e6db74">&#39;</span> id<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">4394778920</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">&gt;</span>
+</code></pre></div><p>（以及可以看到，<code>mock</code> 的方法/属性 还是 <code>mock</code> 保证了可以递归的使用 <code>mock</code>）</p>
+<p>于是可以事后通过 <code>assert</code> 这个 <code>object</code> 被 <code>call</code> 过多少次，以及被怎么（用什么 <code>parameter</code>）<code>call</code> 的。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">from</span> unittest.mock <span style="color:#66d9ef">import</span> Mock
+
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> json <span style="color:#f92672">=</span> Mock()
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> json<span style="color:#f92672">.</span>loads(<span style="color:#960050;background-color:#1e0010">‘</span>{<span style="color:#960050;background-color:#1e0010">“</span>key<span style="color:#960050;background-color:#1e0010">”</span>: <span style="color:#960050;background-color:#1e0010">“</span>value<span style="color:#960050;background-color:#1e0010">”</span>}<span style="color:#960050;background-color:#1e0010">’</span>)
+<span style="color:#f92672">&lt;</span>Mock name<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">‘</span>mock<span style="color:#f92672">.</span>loads()<span style="color:#960050;background-color:#1e0010">’</span> id<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">‘</span><span style="color:#ae81ff">4391026640</span><span style="color:#960050;background-color:#1e0010">’</span><span style="color:#f92672">&gt;</span>
+
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#75715e"># Number of times you called loads():</span>
+<span style="color:#960050;background-color:#1e0010">…</span> json<span style="color:#f92672">.</span>loads<span style="color:#f92672">.</span>call_count
+<span style="color:#ae81ff">1</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#75715e"># The last loads() call:</span>
+<span style="color:#960050;background-color:#1e0010">…</span> json<span style="color:#f92672">.</span>loads<span style="color:#f92672">.</span>call_args
+call(<span style="color:#960050;background-color:#1e0010">‘</span>{<span style="color:#960050;background-color:#1e0010">“</span>key<span style="color:#960050;background-color:#1e0010">”</span>: <span style="color:#960050;background-color:#1e0010">“</span>value<span style="color:#960050;background-color:#1e0010">”</span>}<span style="color:#960050;background-color:#1e0010">’</span>)
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#75715e"># List of loads() calls:</span>
+<span style="color:#960050;background-color:#1e0010">…</span> json<span style="color:#f92672">.</span>loads<span style="color:#f92672">.</span>call_args_list
+[call(<span style="color:#960050;background-color:#1e0010">‘</span>{<span style="color:#960050;background-color:#1e0010">“</span>key<span style="color:#960050;background-color:#1e0010">”</span>: <span style="color:#960050;background-color:#1e0010">“</span>value<span style="color:#960050;background-color:#1e0010">”</span>}<span style="color:#960050;background-color:#1e0010">’</span>)]
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#75715e"># List of calls to json’s methods (recursively):</span>
+<span style="color:#960050;background-color:#1e0010">…</span> json<span style="color:#f92672">.</span>method_calls
+[call<span style="color:#f92672">.</span>loads(<span style="color:#960050;background-color:#1e0010">‘</span>{<span style="color:#960050;background-color:#1e0010">“</span>key<span style="color:#960050;background-color:#1e0010">”</span>: <span style="color:#960050;background-color:#1e0010">“</span>value<span style="color:#960050;background-color:#1e0010">”</span>}<span style="color:#960050;background-color:#1e0010">’</span>)]
+</code></pre></div><h2 id="test-spy---黑盒子记录仪">Test Spy - 黑盒子记录仪</h2>
+<p>如果间接输出逻辑很复杂，可以用高阶一些的 <code>Test Spy</code>。打比方，被测者找我要了个一个盒子，我给的同时在里面贴上一个摄像头偷偷录下这个盒子里都被装过什么，啥时候装的，交给过什么人。并且在合适的时候给予一定的反馈，尽量不露馅。</p>
+<h2 id="相关概念-patcher">相关概念 Patcher</h2>
+<p><code>Patcher</code> 不是测试替身。只是代表替换动作的抽象，或者理解为千斤顶。帮助你把原始 <code>object</code> 替换成假替身的所需的工具。很多时候可以直接简单的赋值，但是如果无法插入被测模块 <code>import</code> 的流程，那就需要借助别的工具啦。</p>
+<h2 id="相关概念-fixture">相关概念 Fixture</h2>
+<p><code>Fixture</code> 也不是测试替身，而是一个假状态，而且是直接在数据层面上的造假。和上面这些 <code>moker</code> 配合使用。</p>
+<p>比如在第一个例子里，我为了避免读写数据库造的假 <code>data model</code>，如果我要测试真的 <code>data model</code> 逻辑对不对要怎么办？当然可以选择 <code>mock database access</code> 的 <code>SDK</code>。但是另一个更好更有说服力（减少了自己写的变量，毕竟写的 <code>mock</code> 也可能自己有问题）的选择，就是直接把假数据塞进空数据库里。</p>
+<p>当然更多时候是在造假运行时存在 <code>memory</code> 里的数据，比如假装这个指针后面应该有这个数据，直接塞进内存里。</p>
+<h2 id="refs">Refs.</h2>
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/Test_double">Test double - Wikipedia</a></li>
+<li><a href="http://xunitpatterns.com/Test%20Double.html">Test Double at XUnitPatterns.com</a></li>
+</ol>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/debug-log-python-mongoengine-dup-id/">prev post</a>
+  
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  Contact me at 7874364@gmail.com
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>
