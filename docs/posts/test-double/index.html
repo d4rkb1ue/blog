@@ -143,9 +143,12 @@ call(<span style="color:#960050;background-color:#1e0010">‘</span>{<span style
 <h2 id="相关概念-patcher">相关概念 Patcher</h2>
 <p><code>Patcher</code> 不是测试替身。只是代表替换动作的抽象，或者理解为千斤顶。帮助你把原始 <code>object</code> 替换成假替身的所需的工具。很多时候可以直接简单的赋值，但是如果无法插入被测模块 <code>import</code> 的流程，那就需要借助别的工具啦。</p>
 <h2 id="相关概念-fixture">相关概念 Fixture</h2>
-<p><code>Fixture</code> 也不是测试替身，而是一个假状态，而且是直接在数据层面上的造假。和上面这些 <code>moker</code> 配合使用。</p>
-<p>比如在第一个例子里，我为了避免读写数据库造的假 <code>data model</code>，如果我要测试真的 <code>data model</code> 逻辑对不对要怎么办？当然可以选择 <code>mock database access</code> 的 <code>SDK</code>。但是另一个更好更有说服力（减少了自己写的变量，毕竟写的 <code>mock</code> 也可能自己有问题）的选择，就是直接把假数据塞进空数据库里。</p>
-<p>当然更多时候是在造假运行时存在 <code>memory</code> 里的数据，比如假装这个指针后面应该有这个数据，直接塞进内存里。</p>
+<p><code>Fixture</code> 也不是测试替身，而是声明一个数据状态，这个状态可被继承/组合。和上面这些 <code>moker</code> 配合使用，可以用声明一个函数表示如何进入这个状态，以及退出这个状态要销毁什么。比如，</p>
+<ol>
+<li><code>Fixture1</code> 代表了一个 <code>databse 被替换的状态</code>，进入状态是使用 <code>Patcher</code> 对 <code>import</code> 的 <code>lib</code> 进行替换，退出此状态是换回去。</li>
+<li>再比如，在第一个例子里，我为了避免读写数据库造的假 <code>data model</code>，但是在测试真的 <code>data model</code> <strong>读</strong>逻辑对不对的时候，我可以声明一个含有提前配置好的数据状态，比如有个 user，进入此状态需要直接把假数据塞进空数据库里。<em>当然可以选择 <code>mock database access</code> 的 <code>SDK</code>。但是真数据库假数据更有说服力（减少了自己写的变量，毕竟写的 <code>mock</code> 也可能自己有问题）</em></li>
+</ol>
+<p>当然更多时候是在声明在运行时存在 <code>memory</code> 里的数据状态，比如假装这个指针后面应该有这个数据，直接塞进内存里。</p>
 <h2 id="refs">Refs.</h2>
 <ol>
 <li><a href="https://en.wikipedia.org/wiki/Test_double">Test double - Wikipedia</a></li>
