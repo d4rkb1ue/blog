@@ -27,7 +27,7 @@ var mongodb = require(&#39;./db&#39;); function User(user) { this.name = user.na
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -103,7 +103,7 @@ if (!doNotTrack) {
 <span style="color:#a6e22e">module</span>.<span style="color:#a6e22e">exports</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">User</span>;
 
 <span style="color:#75715e">//存储用户信息
-</span><span style="color:#75715e"></span><span style="color:#75715e">//@d4rkb1ue 使用User.prototype.save定义函数，那么在产生user实例的时候，就会存在user.save这个函数！
+</span><span style="color:#75715e">//@d4rkb1ue 使用User.prototype.save定义函数，那么在产生user实例的时候，就会存在user.save这个函数！
 </span><span style="color:#75715e"></span><span style="color:#a6e22e">User</span>.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">save</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">callback</span>) {
   <span style="color:#75715e">//要存入数据库的用户文档
 </span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> {

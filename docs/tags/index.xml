@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Tue, 01 Sep 2020 02:19:57 -0700</lastBuildDate>
-    
-	<atom:link href="https://drkbl.com/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 01 Sep 2020 02:19:57 -0700</lastBuildDate><atom:link href="https://drkbl.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>coding</title>
       <link>https://drkbl.com/tags/coding/</link>
@@ -76,7 +72,7 @@
     </item>
     
     <item>
-      <title>networking</title>
+      <title>Networking</title>
       <link>https://drkbl.com/tags/networking/</link>
       <pubDate>Sun, 19 Jul 2020 03:25:38 -0700</pubDate>
       
@@ -130,7 +126,7 @@
     </item>
     
     <item>
-      <title>docker</title>
+      <title>Docker</title>
       <link>https://drkbl.com/tags/docker/</link>
       <pubDate>Tue, 10 Mar 2020 00:59:54 -0700</pubDate>
       

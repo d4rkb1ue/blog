@@ -10,8 +10,8 @@
 
 
 <meta property="og:description" content="Firstly, we need to clarify where are we talking at,
- Linux system K8s service orchestration Directory service Services with API  In Linux System User accounts are used by real users, service accounts are used by system services such as web servers, mail transport agents, databases etc. The kernel doesn&#39;t care, besides UID 0.
- By convention, service accounts have user IDs in the low range, e.g. 100-999 or so Service accounts may own specific resources, even device special files, but they don&#39;t have superuser-like privileges Service accounts can be created like ordinary user accounts Service accounts shouldn&#39;t have a login shell, i." />
+ Linux system K8s service orchestration Directory service Services with API  In Linux System User accounts are used by real users, service accounts are used by system services such as web servers, mail transport agents, databases etc. The kernel doesn&rsquo;t care, besides UID 0.
+ By convention, service accounts have user IDs in the low range, e.g. 100-999 or so Service accounts may own specific resources, even device special files, but they don&rsquo;t have superuser-like privileges Service accounts can be created like ordinary user accounts Service accounts shouldn&rsquo;t have a login shell, i." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://drkbl.com/posts/service-account-vs-user-account/" />
 
@@ -27,7 +27,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -88,12 +88,12 @@ if (!doNotTrack) {
 <li>Services with API</li>
 </ul>
 <h2 id="in-linux-system">In Linux System</h2>
-<p>User accounts are used by real users, service accounts are used by system services such as web servers, mail transport agents, databases etc. <strong>The kernel doesn't care, besides UID 0.</strong></p>
+<p>User accounts are used by real users, service accounts are used by system services such as web servers, mail transport agents, databases etc. <strong>The kernel doesn&rsquo;t care, besides UID 0.</strong></p>
 <ul>
 <li>By convention, service accounts have user IDs in the low range, e.g. 100-999 or so</li>
-<li>Service accounts may own specific resources, even device special files, but they don't have superuser-like privileges</li>
+<li>Service accounts may own specific resources, even device special files, but they don&rsquo;t have superuser-like privileges</li>
 <li>Service accounts can be created like ordinary user accounts</li>
-<li>Service accounts shouldn't have a login shell, i.e. they have <code>/usr/sbin/nologin</code> as login shell</li>
+<li>Service accounts shouldn&rsquo;t have a login shell, i.e. they have <code>/usr/sbin/nologin</code> as login shell</li>
 <li>Service accounts are typically locked, i.e. it is not possible to login (for traditional <code>/etc/passwd</code> and <code>/etc/shadow</code> this can be achieved by setting the password hash to arbitrary values such as <code>*</code> or <code>x</code>)</li>
 </ul>
 <p>Benefits of adopting Service accounts,</p>

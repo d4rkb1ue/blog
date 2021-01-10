@@ -26,7 +26,7 @@ app.post(&#39;/login&#39;, function (req, res) { //生成密码的 md5 值  var 
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -151,7 +151,7 @@ Path: /
 Exp. time: 2016-05-01T09:23:32.673Z
 Size: 86
 HTTP: ✓ true
-</code></pre><p>我在同一个浏览器中重新注册了一个账号'r&rsquo;，看看新的Cookie：</p>
+</code></pre><p>我在同一个浏览器中重新注册了一个账号&rsquo;r'，看看新的Cookie：</p>
 <pre><code>blog    
 s%3ATKcqS6XfuhObSk2vFY1UuNI_ehtpn8MM.b8NAkCxLu85FB2OiusE8FftGMKS2VEOJppODD2eD5%2FU
 node
@@ -198,7 +198,7 @@ node
 <p>尝试注释掉 <code>secret: settings.cookieSecret</code> 这一行。结果是报错，<code>Error: secret option required for sessions</code>。把setting.js里的secret设为空。也报一样的错误。</p>
 </li>
 <li>
-<p>后者就是Server给的！可以去chrome的network点击'node&rsquo;（也就是索取的host)页面,就可以看到response,request,和里面的cookie了！可以看到的确server提供了value的后半段，而且每次发送的时候也发送全部的。</p>
+<p>后者就是Server给的！可以去chrome的network点击&rsquo;node'（也就是索取的host)页面,就可以看到response,request,和里面的cookie了！可以看到的确server提供了value的后半段，而且每次发送的时候也发送全部的。</p>
 </li>
 </ol>
 <h3 id="使用chrome-extension-tamper-chrome">使用Chrome Extension Tamper Chrome</h3>

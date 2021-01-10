@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Sun, 22 Jul 2018 21:49:46 +0000</lastBuildDate>
-    
-	<atom:link href="https://drkbl.com/tags/gadget/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 22 Jul 2018 21:49:46 +0000</lastBuildDate><atom:link href="https://drkbl.com/tags/gadget/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Time Machine On Ubuntu 18 with samba</title>
       <link>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</link>

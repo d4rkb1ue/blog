@@ -9,7 +9,7 @@
   <meta content='DOM No Response To Keyboard Event - d4rkb1ue&#39;s Blog' property='og:title' />
 
 
-<meta property="og:description" content="Register onKeyDownListener on HTML Element &lt;!DOCTYPE html&gt; &lt;html&gt; &lt;head&gt; &lt;script src=&#34;../build/react.js&#34;&gt;&lt;/script&gt; &lt;script src=&#34;../build/react-dom.js&#34;&gt;&lt;/script&gt; &lt;script src=&#34;../build/browser.min.js&#34;&gt;&lt;/script&gt; &lt;/head&gt; &lt;body&gt; &lt;div id=&#34;app&#34;&gt;&lt;/div&gt; &lt;script type=&#34;text/babel&#34;&gt; class App extends React.Component { handleKeyDown(event) { console.log(&#39;handling a key press&#39;); } render() { return ( &lt;div onKeyDown={this.handleKeyDown}&gt; here! &lt;/div&gt; ); } } ReactDOM.render(&lt;App /&gt;, document.getElementById(&#39;app&#39;)); &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; There are NO response here. You press any thing and there is NO response. It&#39;s doesn&#39;t matter you mouse focus on div or not." />
+<meta property="og:description" content="Register onKeyDownListener on HTML Element &lt;!DOCTYPE html&gt; &lt;html&gt; &lt;head&gt; &lt;script src=&#34;../build/react.js&#34;&gt;&lt;/script&gt; &lt;script src=&#34;../build/react-dom.js&#34;&gt;&lt;/script&gt; &lt;script src=&#34;../build/browser.min.js&#34;&gt;&lt;/script&gt; &lt;/head&gt; &lt;body&gt; &lt;div id=&#34;app&#34;&gt;&lt;/div&gt; &lt;script type=&#34;text/babel&#34;&gt; class App extends React.Component { handleKeyDown(event) { console.log(&#39;handling a key press&#39;); } render() { return ( &lt;div onKeyDown={this.handleKeyDown}&gt; here! &lt;/div&gt; ); } } ReactDOM.render(&lt;App /&gt;, document.getElementById(&#39;app&#39;)); &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; There are NO response here. You press any thing and there is NO response. It&rsquo;s doesn&rsquo;t matter you mouse focus on div or not." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://drkbl.com/posts/div-not-response-to-keyboard-event-without-tabindex/" />
 
@@ -25,7 +25,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -97,15 +97,15 @@ if (!doNotTrack) {
     <span style="color:#66d9ef">return</span> (
       <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">div</span> <span style="color:#a6e22e">onKeyDown</span><span style="color:#f92672">=</span>{<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">handleKeyDown</span>}<span style="color:#f92672">&gt;</span>
         <span style="color:#a6e22e">here</span><span style="color:#f92672">!</span>
-      <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#960050;background-color:#1e0010">d</span><span style="color:#960050;background-color:#1e0010">i</span><span style="color:#960050;background-color:#1e0010">v</span><span style="color:#960050;background-color:#1e0010">&gt;</span>
+      <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/div&gt;</span>
     );
   }
 }
-<span style="color:#a6e22e">ReactDOM</span>.<span style="color:#a6e22e">render</span>(<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">App</span> <span style="color:#f92672">/</span><span style="color:#f92672">&gt;</span>, document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;app&#39;</span>));
+<span style="color:#a6e22e">ReactDOM</span>.<span style="color:#a6e22e">render</span>(<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">App</span> <span style="color:#f92672">/&gt;</span>, document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#39;app&#39;</span>));
 &lt;/<span style="color:#f92672">script</span>&gt;
 &lt;/<span style="color:#f92672">body</span>&gt;
 &lt;/<span style="color:#f92672">html</span>&gt;
-</code></pre></div><p>There are NO response here. You press any thing and there is NO response. It's doesn't matter you mouse focus on div or not.</p>
+</code></pre></div><p>There are NO response here. You press any thing and there is NO response. It&rsquo;s doesn&rsquo;t matter you mouse focus on div or not.</p>
 <h1 id="add-tabindex">Add tabIndex</h1>
 <p>Try add this,</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">onKeyDown</span><span style="color:#f92672">=</span>{<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">handleKeyDown</span>}
@@ -117,7 +117,7 @@ if (!doNotTrack) {
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css">#app:<span style="color:#a6e22e">focus</span> {
   <span style="color:#66d9ef">outline</span>: <span style="color:#66d9ef">-webkit-</span>focus-ring-color <span style="color:#66d9ef">auto</span> <span style="color:#ae81ff">5</span><span style="color:#66d9ef">px</span>;
 }
-</code></pre></div><p>In the same time you set a <code>tabIndex</code> attribute. That's actually an indicator that you can make keyboard event on this. Use this to surpress:</p>
+</code></pre></div><p>In the same time you set a <code>tabIndex</code> attribute. That&rsquo;s actually an indicator that you can make keyboard event on this. Use this to surpress:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">onKeyPress</span><span style="color:#f92672">=</span>{<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">handleKeyDown</span>}
      <span style="color:#a6e22e">tabIndex</span><span style="color:#f92672">=</span>{<span style="color:#ae81ff">0</span>}
      <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span>{{<span style="color:#a6e22e">outline</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;none&#39;</span>}}&gt;
@@ -127,7 +127,7 @@ if (!doNotTrack) {
 <h1 id="reason">Reason</h1>
 <p><a href="https://stackoverflow.com/questions/32255075/react-not-responding-to-key-down-event">StackOverflow - React not responding to key down event</a></p>
 <blockquote>
-<p>it's the only way elements beside links and form elements can receive keyboard focus and thus key presses. It's set to zero so that it doesn't override the native tab order.</p>
+<p>it&rsquo;s the only way elements beside links and form elements can receive keyboard focus and thus key presses. It&rsquo;s set to zero so that it doesn&rsquo;t override the native tab order.</p>
 </blockquote>
 <h1 id="more-interesting">More interesting</h1>
 <p>If you use <code>onKeyPress</code> listener, you will miss the <code>Esc</code> key press event.</p>

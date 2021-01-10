@@ -10,7 +10,7 @@
 
 
 <meta property="og:description" content="模版引擎 N-blog使用的模版引擎是ejs。我想想我还是改成这个吧。不然后面可能差距越来越大。
-Sublime&#39;s tips: CMD&#43;p:定位，输入@定位文件内标签 CMD&#43;R ＝ CMD&#43;p,@
+Sublime&rsquo;s tips: CMD&#43;p:定位，输入@定位文件内标签 CMD&#43;R ＝ CMD&#43;p,@
 index.ejs &lt;!DOCTYPE html&gt; &lt;html&gt; &lt;head&gt; &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt; &lt;link rel=&#39;stylesheet&#39; href=&#39;/stylesheets/style.css&#39; /&gt; &lt;/head&gt; &lt;body&gt; &lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt; &lt;p&gt;Welcome to &lt;%= title %&gt;&lt;/p&gt; &lt;/body&gt; &lt;/html&gt; app.js 指定了所使用的render
 // view engine setup app.set(&#39;views&#39;, path.join(__dirname, &#39;views&#39;)); app.set(&#39;view engine&#39;, &#39;ejs&#39;); index.js 调用render()来渲染模版，同时传参
  第一个是模板的名称，即 views 目录下的模板文件名，扩展名 .ejs 可选。第二个参数是传递给模板的数据对象，用于模板翻译。
@@ -31,7 +31,7 @@ index.ejs &lt;!DOCTYPE html&gt; &lt;html&gt; &lt;head&gt; &lt;title&gt;&lt;%= ti
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -86,7 +86,7 @@ if (!doNotTrack) {
   </p>
   <div class="lh-copy post-content"><h1 id="模版引擎">模版引擎</h1>
 <p><em><a href="https://github.com/nswbmw/N-blog/">N-blog</a>使用的模版引擎是ejs。我想想我还是改成这个吧。不然后面可能差距越来越大。</em></p>
-<p><em>Sublime's tips: <code>CMD+p</code>:定位，输入<code>@</code>定位文件内标签 <code>CMD+R</code> ＝ <code>CMD+p</code>,<code>@</code></em></p>
+<p><em>Sublime&rsquo;s tips: <code>CMD+p</code>:定位，输入<code>@</code>定位文件内标签 <code>CMD+R</code> ＝ <code>CMD+p</code>,<code>@</code></em></p>
 <h2 id="indexejs">index.ejs</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
 &lt;<span style="color:#f92672">html</span>&gt;
@@ -130,7 +130,7 @@ if (!doNotTrack) {
 <pre><code>supplies: ['mop', 'broom', 'duster']
 </code></pre><h3 id="the-template">The Template</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">ul</span>&gt;
-<span style="color:#960050;background-color:#1e0010">&lt;</span>% for(var i=0; i&lt;<span style="color:#f92672">supplies.length</span><span style="color:#960050;background-color:#1e0010">;</span> <span style="color:#a6e22e">i</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#960050;background-color:#1e0010">+</span><span style="color:#960050;background-color:#1e0010">)</span> <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#960050;background-color:#1e0010">%</span>&gt;
+<span style="color:#960050;background-color:#1e0010">&lt;</span>% for(var i=0; i&lt;<span style="color:#f92672">supplies.length</span><span style="color:#960050;background-color:#1e0010">;</span> <span style="color:#a6e22e">i</span><span style="color:#960050;background-color:#1e0010">++)</span> <span style="color:#960050;background-color:#1e0010">{%</span>&gt;
    &lt;<span style="color:#f92672">li</span>&gt;<span style="color:#960050;background-color:#1e0010">&lt;</span>%= supplies[i] %&gt;&lt;/<span style="color:#f92672">li</span>&gt;
 <span style="color:#960050;background-color:#1e0010">&lt;</span>% } %&gt;
 &lt;/<span style="color:#f92672">ul</span>&gt;
@@ -156,7 +156,7 @@ hello,world!
 this is b.ejs
 </code></pre><h1 id="静态文件挂载">静态文件挂载</h1>
 <blockquote>
-<p>app.use(express.static(path.join(__dirname, &lsquo;public&rsquo;))) 设置了静态文件目录为 public 文件夹，所以 index.ejs 中的 href=&rsquo;/stylesheets/style.css&rsquo; 就相当于 href=&rsquo;/public/stylesheets/style.css&rsquo;
+<p>app.use(express.static(path.join(__dirname, &lsquo;public&rsquo;))) 设置了静态文件目录为 public 文件夹，所以 index.ejs 中的 href='/stylesheets/style.css' 就相当于 href='/public/stylesheets/style.css'
 Express 相对于静态目录查找文件，因此静态目录的名称不是此 URL 的一部分。</p>
 </blockquote>
 <p>在这里浏览器请求为 <code>Request URL:http://node:3000/stylesheets/style.css</code> 但是实际上请求了<code>/public/stylesheets/style.css</code></p>
@@ -199,7 +199,7 @@ Express 相对于静态目录查找文件，因此静态目录的名称不是此
 <span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#a6e22e">express</span>.<span style="color:#66d9ef">static</span>(<span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">join</span>(<span style="color:#a6e22e">__dirname</span>, <span style="color:#e6db74">&#39;public&#39;</span>)));
 <span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">use</span>(<span style="color:#e6db74">&#39;/users&#39;</span>, <span style="color:#a6e22e">users</span>);
 </code></pre></div><p>就会首先访问function啦！！</p>
-<p><em>vi's tips: vi 中的上下换行命令为<code>ddp</code>，其实是<code>dd</code>和<code>p</code>指令的组合。<code>dd</code>是剪切本行。<code>p</code>是在当前位置之后粘贴（在本行之后）。如果是<code>P</code>（大写）的话，是在当前位置之前</em></p>
+<p><em>vi&rsquo;s tips: vi 中的上下换行命令为<code>ddp</code>，其实是<code>dd</code>和<code>p</code>指令的组合。<code>dd</code>是剪切本行。<code>p</code>是在当前位置之后粘贴（在本行之后）。如果是<code>P</code>（大写）的话，是在当前位置之前</em></p>
 <h2 id="appuse其他参数的探索">app.use其他参数的探索</h2>
 <h3 id="使用-__dirname--public的目的">使用 <code>__dirname + '/public'</code>的目的：</h3>
 <blockquote>
@@ -211,7 +211,7 @@ Express 相对于静态目录查找文件，因此静态目录的名称不是此
 </blockquote>
 <h3 id="创建虚拟路径前缀">创建虚拟路径前缀</h3>
 <p>路径并不实际存在于文件系统中。
-app.use('/static&rsquo;, express.static(&lsquo;public&rsquo;));</p>
+app.use('/static', express.static(&lsquo;public&rsquo;));</p>
 <p>此时访问为：</p>
 <pre><code>http://localhost:3000/static/images/kitten.jpg
 http://localhost:3000/static/css/style.css

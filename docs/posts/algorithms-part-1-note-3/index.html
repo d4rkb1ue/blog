@@ -31,7 +31,7 @@ Powerful like &ldquo;Swiss Knife&rdquo; but lack of efficiency.
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -124,29 +124,29 @@ if (!doNotTrack) {
 <p><img src="/images/algorithem_coursera/stack-ex-two-stack-algroithms.png" alt="stack-ex-two-stack-algroithms"></p>
 <h3 id="implement">Implement</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Evaluate</span><span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[</span><span style="color:#f92672">]</span> args<span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-        Stack<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> ops <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-        Stack<span style="color:#f92672">&lt;</span>Double<span style="color:#f92672">&gt;</span> vals <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">&lt;</span>Double<span style="color:#f92672">&gt;</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#f92672">!</span>StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-            String s <span style="color:#f92672">=</span> StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">readString</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;(&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">)</span><span style="color:#f92672">{</span><span style="color:#f92672">}</span> <span style="color:#75715e">// ignore
-</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;+&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">|</span><span style="color:#f92672">|</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;*&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">)</span><span style="color:#f92672">{</span> <span style="color:#75715e">// push operator
-</span><span style="color:#75715e"></span>                ops<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>s<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+        Stack<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> ops <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;();</span>
+        Stack<span style="color:#f92672">&lt;</span>Double<span style="color:#f92672">&gt;</span> vals <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">&lt;</span>Double<span style="color:#f92672">&gt;();</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(!</span>StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">()){</span>
+            String s <span style="color:#f92672">=</span> StdIn<span style="color:#f92672">.</span><span style="color:#a6e22e">readString</span><span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;(&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">){}</span> <span style="color:#75715e">// ignore
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;+&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">||</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;*&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">){</span> <span style="color:#75715e">// push operator
+</span><span style="color:#75715e"></span>                ops<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
             <span style="color:#f92672">}</span>
-            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;)&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-                String op <span style="color:#f92672">=</span> ops<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> op<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;+&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-                    vals<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">+</span> vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;)&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">){</span>
+                String op <span style="color:#f92672">=</span> ops<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">();</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> op<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;+&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">){</span>
+                    vals<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">());</span>
                 <span style="color:#f92672">}</span>
-                <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> op<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;*&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-                    vals<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">*</span> vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span> op<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;*&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">){</span>
+                    vals<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">()</span> <span style="color:#f92672">*</span> vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">());</span>
                 <span style="color:#f92672">}</span>
             <span style="color:#f92672">}</span>
             <span style="color:#66d9ef">else</span><span style="color:#f92672">{</span> <span style="color:#75715e">// number
-</span><span style="color:#75715e"></span>                vals<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>Double<span style="color:#f92672">.</span><span style="color:#a6e22e">parseDouble</span><span style="color:#f92672">(</span>s<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</span><span style="color:#75715e"></span>                vals<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>Double<span style="color:#f92672">.</span><span style="color:#a6e22e">parseDouble</span><span style="color:#f92672">(</span>s<span style="color:#f92672">));</span>
             <span style="color:#f92672">}</span>
         <span style="color:#f92672">}</span>
-        StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+        StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>vals<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">());</span>
     <span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><h3 id="further-observations">Further observations</h3>
@@ -169,10 +169,10 @@ if (!doNotTrack) {
 </ul>
 <h2 id="interface">Interface</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StackOfStrings</span><span style="color:#f92672">{</span>
-    StackOfStrings<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>String item<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-    String <span style="color:#a6e22e">pop</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    StackOfStrings<span style="color:#f92672">();</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>String item<span style="color:#f92672">);</span>
+    String <span style="color:#a6e22e">pop</span><span style="color:#f92672">();</span>
+    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">();</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="implement-by-linked-list">Implement by Linked list</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StackOfStrings</span><span style="color:#f92672">{</span>
@@ -184,43 +184,43 @@ if (!doNotTrack) {
     
     <span style="color:#75715e">//public StackOfStrings()
 </span><span style="color:#75715e"></span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span> <span style="color:#f92672">(</span>String item<span style="color:#f92672">)</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span> <span style="color:#f92672">(</span>String item<span style="color:#f92672">){</span>
         Node oldFirst <span style="color:#f92672">=</span> first<span style="color:#f92672">;</span>
-        first <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+        first <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">();</span>
         first<span style="color:#f92672">.</span><span style="color:#a6e22e">item</span> <span style="color:#f92672">=</span> item<span style="color:#f92672">;</span>
         first<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> oldFirst<span style="color:#f92672">;</span>
     <span style="color:#f92672">}</span>
 
-    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">pop</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">pop</span><span style="color:#f92672">(){</span>
         String ret <span style="color:#f92672">=</span> first<span style="color:#f92672">.</span><span style="color:#a6e22e">item</span><span style="color:#f92672">;</span>
         first <span style="color:#f92672">=</span> first<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">;</span>
         <span style="color:#66d9ef">return</span> ret<span style="color:#f92672">;</span>
     <span style="color:#f92672">}</span>
     
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> first <span style="color:#f92672">=</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">return</span> first <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
     <span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="implement-by-array">Implement by Array</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StackOfStrings</span><span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">private</span> String<span style="color:#f92672">[</span><span style="color:#f92672">]</span> s<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> String<span style="color:#f92672">[]</span> s<span style="color:#f92672">;</span>
     <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> <span style="color:#75715e">// ahead of exist data
 </span><span style="color:#75715e"></span>    
     <span style="color:#75715e">// cap: capacity
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">StackOfStrings</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> cap<span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-        s <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">[</span>cap<span style="color:#f92672">]</span><span style="color:#f92672">;</span><span style="color:#f92672">}</span>
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">StackOfStrings</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> cap<span style="color:#f92672">){</span>
+        s <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String<span style="color:#f92672">[</span>cap<span style="color:#f92672">];}</span>
     
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> N <span style="color:#f92672">=</span><span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span><span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">return</span> N <span style="color:#f92672">==</span> 0<span style="color:#f92672">;}</span>
 
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>String item<span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-        s<span style="color:#f92672">[</span>N<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> item<span style="color:#f92672">;</span><span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>String item<span style="color:#f92672">){</span>
+        s<span style="color:#f92672">[</span>N<span style="color:#f92672">++]</span> <span style="color:#f92672">=</span> item<span style="color:#f92672">;}</span>
 
-    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">pop</span> <span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-        String ret <span style="color:#f92672">=</span> s<span style="color:#f92672">[</span><span style="color:#f92672">-</span><span style="color:#f92672">-</span>N<span style="color:#f92672">]</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">pop</span> <span style="color:#f92672">(){</span>
+        String ret <span style="color:#f92672">=</span> s<span style="color:#f92672">[--</span>N<span style="color:#f92672">];</span>
         <span style="color:#75715e">// for java avoid &#39;loitering&#39;
 </span><span style="color:#75715e"></span>        S<span style="color:#f92672">[</span>N<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span> <span style="color:#75715e">// remove the reference of the poped one
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> ret<span style="color:#f92672">;</span><span style="color:#f92672">}</span>
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> ret<span style="color:#f92672">;}</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><p><em>Defect: determine the maximum capacity ahead of time</em></p>
 <h2 id="implement-by-resizing-array">Implement by Resizing Array</h2>
@@ -253,7 +253,7 @@ if (!doNotTrack) {
 <p>So, in this case, the array is always <strong>between 25% and 100%</strong> full. This can achieve a more efficient performance in average, but may cause some interupt all of the sudden.</p>
 </li>
 </ul>
-<p>Here's an example:</p>
+<p>Here&rsquo;s an example:</p>
 <p><img src="/images/algorithem_coursera/resize-array-shirk-strategy.png" alt="resize-array-shirk-strategy"></p>
 <h2 id="comparison">Comparison</h2>
 <h3 id="memeory-usage">Memeory usage</h3>
@@ -276,10 +276,10 @@ if (!doNotTrack) {
 </ul>
 <h2 id="interface-1">Interface</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QueueOfStrings</span><span style="color:#f92672">{</span>
-    QueueOfStrings<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">enqueue</span><span style="color:#f92672">(</span>String item<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-    String <span style="color:#a6e22e">dequeue</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+    QueueOfStrings<span style="color:#f92672">();</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">enqueue</span><span style="color:#f92672">(</span>String item<span style="color:#f92672">);</span>
+    String <span style="color:#a6e22e">dequeue</span><span style="color:#f92672">();</span>
+    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">();</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="implement-by-linked-list-1">Implement by Linked list</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QueueOfStrings</span><span style="color:#f92672">{</span>
@@ -289,100 +289,100 @@ if (!doNotTrack) {
     <span style="color:#f92672">}</span>
     <span style="color:#66d9ef">private</span> Node first<span style="color:#f92672">,</span> last<span style="color:#f92672">;</span>
 
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">enqueue</span><span style="color:#f92672">(</span>String item<span style="color:#f92672">)</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">enqueue</span><span style="color:#f92672">(</span>String item<span style="color:#f92672">){</span>
         Node oldlast <span style="color:#f92672">=</span> last<span style="color:#f92672">;</span>
-        last <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+        last <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node<span style="color:#f92672">();</span>
         last<span style="color:#f92672">.</span><span style="color:#a6e22e">item</span> <span style="color:#f92672">=</span> item<span style="color:#f92672">;</span>
         last<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isEmpty<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>isEmpty<span style="color:#f92672">()){</span>
             first <span style="color:#f92672">=</span> last<span style="color:#f92672">;</span>
         <span style="color:#f92672">}</span>
         <span style="color:#66d9ef">else</span><span style="color:#f92672">{</span>
             oldlast<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">=</span> last<span style="color:#f92672">;</span>    
         <span style="color:#f92672">}</span>
     <span style="color:#f92672">}</span>
-    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">dequeue</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">dequeue</span><span style="color:#f92672">(){</span>
         String ret <span style="color:#f92672">=</span> first<span style="color:#f92672">.</span><span style="color:#a6e22e">item</span><span style="color:#f92672">;</span>
         first <span style="color:#f92672">=</span> first<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>isEmpty<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>isEmpty<span style="color:#f92672">()){</span>
             last <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
         <span style="color:#f92672">}</span>
         <span style="color:#66d9ef">return</span> ret<span style="color:#f92672">;</span>
     <span style="color:#f92672">}</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> first <span style="color:#f92672">=</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">return</span> first <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
     <span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><h1 id="generics">Generics</h1>
 <p>Usage</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Stack<span style="color:#f92672">&lt;</span>Apple<span style="color:#f92672">&gt;</span> s <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">&lt;</span>Apple<span style="color:#f92672">&gt;</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-Apple a <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Apple<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-s<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>a<span style="color:#f92672">)</span><span style="color:#f92672">;</span> <span style="color:#75715e">// OK
-</span><span style="color:#75715e"></span>Orange b <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Orange<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-s<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>b<span style="color:#f92672">)</span><span style="color:#f92672">;</span> <span style="color:#75715e">// Error
-</span><span style="color:#75715e"></span>a <span style="color:#f92672">=</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Stack<span style="color:#f92672">&lt;</span>Apple<span style="color:#f92672">&gt;</span> s <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">&lt;</span>Apple<span style="color:#f92672">&gt;();</span>
+Apple a <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Apple<span style="color:#f92672">();</span>
+s<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>a<span style="color:#f92672">);</span> <span style="color:#75715e">// OK
+</span><span style="color:#75715e"></span>Orange b <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Orange<span style="color:#f92672">();</span>
+s<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>b<span style="color:#f92672">);</span> <span style="color:#75715e">// Error
+</span><span style="color:#75715e"></span>a <span style="color:#f92672">=</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">();</span>
 </code></pre></div><p>Implement</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FixedCapacityStack</span><span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;</span><span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">private</span> Item<span style="color:#f92672">[</span><span style="color:#f92672">]</span> s<span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FixedCapacityStack</span><span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;{</span>
+    <span style="color:#66d9ef">private</span> Item<span style="color:#f92672">[]</span> s<span style="color:#f92672">;</span>
     <span style="color:#75715e">// N is 1 ahead of the current item
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">FixedCapacityStack</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> cap<span style="color:#f92672">)</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">FixedCapacityStack</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> cap<span style="color:#f92672">){</span>
         <span style="color:#75715e">// Ugly cast, but 
 </span><span style="color:#75715e"></span>        <span style="color:#75715e">// s = new Item[cap]; 
 </span><span style="color:#75715e"></span>        <span style="color:#75715e">// is not allowed in the Java
-</span><span style="color:#75715e"></span>        s <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Item<span style="color:#f92672">[</span><span style="color:#f92672">]</span><span style="color:#f92672">)</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[</span>cap<span style="color:#f92672">]</span><span style="color:#f92672">;</span>
+</span><span style="color:#75715e"></span>        s <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Item<span style="color:#f92672">[])</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[</span>cap<span style="color:#f92672">];</span>
     <span style="color:#f92672">}</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> N <span style="color:#f92672">=</span><span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">return</span> N <span style="color:#f92672">==</span> 0<span style="color:#f92672">;</span>
     <span style="color:#f92672">}</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>Item item<span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-        s<span style="color:#f92672">[</span>N<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> item<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>Item item<span style="color:#f92672">){</span>
+        s<span style="color:#f92672">[</span>N<span style="color:#f92672">++]</span> <span style="color:#f92672">=</span> item<span style="color:#f92672">;</span>
     <span style="color:#f92672">}</span>
-    <span style="color:#66d9ef">public</span> Item <span style="color:#a6e22e">pop</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> s<span style="color:#f92672">[</span><span style="color:#f92672">-</span><span style="color:#f92672">-</span>N<span style="color:#f92672">]</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">public</span> Item <span style="color:#a6e22e">pop</span><span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">return</span> s<span style="color:#f92672">[--</span>N<span style="color:#f92672">];</span>
     <span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="autoboxing">Autoboxing</h2>
 <p>for the primative types, like <code>int</code>, <code>double</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Stack<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> s <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-s<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>17<span style="color:#f92672">)</span><span style="color:#f92672">;</span> <span style="color:#75715e">// = s.push(Integer.valueOf(17));
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span> <span style="color:#75715e">// = s.pop().intValue();
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Stack<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> s <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;();</span>
+s<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>17<span style="color:#f92672">);</span> <span style="color:#75715e">// = s.push(Integer.valueOf(17));
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> s<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">();</span> <span style="color:#75715e">// = s.pop().intValue();
 </span></code></pre></div><h1 id="iteration">Iteration</h1>
 <p>Keep the internal representation <strong>black</strong> by implement the <code>java.lang.Iterable</code> interface.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Iterable</span><span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;</span><span style="color:#f92672">{</span>
-    Iterator<span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">iterator</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Iterable</span><span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;{</span>
+    Iterator<span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">iterator</span><span style="color:#f92672">();</span>
 <span style="color:#f92672">}</span>
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Iterator</span><span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;</span><span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">hasNext</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-    Item <span style="color:#a6e22e">next</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span> <span style="color:#75715e">// optional
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Iterator</span><span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;{</span>
+    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">hasNext</span><span style="color:#f92672">();</span>
+    Item <span style="color:#a6e22e">next</span><span style="color:#f92672">();</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">remove</span><span style="color:#f92672">();</span> <span style="color:#75715e">// optional
 </span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
 </code></pre></div><p>So, the data structure can be used like:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>String s <span style="color:#f92672">:</span> stack<span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-    StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>s<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>String s <span style="color:#f92672">:</span> stack<span style="color:#f92672">){</span>
+    StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
 <span style="color:#f92672">}</span>
 <span style="color:#75715e">// or
-</span><span style="color:#75715e"></span>Iterator<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> i <span style="color:#f92672">=</span> stack<span style="color:#f92672">.</span><span style="color:#a6e22e">iterator</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-<span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>i<span style="color:#f92672">.</span><span style="color:#a6e22e">hasNext</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-    String s <span style="color:#f92672">=</span> i<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-    StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>s<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</span><span style="color:#75715e"></span>Iterator<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> i <span style="color:#f92672">=</span> stack<span style="color:#f92672">.</span><span style="color:#a6e22e">iterator</span><span style="color:#f92672">();</span>
+<span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>i<span style="color:#f92672">.</span><span style="color:#a6e22e">hasNext</span><span style="color:#f92672">()){</span>
+    String s <span style="color:#f92672">=</span> i<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">();</span>
+    StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="implementation-1">Implementation</h2>
 <p>Stack iterator: linked-list implementation</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.until.Iterator<span style="color:#f92672">;</span>
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Stack</span><span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">implements</span> Iterable<span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;</span><span style="color:#f92672">{</span>
-    <span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span>
-    <span style="color:#66d9ef">public</span> Iterator<span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">iterator</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ListIterator<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Stack</span><span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">implements</span> Iterable<span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;{</span>
+    <span style="color:#f92672">...</span>
+    <span style="color:#66d9ef">public</span> Iterator<span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">iterator</span><span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ListIterator<span style="color:#f92672">();</span>
     <span style="color:#f92672">}</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ListIterator</span> <span style="color:#66d9ef">implements</span> Iterator<span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ListIterator</span> <span style="color:#66d9ef">implements</span> Iterator<span style="color:#f92672">&lt;</span>Item<span style="color:#f92672">&gt;{</span>
         <span style="color:#75715e">// current is the next, which has not been poped
 </span><span style="color:#75715e"></span>        <span style="color:#66d9ef">private</span> Node current <span style="color:#f92672">=</span> first<span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">hasNext</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">return</span> current <span style="color:#f92672">!</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">hasNext</span><span style="color:#f92672">(){</span>
+            <span style="color:#66d9ef">return</span> current <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
         <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">remove</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span> <span style="color:#75715e">/* not supported */</span> <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">public</span> Item <span style="color:#a6e22e">next</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">remove</span><span style="color:#f92672">(){</span> <span style="color:#75715e">/* not supported */</span> <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">public</span> Item <span style="color:#a6e22e">next</span><span style="color:#f92672">(){</span>
             Item ret <span style="color:#f92672">=</span> current<span style="color:#f92672">.</span><span style="color:#a6e22e">item</span><span style="color:#f92672">;</span>
             current <span style="color:#f92672">=</span> current<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">;</span>
             <span style="color:#66d9ef">return</span> ret<span style="color:#f92672">;</span>

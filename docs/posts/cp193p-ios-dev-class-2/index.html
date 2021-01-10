@@ -28,7 +28,7 @@ new_some_value = displayValue aka, the displayValue is being GET, the function g
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -161,7 +161,7 @@ Show class’s interface:</p>
     <span style="color:#66d9ef">case</span> east
     <span style="color:#66d9ef">case</span> west
 }
-<span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">i</span><span style="color:#75715e">n</span><span style="color:#75715e"> </span><span style="color:#75715e">a</span><span style="color:#75715e"> </span><span style="color:#75715e">l</span><span style="color:#75715e">i</span><span style="color:#75715e">n</span><span style="color:#75715e">e</span>
+<span style="color:#75715e">// in a line</span>
 <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Planet</span> {
     <span style="color:#66d9ef">case</span> mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
 }
@@ -174,15 +174,15 @@ directionToHead = .east
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">directionToHead = .south
 <span style="color:#66d9ef">switch</span> directionToHead {
 <span style="color:#66d9ef">case</span> .north:
-    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Lots of planets have a north</span><span style="color:#e6db74">&#34;</span>)
+    print(<span style="color:#e6db74">&#34;Lots of planets have a north&#34;</span>)
 <span style="color:#66d9ef">case</span> .south:
-    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Watch out for penguins</span><span style="color:#e6db74">&#34;</span>)
+    print(<span style="color:#e6db74">&#34;Watch out for penguins&#34;</span>)
 <span style="color:#66d9ef">case</span> .east:
-    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Where the sun rises</span><span style="color:#e6db74">&#34;</span>)
+    print(<span style="color:#e6db74">&#34;Where the sun rises&#34;</span>)
 <span style="color:#66d9ef">case</span> .west:
-    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Where the skies are blue</span><span style="color:#e6db74">&#34;</span>)
-<span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">s</span><span style="color:#75715e">i</span><span style="color:#75715e">n</span><span style="color:#75715e">c</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">w</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">c</span><span style="color:#75715e">o</span><span style="color:#75715e">v</span><span style="color:#75715e">e</span><span style="color:#75715e">r</span><span style="color:#75715e"> </span><span style="color:#75715e">a</span><span style="color:#75715e">l</span><span style="color:#75715e">l</span><span style="color:#75715e"> </span><span style="color:#75715e">t</span><span style="color:#75715e">h</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">c</span><span style="color:#75715e">a</span><span style="color:#75715e">s</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">d</span><span style="color:#75715e">e</span><span style="color:#75715e">f</span><span style="color:#75715e">i</span><span style="color:#75715e">n</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">i</span><span style="color:#75715e">n</span><span style="color:#75715e"> </span><span style="color:#75715e">t</span><span style="color:#75715e">h</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">e</span><span style="color:#75715e">n</span><span style="color:#75715e">u</span><span style="color:#75715e">m</span><span style="color:#75715e">,</span><span style="color:#75715e"> </span><span style="color:#75715e">w</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">d</span><span style="color:#75715e">o</span><span style="color:#75715e"> </span><span style="color:#75715e">n</span><span style="color:#75715e">o</span><span style="color:#75715e">t</span><span style="color:#75715e"> </span><span style="color:#75715e">n</span><span style="color:#75715e">e</span><span style="color:#75715e">e</span><span style="color:#75715e">d</span>
-<span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">d</span><span style="color:#75715e">e</span><span style="color:#75715e">f</span><span style="color:#75715e">a</span><span style="color:#75715e">u</span><span style="color:#75715e">l</span><span style="color:#75715e">t</span><span style="color:#75715e">:</span><span style="color:#75715e"> </span><span style="color:#75715e">.</span><span style="color:#75715e">.</span><span style="color:#75715e">.</span>
+    print(<span style="color:#e6db74">&#34;Where the skies are blue&#34;</span>)
+<span style="color:#75715e">// since we cover all the case define in the enum, we do not need</span>
+<span style="color:#75715e">// default: ...</span>
 }
 </code></pre></div><p>since we cover all the case define in the enum, we do not need a <code>default: …</code>; but this do not mean we <strong>must</strong> be exhaustive, omit some cases and provide a <code>default</code> is acceptable.</p>
 <h2 id="associated-values">Associated Values</h2>
@@ -196,14 +196,14 @@ directionToHead = .east
 </code></pre></div><p>define the enum type, must have an associated value.</p>
 <p>usage:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">var</span> productBarcode = Barcode.upc(<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">85909</span>, <span style="color:#ae81ff">51226</span>, <span style="color:#ae81ff">3</span>)
-<span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">o</span><span style="color:#75715e">n</span><span style="color:#75715e">c</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">t</span><span style="color:#75715e">h</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">t</span><span style="color:#75715e">y</span><span style="color:#75715e">p</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">i</span><span style="color:#75715e">s</span><span style="color:#75715e"> </span><span style="color:#75715e">s</span><span style="color:#75715e">e</span><span style="color:#75715e">t</span><span style="color:#75715e">t</span><span style="color:#75715e">l</span><span style="color:#75715e">e</span><span style="color:#75715e">d</span><span style="color:#75715e">,</span><span style="color:#75715e"> </span><span style="color:#75715e">t</span><span style="color:#75715e">h</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">e</span><span style="color:#75715e">n</span><span style="color:#75715e">u</span><span style="color:#75715e">m</span><span style="color:#75715e"> </span><span style="color:#75715e">n</span><span style="color:#75715e">a</span><span style="color:#75715e">m</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">c</span><span style="color:#75715e">a</span><span style="color:#75715e">n</span><span style="color:#75715e"> </span><span style="color:#75715e">b</span><span style="color:#75715e">e</span><span style="color:#75715e"> </span><span style="color:#75715e">i</span><span style="color:#75715e">g</span><span style="color:#75715e">n</span><span style="color:#75715e">o</span><span style="color:#75715e">r</span><span style="color:#75715e">e</span><span style="color:#75715e">d</span>
-productBarcode = .qrCode(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ABCDEFGHIJKLMNOP</span><span style="color:#e6db74">&#34;</span>)
+<span style="color:#75715e">// once the type is settled, the enum name can be ignored</span>
+productBarcode = .qrCode(<span style="color:#e6db74">&#34;ABCDEFGHIJKLMNOP&#34;</span>)
 </code></pre></div><p>use with <code>switch</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">switch</span> productBarcode {
 <span style="color:#66d9ef">case</span> .upc(<span style="color:#66d9ef">let</span> numberSystem, <span style="color:#66d9ef">let</span> manufacturer, <span style="color:#66d9ef">let</span> product, <span style="color:#66d9ef">let</span> check):
-    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">UPC: </span><span style="color:#e6db74">\(</span>numberSystem<span style="color:#e6db74">)</span><span style="color:#e6db74">, </span><span style="color:#e6db74">\(</span>manufacturer<span style="color:#e6db74">)</span><span style="color:#e6db74">, </span><span style="color:#e6db74">\(</span>product<span style="color:#e6db74">)</span><span style="color:#e6db74">, </span><span style="color:#e6db74">\(</span>check<span style="color:#e6db74">)</span><span style="color:#e6db74">.</span><span style="color:#e6db74">&#34;</span>)
+    print(<span style="color:#e6db74">&#34;UPC: </span><span style="color:#e6db74">\(</span>numberSystem<span style="color:#e6db74">)</span><span style="color:#e6db74">, </span><span style="color:#e6db74">\(</span>manufacturer<span style="color:#e6db74">)</span><span style="color:#e6db74">, </span><span style="color:#e6db74">\(</span>product<span style="color:#e6db74">)</span><span style="color:#e6db74">, </span><span style="color:#e6db74">\(</span>check<span style="color:#e6db74">)</span><span style="color:#e6db74">.&#34;</span>)
 <span style="color:#66d9ef">case</span> .qrCode(<span style="color:#66d9ef">let</span> productCode):
-    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">QR code: </span><span style="color:#e6db74">\(</span>productCode<span style="color:#e6db74">)</span><span style="color:#e6db74">.</span><span style="color:#e6db74">&#34;</span>)
+    print(<span style="color:#e6db74">&#34;QR code: </span><span style="color:#e6db74">\(</span>productCode<span style="color:#e6db74">)</span><span style="color:#e6db74">.&#34;</span>)
 }
 </code></pre></div><p>all the associated values can be <code>let</code> to get the value. it can be write like this: <code>case let .upc(numberSystem, manufacturer, product, check):</code>  (= <code>case .upc(let numberSystem, let manufacturer, let product, let check)</code>)</p>
 <p>Actually, <code>optional</code>, aka, <code>TYPE ?</code>is an enum.</p>
@@ -219,10 +219,10 @@ productBarcode = .qrCode(<span style="color:#e6db74">&#34;</span><span style="co
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">passAFunction</span>((Double, Double) <span style="color:#960050;background-color:#1e0010">—</span><span style="color:#f92672">&gt;</span> Double) {
         ...
 }
-<span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">c</span><span style="color:#75715e">a</span><span style="color:#75715e">l</span><span style="color:#75715e">l</span><span style="color:#75715e"> </span><span style="color:#75715e">i</span><span style="color:#75715e">t</span>
+<span style="color:#75715e">// call it</span>
 passAFunction(multiply)
 </code></pre></div><p>function  <code>multiply</code> is not decent, it can be turned like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">n</span><span style="color:#75715e">e</span><span style="color:#75715e">e</span><span style="color:#75715e">d</span><span style="color:#75715e"> </span><span style="color:#75715e">a</span><span style="color:#75715e"> </span><span style="color:#75715e">&#34;</span><span style="color:#75715e">i</span><span style="color:#75715e">n</span><span style="color:#75715e">&#34;</span><span style="color:#75715e"> </span><span style="color:#75715e">b</span><span style="color:#75715e">e</span><span style="color:#75715e">t</span><span style="color:#75715e">w</span><span style="color:#75715e">e</span><span style="color:#75715e">e</span><span style="color:#75715e">n</span><span style="color:#75715e"> </span><span style="color:#75715e">d</span><span style="color:#75715e">e</span><span style="color:#75715e">c</span><span style="color:#75715e">l</span><span style="color:#75715e">a</span><span style="color:#75715e">r</span><span style="color:#75715e">a</span><span style="color:#75715e">t</span><span style="color:#75715e">i</span><span style="color:#75715e">o</span><span style="color:#75715e">n</span><span style="color:#75715e"> </span><span style="color:#75715e">a</span><span style="color:#75715e">n</span><span style="color:#75715e">d</span><span style="color:#75715e"> </span><span style="color:#75715e">s</span><span style="color:#75715e">t</span><span style="color:#75715e">a</span><span style="color:#75715e">t</span><span style="color:#75715e">e</span><span style="color:#75715e">m</span><span style="color:#75715e">e</span><span style="color:#75715e">n</span><span style="color:#75715e">t</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#75715e">// need a &#34;in&#34; between declaration and statement</span>
 passAFuction( 
     { (op1: Double, op2: Double) -&gt; Double <span style="color:#66d9ef">in</span>
     <span style="color:#66d9ef">return</span> op1 <span style="color:#f92672">*</span> op2
@@ -244,7 +244,7 @@ passAFuction(
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">passAFunction({ $0 <span style="color:#f92672">*</span> $1 } )
 </code></pre></div><p>another example:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">[...
- <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">±</span><span style="color:#e6db74">&#34;</span> : Operation.UnaryOp({ <span style="color:#f92672">-</span>$0 }),
+ <span style="color:#e6db74">&#34;±&#34;</span> : Operation.UnaryOp({ <span style="color:#f92672">-</span>$0 }),
 ...]
 </code></pre></div><h1 id="struct">Struct</h1>
 <p>Struct is very similar to Class. Diff Struct &amp; Class</p>
@@ -267,7 +267,7 @@ passAFuction(
 }
 
 <span style="color:#66d9ef">var</span> operations: Dictionary&lt;String, Operation&gt; = [
-        <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">×</span><span style="color:#e6db74">&#34;</span> : Operation.BinaryOp(multiply)
+        <span style="color:#e6db74">&#34;×&#34;</span> : Operation.BinaryOp(multiply)
     ]
 </code></pre></div><p>and it’s just wrong!</p>
 <pre><code>Cannot convert value of type '(CalculatorModel) -&gt; (Double, Double) -&gt; Double' to expected argument type '(Double, Double) -&gt; Double'

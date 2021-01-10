@@ -28,7 +28,7 @@ last -x reboot # wtmp begins Wed Apr 1 10:29:40 2020 &lt;-- this is actually not
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -99,7 +99,7 @@ sudo journalctl --list-boots
 </code></pre></div><p>Although this might be a better solution which always tells us the truth,</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">systemctl status docker.service | grep since
 <span style="color:#75715e"># Active: active (running) since Thu 2020-04-02 15:56:23 PDT; 1 weeks 3 days ago</span>
-</code></pre></div><p><em>(Assuming dockerd shouldn't be manually rebooted in a production environment. Any stable service should also do the job.)</em></p>
+</code></pre></div><p><em>(Assuming dockerd shouldn&rsquo;t be manually rebooted in a production environment. Any stable service should also do the job.)</em></p>
 <h2 id="reasons">Reasons</h2>
 <ol>
 <li>system time is inaccurate (probably no hwclock, or out of sync)</li>
@@ -113,7 +113,7 @@ sudo journalctl --list-boots
 Finding the times that the system was rebooted was a matter of using the <code>last reboot</code> and <code>last shutdown</code> commands to print out these entries.</p>
 </blockquote>
 <p>Normally the output should be,</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># shutdown system down  ... &lt;-- first the system shuts down</span>   
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># shutdown system down  ... &lt;-- first the system shuts down   </span>
 <span style="color:#75715e"># reboot   system boot  ... &lt;-- afterwards the system boots</span>
 </code></pre></div><p>Although under unexpected shutdown like hard power off,</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># reboot   system boot  ... &lt;-- then we&#39;ve a boot WITHOUT a prior shutdown</span>
@@ -138,7 +138,7 @@ Finding the times that the system was rebooted was a matter of using the <code>l
 <p>To implement the <code>list-boots</code> functionality, journalctl scans the entire journal, reading the timestamps and boot IDs of every record, and noting the earliest and latest timestamps associated with each unique boot ID.</p>
 <p><strong>Thus if parts of the journal are purged, or conversely stick around overlong, the apparent boot and shutdown times reported by journalctl will differ wildly from the actual boot and shutdown times.</strong></p>
 </blockquote>
-<p>In sum, the <code>journald</code> logs usually get purged (logrotate-ed). So it's not reliable.</p>
+<p>In sum, the <code>journald</code> logs usually get purged (logrotate-ed). So it&rsquo;s not reliable.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>Always use <code>uptime [-s]</code>.</p>
 <h2 id="refs">Refs.</h2>

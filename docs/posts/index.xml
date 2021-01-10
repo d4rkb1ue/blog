@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Tue, 01 Sep 2020 02:19:57 -0700</lastBuildDate>
-    
-	<atom:link href="https://drkbl.com/posts/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 01 Sep 2020 02:19:57 -0700</lastBuildDate><atom:link href="https://drkbl.com/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>测试替身 - Test Double</title>
       <link>https://drkbl.com/posts/test-double/</link>
@@ -59,7 +55,7 @@ def test_create_regen_name(): st = set() with concurrent.futures.ThreadPoolExecu
       <pubDate>Sun, 19 Jul 2020 03:25:38 -0700</pubDate>
       
       <guid>https://drkbl.com/posts/socket-web-server-with-multithread-in-python/</guid>
-      <description>Socket in Unix/Linux  Socket in Unix/Linux is just file descriptor, which means you can just treat it as file. Socket exists on the both ends of the communicators as the endpoints. Socket can be full duplex. Since Socket are inherently file, then it has its own buffer for both Reading and Writing. The communication process is like,  Reading data from its reading buffer and write data to its writing buffer When the writing buffer is full(or call flush), the data will be passed to the peer&#39;s reading buffer Peer will refuse to be inputed when full    Socket Server/Client in Python  Server&#39;s serversocket.</description>
+      <description>Socket in Unix/Linux  Socket in Unix/Linux is just file descriptor, which means you can just treat it as file. Socket exists on the both ends of the communicators as the endpoints. Socket can be full duplex. Since Socket are inherently file, then it has its own buffer for both Reading and Writing. The communication process is like,  Reading data from its reading buffer and write data to its writing buffer When the writing buffer is full(or call flush), the data will be passed to the peer&amp;rsquo;s reading buffer Peer will refuse to be inputed when full    Socket Server/Client in Python  Server&amp;rsquo;s serversocket.</description>
     </item>
     
     <item>
@@ -69,8 +65,8 @@ def test_create_regen_name(): st = set() with concurrent.futures.ThreadPoolExecu
       
       <guid>https://drkbl.com/posts/service-account-vs-user-account/</guid>
       <description>Firstly, we need to clarify where are we talking at,
- Linux system K8s service orchestration Directory service Services with API  In Linux System User accounts are used by real users, service accounts are used by system services such as web servers, mail transport agents, databases etc. The kernel doesn&#39;t care, besides UID 0.
- By convention, service accounts have user IDs in the low range, e.g. 100-999 or so Service accounts may own specific resources, even device special files, but they don&#39;t have superuser-like privileges Service accounts can be created like ordinary user accounts Service accounts shouldn&#39;t have a login shell, i.</description>
+ Linux system K8s service orchestration Directory service Services with API  In Linux System User accounts are used by real users, service accounts are used by system services such as web servers, mail transport agents, databases etc. The kernel doesn&amp;rsquo;t care, besides UID 0.
+ By convention, service accounts have user IDs in the low range, e.g. 100-999 or so Service accounts may own specific resources, even device special files, but they don&amp;rsquo;t have superuser-like privileges Service accounts can be created like ordinary user accounts Service accounts shouldn&amp;rsquo;t have a login shell, i.</description>
     </item>
     
     <item>
@@ -93,7 +89,7 @@ last -x reboot # wtmp begins Wed Apr 1 10:29:40 2020 &amp;lt;-- this is actually
       <guid>https://drkbl.com/posts/learn-cookie-from-chrome-80-samesite/</guid>
       <description>Learn Cookie From Chrome 80 Samesite Chrome 80 enable a new flag by default, SameSite. Although revert this change later.
  Google rolls back Chrome feature that blocks cross-site tracking.
- Concepts Let&#39;s start with some concepts.
+ Concepts Let&amp;rsquo;s start with some concepts.
  Cookie Setter Cookie Keeper Cookie Sender Cookie Reader Cookie Origin  Setter Cookie can be set by either Web Server or Front-end codes.
 When request for GET /index.html HTTP/1.1, the Web Server can send this back:</description>
     </item>
@@ -129,7 +125,7 @@ cc @ https://www.cloudflare.com/learning/dns/dns-server-types/
       
       <guid>https://drkbl.com/posts/expose-service-in-k8s/</guid>
       <description>Publishing Services We want the service in k8s cluster to be accessed from outside.
-Depending on either the Pod inside the cluster can communication with each other directly or not, there&#39;re three different approaches,
+Depending on either the Pod inside the cluster can communication with each other directly or not, there&amp;rsquo;re three different approaches,
   Global Gateway.
 No direct communication between Pods. All traffic will be routed by the gateway.
 +- k8s cluster --+ | *********** | Pod &amp;lt;---&amp;gt; * global * | Pod &amp;lt;---&amp;gt; * gateway * &amp;lt;---&amp;gt; Clients | Pod &amp;lt;---&amp;gt; * &amp;quot;entry&amp;quot; * | *********** +---------------+   Service Mesh.</description>
@@ -258,7 +254,7 @@ webpack.config.js const childProcess = require(&amp;#39;child_process&amp;#39;);
       <pubDate>Fri, 16 Jun 2017 15:25:49 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/div-not-response-to-keyboard-event-without-tabindex/</guid>
-      <description>Register onKeyDownListener on HTML Element &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;script src=&amp;#34;../build/react.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/react-dom.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/browser.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;div id=&amp;#34;app&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;script type=&amp;#34;text/babel&amp;#34;&amp;gt; class App extends React.Component { handleKeyDown(event) { console.log(&amp;#39;handling a key press&amp;#39;); } render() { return ( &amp;lt;div onKeyDown={this.handleKeyDown}&amp;gt; here! &amp;lt;/div&amp;gt; ); } } ReactDOM.render(&amp;lt;App /&amp;gt;, document.getElementById(&amp;#39;app&amp;#39;)); &amp;lt;/script&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; There are NO response here. You press any thing and there is NO response. It&#39;s doesn&#39;t matter you mouse focus on div or not.</description>
+      <description>Register onKeyDownListener on HTML Element &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;script src=&amp;#34;../build/react.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/react-dom.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/browser.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;div id=&amp;#34;app&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;script type=&amp;#34;text/babel&amp;#34;&amp;gt; class App extends React.Component { handleKeyDown(event) { console.log(&amp;#39;handling a key press&amp;#39;); } render() { return ( &amp;lt;div onKeyDown={this.handleKeyDown}&amp;gt; here! &amp;lt;/div&amp;gt; ); } } ReactDOM.render(&amp;lt;App /&amp;gt;, document.getElementById(&amp;#39;app&amp;#39;)); &amp;lt;/script&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; There are NO response here. You press any thing and there is NO response. It&amp;rsquo;s doesn&amp;rsquo;t matter you mouse focus on div or not.</description>
     </item>
     
     <item>
@@ -267,7 +263,7 @@ webpack.config.js const childProcess = require(&amp;#39;child_process&amp;#39;);
       <pubDate>Thu, 15 Jun 2017 11:50:00 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/js-array-indexof-undefined/</guid>
-      <description>var firstMissingPositive = function (nums) { let arr = [true]; nums.forEach((val) =&amp;gt; { if (val &amp;gt; 0) { arr[val] = true; } }); return [arr, arr.indexOf(undefined)]; }; Why this doesn&#39;t work?!
+      <description>var firstMissingPositive = function (nums) { let arr = [true]; nums.forEach((val) =&amp;gt; { if (val &amp;gt; 0) { arr[val] = true; } }); return [arr, arr.indexOf(undefined)]; }; Why this doesn&amp;rsquo;t work?!
 firstMissingPositive([2]) // [[true, undefined, true], -1] Why -1 !?
 but if just run [true, undefined, true].indexOf(undefined) in chrome dev tools it returns 1.
 原因 主要是 chrome 的打印问题， sparse (稀疏) 的 array 在没有定义的项目上，chrome 会打印出来 undefined 。但是这个其实是真的没有定义过的，对于 indexOf 来说，不像 console.log 会将没有定义的元素补全为 undefined ，indexOf 是看不到这个元素的。</description>
@@ -405,7 +401,7 @@ find . -print | sed -e &#39;s;[^/]*/;|____;g;s;____|; |;g&#39; by OSXDaily</desc
  React 为数据提供渲染为 HTML 的视图的开源 JavaScript 库 Babel 是一个 JavaScript 编译器，用于转化 ES2015/JSX 代码 Webpack 前端资源加载/打包工具，满足前端工程化需要 antd-react 使用 Ant Design UI 库的 React 实现  Git: d4rkb1ue/react-helloworld
 运行指南 $ git clone https://github.com/d4rkb1ue/react-helloworld.git $ cd react-helloworld $ npm i $ npm run test 已知问题 npm i 卡死 $ npm i 这步可能会卡在 extract:webpack-dev-server: sill doParallel extract 589 这里，这个问题已经被 Node Issue 了 https://github.com/npm/npm/issues/13782
 解决办法，单独安装 webpack ， webpack-dev-server ， babel-cli ， babel-loader
-$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&#39;t be accessed via IP github issue</description>
+$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&amp;rsquo;t be accessed via IP github issue</description>
     </item>
     
     <item>
@@ -414,7 +410,7 @@ $ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server np
       <pubDate>Sat, 11 Mar 2017 23:44:20 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/js-regexp/</guid>
-      <description>RegExp 语法 字符  \d: one number \w: one number, letter .: any single character \s: one space(&amp;rsquo; &amp;lsquo;), tab(&#39;\t&amp;rsquo;)  特殊字符需要转义，
+      <description>RegExp 语法 字符  \d: one number \w: one number, letter .: any single character \s: one space(&#39; &amp;lsquo;), tab(&#39;\t&amp;rsquo;)  特殊字符需要转义，
  -: \- _: \_ $: \$  例如，
 00\d // 004 \d\d\d // 223 \w\w // f2 js.// js! 限制 +: one or more *: none or more ?: none or one {n}: exactly n chars {n, m}: n &amp;lt;= number of chars &amp;lt;= m [0-9]: range A|B: or ^: 表示行的开头 $: 表示行的结束</description>
     </item>
@@ -454,7 +450,7 @@ function closure{ var arguments = [.</description>
       
       <guid>https://drkbl.com/posts/javascript-puzzles-or-jokes/</guid>
       <description>Just for fun.
- 1 - - 1 === 2 1.toString() 0.8 - 0.6 !== 0.2 [] + [] === &amp;quot;&amp;rdquo; [] !== [] [] + {} {} + [] {1} + {} parseInt(0.0000008)  1 - - 1 1 - - 1 // 2 1 - - - - - - - - 1 // 2 1 - (-1) 1 - (-(-(-(-1))))
+ 1 - - 1 === 2 1.toString() 0.8 - 0.6 !== 0.2 [] + [] === &amp;quot;&amp;quot; [] !== [] [] + {} {} + [] {1} + {} parseInt(0.0000008)  1 - - 1 1 - - 1 // 2 1 - - - - - - - - 1 // 2 1 - (-1) 1 - (-(-(-(-1))))
 1.toString() 1.toString(); // error 1..toString(); // &amp;#34;1&amp;#34; 1.</description>
     </item>
     
@@ -819,9 +815,9 @@ class Animal { constructor(name) { this.name = name; } } class Cat extends Anima
       <pubDate>Thu, 16 Jun 2016 16:47:52 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/js-inherit-summary-3/</guid>
-      <description>假设 现在有一个对象，叫做&amp;quot;中国人&amp;rdquo;。
-var Chinese = { nation:&amp;#39;中国&amp;#39; }; 还有一个对象，叫做&amp;quot;医生&amp;rdquo;。
-var Doctor ={ career:&amp;#39;医生&amp;#39; } 请问怎样才能让&amp;quot;医生&amp;quot;去继承&amp;quot;中国人&amp;rdquo;，也就是说，我怎样才能生成一个&amp;quot;中国医生&amp;quot;的对象？
+      <description>假设 现在有一个对象，叫做&amp;quot;中国人&amp;quot;。
+var Chinese = { nation:&amp;#39;中国&amp;#39; }; 还有一个对象，叫做&amp;quot;医生&amp;quot;。
+var Doctor ={ career:&amp;#39;医生&amp;#39; } 请问怎样才能让&amp;quot;医生&amp;quot;去继承&amp;quot;中国人&amp;quot;，也就是说，我怎样才能生成一个&amp;quot;中国医生&amp;quot;的对象？
 object(o) 方法: 生成“类”o的实例 function object(o) { function F() {}; F.prototype = o; return new F(); } new F()实际调用的是o.constructor但是免去了传参。其实就是把一切初始化参数都设定为undefined. 即：
 function O(a){this.a=a}; function F() {}; F.prototype = O; F.prototype.constructor === O.constructor; //true 使用 var Doctor = object(Chinese); Doctor.career = &amp;#39;医生&amp;#39;; alert(Doctor.nation); //中国 这时，子对象已经继承了父对象的属性了。
 浅拷贝: extendCopy(p) 把父对象的属性，全部拷贝给子对象，也能实现继承。
@@ -854,7 +850,7 @@ PrimaryStudent.prototype = Student.prototype; 是不行的！如果这样的话�
 function Cat(name,color){ return { name:name, color:color } } 这可以被看作是一个基本的构造函数。调用方式为：
 var cat1 = Cat(&amp;#34;大毛&amp;#34;,&amp;#34;黄色&amp;#34;); 2. 引入this 进阶一下，如果包含this的函数会自动被当作是一个构造函数，如：
 function Cat(name,color){ this.name=name; this.color=color; } 这时，调用方式被规定为
-var cat1 = new Cat(&amp;#34;大毛&amp;#34;,&amp;#34;黄色&amp;#34;); 这两个函数等效的话，那么new操作符可以被看作是：
+var cat1 = new Cat(&amp;#34;大毛&amp;#34;,&amp;#34;黄色&amp;#34;); 这两个函数等效的话，那么**new操作符可以被看作是**：
   创建一个空Obj: {} 之后把指向这个Obj的指针作为构造函数的this参数。    Cat.apply(this,...)   两种方式的差别 1. 对生成的cat1赋了一个constructor的值。 调用
 cat1.constructor 第一种方式返回：
 Object() { [native code] } 第二种方式返回：
@@ -1010,7 +1006,7 @@ HTML如下
       <description>做起文件上传，就突然想起来访问权限问题。之前在apache服务器里，/var/www里面的文件是通过linux的权限管理来决定是否可以访问。那么express是怎么样的呢？
 现在的访问权限 好像通过app.use(express.static(path.join(__dirname, &#39;public&#39;)));定义之后，直接访问 /some-url 就是在访问 public/文件夹下的文件。
 使用Multer 安装： $ npm install --save multer header.ejs 在 &amp;lt;span&amp;gt;&amp;lt;a title=&amp;quot;发表&amp;quot; href=&amp;quot;/post&amp;quot;&amp;gt;post&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt; 前添加一行代码：
-&amp;lt;span&amp;gt;&amp;lt;a title=&amp;quot;上传&amp;quot; href=&amp;quot;/upload&amp;quot;&amp;gt;upload&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt; index.js 在 app.get(&#39;/logout&amp;rsquo;) 函数后添加如下代码：
+&amp;lt;span&amp;gt;&amp;lt;a title=&amp;quot;上传&amp;quot; href=&amp;quot;/upload&amp;quot;&amp;gt;upload&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt; index.js 在 app.get(&#39;/logout&#39;) 函数后添加如下代码：
 app.get(&amp;#39;/upload&amp;#39;, checkLogin); app.get(&amp;#39;/upload&amp;#39;, function (req, res) { res.render(&amp;#39;upload&amp;#39;, { title: &amp;#39;文件上传&amp;#39;, user: req.session.user, success: req.flash(&amp;#39;success&amp;#39;).toString(), error: req.flash(&amp;#39;error&amp;#39;).toString() }); }); views/upload.ejs &amp;lt;%- include header %&amp;gt; &amp;lt;form method=&#39;post&#39; action=&#39;https://drkbl.com/upload&#39; enctype=&#39;multipart/form-data&#39; &amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;submit&amp;quot; /&amp;gt; &amp;lt;/form&amp;gt; &amp;lt;%- include footer %&amp;gt; 现在我们就可以访问文件上传页面了。 有一点和教程不同，我这5个name都是相同的，这样以备后面的设定。</description>
     </item>
     
@@ -1032,9 +1028,9 @@ app.get(&amp;#39;/upload&amp;#39;, checkLogin); app.get(&amp;#39;/upload&amp;#39
       
       <guid>https://drkbl.com/posts/admission-control-middleware-next-routes-prototype/</guid>
       <description>页面权限控制 状态检查中间件 function checkLogin(req, res, next) { if (!req.session.user) { req.flash(&amp;#39;error&amp;#39;, &amp;#39;未登录!&amp;#39;); res.redirect(&amp;#39;/login&amp;#39;); } next(); } function checkNotLogin(req, res, next) { if (req.session.user) { req.flash(&amp;#39;error&amp;#39;, &amp;#39;已登录!&amp;#39;); res.redirect(&amp;#39;back&amp;#39;);//返回之前的页面  } next(); } 通过 next() 转移控制权.
- next() with no arguments says &amp;ldquo;just kidding, I don&#39;t actual want to handle this&amp;rdquo;. It goes back in and tries to find the next route that would match.
+ next() with no arguments says &amp;ldquo;just kidding, I don&amp;rsquo;t actual want to handle this&amp;rdquo;. It goes back in and tries to find the next route that would match.
  正常情况下routes是按照顺序依次找匹配的，找到一个匹配的就进去。如果有send()就返回，没有就什么都不返回；加入next()之后，在这个app.VERB里如果运行到next()那么就会返回到routes继续向下查找。
-res.redirect(&#39;back&#39;); //返回之前的页面 这个&#39;back&#39;不错。很方便。
+res.redirect(&#39;back&#39;); //返回之前的页面 这个&amp;rsquo;back&amp;rsquo;不错。很方便。
 修改后的 index.js var crypto = require(&amp;#39;crypto&amp;#39;), User = require(&amp;#39;.</description>
     </item>
     
@@ -1085,7 +1081,7 @@ var mongodb = require(&amp;#39;./db&amp;#39;); function User(user) { this.name =
       
       <guid>https://drkbl.com/posts/node-blog-ejs-static-file/</guid>
       <description>模版引擎 N-blog使用的模版引擎是ejs。我想想我还是改成这个吧。不然后面可能差距越来越大。
-Sublime&#39;s tips: CMD+p:定位，输入@定位文件内标签 CMD+R ＝ CMD+p,@
+Sublime&amp;rsquo;s tips: CMD+p:定位，输入@定位文件内标签 CMD+R ＝ CMD+p,@
 index.ejs &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;title&amp;gt;&amp;lt;%= title %&amp;gt;&amp;lt;/title&amp;gt; &amp;lt;link rel=&amp;#39;stylesheet&amp;#39; href=&amp;#39;/stylesheets/style.css&amp;#39; /&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;h1&amp;gt;&amp;lt;%= title %&amp;gt;&amp;lt;/h1&amp;gt; &amp;lt;p&amp;gt;Welcome to &amp;lt;%= title %&amp;gt;&amp;lt;/p&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; app.js 指定了所使用的render
 // view engine setup app.set(&amp;#39;views&amp;#39;, path.join(__dirname, &amp;#39;views&amp;#39;)); app.set(&amp;#39;view engine&amp;#39;, &amp;#39;ejs&amp;#39;); index.js 调用render()来渲染模版，同时传参
  第一个是模板的名称，即 views 目录下的模板文件名，扩展名 .ejs 可选。第二个参数是传递给模板的数据对象，用于模板翻译。
@@ -1129,7 +1125,7 @@ git status 出现修改之后，需要重新add才能commit</description>
  screen.width：屏幕宽度，以像素为单位； screen.height：屏幕高度，以像素为单位； screen.colorDepth：返回颜色位数，如8、16、24。  4. location location对象表示当前页面的URL信息
   location.href : http://www.example.com:8080/path/index.html?a=1&amp;amp;b=2#TOP
   location.protocol; // &amp;lsquo;http&amp;rsquo;
-  location.host; // &amp;lsquo;www.example.com&#39;
+  location.host; // &amp;lsquo;www.example.com&amp;rsquo;
   location.port; // &amp;lsquo;8080&amp;rsquo;
   location.pathname; // &amp;lsquo;/path/index.html&amp;rsquo;
   location.search; // &amp;lsquo;?a=1&amp;amp;b=2&amp;rsquo;

@@ -12,7 +12,7 @@
 <meta property="og:description" content="做起文件上传，就突然想起来访问权限问题。之前在apache服务器里，/var/www里面的文件是通过linux的权限管理来决定是否可以访问。那么express是怎么样的呢？
 现在的访问权限 好像通过app.use(express.static(path.join(__dirname, &#39;public&#39;)));定义之后，直接访问 /some-url 就是在访问 public/文件夹下的文件。
 使用Multer 安装： $ npm install --save multer header.ejs 在 &lt;span&gt;&lt;a title=&quot;发表&quot; href=&quot;/post&quot;&gt;post&lt;/a&gt;&lt;/span&gt; 前添加一行代码：
-&lt;span&gt;&lt;a title=&quot;上传&quot; href=&quot;/upload&quot;&gt;upload&lt;/a&gt;&lt;/span&gt; index.js 在 app.get(&#39;/logout&rsquo;) 函数后添加如下代码：
+&lt;span&gt;&lt;a title=&quot;上传&quot; href=&quot;/upload&quot;&gt;upload&lt;/a&gt;&lt;/span&gt; index.js 在 app.get(&#39;/logout&#39;) 函数后添加如下代码：
 app.get(&#39;/upload&#39;, checkLogin); app.get(&#39;/upload&#39;, function (req, res) { res.render(&#39;upload&#39;, { title: &#39;文件上传&#39;, user: req.session.user, success: req.flash(&#39;success&#39;).toString(), error: req.flash(&#39;error&#39;).toString() }); }); views/upload.ejs &lt;%- include header %&gt; &lt;form method=&#39;post&#39; action=&#39;/upload&#39; enctype=&#39;multipart/form-data&#39; &gt; &lt;input type=&quot;file&quot; name=&#39;file&#39;/&gt;&lt;br&gt; &lt;input type=&quot;file&quot; name=&#39;file&#39;/&gt;&lt;br&gt; &lt;input type=&quot;file&quot; name=&#39;file&#39;/&gt;&lt;br&gt; &lt;input type=&quot;file&quot; name=&#39;file&#39;/&gt;&lt;br&gt; &lt;input type=&quot;file&quot; name=&#39;file&#39;/&gt;&lt;br&gt; &lt;input type=&quot;submit&quot; /&gt; &lt;/form&gt; &lt;%- include footer %&gt; 现在我们就可以访问文件上传页面了。 有一点和教程不同，我这5个name都是相同的，这样以备后面的设定。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://drkbl.com/posts/form-multer-static-file-access-summary/" />
@@ -29,7 +29,7 @@ app.get(&#39;/upload&#39;, checkLogin); app.get(&#39;/upload&#39;, function (req
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -92,7 +92,7 @@ if (!doNotTrack) {
 <p>在 <code>&lt;span&gt;&lt;a title=&quot;发表&quot; href=&quot;/post&quot;&gt;post&lt;/a&gt;&lt;/span&gt;</code> 前添加一行代码：</p>
 <pre><code>&lt;span&gt;&lt;a title=&quot;上传&quot; href=&quot;/upload&quot;&gt;upload&lt;/a&gt;&lt;/span&gt;
 </code></pre><h2 id="indexjs">index.js</h2>
-<p>在 app.get('/logout&rsquo;) 函数后添加如下代码：</p>
+<p>在 app.get('/logout') 函数后添加如下代码：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/upload&#39;</span>, <span style="color:#a6e22e">checkLogin</span>);
 <span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;/upload&#39;</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">res</span>) {
   <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">render</span>(<span style="color:#e6db74">&#39;upload&#39;</span>, {

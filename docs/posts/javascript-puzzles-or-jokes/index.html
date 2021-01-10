@@ -10,7 +10,7 @@
 
 
 <meta property="og:description" content="Just for fun.
- 1 - - 1 === 2 1.toString() 0.8 - 0.6 !== 0.2 [] &#43; [] === &quot;&rdquo; [] !== [] [] &#43; {} {} &#43; [] {1} &#43; {} parseInt(0.0000008)  1 - - 1 1 - - 1 // 2 1 - - - - - - - - 1 // 2 1 - (-1) 1 - (-(-(-(-1))))
+ 1 - - 1 === 2 1.toString() 0.8 - 0.6 !== 0.2 [] &#43; [] === &quot;&quot; [] !== [] [] &#43; {} {} &#43; [] {1} &#43; {} parseInt(0.0000008)  1 - - 1 1 - - 1 // 2 1 - - - - - - - - 1 // 2 1 - (-1) 1 - (-(-(-(-1))))
 1.toString() 1.toString(); // error 1..toString(); // &#34;1&#34; 1." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://drkbl.com/posts/javascript-puzzles-or-jokes/" />
@@ -27,7 +27,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -85,7 +85,7 @@ if (!doNotTrack) {
 <li>1 - - 1 === 2</li>
 <li>1.toString()</li>
 <li>0.8 - 0.6 !== 0.2</li>
-<li>[] + [] === &quot;&rdquo;</li>
+<li>[] + [] === &quot;&quot;</li>
 <li>[] !== []</li>
 <li>[] + {}</li>
 <li>{} + []</li>
@@ -100,7 +100,7 @@ if (!doNotTrack) {
 <h1 id="1tostring">1.toString()</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ae81ff">1.</span><span style="color:#a6e22e">toString</span>(); <span style="color:#75715e">// error
 </span><span style="color:#75715e"></span><span style="color:#ae81ff">1.</span>.<span style="color:#a6e22e">toString</span>(); <span style="color:#75715e">// &#34;1&#34;
-</span></code></pre></div><p><code>1.</code> must be a number. <code>1</code> will be parsed as label, and it's illegal.</p>
+</span></code></pre></div><p><code>1.</code> must be a number. <code>1</code> will be parsed as label, and it&rsquo;s illegal.</p>
 <h1 id="08---06--02">0.8 - 0.6 !== 0.2</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#ae81ff">0.2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.1</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0.1</span>; <span style="color:#75715e">// true
 </span><span style="color:#75715e"></span><span style="color:#ae81ff">0.8</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.6</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0.2</span>; <span style="color:#75715e">// false
@@ -110,14 +110,14 @@ if (!doNotTrack) {
 </span><span style="color:#75715e"></span><span style="color:#ae81ff">0.1</span>.<span style="color:#a6e22e">toString</span>(<span style="color:#ae81ff">16</span>); <span style="color:#75715e">// &#34;0.1999999999999a&#34;
 </span><span style="color:#75715e"></span>(<span style="color:#ae81ff">0.8</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.6</span>).<span style="color:#a6e22e">toString</span>(<span style="color:#ae81ff">16</span>); <span style="color:#75715e">// &#34;0.33333333333338&#34;
 </span><span style="color:#75715e"></span>(<span style="color:#ae81ff">0.2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.1</span>).<span style="color:#a6e22e">toString</span>(<span style="color:#ae81ff">16</span>); <span style="color:#75715e">// &#34;0.1999999999999a&#34;
-</span></code></pre></div><h1 id="----">[] + [] === &quot;&rdquo;</h1>
+</span></code></pre></div><h1 id="----">[] + [] === &quot;&quot;</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">[] <span style="color:#f92672">+</span> [] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;&#34;</span>; <span style="color:#75715e">// true
 </span></code></pre></div><p><code>[]</code> is an Object,  <code>+</code> will force the object become a string. So,</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">[].<span style="color:#a6e22e">toString</span>(); <span style="color:#75715e">// &#34;&#34;
 </span></code></pre></div><h1 id="--">[] !== []</h1>
 <pre><code>[] === []; // false
 </code></pre><p>first <code>[]</code> is an Object, and 2nd <code>[]</code> is another Object. They just share the same parent(prototype).</p>
-<h1 id="---1">[] +</h1>
+<h1 id="-">[] +</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">[] <span style="color:#f92672">+</span> {}; <span style="color:#75715e">// &#34;[object Object]&#34; 
 </span><span style="color:#75715e"></span>{} <span style="color:#f92672">+</span> {}; <span style="color:#75715e">// &#34;[object Object][object Object]&#34;
 </span><span style="color:#75715e"></span>{} <span style="color:#f92672">+</span> [] <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// true

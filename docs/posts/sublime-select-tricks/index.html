@@ -33,7 +33,7 @@ if (max &amp;&amp; p.compareTo(ret) &gt; 0) ret = p; 我在选择变量p的时�
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -88,7 +88,7 @@ if (!doNotTrack) {
   </p>
   <div class="lh-copy post-content"><h1 id="问题">问题</h1>
 <p>在选择的时候遇到了一些问题，如下面的代码</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>max <span style="color:#f92672">&amp;</span><span style="color:#f92672">&amp;</span> p<span style="color:#f92672">.</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>ret<span style="color:#f92672">)</span> <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> ret <span style="color:#f92672">=</span> p<span style="color:#f92672">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>max <span style="color:#f92672">&amp;&amp;</span> p<span style="color:#f92672">.</span><span style="color:#a6e22e">compareTo</span><span style="color:#f92672">(</span>ret<span style="color:#f92672">)</span> <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> ret <span style="color:#f92672">=</span> p<span style="color:#f92672">;</span>
 </code></pre></div><p>我在选择变量<code>p</code>的时候，<code>shift</code>选中<code>p</code>然后<code>Command + D</code>，后果就是同时选中了<code>compareTo</code>中的<code>p</code>。</p>
 <p><img src="/images/sublime-select-tricks/sublime-select-tricks.png" alt="sublime-select-tricks"></p>
 <h2 id="解决方案1">解决方案1</h2>

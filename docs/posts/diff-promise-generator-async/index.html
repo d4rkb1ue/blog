@@ -25,7 +25,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -123,13 +123,13 @@ if (!doNotTrack) {
 };
 
 <span style="color:#75715e">// async 写法
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">asyncReadFile</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">async</span> <span style="color:#66d9ef">function</span> (){
-  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">f1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">readFile</span>(<span style="color:#e6db74">&#39;/etc/fstab&#39;</span>);
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">asyncReadFile</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> (){
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">f1</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">readFile</span>(<span style="color:#e6db74">&#39;/etc/fstab&#39;</span>);
   <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">f1</span>.<span style="color:#a6e22e">toString</span>());
-  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">f2</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">readFile</span>(<span style="color:#e6db74">&#39;/etc/shells&#39;</span>);
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">f2</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">readFile</span>(<span style="color:#e6db74">&#39;/etc/shells&#39;</span>);
   <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">f2</span>.<span style="color:#a6e22e">toString</span>());
 };
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">f1</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">await</span> <span style="color:#a6e22e">readFile</span>(<span style="color:#e6db74">&#39;/etc/fstab&#39;</span>);
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">f1</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">readFile</span>(<span style="color:#e6db74">&#39;/etc/fstab&#39;</span>);
 <span style="color:#75715e">// ===
 </span><span style="color:#75715e"></span><span style="color:#a6e22e">readFile</span>(<span style="color:#e6db74">&#39;/etc/fstab&#39;</span>)
 .<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">data</span>) =&gt; {

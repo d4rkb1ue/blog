@@ -29,7 +29,7 @@ vi /etc/docker/daemon.json # add a line # { # ." />
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -109,11 +109,11 @@ docker tag my-registry:5000/image-name:version original.registry.com/image-name:
 <h2 id="server-gave-http-response-to-https-client">&ldquo;Server Gave Http Response To Https Client&rdquo;</h2>
 <p>If the client return error,</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Error response from daemon: Get https://my-registry:5000/v2/: http: server gave HTTP response to HTTPS client
-</code></pre></div><p>That's because the client's dockerd doesn't has <code>insecure registries</code> set.</p>
+</code></pre></div><p>That&rsquo;s because the client&rsquo;s dockerd doesn&rsquo;t has <code>insecure registries</code> set.</p>
 <h2 id="manifest-unknown">&ldquo;Manifest Unknown&rdquo;</h2>
 <p>If the client return error,</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Error response from daemon: manifest <span style="color:#66d9ef">for</span> my-registry:5000/services:octopus-manager-2.0.34.3 not found: manifest unknown: manifest unknown
-</code></pre></div><p>That's because the server doesn't has the the target image, aka <code>my-registry:5000/image-name:version</code> in its own registry. Please make sure if the server has image pushed, <strong>to itself</strong>.</p>
+</code></pre></div><p>That&rsquo;s because the server doesn&rsquo;t has the the target image, aka <code>my-registry:5000/image-name:version</code> in its own registry. Please make sure if the server has image pushed, <strong>to itself</strong>.</p>
 <h1 id="ref">Ref.</h1>
 <ol>
 <li><a href="https://docs.docker.com/registry/deploying/">https://docs.docker.com/registry/deploying/</a></li>

@@ -26,7 +26,7 @@ Modeling  Reflexive: p is connected to p Symmetric: if p is connected to q, then
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -117,37 +117,37 @@ id[]   0  2  2  2  5  5
 <h2 id="code">Code</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QuickFindUF</span>
 <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span><span style="color:#f92672">]</span> id<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> id<span style="color:#f92672">;</span>
     <span style="color:#75715e">// init
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">QuickFindUF</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> N<span style="color:#f92672">)</span>
     <span style="color:#f92672">{</span>
-        id <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>N<span style="color:#f92672">]</span><span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> N<span style="color:#f92672">;</span> i<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">)</span>
+        id <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>N<span style="color:#f92672">];</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> N<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span>
         <span style="color:#f92672">{</span>
             id<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span>
         <span style="color:#f92672">}</span>
     <span style="color:#f92672">}</span>
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">connected</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">)</span>
-    <span style="color:#f92672">{</span>  <span style="color:#66d9ef">return</span> id<span style="color:#f92672">[</span>p<span style="color:#f92672">]</span> <span style="color:#f92672">=</span><span style="color:#f92672">=</span> id<span style="color:#f92672">[</span>q<span style="color:#f92672">]</span><span style="color:#f92672">;</span>  <span style="color:#f92672">}</span>
+    <span style="color:#f92672">{</span>  <span style="color:#66d9ef">return</span> id<span style="color:#f92672">[</span>p<span style="color:#f92672">]</span> <span style="color:#f92672">==</span> id<span style="color:#f92672">[</span>q<span style="color:#f92672">];</span>  <span style="color:#f92672">}</span>
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">union</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">)</span>
     <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">int</span> pid <span style="color:#f92672">=</span> id<span style="color:#f92672">[</span>p<span style="color:#f92672">]</span><span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">int</span> qid <span style="color:#f92672">=</span> id<span style="color:#f92672">[</span>q<span style="color:#f92672">]</span><span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> id<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">)</span>
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>id<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span><span style="color:#f92672">=</span> pid<span style="color:#f92672">)</span> id<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> qid<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> pid <span style="color:#f92672">=</span> id<span style="color:#f92672">[</span>p<span style="color:#f92672">];</span>
+        <span style="color:#66d9ef">int</span> qid <span style="color:#f92672">=</span> id<span style="color:#f92672">[</span>q<span style="color:#f92672">];</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> id<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>id<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">==</span> pid<span style="color:#f92672">)</span> id<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> qid<span style="color:#f92672">;</span>
     <span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="cost">Cost</h2>
 <h3 id="union">Union</h3>
 <p>N: Each call of <code>union()</code> need at most N times of comparing and changing.</p>
-<p><em>For N points, its cost's N^2.</em></p>
+<p><em>For N points, its cost&rsquo;s N^2.</em></p>
 <h3 id="find">Find</h3>
 <p><code>1</code>: Checking two value only.</p>
 <h3 id="initiallize">Initiallize</h3>
 <p><code>N</code>: Each one has to been given a value.</p>
 <h3 id="summary">Summary</h3>
 <blockquote>
-<p>We can't accept quadratic time algorithms for large problems. The reason is they don't scale. As computers get faster and bigger, quadratic algorithms actually get slower.</p>
+<p>We can&rsquo;t accept quadratic time algorithms for large problems. The reason is they don&rsquo;t scale. As computers get faster and bigger, quadratic algorithms actually get slower.</p>
 </blockquote>
 <p>This algorithm can find quickly, so we call it Quick Find. But its unioning speed is too slow.</p>
 <h1 id="answer-2-quick-union">Answer 2: Quick union</h1>
@@ -173,35 +173,35 @@ id[]   0  2  2  2  5  5
 <h2 id="code-1">Code</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QuickUnionUF</span>
 <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span><span style="color:#f92672">]</span> id<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> id<span style="color:#f92672">;</span>
     <span style="color:#75715e">// init
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">QuickUnionUF</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> N<span style="color:#f92672">)</span>
     <span style="color:#f92672">{</span>
-        id <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>N<span style="color:#f92672">]</span><span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> N<span style="color:#f92672">;</span> i<span style="color:#f92672">+</span><span style="color:#f92672">+</span><span style="color:#f92672">)</span> id<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span>
+        id <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>N<span style="color:#f92672">];</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> N<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> id<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> i<span style="color:#f92672">;</span>
     <span style="color:#f92672">}</span>
     <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">root</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">)</span>
     <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">!</span><span style="color:#f92672">=</span> id<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span><span style="color:#f92672">)</span> i <span style="color:#f92672">=</span> id<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>i <span style="color:#f92672">!=</span> id<span style="color:#f92672">[</span>i<span style="color:#f92672">])</span> i <span style="color:#f92672">=</span> id<span style="color:#f92672">[</span>i<span style="color:#f92672">];</span>
         <span style="color:#66d9ef">return</span> i<span style="color:#f92672">;</span> 
     <span style="color:#f92672">}</span>
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">connected</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">)</span>
     <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> root<span style="color:#f92672">(</span>p<span style="color:#f92672">)</span> <span style="color:#f92672">=</span><span style="color:#f92672">=</span> root<span style="color:#f92672">(</span>q<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">return</span> root<span style="color:#f92672">(</span>p<span style="color:#f92672">)</span> <span style="color:#f92672">==</span> root<span style="color:#f92672">(</span>q<span style="color:#f92672">);</span>
     <span style="color:#f92672">}</span>
     <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">union</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> p<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> q<span style="color:#f92672">)</span>
     <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> root<span style="color:#f92672">(</span>p<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> root<span style="color:#f92672">(</span>q<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> root<span style="color:#f92672">(</span>p<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> root<span style="color:#f92672">(</span>q<span style="color:#f92672">);</span>
         id<span style="color:#f92672">[</span>i<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> j<span style="color:#f92672">;</span>
     <span style="color:#f92672">}</span> 
 <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="cost-1">Cost</h2>
 <p><img src="/images/algorithem_coursera/dynamic-connectivity-quick-union-3.png" alt="dynamic-connectivity-quick-union-3"></p>
 <h3 id="connected">Connected</h3>
-<p>N: for each point, one call for <em>root</em> costs at most N times(include cost of root equals root comparison). So it's 2N. -&gt;N.</p>
+<p>N: for each point, one call for <em>root</em> costs at most N times(include cost of root equals root comparison). So it&rsquo;s 2N. -&gt;N.</p>
 <h3 id="union-1">Union</h3>
-<p>N: each <code>union()</code> operation call for <em>root</em> costs at most N times(include cost of root equals root comparison). So it's 2N. -&gt;N.</p>
+<p>N: each <code>union()</code> operation call for <em>root</em> costs at most N times(include cost of root equals root comparison). So it&rsquo;s 2N. -&gt;N.</p>
 <h3 id="summary-1">Summary</h3>
 <h4 id="quick-find-defect">Quick-find defect</h4>
 <ul>
@@ -240,7 +240,7 @@ So we can get a lower depth of tree.</p>
 <p>For each <code>union()</code> , the nodes of the smaller tree will at lease double, since the larger tree has no nodes less than that.</p>
 </li>
 <li>
-<p>Let's assume that these nodes will be unioned into one singal tree to make the tree as deep and large as possible.</p>
+<p>Let&rsquo;s assume that these nodes will be unioned into one singal tree to make the tree as deep and large as possible.</p>
 </li>
 <li>
 <p>Pick one random tree for example, T. For each <code>union()</code> , it may increase 1 depth or not. If it increase every time(the extreme situation), its nodes will double(at least) every time. T can double at most lg(log2) N times. Because:</p>

@@ -26,7 +26,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -104,8 +104,8 @@ if (!doNotTrack) {
 <p>If we further connect this to the physical interfaces(name <code>eth0</code>, <code>eth1</code>&hellip;), by,</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ip link set dev eth0 master br0
 ip link set dev eth0 master br1
-</code></pre></div><p>these <code>eth*</code>s will become transparent in the <code>LAN</code>, just like the physical ports on a real switch(bridge). <code>eth*</code>'s MAC does not matter any more for <code>MAC address masking</code>.</p>
-<p>After this, the <code>veth0</code> become &ldquo;real&rdquo; in the <code>LAN</code> since it's now addressable and masking-able. In this case, for not conflicting with other devices on the LAN accidentally, <code>veth0</code> will choose to reuse one of the MACs of <code>eth*</code>s.</p>
+</code></pre></div><p>these <code>eth*</code>s will become transparent in the <code>LAN</code>, just like the physical ports on a real switch(bridge). <code>eth*</code>&rsquo;s MAC does not matter any more for <code>MAC address masking</code>.</p>
+<p>After this, the <code>veth0</code> become &ldquo;real&rdquo; in the <code>LAN</code> since it&rsquo;s now addressable and masking-able. In this case, for not conflicting with other devices on the LAN accidentally, <code>veth0</code> will choose to reuse one of the MACs of <code>eth*</code>s.</p>
 <p>Since the <code>eth*</code>s are connected to a single bridge, theoretically, any traffic comes from <code>eth*</code> will be either broadcasted, or selectively redirected to other <code>eth*</code> base on the MAC switching table. Software side, this can be implemented with the table and pipe with no magic.</p>
 <pre><code>        Server1
            |
@@ -114,9 +114,9 @@ ip link set dev eth0 master br1
       +---------+
       /   |   \     ...
    Dev0  Dev1  Dev2
-</code></pre><p>The above graph is just schematic. In real, it's just a server (<code>Server1</code>) with three ethernet ports and they're going to behave like above. So,</p>
+</code></pre><p>The above graph is just schematic. In real, it&rsquo;s just a server (<code>Server1</code>) with three ethernet ports and they&rsquo;re going to behave like above. So,</p>
 <ul>
-<li><code>Dev*</code>, and <code>Server1</code> act like they're connected in L2.</li>
+<li><code>Dev*</code>, and <code>Server1</code> act like they&rsquo;re connected in L2.</li>
 </ul>
 <p>If we assign an IP for the <code>br0</code>, i.e. the <code>veth0</code>, and make it as the default <code>0.0.0.0/0</code> gateway,</p>
 <ul>
@@ -131,7 +131,7 @@ ip link set dev eth0 master br1
 <li>ARP table does not needed by <code>br0</code> either. Its maintained by <code>Server1</code> and it need the <code>ARP table</code> to route the <code>IP</code> package to different <code>MAC</code>s, thus different ports. Ports are, in theory, ports on the <code>br0</code>, but in real, ports on the server.</li>
 </ul>
 <h2 id="network-namespace-and-veth">Network Namespace and <code>veth</code></h2>
-<p>Just for clarification, <strong>these're unrelated</strong>.</p>
+<p>Just for clarification, <strong>these&rsquo;re unrelated</strong>.</p>
 <p>Network namespace is a high level abstration for process.</p>
 <blockquote>
 <p><code>network_namespaces(7)</code> is isolation of the system resources associated with networking: network devices, IPv4 and IPv6 protocol stacks, IP routing tables, firewall rule.</p>
@@ -141,7 +141,7 @@ ip link set dev eth0 master br1
 </blockquote>
 <h2 id="prerequisites-to-build-the-bridge">Prerequisites To Build The Bridge</h2>
 <ol>
-<li>All devices should share the same maximum packet size (<code>MTU</code>). The bridge doesn't fragment packets.</li>
+<li>All devices should share the same maximum packet size (<code>MTU</code>). The bridge doesn&rsquo;t fragment packets.</li>
 <li>All devices should support promiscuous operation. The bridge needs to be able to receive all network traffic, not just traffic destined for its own address.</li>
 <li>All devices should allow source address spoofing.</li>
 </ol>

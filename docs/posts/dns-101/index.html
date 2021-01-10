@@ -28,7 +28,7 @@ cc @ https://www.cloudflare.com/learning/dns/dns-server-types/
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -232,11 +232,11 @@ nameserver 1.1.1.1
 systemctl restart NetworkManager
 </code></pre></div><h2 id="reverse-lookup">Reverse lookup</h2>
 <blockquote>
-<p>For example, assuming the IPv4 address <code>208.80.152.2</code> is assigned to Wikimedia, it is represented as a DNS name in <strong>reverse order</strong>: <code>2.152.80.208.in-addr.arpa</code>. When the DNS resolver gets a pointer (PTR) request, it begins by querying the root servers, which point to the servers of American Registry for Internet Numbers (ARIN) for the <code>208.in-addr.arpa</code> zone. ARIN's servers delegate <code>152.80.208.in-addr.arpa</code> to Wikimedia to which the resolver sends another query for <code>2.152.80.208.in-addr.arpa</code>, which results in an authoritative response.</p>
+<p>For example, assuming the IPv4 address <code>208.80.152.2</code> is assigned to Wikimedia, it is represented as a DNS name in <strong>reverse order</strong>: <code>2.152.80.208.in-addr.arpa</code>. When the DNS resolver gets a pointer (PTR) request, it begins by querying the root servers, which point to the servers of American Registry for Internet Numbers (ARIN) for the <code>208.in-addr.arpa</code> zone. ARIN&rsquo;s servers delegate <code>152.80.208.in-addr.arpa</code> to Wikimedia to which the resolver sends another query for <code>2.152.80.208.in-addr.arpa</code>, which results in an authoritative response.</p>
 </blockquote>
 <h2 id="ddns">DDNS</h2>
 <p><strong>Clients can notify their respective DNS server of the updated IP address they had received from a DHCP server or through self-configuration.</strong></p>
-<p>If we use a single, combined DNS+DHCP solution which can maintain the consistency between both tables by itself, there's no need to enable DDNS.</p>
+<p>If we use a single, combined DNS+DHCP solution which can maintain the consistency between both tables by itself, there&rsquo;s no need to enable DDNS.</p>
 <p>Else, we need to either,</p>
 <ol>
 <li>enable DDNS for clients notifying DNS server with the new IP address allocated by DHCP server, or,</li>
@@ -246,10 +246,10 @@ systemctl restart NetworkManager
 <p>For containers NOT using default <code>bridge</code> network, Dockerd will config DNS in the container as,</p>
 <ol>
 <li>
-<p>There's an embedded DNS server handling all DNS queries from containers (also for inter-container name resolving)</p>
+<p>There&rsquo;s an embedded DNS server handling all DNS queries from containers (also for inter-container name resolving)</p>
 </li>
 <li>
-<p>If no config flag, docker use <strong>filtered</strong> host's <code>/etc/hosts</code> and <code>/etc/resolv.conf</code>. Fliter will eliminate <code>localhost</code> unreachables, like <code>nameserver 127.0.1.1</code>. Since <code>127.0.0.0/8</code> of host can't be accessed within containers except for <code>--network=host</code>. If empty after filtered, <code>8.8.8.8</code> is added by default</p>
+<p>If no config flag, docker use <strong>filtered</strong> host&rsquo;s <code>/etc/hosts</code> and <code>/etc/resolv.conf</code>. Fliter will eliminate <code>localhost</code> unreachables, like <code>nameserver 127.0.1.1</code>. Since <code>127.0.0.0/8</code> of host can&rsquo;t be accessed within containers except for <code>--network=host</code>. If empty after filtered, <code>8.8.8.8</code> is added by default</p>
 </li>
 <li>
 <p>Both <code>/etc/hosts</code> and <code>/etc/resolv.conf</code> <strong>inside the container</strong> are managed by Dockerd. So, to change the config, use <code>docker run --[flags]</code> instead of editing the files inside the container or using mount.</p>
@@ -260,7 +260,7 @@ systemctl restart NetworkManager
 <li>For multiple DNS servers, use multiple flags</li>
 <li><strong><code>container:/etc/resolv.conf</code> will always be <code>127.0.0.11</code></strong> which will not be effected by this flag</li>
 <li>Instead, input value of <code>--dns</code> is keeped and used by the embedded DNS server to forward the DNS query if embedded DNS server is unable to resolve a name resolution request from the containers</li>
-<li>If you need access to the host's <code>localhost</code> resolver (like <code>dnsmasq</code>), modify DNS service on the host to listen on a non-localhost address which is reachable within the container. (<a href="https://stackoverflow.com/questions/35693117/how-can-i-give-docker-containers-access-to-a-dnsmasq-local-dns-resolver-on-the-h">^stackoverflow</a>)</li>
+<li>If you need access to the host&rsquo;s <code>localhost</code> resolver (like <code>dnsmasq</code>), modify DNS service on the host to listen on a non-localhost address which is reachable within the container. (<a href="https://stackoverflow.com/questions/35693117/how-can-i-give-docker-containers-access-to-a-dnsmasq-local-dns-resolver-on-the-h">^stackoverflow</a>)</li>
 </ul>
 </li>
 <li>
@@ -270,7 +270,7 @@ systemctl restart NetworkManager
 </ul>
 </li>
 <li>
-<p>Flag <code>--hostname</code>. The hostname a container uses for itself. Defaults to the container's ID if not specified</p>
+<p>Flag <code>--hostname</code>. The hostname a container uses for itself. Defaults to the container&rsquo;s ID if not specified</p>
 </li>
 </ol>
 <h1 id="dns-in-k8s">DNS In K8s</h1>

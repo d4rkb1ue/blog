@@ -31,7 +31,7 @@ datetime = Mock() datetime.today.return_value = tuesday datetime.today() # tuesd
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -107,35 +107,35 @@ datetime<span style="color:#f92672">.</span>today(whatever_para<span style="colo
 <p>如果需求稍微高点，希望<strong>对一些指定的输入返回输出</strong>，可以尝试 <code>Mock object</code>，这是一种懒人版的 <code>Fake object</code>。如果不想手写里面的状态管理，或者状态很简单，或者我知道我就会只用指定的一些输入去计算。</p>
 <p>举个例子，我要替换掉一个求导公式，如果我知道我在 test 中只有 2 种 <code>call</code> 这个 <code>object</code> 的输入，一个是 <code>x^2</code> 一个是 <code>ln(x)</code> 那我直接用个静态的 <code>dict</code> 来返回值就好了， 不用写一遍求导的完整公式。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">output <span style="color:#f92672">=</span> {
-    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">x^2</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">2x</span><span style="color:#e6db74">&#34;</span>,
-    <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ln(x)</span><span style="color:#e6db74">&#34;</span>: <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">ln(x)</span><span style="color:#e6db74">&#34;</span>,
+    <span style="color:#e6db74">&#34;x^2&#34;</span>: <span style="color:#e6db74">&#34;2x&#34;</span>,
+    <span style="color:#e6db74">&#34;ln(x)&#34;</span>: <span style="color:#e6db74">&#34;ln(x)&#34;</span>,
 }
 </code></pre></div><h2 id="mock-object---间接输出">Mock object - 间接输出</h2>
 <p>反过来，如果对返回值没要求，却对<strong>间接输出</strong>感兴趣，比如对被测模块怎么<code>call</code> 别人十分在意，那就用永远都不会报错的 <code>(Magic) Mock object</code> - 这就像一个厚厚软软的白雪地一样，任由被测者随意在上面印出印记，只是个忠实的记录者。也叫做拥有 <code>Lazy Attributes and Methods</code> 的 <code>Mock object</code>。它的方法/属性在你 <code>call</code> 它的时候被产生，不会报错。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">from</span> unittest.mock <span style="color:#66d9ef">import</span> Mock
-<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> mock <span style="color:#f92672">=</span> Mock()
-<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> mock<span style="color:#f92672">.</span>some_attribute
-<span style="color:#f92672">&lt;</span>Mock name<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">mock.some_attribute</span><span style="color:#e6db74">&#39;</span> id<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">4394778696</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">&gt;</span>
-<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> mock<span style="color:#f92672">.</span>do_something()
-<span style="color:#f92672">&lt;</span>Mock name<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">mock.do_something()</span><span style="color:#e6db74">&#39;</span> id<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">4394778920</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">&gt;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> unittest.mock <span style="color:#66d9ef">import</span> Mock
+<span style="color:#f92672">&gt;&gt;&gt;</span> mock <span style="color:#f92672">=</span> Mock()
+<span style="color:#f92672">&gt;&gt;&gt;</span> mock<span style="color:#f92672">.</span>some_attribute
+<span style="color:#f92672">&lt;</span>Mock name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mock.some_attribute&#39;</span> id<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;4394778696&#39;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> mock<span style="color:#f92672">.</span>do_something()
+<span style="color:#f92672">&lt;</span>Mock name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mock.do_something()&#39;</span> id<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;4394778920&#39;</span><span style="color:#f92672">&gt;</span>
 </code></pre></div><p>（以及可以看到，<code>mock</code> 的方法/属性 还是 <code>mock</code> 保证了可以递归的使用 <code>mock</code>）</p>
 <p>于是可以事后通过 <code>assert</code> 这个 <code>object</code> 被 <code>call</code> 过多少次，以及被怎么（用什么 <code>parameter</code>）<code>call</code> 的。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">from</span> unittest.mock <span style="color:#66d9ef">import</span> Mock
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python3" data-lang="python3"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> unittest.mock <span style="color:#66d9ef">import</span> Mock
 
-<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> json <span style="color:#f92672">=</span> Mock()
-<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> json<span style="color:#f92672">.</span>loads(<span style="color:#960050;background-color:#1e0010">‘</span>{<span style="color:#960050;background-color:#1e0010">“</span>key<span style="color:#960050;background-color:#1e0010">”</span>: <span style="color:#960050;background-color:#1e0010">“</span>value<span style="color:#960050;background-color:#1e0010">”</span>}<span style="color:#960050;background-color:#1e0010">’</span>)
+<span style="color:#f92672">&gt;&gt;&gt;</span> json <span style="color:#f92672">=</span> Mock()
+<span style="color:#f92672">&gt;&gt;&gt;</span> json<span style="color:#f92672">.</span>loads(<span style="color:#960050;background-color:#1e0010">‘</span>{<span style="color:#960050;background-color:#1e0010">“</span>key<span style="color:#960050;background-color:#1e0010">”</span>: <span style="color:#960050;background-color:#1e0010">“</span>value<span style="color:#960050;background-color:#1e0010">”</span>}<span style="color:#960050;background-color:#1e0010">’</span>)
 <span style="color:#f92672">&lt;</span>Mock name<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">‘</span>mock<span style="color:#f92672">.</span>loads()<span style="color:#960050;background-color:#1e0010">’</span> id<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">‘</span><span style="color:#ae81ff">4391026640</span><span style="color:#960050;background-color:#1e0010">’</span><span style="color:#f92672">&gt;</span>
 
-<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#75715e"># Number of times you called loads():</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#75715e"># Number of times you called loads():</span>
 <span style="color:#960050;background-color:#1e0010">…</span> json<span style="color:#f92672">.</span>loads<span style="color:#f92672">.</span>call_count
 <span style="color:#ae81ff">1</span>
-<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#75715e"># The last loads() call:</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#75715e"># The last loads() call:</span>
 <span style="color:#960050;background-color:#1e0010">…</span> json<span style="color:#f92672">.</span>loads<span style="color:#f92672">.</span>call_args
 call(<span style="color:#960050;background-color:#1e0010">‘</span>{<span style="color:#960050;background-color:#1e0010">“</span>key<span style="color:#960050;background-color:#1e0010">”</span>: <span style="color:#960050;background-color:#1e0010">“</span>value<span style="color:#960050;background-color:#1e0010">”</span>}<span style="color:#960050;background-color:#1e0010">’</span>)
-<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#75715e"># List of loads() calls:</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#75715e"># List of loads() calls:</span>
 <span style="color:#960050;background-color:#1e0010">…</span> json<span style="color:#f92672">.</span>loads<span style="color:#f92672">.</span>call_args_list
 [call(<span style="color:#960050;background-color:#1e0010">‘</span>{<span style="color:#960050;background-color:#1e0010">“</span>key<span style="color:#960050;background-color:#1e0010">”</span>: <span style="color:#960050;background-color:#1e0010">“</span>value<span style="color:#960050;background-color:#1e0010">”</span>}<span style="color:#960050;background-color:#1e0010">’</span>)]
-<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#75715e"># List of calls to json’s methods (recursively):</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#75715e"># List of calls to json’s methods (recursively):</span>
 <span style="color:#960050;background-color:#1e0010">…</span> json<span style="color:#f92672">.</span>method_calls
 [call<span style="color:#f92672">.</span>loads(<span style="color:#960050;background-color:#1e0010">‘</span>{<span style="color:#960050;background-color:#1e0010">“</span>key<span style="color:#960050;background-color:#1e0010">”</span>: <span style="color:#960050;background-color:#1e0010">“</span>value<span style="color:#960050;background-color:#1e0010">”</span>}<span style="color:#960050;background-color:#1e0010">’</span>)]
 </code></pre></div><h2 id="test-spy---黑盒子记录仪">Test Spy - 黑盒子记录仪</h2>

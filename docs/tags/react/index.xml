@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Thu, 18 May 2017 20:53:40 +0000</lastBuildDate>
-    
-	<atom:link href="https://drkbl.com/tags/react/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 18 May 2017 20:53:40 +0000</lastBuildDate><atom:link href="https://drkbl.com/tags/react/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>同步函数调用异步函数导致的 setState 问题</title>
       <link>https://drkbl.com/posts/call-async-func-in-sync-func/</link>
@@ -36,7 +32,7 @@ Because this.props and this.</description>
  React 为数据提供渲染为 HTML 的视图的开源 JavaScript 库 Babel 是一个 JavaScript 编译器，用于转化 ES2015/JSX 代码 Webpack 前端资源加载/打包工具，满足前端工程化需要 antd-react 使用 Ant Design UI 库的 React 实现  Git: d4rkb1ue/react-helloworld
 运行指南 $ git clone https://github.com/d4rkb1ue/react-helloworld.git $ cd react-helloworld $ npm i $ npm run test 已知问题 npm i 卡死 $ npm i 这步可能会卡在 extract:webpack-dev-server: sill doParallel extract 589 这里，这个问题已经被 Node Issue 了 https://github.com/npm/npm/issues/13782
 解决办法，单独安装 webpack ， webpack-dev-server ， babel-cli ， babel-loader
-$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&#39;t be accessed via IP github issue</description>
+$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&amp;rsquo;t be accessed via IP github issue</description>
     </item>
     
   </channel>

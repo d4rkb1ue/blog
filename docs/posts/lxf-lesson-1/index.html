@@ -15,7 +15,7 @@
  screen.width：屏幕宽度，以像素为单位； screen.height：屏幕高度，以像素为单位； screen.colorDepth：返回颜色位数，如8、16、24。  4. location location对象表示当前页面的URL信息
   location.href : http://www.example.com:8080/path/index.html?a=1&amp;b=2#TOP
   location.protocol; // &lsquo;http&rsquo;
-  location.host; // &lsquo;www.example.com&#39;
+  location.host; // &lsquo;www.example.com&rsquo;
   location.port; // &lsquo;8080&rsquo;
   location.pathname; // &lsquo;/path/index.html&rsquo;
   location.search; // &lsquo;?a=1&amp;b=2&rsquo;
@@ -37,7 +37,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -113,13 +113,13 @@ if (!doNotTrack) {
 <p><code>location</code>对象表示当前页面的URL信息</p>
 <ul>
 <li>
-<p>location.href : <a href="http://www.example.com:8080/path/index.html?a=1&amp;b=2#TOP">http://www.example.com:8080/path/index.html?a=1&amp;b=2#TOP</a></p>
+<p>location.href : <a href="http://www.example.com">http://www.example.com</a>:8080/path/index.html?a=1&amp;b=2#TOP</p>
 </li>
 <li>
 <p>location.protocol; // &lsquo;http&rsquo;</p>
 </li>
 <li>
-<p>location.host; // &lsquo;<a href="http://www.example.com'">www.example.com'</a></p>
+<p>location.host; // &lsquo;<a href="http://www.example.com">www.example.com</a>&rsquo;</p>
 </li>
 <li>
 <p>location.port; // &lsquo;8080&rsquo;</p>
@@ -137,7 +137,7 @@ if (!doNotTrack) {
 <p>也可以通过操作<code>location</code>对象进行跳转或刷新</p>
 <ul>
 <li>location.reload(); // 刷新</li>
-<li>location.assign('/discuss&rsquo;); // 设置一个新的URL地址</li>
+<li>location.assign('/discuss'); // 设置一个新的URL地址</li>
 </ul>
 <h2 id="5-document">5. document</h2>
 <p>document对象表示当前页面。由于HTML在浏览器中以DOM形式表示为树形结构，document对象就是整个DOM树的根节点。</p>
@@ -237,14 +237,14 @@ array-prototype-sort-call-cannot-apply-on-dom.md</p>
 <span style="color:#a6e22e">removed</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">self</span>; <span style="color:#75715e">// true
 </span></code></pre></div><h1 id="操作表单">操作表单</h1>
 <h2 id="md5加密密码的最佳实现">MD5加密密码的最佳实现</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> onsubmit 响应&lt;form&gt;本身的onsubmit事件，在提交form时return true来告诉浏览器继续提交，如果return false，浏览器将不会继续提交form </span><span style="color:#75715e">--&gt;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!-- onsubmit 响应&lt;form&gt;本身的onsubmit事件，在提交form时return true来告诉浏览器继续提交，如果return false，浏览器将不会继续提交form --&gt;</span>
 &lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;login-form&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post&#34;</span> <span style="color:#a6e22e">onsubmit</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;return checkForm()&#34;</span>&gt;
     &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;username&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;username&#34;</span>&gt;
     &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;input-password&#34;</span>&gt;
-    <span style="color:#75715e">&lt;!--</span><span style="color:#75715e"> 
+    <span style="color:#75715e">&lt;!-- 
 </span><span style="color:#75715e">    这样做不改变用户的输入，不会出现口令框的显示会突然从几个*变成32个*（因为MD5有32个字符）。
 </span><span style="color:#75715e">    的情况
-</span><span style="color:#75715e">    </span><span style="color:#75715e">--&gt;</span>
+</span><span style="color:#75715e">    --&gt;</span>
     &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hidden&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;md5-password&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span>&gt;
     &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span>&gt;Submit&lt;/<span style="color:#f92672">button</span>&gt;
 &lt;/<span style="color:#f92672">form</span>&gt;

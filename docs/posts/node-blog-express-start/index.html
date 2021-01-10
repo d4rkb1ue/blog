@@ -27,7 +27,7 @@ express api next() : 如果某一个callback执行了next(&#39;route&#39;)，它
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -145,7 +145,7 @@ if (!doNotTrack) {
 <h1 id="routes的探究">routes的探究</h1>
 <h2 id="appjs">app.js</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">//ray0@ubuntu:~/nodeblog$ cat app.js 
-</span><span style="color:#75715e"></span><span style="color:#75715e">//...
+</span><span style="color:#75715e">//...
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">routes</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./routes/index&#39;</span>);
 <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">users</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./routes/users&#39;</span>);
 <span style="color:#75715e">//...
@@ -164,7 +164,7 @@ if (!doNotTrack) {
 ...
 </code></pre></div><p>意义：当访问主页<code>/</code>时，调用<code>app.set('view engine', 'jade');</code>:<code>jade</code>的渲染引擎，来渲染 index.jade 模版文件（同时将 title 变量全部替换为字符串 Express），生成静态页面并显示在浏览器中。</p>
 <h2 id="顺便看下usersjs">顺便看下users.js</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">ray0</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">ubuntu</span><span style="color:#f92672">:</span><span style="color:#f92672">~</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#960050;background-color:#1e0010">n</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">d</span><span style="color:#960050;background-color:#1e0010">e</span><span style="color:#960050;background-color:#1e0010">b</span><span style="color:#960050;background-color:#1e0010">l</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">g</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#960050;background-color:#1e0010"> </span><span style="color:#960050;background-color:#1e0010">c</span><span style="color:#960050;background-color:#1e0010">a</span><span style="color:#960050;background-color:#1e0010">t</span><span style="color:#960050;background-color:#1e0010"> </span><span style="color:#960050;background-color:#1e0010">r</span><span style="color:#960050;background-color:#1e0010">o</span><span style="color:#960050;background-color:#1e0010">u</span><span style="color:#960050;background-color:#1e0010">t</span><span style="color:#960050;background-color:#1e0010">e</span><span style="color:#960050;background-color:#1e0010">s</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#960050;background-color:#1e0010">u</span><span style="color:#960050;background-color:#1e0010">s</span><span style="color:#960050;background-color:#1e0010">e</span><span style="color:#960050;background-color:#1e0010">r</span><span style="color:#960050;background-color:#1e0010">s</span><span style="color:#960050;background-color:#1e0010">.</span><span style="color:#960050;background-color:#1e0010">j</span><span style="color:#960050;background-color:#1e0010">s</span><span style="color:#960050;background-color:#1e0010"> </span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">ray0</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">ubuntu</span><span style="color:#f92672">:~</span><span style="color:#960050;background-color:#1e0010">/nodeblog$ cat routes/users.js </span>
 <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">express</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;express&#39;</span>);
 <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">router</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">express</span>.<span style="color:#a6e22e">Router</span>();
 
@@ -265,7 +265,7 @@ req.param('name')
   <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#39;commit range &#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">from</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;..&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">to</span>);
 });
 </code></pre></div><p>关于<code>(?:xxxxx)</code>格式：虽然被<code>()</code>围起来是一个分组，但是这个分组的信息不会被记录为para。
-上述<code>(?:\.\.(\w+))</code>的意义就是说这个分组里面需要匹配形如&rdquo;..1234&quot;这样的，但是不记录&rdquo;..1234&rdquo;，只去记录&quot;1234&rdquo;.</p>
+上述<code>(?:\.\.(\w+))</code>的意义就是说这个分组里面需要匹配形如&quot;..1234&quot;这样的，但是不记录&quot;..1234&quot;，只去记录&quot;1234&quot;.</p>
 <p>另外，正则表达式使用<code>\....\</code>被扩起来之后就不要用<code>'...'</code>再扩一遍了。</p>
 <p>这个函数的调用方式 <code>http://node:3000/commits/71dbb9c..4c084f9</code></p>
 <h2 id="发现一个小问题如果这里的commits是users那-routesusersjs-会怎么办">发现一个小问题，如果这里的<code>commits</code>是<code>users</code>,那 /routes/users.js 会怎么办？</h2>

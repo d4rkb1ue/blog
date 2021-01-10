@@ -25,7 +25,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -153,7 +153,7 @@ class ViewController: UIViewController {}
 <p>Call <code>self</code>: <code>self.function(para, para)</code>, <code>self</code>is THIS object.</p>
 <h2 id="add-statement">Add statement:</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">@IBAction</span> <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">touchDigit</span>(<span style="color:#66d9ef">_</span> sender: UIButton) {
-    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">hello world!</span><span style="color:#e6db74">&#34;</span>)
+    print(<span style="color:#e6db74">&#34;hello world!&#34;</span>)
 }
 </code></pre></div><p>do not need <code>;</code> at the end of the line. If need two statements on the same line, you should add a <code>;</code>;</p>
 <p>Run!</p>
@@ -222,7 +222,7 @@ touched nil digit
 </code></pre></div><p>if the <code>var1</code> is an <code>optional</code>, this will change its “associate value”.</p>
 <h3 id="declare-an-optional">Declare an optional</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">var</span> display: UILabel!
-<span style="color:#75715e">//</span><span style="color:#75715e"> </span><span style="color:#75715e">v</span><span style="color:#75715e">a</span><span style="color:#75715e">r</span><span style="color:#75715e"> </span><span style="color:#75715e">d</span><span style="color:#75715e">i</span><span style="color:#75715e">s</span><span style="color:#75715e">p</span><span style="color:#75715e">l</span><span style="color:#75715e">a</span><span style="color:#75715e">y</span><span style="color:#75715e">:</span><span style="color:#75715e"> </span><span style="color:#75715e">U</span><span style="color:#75715e">I</span><span style="color:#75715e">L</span><span style="color:#75715e">a</span><span style="color:#75715e">b</span><span style="color:#75715e">e</span><span style="color:#75715e">l</span><span style="color:#75715e">?</span>
+<span style="color:#75715e">// var display: UILabel?</span>
 </code></pre></div><p>you can either declare it with <code>!</code> or <code>?</code>.</p>
 <p>Diff:</p>
 <ul>
@@ -239,7 +239,7 @@ touched nil digit
 <p>In this case, <code>if</code> means “if this currentTitle has value(associate value)”, aka “if this <code>currentTitle?</code> is not <code>nil</code>”  then <code>let mathSymbol = sender.currentTitle!</code></p>
 <p>outside this statement <code>if .. {}</code> this <code>mathSymbol</code> will not even be defined.</p>
 <h2 id="if-equal">if equal</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">if</span> mathSymbol == <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">π</span><span style="color:#e6db74">&#34;</span> {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">if</span> mathSymbol == <span style="color:#e6db74">&#34;π&#34;</span> {
     display.text = String(M_PI)
 }
 </code></pre></div><p><code>String()</code> initialize a new String Object.</p>

@@ -14,7 +14,7 @@
 function Cat(name,color){ return { name:name, color:color } } 这可以被看作是一个基本的构造函数。调用方式为：
 var cat1 = Cat(&#34;大毛&#34;,&#34;黄色&#34;); 2. 引入this 进阶一下，如果包含this的函数会自动被当作是一个构造函数，如：
 function Cat(name,color){ this.name=name; this.color=color; } 这时，调用方式被规定为
-var cat1 = new Cat(&#34;大毛&#34;,&#34;黄色&#34;); 这两个函数等效的话，那么new操作符可以被看作是：
+var cat1 = new Cat(&#34;大毛&#34;,&#34;黄色&#34;); 这两个函数等效的话，那么**new操作符可以被看作是**：
   创建一个空Obj: {} 之后把指向这个Obj的指针作为构造函数的this参数。    Cat.apply(this,...)   两种方式的差别 1. 对生成的cat1赋了一个constructor的值。 调用
 cat1.constructor 第一种方式返回：
 Object() { [native code] } 第二种方式返回：
@@ -36,7 +36,7 @@ cat1 instanceof Cat; //true 第二种方式的弊端：浪费内存 为Cat对象
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -108,7 +108,7 @@ if (!doNotTrack) {
 　　}
 </code></pre></div><p>这时，调用方式被规定为</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cat1</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Cat</span>(<span style="color:#e6db74">&#34;大毛&#34;</span>,<span style="color:#e6db74">&#34;黄色&#34;</span>);
-</code></pre></div><p>这两个函数等效的话，那么<strong><code>new</code>操作符可以被看作是</strong>：</p>
+</code></pre></div><p>这两个函数等效的话，那么**<code>new</code>操作符可以被看作是**：</p>
 <blockquote>
 <ol>
 <li>创建一个空<code>Obj: {}</code> 之后把指向这个Obj的指针作为构造函数的<code>this</code>参数。</li>

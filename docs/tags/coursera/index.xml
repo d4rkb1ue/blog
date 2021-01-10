@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Fri, 17 Feb 2017 00:05:28 +0000</lastBuildDate>
-    
-	<atom:link href="https://drkbl.com/tags/coursera/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 17 Feb 2017 00:05:28 +0000</lastBuildDate><atom:link href="https://drkbl.com/tags/coursera/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Algs4/Selection Sort, Insertion Sort, Shell Sort (Week 3 Part 1)</title>
       <link>https://drkbl.com/posts/algorithms-part-1-note-5/</link>

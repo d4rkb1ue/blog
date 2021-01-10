@@ -28,7 +28,7 @@ def test_create_regen_name(): st = set() with concurrent.futures.ThreadPoolExecu
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -88,13 +88,13 @@ if (!doNotTrack) {
     name <span style="color:#f92672">=</span> StringField(primary_key<span style="color:#f92672">=</span>True, required<span style="color:#f92672">=</span>True)
 	<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">clean</span>():
 		cnt <span style="color:#f92672">=</span> MyModel<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>count()
-		self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Prefix</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> str(cnt<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
+		self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Prefix&#34;</span> <span style="color:#f92672">+</span> str(cnt<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
 </code></pre></div><p>但是在, 多线程下（例如 websever 根据用户请求创建 <code>MyModel</code>）发现会出现 <code>Dup ID</code> 的报错. 于是我们加上锁,</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py">_lock <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock()
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">clean</span>():
 	<span style="color:#66d9ef">with</span> _lock:
 		cnt <span style="color:#f92672">=</span> MyModel<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>count()
-		self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Prefix</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> str(cnt<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
+		self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Prefix&#34;</span> <span style="color:#f92672">+</span> str(cnt<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
 </code></pre></div><h2 id="测试发现问题">测试发现问题</h2>
 <p>测试下,</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_create_regen_name</span>():
@@ -103,7 +103,7 @@ if (!doNotTrack) {
         todos <span style="color:#f92672">=</span> {executor<span style="color:#f92672">.</span>submit(
             MyModel<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>create) <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>)}
         <span style="color:#66d9ef">for</span> future <span style="color:#f92672">in</span> concurrent<span style="color:#f92672">.</span>futures<span style="color:#f92672">.</span>as_completed(todos):
-            st<span style="color:#f92672">.</span>add(future<span style="color:#f92672">.</span>result()[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">name</span><span style="color:#e6db74">&#39;</span>])
+            st<span style="color:#f92672">.</span>add(future<span style="color:#f92672">.</span>result()[<span style="color:#e6db74">&#39;name&#39;</span>])
     <span style="color:#66d9ef">assert</span> len(st) <span style="color:#f92672">==</span> <span style="color:#ae81ff">10</span>
 </code></pre></div><p>单元测试都是用 mongomock 的, 测试通过.</p>
 <p><strong>但是</strong>在集成测试里, 没有用 mongomock 而是一个真正的空的 mongo 数据库, 却会报错!</p>
@@ -115,34 +115,34 @@ if (!doNotTrack) {
 </span><span style="color:#f92672"></span><span style="color:#a6e22e">+2			enter clean()
 </span><span style="color:#a6e22e"></span><span style="color:#f92672">-3							    enter clean() 被 lock
 </span><span style="color:#f92672"></span><span style="color:#a6e22e">+4			cnt = 0
-</span><span style="color:#a6e22e"></span><span style="color:#a6e22e">+5			release lock
-</span><span style="color:#a6e22e"></span><span style="color:#a6e22e">+		(*but not save yet*)
+</span><span style="color:#a6e22e">+5			release lock
+</span><span style="color:#a6e22e">+		(*but not save yet*)
 </span><span style="color:#a6e22e"></span><span style="color:#f92672">-6							    unlock
-</span><span style="color:#f92672"></span><span style="color:#f92672">-7							    exec clean()
-</span><span style="color:#f92672"></span><span style="color:#f92672">-6							    cnt = 0
+</span><span style="color:#f92672">-7							    exec clean()
+</span><span style="color:#f92672">-6							    cnt = 0
 </span><span style="color:#f92672"></span><span style="color:#a6e22e">+7			return to save()
-</span><span style="color:#a6e22e"></span><span style="color:#a6e22e">+    (obj with _id=0 created)
+</span><span style="color:#a6e22e">+    (obj with _id=0 created)
 </span><span style="color:#a6e22e"></span><span style="color:#f92672">-8							    releae lock
-</span><span style="color:#f92672"></span><span style="color:#f92672">-9							    return to save()
-</span><span style="color:#f92672"></span><span style="color:#f92672">-				                (dup ID error since try to save _id=0)
+</span><span style="color:#f92672">-9							    return to save()
+</span><span style="color:#f92672">-				                (dup ID error since try to save _id=0)
 </span></code></pre></div><p>**原因是 <code>save()</code> 是不在 lock 中的. ** <code>save</code> 是 mongoengine 的内置行为.</p>
 <p>那为什么 mongomock 就 OK 呢? 我猜原因大概是 mongomock 永远是即时操作, 无法提供对并发的测试. 即, 当clean 后会超快的被 save 以至于都来不及 swith thread.</p>
 <h2 id="正确的实现方式">正确的实现方式</h2>
 <p>这样的需求, 其实应该,</p>
 <p>在 MongoDB 创建一个独立的 <code>collection</code>, 像是这样.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DocIdCounter</span>(Document):
-    prefix <span style="color:#f92672">=</span> StringField(default<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">prefix</span><span style="color:#e6db74">&#34;</span>)
+    prefix <span style="color:#f92672">=</span> StringField(default<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;prefix&#34;</span>)
     count <span style="color:#f92672">=</span> IntField(default<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
 </code></pre></div><p>然后用这样的代码去得到一个 <code>seq number</code>,</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyModel</span>:
      _counter_lock <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock()
 	<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">clean</span>():
-        prefix <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">prefix</span><span style="color:#e6db74">&#34;</span>
+        prefix <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;prefix&#34;</span>
         <span style="color:#66d9ef">with</span> self<span style="color:#f92672">.</span>_counter_lock:
             DocIdCounter<span style="color:#f92672">.</span>objects(prefix<span style="color:#f92672">=</span>prefix)<span style="color:#f92672">.</span>update_one(upsert<span style="color:#f92672">=</span>True, inc__count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
             cnt <span style="color:#f92672">=</span> DocIdCounter<span style="color:#f92672">.</span>objects(date<span style="color:#f92672">=</span>prefix)<span style="color:#f92672">.</span>first()
 
-        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Prefix</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> str(cnt)
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Prefix&#34;</span> <span style="color:#f92672">+</span> str(cnt)
 </code></pre></div><p><code>findAndModify</code> 保证了 <code>count++</code> 操作的原子性.</p>
 <h2 id="ref">Ref.</h2>
 <ol>

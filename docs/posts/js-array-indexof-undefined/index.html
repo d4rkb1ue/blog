@@ -9,7 +9,7 @@
   <meta content='为什么 array.indexOf(undefined) 不 work 如果 array 是稀疏的? - d4rkb1ue&#39;s Blog' property='og:title' />
 
 
-<meta property="og:description" content="var firstMissingPositive = function (nums) { let arr = [true]; nums.forEach((val) =&gt; { if (val &gt; 0) { arr[val] = true; } }); return [arr, arr.indexOf(undefined)]; }; Why this doesn&#39;t work?!
+<meta property="og:description" content="var firstMissingPositive = function (nums) { let arr = [true]; nums.forEach((val) =&gt; { if (val &gt; 0) { arr[val] = true; } }); return [arr, arr.indexOf(undefined)]; }; Why this doesn&rsquo;t work?!
 firstMissingPositive([2]) // [[true, undefined, true], -1] Why -1 !?
 but if just run [true, undefined, true].indexOf(undefined) in chrome dev tools it returns 1.
 原因 主要是 chrome 的打印问题， sparse (稀疏) 的 array 在没有定义的项目上，chrome 会打印出来 undefined 。但是这个其实是真的没有定义过的，对于 indexOf 来说，不像 console.log 会将没有定义的元素补全为 undefined ，indexOf 是看不到这个元素的。" />
@@ -28,7 +28,7 @@ but if just run [true, undefined, true].indexOf(undefined) in chrome dev tools i
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -90,7 +90,7 @@ if (!doNotTrack) {
   });
   <span style="color:#66d9ef">return</span> [<span style="color:#a6e22e">arr</span>, <span style="color:#a6e22e">arr</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#66d9ef">undefined</span>)];
 };
-</code></pre></div><p>Why this doesn't work?!</p>
+</code></pre></div><p>Why this doesn&rsquo;t work?!</p>
 <pre><code>firstMissingPositive([2]) // [[true, undefined, true], -1]
 </code></pre><p>Why <code>-1</code> !?</p>
 <p>but if just run <code>[true, undefined, true].indexOf(undefined)</code> in chrome dev tools it returns <code>1</code>.</p>
@@ -101,13 +101,13 @@ if (!doNotTrack) {
 </span></code></pre></div><p><code>findIndex()</code> 是真的会去从 0 开始遍历的。就像 <code>for</code> 循环一样。</p>
 <h1 id="参考">参考</h1>
 <ul>
-<li><a href="https://stackoverflow.com/questions/35949699/why-array-indexofundefined-doesnt-work-if-array-is-sparse">Why array.indexOf(undefined) doesn't work if array is sparse - Stack Overflow</a></li>
+<li><a href="https://stackoverflow.com/questions/35949699/why-array-indexofundefined-doesnt-work-if-array-is-sparse">Why array.indexOf(undefined) doesn&rsquo;t work if array is sparse - Stack Overflow</a></li>
 </ul>
 <blockquote>
 <p>The reason this actually works unlike indexOf is that a[i] will evaluate to undefined if:</p>
 <ol>
 <li>The element exists and it has the value undefined, or</li>
-<li>The element doesn't exist at all. indexOf however will skip these &ldquo;gaps&rdquo; in the array.</li>
+<li>The element doesn&rsquo;t exist at all. indexOf however will skip these &ldquo;gaps&rdquo; in the array.</li>
 </ol>
 </blockquote>
 </div>

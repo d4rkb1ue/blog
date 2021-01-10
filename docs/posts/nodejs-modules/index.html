@@ -30,7 +30,7 @@ module.exports = (width) =&gt; { return { area: () =&gt; width * width }; }; 引
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -90,7 +90,7 @@ if (!doNotTrack) {
 <span style="color:#a6e22e">exports</span>.<span style="color:#a6e22e">area</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">r</span>) =&gt; <span style="color:#a6e22e">PI</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">r</span>;
 </code></pre></div><p>引用这个模块，main.js</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">circle</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./circle.js&#39;</span>);
-<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">Area of a circle of radius 4 is </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">circle</span>.<span style="color:#a6e22e">area</span>(<span style="color:#ae81ff">4</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`Area of a circle of radius 4 is </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">circle</span>.<span style="color:#a6e22e">area</span>(<span style="color:#ae81ff">4</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
 </code></pre></div><p>Usage</p>
 <pre><code>$ node main.js
 &gt; Area of a circle of radius 4 is 50.26548245743669
@@ -105,7 +105,7 @@ if (!doNotTrack) {
 </code></pre></div><p>引用它，main.js</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">square</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;./square.js&#39;</span>);
 <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">mySquare</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">square</span>(<span style="color:#ae81ff">2</span>); <span style="color:#75715e">// get a closure
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`</span><span style="color:#e6db74">The area of my square is </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">mySquare</span>.<span style="color:#a6e22e">area</span>()<span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`The area of my square is </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">mySquare</span>.<span style="color:#a6e22e">area</span>()<span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
 </code></pre></div><h2 id="diff">diff</h2>
 <p>这两个的区别，</p>
 <blockquote>

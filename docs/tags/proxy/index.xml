@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Thu, 23 Feb 2017 05:44:39 +0000</lastBuildDate>
-    
-	<atom:link href="https://drkbl.com/tags/proxy/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 23 Feb 2017 05:44:39 +0000</lastBuildDate><atom:link href="https://drkbl.com/tags/proxy/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>diff - 正向代理 反向代理</title>
       <link>https://drkbl.com/posts/proxy-forward-or-reverse/</link>

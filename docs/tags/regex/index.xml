@@ -7,18 +7,14 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Sat, 11 Mar 2017 23:44:20 +0000</lastBuildDate>
-    
-	<atom:link href="https://drkbl.com/tags/regex/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 11 Mar 2017 23:44:20 +0000</lastBuildDate><atom:link href="https://drkbl.com/tags/regex/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>正则表达式入门</title>
       <link>https://drkbl.com/posts/js-regexp/</link>
       <pubDate>Sat, 11 Mar 2017 23:44:20 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/js-regexp/</guid>
-      <description>RegExp 语法 字符  \d: one number \w: one number, letter .: any single character \s: one space(&amp;rsquo; &amp;lsquo;), tab(&#39;\t&amp;rsquo;)  特殊字符需要转义，
+      <description>RegExp 语法 字符  \d: one number \w: one number, letter .: any single character \s: one space(&#39; &amp;lsquo;), tab(&#39;\t&amp;rsquo;)  特殊字符需要转义，
  -: \- _: \_ $: \$  例如，
 00\d // 004 \d\d\d // 223 \w\w // f2 js.// js! 限制 +: one or more *: none or more ?: none or one {n}: exactly n chars {n, m}: n &amp;lt;= number of chars &amp;lt;= m [0-9]: range A|B: or ^: 表示行的开头 $: 表示行的结束</description>
     </item>

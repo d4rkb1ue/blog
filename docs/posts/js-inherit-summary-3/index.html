@@ -9,9 +9,9 @@
   <meta content='JavaScript 继承机制-3-拷贝继承和数据类型 - d4rkb1ue&#39;s Blog' property='og:title' />
 
 
-<meta property="og:description" content="假设 现在有一个对象，叫做&quot;中国人&rdquo;。
-var Chinese = { nation:&#39;中国&#39; }; 还有一个对象，叫做&quot;医生&rdquo;。
-var Doctor ={ career:&#39;医生&#39; } 请问怎样才能让&quot;医生&quot;去继承&quot;中国人&rdquo;，也就是说，我怎样才能生成一个&quot;中国医生&quot;的对象？
+<meta property="og:description" content="假设 现在有一个对象，叫做&quot;中国人&quot;。
+var Chinese = { nation:&#39;中国&#39; }; 还有一个对象，叫做&quot;医生&quot;。
+var Doctor ={ career:&#39;医生&#39; } 请问怎样才能让&quot;医生&quot;去继承&quot;中国人&quot;，也就是说，我怎样才能生成一个&quot;中国医生&quot;的对象？
 object(o) 方法: 生成“类”o的实例 function object(o) { function F() {}; F.prototype = o; return new F(); } new F()实际调用的是o.constructor但是免去了传参。其实就是把一切初始化参数都设定为undefined. 即：
 function O(a){this.a=a}; function F() {}; F.prototype = O; F.prototype.constructor === O.constructor; //true 使用 var Doctor = object(Chinese); Doctor.career = &#39;医生&#39;; alert(Doctor.nation); //中国 这时，子对象已经继承了父对象的属性了。
 浅拷贝: extendCopy(p) 把父对象的属性，全部拷贝给子对象，也能实现继承。
@@ -31,7 +31,7 @@ function extendCopy(p) { var c = {}; for (var i in p) { c[i] = p[i]; } c." />
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -85,15 +85,15 @@ if (!doNotTrack) {
     
   </p>
   <div class="lh-copy post-content"><h1 id="假设">假设</h1>
-<p>现在有一个对象，叫做&quot;中国人&rdquo;。</p>
+<p>现在有一个对象，叫做&quot;中国人&quot;。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Chinese</span> <span style="color:#f92672">=</span> {
     <span style="color:#a6e22e">nation</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#39;中国&#39;</span>
 };
-</code></pre></div><p>还有一个对象，叫做&quot;医生&rdquo;。</p>
+</code></pre></div><p>还有一个对象，叫做&quot;医生&quot;。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Doctor</span> <span style="color:#f92672">=</span>{
     <span style="color:#a6e22e">career</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#39;医生&#39;</span>
 }
-</code></pre></div><p>请问怎样才能让&quot;医生&quot;去继承&quot;中国人&rdquo;，也就是说，我怎样才能生成一个&quot;中国医生&quot;的对象？</p>
+</code></pre></div><p>请问怎样才能让&quot;医生&quot;去继承&quot;中国人&quot;，也就是说，我怎样才能生成一个&quot;中国医生&quot;的对象？</p>
 <h1 id="objecto-方法-生成类o的实例">object(o) 方法: 生成“类”o的实例</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">object</span>(<span style="color:#a6e22e">o</span>) {
     <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">F</span>() {};
@@ -128,7 +128,7 @@ if (!doNotTrack) {
 <span style="color:#a6e22e">alert</span>(<span style="color:#a6e22e">Doctor</span>.<span style="color:#a6e22e">nation</span>); <span style="color:#75715e">// 中国
 </span></code></pre></div><h2 id="问题">问题</h2>
 <p>如果父对象的属性等于<strong>Array数组</strong>或另一个<strong>Object对象</strong>，那么实际上，子对象获得的只是一个内存地址，而不是真正拷贝，因此存在父对象被篡改的可能:对子类的操作，反而会影响父类。这不和逻辑。</p>
-<p><em>所以，extendCopy()只是拷贝基本类型的数据，我们把这种拷贝叫做&quot;浅拷贝&rdquo;。</em></p>
+<p><em>所以，extendCopy()只是拷贝基本类型的数据，我们把这种拷贝叫做&quot;浅拷贝&quot;。</em></p>
 <h1 id="深拷贝">深拷贝</h1>
 <p>递归调用&quot;浅拷贝&quot;就行了。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">deepCopy</span>(<span style="color:#a6e22e">p</span>, <span style="color:#a6e22e">c</span>) {
@@ -148,8 +148,8 @@ if (!doNotTrack) {
 </code></pre></div><p><em>Array的拷贝说明：</em></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">v</span> <span style="color:#66d9ef">in</span> <span style="color:#a6e22e">a</span>){<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">dir</span>(<span style="color:#a6e22e">v</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;: &#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">v</span>])};
 <span style="color:#75715e">//0: 1
-</span><span style="color:#75715e"></span><span style="color:#75715e">//1: 2
-</span><span style="color:#75715e"></span><span style="color:#75715e">//2: 4
+</span><span style="color:#75715e">//1: 2
+</span><span style="color:#75715e">//2: 4
 </span></code></pre></div><h2 id="使用-2">使用</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">Doctor</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">deepCopy</span>(<span style="color:#a6e22e">Chinese</span>);
 
@@ -182,7 +182,7 @@ if (!doNotTrack) {
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">//不要使用==比较，始终坚持使用===比较。
 </span><span style="color:#75715e"></span>
 <span style="color:#ae81ff">123.</span>.<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> Number; <span style="color:#75715e">//true
-</span><span style="color:#75715e"></span><span style="color:#75715e">//注意123.constructor是会报错的。123.. =&gt; 123.0. 不会误判为错误的数字定义方式。
+</span><span style="color:#75715e">//注意123.constructor是会报错的。123.. =&gt; 123.0. 不会误判为错误的数字定义方式。
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">Infinity</span>.<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> Number; <span style="color:#75715e">//true 无穷
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">NaN</span>.<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> Number; <span style="color:#75715e">//true 不是个数字,可由&#34;0/0&#34;获得
 </span><span style="color:#75715e"></span>
@@ -194,7 +194,7 @@ if (!doNotTrack) {
 [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>].<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> Array; <span style="color:#75715e">//true
 </span><span style="color:#75715e"></span>
 ({}).<span style="color:#a6e22e">constructor</span> <span style="color:#f92672">===</span> Object; <span style="color:#75715e">//true
-</span><span style="color:#75715e"></span><span style="color:#75715e">//{}.constructor === Object; //Unexpected token . :所有&#39;}&#39;都预示着后面没东西了。不会再看了。有东西就出错。这是由于js的免&#39;;&#39;机制导致的
+</span><span style="color:#75715e">//{}.constructor === Object; //Unexpected token . :所有&#39;}&#39;都预示着后面没东西了。不会再看了。有东西就出错。这是由于js的免&#39;;&#39;机制导致的
 </span><span style="color:#75715e"></span>
 <span style="color:#66d9ef">null</span>.<span style="color:#a6e22e">constructor</span>; <span style="color:#75715e">//Cannot read property &#39;constructor&#39; of null
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">null</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">null</span>; <span style="color:#75715e">//true

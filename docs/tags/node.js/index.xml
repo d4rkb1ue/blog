@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Wed, 15 Mar 2017 22:19:05 +0000</lastBuildDate>
-    
-	<atom:link href="https://drkbl.com/tags/node.js/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 15 Mar 2017 22:19:05 +0000</lastBuildDate><atom:link href="https://drkbl.com/tags/node.js/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>React &#43; Babel &#43; Webpack &#43; antd 入门</title>
       <link>https://drkbl.com/posts/react-hello-world/</link>
@@ -22,7 +18,7 @@
  React 为数据提供渲染为 HTML 的视图的开源 JavaScript 库 Babel 是一个 JavaScript 编译器，用于转化 ES2015/JSX 代码 Webpack 前端资源加载/打包工具，满足前端工程化需要 antd-react 使用 Ant Design UI 库的 React 实现  Git: d4rkb1ue/react-helloworld
 运行指南 $ git clone https://github.com/d4rkb1ue/react-helloworld.git $ cd react-helloworld $ npm i $ npm run test 已知问题 npm i 卡死 $ npm i 这步可能会卡在 extract:webpack-dev-server: sill doParallel extract 589 这里，这个问题已经被 Node Issue 了 https://github.com/npm/npm/issues/13782
 解决办法，单独安装 webpack ， webpack-dev-server ， babel-cli ， babel-loader
-$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&#39;t be accessed via IP github issue</description>
+$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&amp;rsquo;t be accessed via IP github issue</description>
     </item>
     
     <item>
@@ -100,7 +96,7 @@ if (err || account.length === 0) { return callback(err); } callback(null, accoun
       <description>做起文件上传，就突然想起来访问权限问题。之前在apache服务器里，/var/www里面的文件是通过linux的权限管理来决定是否可以访问。那么express是怎么样的呢？
 现在的访问权限 好像通过app.use(express.static(path.join(__dirname, &#39;public&#39;)));定义之后，直接访问 /some-url 就是在访问 public/文件夹下的文件。
 使用Multer 安装： $ npm install --save multer header.ejs 在 &amp;lt;span&amp;gt;&amp;lt;a title=&amp;quot;发表&amp;quot; href=&amp;quot;/post&amp;quot;&amp;gt;post&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt; 前添加一行代码：
-&amp;lt;span&amp;gt;&amp;lt;a title=&amp;quot;上传&amp;quot; href=&amp;quot;/upload&amp;quot;&amp;gt;upload&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt; index.js 在 app.get(&#39;/logout&amp;rsquo;) 函数后添加如下代码：
+&amp;lt;span&amp;gt;&amp;lt;a title=&amp;quot;上传&amp;quot; href=&amp;quot;/upload&amp;quot;&amp;gt;upload&amp;lt;/a&amp;gt;&amp;lt;/span&amp;gt; index.js 在 app.get(&#39;/logout&#39;) 函数后添加如下代码：
 app.get(&amp;#39;/upload&amp;#39;, checkLogin); app.get(&amp;#39;/upload&amp;#39;, function (req, res) { res.render(&amp;#39;upload&amp;#39;, { title: &amp;#39;文件上传&amp;#39;, user: req.session.user, success: req.flash(&amp;#39;success&amp;#39;).toString(), error: req.flash(&amp;#39;error&amp;#39;).toString() }); }); views/upload.ejs &amp;lt;%- include header %&amp;gt; &amp;lt;form method=&#39;post&#39; action=&#39;https://drkbl.com/upload&#39; enctype=&#39;multipart/form-data&#39; &amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;file&amp;quot; name=&#39;file&#39;/&amp;gt;&amp;lt;br&amp;gt; &amp;lt;input type=&amp;quot;submit&amp;quot; /&amp;gt; &amp;lt;/form&amp;gt; &amp;lt;%- include footer %&amp;gt; 现在我们就可以访问文件上传页面了。 有一点和教程不同，我这5个name都是相同的，这样以备后面的设定。</description>
     </item>
     
@@ -122,9 +118,9 @@ app.get(&amp;#39;/upload&amp;#39;, checkLogin); app.get(&amp;#39;/upload&amp;#39
       
       <guid>https://drkbl.com/posts/admission-control-middleware-next-routes-prototype/</guid>
       <description>页面权限控制 状态检查中间件 function checkLogin(req, res, next) { if (!req.session.user) { req.flash(&amp;#39;error&amp;#39;, &amp;#39;未登录!&amp;#39;); res.redirect(&amp;#39;/login&amp;#39;); } next(); } function checkNotLogin(req, res, next) { if (req.session.user) { req.flash(&amp;#39;error&amp;#39;, &amp;#39;已登录!&amp;#39;); res.redirect(&amp;#39;back&amp;#39;);//返回之前的页面  } next(); } 通过 next() 转移控制权.
- next() with no arguments says &amp;ldquo;just kidding, I don&#39;t actual want to handle this&amp;rdquo;. It goes back in and tries to find the next route that would match.
+ next() with no arguments says &amp;ldquo;just kidding, I don&amp;rsquo;t actual want to handle this&amp;rdquo;. It goes back in and tries to find the next route that would match.
  正常情况下routes是按照顺序依次找匹配的，找到一个匹配的就进去。如果有send()就返回，没有就什么都不返回；加入next()之后，在这个app.VERB里如果运行到next()那么就会返回到routes继续向下查找。
-res.redirect(&#39;back&#39;); //返回之前的页面 这个&#39;back&#39;不错。很方便。
+res.redirect(&#39;back&#39;); //返回之前的页面 这个&amp;rsquo;back&amp;rsquo;不错。很方便。
 修改后的 index.js var crypto = require(&amp;#39;crypto&amp;#39;), User = require(&amp;#39;.</description>
     </item>
     
@@ -175,7 +171,7 @@ var mongodb = require(&amp;#39;./db&amp;#39;); function User(user) { this.name =
       
       <guid>https://drkbl.com/posts/node-blog-ejs-static-file/</guid>
       <description>模版引擎 N-blog使用的模版引擎是ejs。我想想我还是改成这个吧。不然后面可能差距越来越大。
-Sublime&#39;s tips: CMD+p:定位，输入@定位文件内标签 CMD+R ＝ CMD+p,@
+Sublime&amp;rsquo;s tips: CMD+p:定位，输入@定位文件内标签 CMD+R ＝ CMD+p,@
 index.ejs &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;title&amp;gt;&amp;lt;%= title %&amp;gt;&amp;lt;/title&amp;gt; &amp;lt;link rel=&amp;#39;stylesheet&amp;#39; href=&amp;#39;/stylesheets/style.css&amp;#39; /&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;h1&amp;gt;&amp;lt;%= title %&amp;gt;&amp;lt;/h1&amp;gt; &amp;lt;p&amp;gt;Welcome to &amp;lt;%= title %&amp;gt;&amp;lt;/p&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; app.js 指定了所使用的render
 // view engine setup app.set(&amp;#39;views&amp;#39;, path.join(__dirname, &amp;#39;views&amp;#39;)); app.set(&amp;#39;view engine&amp;#39;, &amp;#39;ejs&amp;#39;); index.js 调用render()来渲染模版，同时传参
  第一个是模板的名称，即 views 目录下的模板文件名，扩展名 .ejs 可选。第二个参数是传递给模板的数据对象，用于模板翻译。

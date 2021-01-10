@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Sun, 05 Apr 2020 01:24:57 -0700</lastBuildDate>
-    
-	<atom:link href="https://drkbl.com/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 05 Apr 2020 01:24:57 -0700</lastBuildDate><atom:link href="https://drkbl.com/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Learn Cookie From Chrome 80 Samesite</title>
       <link>https://drkbl.com/posts/learn-cookie-from-chrome-80-samesite/</link>
@@ -20,7 +16,7 @@
       <guid>https://drkbl.com/posts/learn-cookie-from-chrome-80-samesite/</guid>
       <description>Learn Cookie From Chrome 80 Samesite Chrome 80 enable a new flag by default, SameSite. Although revert this change later.
  Google rolls back Chrome feature that blocks cross-site tracking.
- Concepts Let&#39;s start with some concepts.
+ Concepts Let&amp;rsquo;s start with some concepts.
  Cookie Setter Cookie Keeper Cookie Sender Cookie Reader Cookie Origin  Setter Cookie can be set by either Web Server or Front-end codes.
 When request for GET /index.html HTTP/1.1, the Web Server can send this back:</description>
     </item>
@@ -31,7 +27,7 @@ When request for GET /index.html HTTP/1.1, the Web Server can send this back:</d
       <pubDate>Fri, 16 Jun 2017 15:25:49 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/div-not-response-to-keyboard-event-without-tabindex/</guid>
-      <description>Register onKeyDownListener on HTML Element &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;script src=&amp;#34;../build/react.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/react-dom.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/browser.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;div id=&amp;#34;app&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;script type=&amp;#34;text/babel&amp;#34;&amp;gt; class App extends React.Component { handleKeyDown(event) { console.log(&amp;#39;handling a key press&amp;#39;); } render() { return ( &amp;lt;div onKeyDown={this.handleKeyDown}&amp;gt; here! &amp;lt;/div&amp;gt; ); } } ReactDOM.render(&amp;lt;App /&amp;gt;, document.getElementById(&amp;#39;app&amp;#39;)); &amp;lt;/script&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; There are NO response here. You press any thing and there is NO response. It&#39;s doesn&#39;t matter you mouse focus on div or not.</description>
+      <description>Register onKeyDownListener on HTML Element &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;script src=&amp;#34;../build/react.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/react-dom.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;../build/browser.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;div id=&amp;#34;app&amp;#34;&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;script type=&amp;#34;text/babel&amp;#34;&amp;gt; class App extends React.Component { handleKeyDown(event) { console.log(&amp;#39;handling a key press&amp;#39;); } render() { return ( &amp;lt;div onKeyDown={this.handleKeyDown}&amp;gt; here! &amp;lt;/div&amp;gt; ); } } ReactDOM.render(&amp;lt;App /&amp;gt;, document.getElementById(&amp;#39;app&amp;#39;)); &amp;lt;/script&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; There are NO response here. You press any thing and there is NO response. It&amp;rsquo;s doesn&amp;rsquo;t matter you mouse focus on div or not.</description>
     </item>
     
     <item>
@@ -40,7 +36,7 @@ When request for GET /index.html HTTP/1.1, the Web Server can send this back:</d
       <pubDate>Thu, 15 Jun 2017 11:50:00 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/js-array-indexof-undefined/</guid>
-      <description>var firstMissingPositive = function (nums) { let arr = [true]; nums.forEach((val) =&amp;gt; { if (val &amp;gt; 0) { arr[val] = true; } }); return [arr, arr.indexOf(undefined)]; }; Why this doesn&#39;t work?!
+      <description>var firstMissingPositive = function (nums) { let arr = [true]; nums.forEach((val) =&amp;gt; { if (val &amp;gt; 0) { arr[val] = true; } }); return [arr, arr.indexOf(undefined)]; }; Why this doesn&amp;rsquo;t work?!
 firstMissingPositive([2]) // [[true, undefined, true], -1] Why -1 !?
 but if just run [true, undefined, true].indexOf(undefined) in chrome dev tools it returns 1.
 原因 主要是 chrome 的打印问题， sparse (稀疏) 的 array 在没有定义的项目上，chrome 会打印出来 undefined 。但是这个其实是真的没有定义过的，对于 indexOf 来说，不像 console.log 会将没有定义的元素补全为 undefined ，indexOf 是看不到这个元素的。</description>
@@ -141,7 +137,7 @@ find . -print | sed -e &#39;s;[^/]*/;|____;g;s;____|; |;g&#39; by OSXDaily</desc
  React 为数据提供渲染为 HTML 的视图的开源 JavaScript 库 Babel 是一个 JavaScript 编译器，用于转化 ES2015/JSX 代码 Webpack 前端资源加载/打包工具，满足前端工程化需要 antd-react 使用 Ant Design UI 库的 React 实现  Git: d4rkb1ue/react-helloworld
 运行指南 $ git clone https://github.com/d4rkb1ue/react-helloworld.git $ cd react-helloworld $ npm i $ npm run test 已知问题 npm i 卡死 $ npm i 这步可能会卡在 extract:webpack-dev-server: sill doParallel extract 589 这里，这个问题已经被 Node Issue 了 https://github.com/npm/npm/issues/13782
 解决办法，单独安装 webpack ， webpack-dev-server ， babel-cli ， babel-loader
-$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&#39;t be accessed via IP github issue</description>
+$ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server npm i babel-cli npm i babel-loader npm i webpack-dev-server can&amp;rsquo;t be accessed via IP github issue</description>
     </item>
     
     <item>
@@ -150,7 +146,7 @@ $ rm -rf node_modules/ npm cache clear npm i webpack npm i webpack-dev-server np
       <pubDate>Sat, 11 Mar 2017 23:44:20 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/js-regexp/</guid>
-      <description>RegExp 语法 字符  \d: one number \w: one number, letter .: any single character \s: one space(&amp;rsquo; &amp;lsquo;), tab(&#39;\t&amp;rsquo;)  特殊字符需要转义，
+      <description>RegExp 语法 字符  \d: one number \w: one number, letter .: any single character \s: one space(&#39; &amp;lsquo;), tab(&#39;\t&amp;rsquo;)  特殊字符需要转义，
  -: \- _: \_ $: \$  例如，
 00\d // 004 \d\d\d // 223 \w\w // f2 js.// js! 限制 +: one or more *: none or more ?: none or one {n}: exactly n chars {n, m}: n &amp;lt;= number of chars &amp;lt;= m [0-9]: range A|B: or ^: 表示行的开头 $: 表示行的结束</description>
     </item>
@@ -176,7 +172,7 @@ function closure{ var arguments = [.</description>
       
       <guid>https://drkbl.com/posts/javascript-puzzles-or-jokes/</guid>
       <description>Just for fun.
- 1 - - 1 === 2 1.toString() 0.8 - 0.6 !== 0.2 [] + [] === &amp;quot;&amp;rdquo; [] !== [] [] + {} {} + [] {1} + {} parseInt(0.0000008)  1 - - 1 1 - - 1 // 2 1 - - - - - - - - 1 // 2 1 - (-1) 1 - (-(-(-(-1))))
+ 1 - - 1 === 2 1.toString() 0.8 - 0.6 !== 0.2 [] + [] === &amp;quot;&amp;quot; [] !== [] [] + {} {} + [] {1} + {} parseInt(0.0000008)  1 - - 1 1 - - 1 // 2 1 - - - - - - - - 1 // 2 1 - (-1) 1 - (-(-(-(-1))))
 1.toString() 1.toString(); // error 1..toString(); // &amp;#34;1&amp;#34; 1.</description>
     </item>
     
@@ -197,9 +193,9 @@ class Animal { constructor(name) { this.name = name; } } class Cat extends Anima
       <pubDate>Thu, 16 Jun 2016 16:47:52 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/js-inherit-summary-3/</guid>
-      <description>假设 现在有一个对象，叫做&amp;quot;中国人&amp;rdquo;。
-var Chinese = { nation:&amp;#39;中国&amp;#39; }; 还有一个对象，叫做&amp;quot;医生&amp;rdquo;。
-var Doctor ={ career:&amp;#39;医生&amp;#39; } 请问怎样才能让&amp;quot;医生&amp;quot;去继承&amp;quot;中国人&amp;rdquo;，也就是说，我怎样才能生成一个&amp;quot;中国医生&amp;quot;的对象？
+      <description>假设 现在有一个对象，叫做&amp;quot;中国人&amp;quot;。
+var Chinese = { nation:&amp;#39;中国&amp;#39; }; 还有一个对象，叫做&amp;quot;医生&amp;quot;。
+var Doctor ={ career:&amp;#39;医生&amp;#39; } 请问怎样才能让&amp;quot;医生&amp;quot;去继承&amp;quot;中国人&amp;quot;，也就是说，我怎样才能生成一个&amp;quot;中国医生&amp;quot;的对象？
 object(o) 方法: 生成“类”o的实例 function object(o) { function F() {}; F.prototype = o; return new F(); } new F()实际调用的是o.constructor但是免去了传参。其实就是把一切初始化参数都设定为undefined. 即：
 function O(a){this.a=a}; function F() {}; F.prototype = O; F.prototype.constructor === O.constructor; //true 使用 var Doctor = object(Chinese); Doctor.career = &amp;#39;医生&amp;#39;; alert(Doctor.nation); //中国 这时，子对象已经继承了父对象的属性了。
 浅拷贝: extendCopy(p) 把父对象的属性，全部拷贝给子对象，也能实现继承。
@@ -232,7 +228,7 @@ PrimaryStudent.prototype = Student.prototype; 是不行的！如果这样的话�
 function Cat(name,color){ return { name:name, color:color } } 这可以被看作是一个基本的构造函数。调用方式为：
 var cat1 = Cat(&amp;#34;大毛&amp;#34;,&amp;#34;黄色&amp;#34;); 2. 引入this 进阶一下，如果包含this的函数会自动被当作是一个构造函数，如：
 function Cat(name,color){ this.name=name; this.color=color; } 这时，调用方式被规定为
-var cat1 = new Cat(&amp;#34;大毛&amp;#34;,&amp;#34;黄色&amp;#34;); 这两个函数等效的话，那么new操作符可以被看作是：
+var cat1 = new Cat(&amp;#34;大毛&amp;#34;,&amp;#34;黄色&amp;#34;); 这两个函数等效的话，那么**new操作符可以被看作是**：
   创建一个空Obj: {} 之后把指向这个Obj的指针作为构造函数的this参数。    Cat.apply(this,...)   两种方式的差别 1. 对生成的cat1赋了一个constructor的值。 调用
 cat1.constructor 第一种方式返回：
 Object() { [native code] } 第二种方式返回：
@@ -300,7 +296,7 @@ HTML如下
  screen.width：屏幕宽度，以像素为单位； screen.height：屏幕高度，以像素为单位； screen.colorDepth：返回颜色位数，如8、16、24。  4. location location对象表示当前页面的URL信息
   location.href : http://www.example.com:8080/path/index.html?a=1&amp;amp;b=2#TOP
   location.protocol; // &amp;lsquo;http&amp;rsquo;
-  location.host; // &amp;lsquo;www.example.com&#39;
+  location.host; // &amp;lsquo;www.example.com&amp;rsquo;
   location.port; // &amp;lsquo;8080&amp;rsquo;
   location.pathname; // &amp;lsquo;/path/index.html&amp;rsquo;
   location.search; // &amp;lsquo;?a=1&amp;amp;b=2&amp;rsquo;

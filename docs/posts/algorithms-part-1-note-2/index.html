@@ -28,7 +28,7 @@ lg(T (N)) = b lg N &#43; c T (N) = a N^b, where a = 2^c in this case," />
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -82,11 +82,11 @@ if (!doNotTrack) {
     
   </p>
   <div class="lh-copy post-content"><h1 id="algs4jarstopwatch">algs4.jar/Stopwatch</h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[</span><span style="color:#f92672">]</span> args<span style="color:#f92672">)</span><span style="color:#f92672">{</span>
-   <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span><span style="color:#f92672">]</span> a <span style="color:#f92672">=</span> In<span style="color:#f92672">.</span><span style="color:#a6e22e">readInts</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-   Stopwatch stopwatch <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stopwatch<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-   StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>ThreeSum<span style="color:#f92672">.</span><span style="color:#a6e22e">count</span><span style="color:#f92672">(</span>a<span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
-   <span style="color:#66d9ef">double</span> time <span style="color:#f92672">=</span> stopwatch<span style="color:#f92672">.</span><span style="color:#a6e22e">elapsedTime</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span> <span style="color:#75715e">// time since creation (in seconds)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+   <span style="color:#66d9ef">int</span><span style="color:#f92672">[]</span> a <span style="color:#f92672">=</span> In<span style="color:#f92672">.</span><span style="color:#a6e22e">readInts</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">]);</span>
+   Stopwatch stopwatch <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stopwatch<span style="color:#f92672">();</span>
+   StdOut<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>ThreeSum<span style="color:#f92672">.</span><span style="color:#a6e22e">count</span><span style="color:#f92672">(</span>a<span style="color:#f92672">));</span>
+   <span style="color:#66d9ef">double</span> time <span style="color:#f92672">=</span> stopwatch<span style="color:#f92672">.</span><span style="color:#a6e22e">elapsedTime</span><span style="color:#f92672">();</span> <span style="color:#75715e">// time since creation (in seconds)
 </span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
 </code></pre></div><h1 id="复杂度计算">复杂度计算</h1>
 <h2 id="log-log-plot">Log-log plot</h2>

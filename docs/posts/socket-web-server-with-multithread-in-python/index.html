@@ -9,7 +9,7 @@
   <meta content='Socket Web Server With Multithread in Python - d4rkb1ue&#39;s Blog' property='og:title' />
 
 
-<meta property="og:description" content="Socket in Unix/Linux  Socket in Unix/Linux is just file descriptor, which means you can just treat it as file. Socket exists on the both ends of the communicators as the endpoints. Socket can be full duplex. Since Socket are inherently file, then it has its own buffer for both Reading and Writing. The communication process is like,  Reading data from its reading buffer and write data to its writing buffer When the writing buffer is full(or call flush), the data will be passed to the peer&#39;s reading buffer Peer will refuse to be inputed when full    Socket Server/Client in Python  Server&#39;s serversocket." />
+<meta property="og:description" content="Socket in Unix/Linux  Socket in Unix/Linux is just file descriptor, which means you can just treat it as file. Socket exists on the both ends of the communicators as the endpoints. Socket can be full duplex. Since Socket are inherently file, then it has its own buffer for both Reading and Writing. The communication process is like,  Reading data from its reading buffer and write data to its writing buffer When the writing buffer is full(or call flush), the data will be passed to the peer&rsquo;s reading buffer Peer will refuse to be inputed when full    Socket Server/Client in Python  Server&rsquo;s serversocket." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://drkbl.com/posts/socket-web-server-with-multithread-in-python/" />
 
@@ -25,7 +25,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -86,18 +86,18 @@ if (!doNotTrack) {
 <li>Since <code>Socket</code> are inherently <code>file</code>, then it has its own <strong>buffer</strong> for both Reading and Writing. The communication process is like,
 <ul>
 <li>Reading data from its reading buffer and write data to its writing buffer</li>
-<li>When the writing buffer is full(or call <code>flush</code>), the data will be passed to the peer's reading buffer</li>
+<li>When the writing buffer is full(or call <code>flush</code>), the data will be passed to the peer&rsquo;s reading buffer</li>
 <li>Peer will refuse to be inputed when full</li>
 </ul>
 </li>
 </ul>
 <h2 id="socket-serverclient-in-python">Socket Server/Client in Python</h2>
 <ul>
-<li>Server's <code>serversocket.bind</code> is actaully to,
+<li>Server&rsquo;s <code>serversocket.bind</code> is actaully to,
 <ul>
 <li>Start <strong>a <code>Socket</code> for accepting new sockets request</strong></li>
-<li>It's for Client applies a new connection with server - &ldquo;I want to talk with you using my <code>Socket</code> at <code>IP:Port</code>&rdquo;</li>
-<li>It's NOT for really passing the message payload</li>
+<li>It&rsquo;s for Client applies a new connection with server - &ldquo;I want to talk with you using my <code>Socket</code> at <code>IP:Port</code>&rdquo;</li>
+<li>It&rsquo;s NOT for really passing the message payload</li>
 </ul>
 </li>
 <li>The <code>clientsocket</code> in <code>(clientsocket, address) = serversocket.accept()</code> is a new socket connected to client for payload communication.</li>
@@ -112,7 +112,7 @@ if (!doNotTrack) {
 </li>
 </ul>
 <h2 id="socket-with-multiple-processthreadings-in-python">Socket with Multiple Process/Threadings in Python</h2>
-<p>Theading is a standard in Unix/Linux. Each thread has its own runtime context with register data, allowing it to know which line of code need to be run. While code is actually the shared data in the process's memory as multiple thread in a single process can share the memory.</p>
+<p>Theading is a standard in Unix/Linux. Each thread has its own runtime context with register data, allowing it to know which line of code need to be run. While code is actually the shared data in the process&rsquo;s memory as multiple thread in a single process can share the memory.</p>
 <ul>
 <li><code>serversocket.accept()</code> is a blocking process by default, which is thread-safe &amp; process-safe. So the <code>serversocket</code> can be shared among multiple threads and/or processes.</li>
 <li><code>Process</code> share socket by cloning the <code>fd</code>(file descriptor) when <code>fork</code></li>
@@ -120,15 +120,15 @@ if (!doNotTrack) {
 <li>Although you can still run <code>accept()</code> in multiple processes and also threads.</li>
 </ul>
 <h2 id="real-example">Real Example</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;&#39;&#39;</span><span style="color:#e6db74">python3</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#e6db74">&#39;&#39;&#39;python3&#39;&#39;&#39;</span>
 <span style="color:#f92672">import</span> socket
 <span style="color:#f92672">import</span> threading
 <span style="color:#f92672">import</span> time
 
-response <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">HTTP/1.1 200 OK</span><span style="color:#ae81ff">\r</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Connection: Close</span><span style="color:#ae81ff">\r</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Content-Length: 11</span><span style="color:#ae81ff">\r</span><span style="color:#ae81ff">\n</span><span style="color:#ae81ff">\r</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Hello world</span><span style="color:#e6db74">&#39;</span>
+response <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;HTTP/1.1 200 OK</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">Connection: Close</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">Content-Length: 11</span><span style="color:#ae81ff">\r\n\r\n</span><span style="color:#e6db74">Hello world&#39;</span>
 server <span style="color:#f92672">=</span> socket<span style="color:#f92672">.</span>socket()
 server<span style="color:#f92672">.</span>setsockopt(socket<span style="color:#f92672">.</span>SOL_SOCKET, socket<span style="color:#f92672">.</span>SO_REUSEADDR, <span style="color:#ae81ff">1</span>)
-server<span style="color:#f92672">.</span>bind((<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">0.0.0.0</span><span style="color:#e6db74">&#39;</span>, <span style="color:#ae81ff">1234</span>))
+server<span style="color:#f92672">.</span>bind((<span style="color:#e6db74">&#39;0.0.0.0&#39;</span>, <span style="color:#ae81ff">1234</span>))
 server<span style="color:#f92672">.</span>listen(<span style="color:#ae81ff">1234</span>)
 
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handler</span>():
@@ -137,7 +137,7 @@ server<span style="color:#f92672">.</span>listen(<span style="color:#ae81ff">123
         request <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>recv(<span style="color:#ae81ff">1024</span>)
         <span style="color:#75715e"># pretent to prepare</span>
         time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">2</span>)
-        client<span style="color:#f92672">.</span>send(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">Bye</span><span style="color:#e6db74">&#39;</span>)
+        client<span style="color:#f92672">.</span>send(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Bye&#39;</span>)
         client<span style="color:#f92672">.</span>close()
 
 thread1 <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Thread(target<span style="color:#f92672">=</span>handler)

@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Thu, 12 May 2016 01:41:14 +0000</lastBuildDate>
-    
-	<atom:link href="https://drkbl.com/tags/css/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 12 May 2016 01:41:14 +0000</lastBuildDate><atom:link href="https://drkbl.com/tags/css/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTML Tabs 标签页的实现方式和对比</title>
       <link>https://drkbl.com/posts/how-to-make-tabs/</link>
@@ -79,7 +75,7 @@ height:350px; object-fit: cover; 设置好宽和高，图片自己就会进行�
  screen.width：屏幕宽度，以像素为单位； screen.height：屏幕高度，以像素为单位； screen.colorDepth：返回颜色位数，如8、16、24。  4. location location对象表示当前页面的URL信息
   location.href : http://www.example.com:8080/path/index.html?a=1&amp;amp;b=2#TOP
   location.protocol; // &amp;lsquo;http&amp;rsquo;
-  location.host; // &amp;lsquo;www.example.com&#39;
+  location.host; // &amp;lsquo;www.example.com&amp;rsquo;
   location.port; // &amp;lsquo;8080&amp;rsquo;
   location.pathname; // &amp;lsquo;/path/index.html&amp;rsquo;
   location.search; // &amp;lsquo;?a=1&amp;amp;b=2&amp;rsquo;

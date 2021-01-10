@@ -28,7 +28,7 @@ Array.prototype.map 的一个例子：
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -123,7 +123,7 @@ Array.<span style="color:#a6e22e">prototype</span>.<span style="color:#a6e22e">s
 </code></pre></div><h1 id="参数个数">参数个数</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">[<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;3&#39;</span>].<span style="color:#a6e22e">map</span>(parseInt);
 <span style="color:#75715e">// While one could expect [1, 2, 3]
-</span><span style="color:#75715e"></span><span style="color:#75715e">// The actual result is [1, NaN, NaN]
+</span><span style="color:#75715e">// The actual result is [1, NaN, NaN]
 </span></code></pre></div><p>这个问题写在 API 里面，其原因是 <code>map</code> 在调用的时候传了 3 个参数，</p>
 <blockquote>
 <p>currentValue: The current element being processed in the array.
@@ -141,7 +141,7 @@ array: The array map was called upon.</p>
 }
 
 [<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;3&#39;</span>].<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">returnInt</span>); <span style="color:#75715e">// [1, 2, 3]
-</span><span style="color:#75715e"></span><span style="color:#75715e">// Actual result is an array of numbers (as expected)
+</span><span style="color:#75715e">// Actual result is an array of numbers (as expected)
 </span><span style="color:#75715e"></span>
 <span style="color:#75715e">// A simpler way to achieve the above, while avoiding the &#34;gotcha&#34;:
 </span><span style="color:#75715e"></span>[<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;3&#39;</span>].<span style="color:#a6e22e">map</span>(Number); <span style="color:#75715e">// [1, 2, 3]

@@ -10,7 +10,7 @@
 
 
 <meta property="og:description" content="Publishing Services We want the service in k8s cluster to be accessed from outside.
-Depending on either the Pod inside the cluster can communication with each other directly or not, there&#39;re three different approaches,
+Depending on either the Pod inside the cluster can communication with each other directly or not, there&rsquo;re three different approaches,
   Global Gateway.
 No direct communication between Pods. All traffic will be routed by the gateway.
 &#43;- k8s cluster --&#43; | *********** | Pod &lt;---&gt; * global * | Pod &lt;---&gt; * gateway * &lt;---&gt; Clients | Pod &lt;---&gt; * &quot;entry&quot; * | *********** &#43;---------------&#43;   Service Mesh." />
@@ -29,7 +29,7 @@ No direct communication between Pods. All traffic will be routed by the gateway.
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -84,7 +84,7 @@ if (!doNotTrack) {
   </p>
   <div class="lh-copy post-content"><h1 id="publishing-services">Publishing Services</h1>
 <p><strong>We want the service in k8s cluster to be accessed from outside.</strong></p>
-<p>Depending on either the Pod inside the cluster can communication with each other <strong>directly</strong> or not, there're three different approaches,</p>
+<p>Depending on either the Pod inside the cluster can communication with each other <strong>directly</strong> or not, there&rsquo;re three different approaches,</p>
 <ol>
 <li>
 <p>Global Gateway.<br>
@@ -111,7 +111,7 @@ Pods can talk directly with each others. Only external access will pass the edge
 | (Powered by internal  |
 |  infras like Istio.)  |
 +-----------------------+
-</code></pre><p>*<em>Of course, service mesh has way more features and components. We're only focusing on the communication plane in a single cluster.</em></p>
+</code></pre><p>*<em>Of course, service mesh has way more features and components. We&rsquo;re only focusing on the communication plane in a single cluster.</em></p>
 <blockquote>
 <p>You use a gateway to manage inbound and outbound traffic for your mesh, letting you specify which traffic you want to enter or leave the mesh. Gateway configurations are applied to standalone Envoy proxies that are running at the edge of the mesh, rather than sidecar Envoy proxies running alongside your service workloads. <a href="https://istio.io/docs/concepts/traffic-management/#gateways">^istio</a></p>
 </blockquote>
@@ -153,19 +153,19 @@ Implementations like,</p>
 <blockquote>
 <p>In theory, you could talk to these pods directly, but what happens when a node dies? The <code>pod</code>s die with it, and the <code>Deployment</code> will create new ones, with different <code>IP</code>s. This is the problem a <code>Service</code> solves.</p>
 </blockquote>
-<p><a href="https://kubernetes.io/docs/concepts/services-networking/service/">Service</a> is an overlay of Pod's <code>IP:Port</code> for <strong>exposing</strong>, with dynamic config and LB.</p>
+<p><a href="https://kubernetes.io/docs/concepts/services-networking/service/">Service</a> is an overlay of Pod&rsquo;s <code>IP:Port</code> for <strong>exposing</strong>, with dynamic config and LB.</p>
 <blockquote>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: v1
-kind: Service
-metadata:
-  name: my-service
-spec:
-  selector:
-    app: MyApp
-  ports:
-    - protocol: TCP
-      port: <span style="color:#ae81ff">80</span>
-      targetPort: <span style="color:#ae81ff">9376</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
+<span style="color:#f92672">metadata</span>:
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-service</span>
+<span style="color:#f92672">spec</span>:
+  <span style="color:#f92672">selector</span>:
+    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">MyApp</span>
+  <span style="color:#f92672">ports</span>:
+    - <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+      <span style="color:#f92672">port</span>: <span style="color:#ae81ff">80</span>
+      <span style="color:#f92672">targetPort</span>: <span style="color:#ae81ff">9376</span>
 </code></pre></div><p>This specification creates a new <code>Service</code> object, which targets TCP port <code>9376</code> on any <code>Pod</code> with the <code>app=MyApp</code> label.</p>
 </blockquote>
 <p>As the backend, k8s assigns this <code>Service</code> an Virtual IP (known as <code>clusterIP</code>), which is used by the service proxies (known as <code>kube-proxy</code>).</p>
@@ -209,7 +209,7 @@ kube-proxy works as,
 </code></pre><p><code>kube-proxy</code> runs on every <code>k8s.Node</code>, which translate <code>Service.clusterIP</code> to <code>Pod's IP:Port</code> with load balancing options.</p>
 <p>In <code>user space proxy mode</code>: works as a transparent reverse proxy.</p>
 <p><a href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/">More on DNS</a>.</p>
-<p>Environment Variables will be created <strong>during the creation</strong> of the pod, which means it's not dynamic. Refer to <a href="https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#environment-variables">an ordering problem</a>. I don't think it's a good idea of using <code>env</code>.</p>
+<p>Environment Variables will be created <strong>during the creation</strong> of the pod, which means it&rsquo;s not dynamic. Refer to <a href="https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#environment-variables">an ordering problem</a>. I don&rsquo;t think it&rsquo;s a good idea of using <code>env</code>.</p>
 <h3 id="headless-services">Headless Services</h3>
 <p><code>service</code> w/o LB.</p>
 <blockquote>
@@ -218,7 +218,7 @@ kube-proxy works as,
 <h2 id="k8sservicetype">k8s.Service.type</h2>
 <p>Using k8s built-in <a href="https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types">ServiceTypes</a> is not ideal, as mode of,</p>
 <ul>
-<li><code>ClusterIP</code>: why even call this as &ldquo;Publish&rdquo;. Since this's just the default behavior handled by <a href="#k8sendpoint-dns-kube-proxy"><code>kube-proxy</code></a>.</li>
+<li><code>ClusterIP</code>: why even call this as &ldquo;Publish&rdquo;. Since this&rsquo;s just the default behavior handled by <a href="#k8sendpoint-dns-kube-proxy"><code>kube-proxy</code></a>.</li>
 <li><code>NodePort</code>: NAT. <code>HostIP:Port -&gt; (Service.clusterIP:Port -&gt;) Pod(Container)IP:Port</code></li>
 <li><code>LoadBalancer</code>: Must use cloud provider? Yes. <a href="https://kubernetes.io/docs/tasks/administer-cluster/developing-cloud-controller-manager/">^1</a>, <a href="https://github.com/kubernetes/kubernetes/issues/36220">^issue</a>, <a href="https://stackoverflow.com/questions/55162890/loadbalancing-for-kubernetes-in-non-cloud-environment">^2</a></li>
 <li><code>externalName</code>: just add the FQDN CNAME support, which translate FQDN CNAME to services.</li>
@@ -244,7 +244,7 @@ kube-proxy works as,
  | (Powered by internal Network infra, |
  |  like Calico.)                      |
  +-------------------------------------+
-</code></pre><p>Since we're aiming at creating L4 LB, we can't use <code>Ingress</code>.</p>
+</code></pre><p>Since we&rsquo;re aiming at creating L4 LB, we can&rsquo;t use <code>Ingress</code>.</p>
 <h1 id="implementations">Implementations</h1>
 <h2 id="concerns">Concerns</h2>
 <ol>
@@ -276,7 +276,7 @@ kube-proxy works as,
 <h3 id="cons">Cons</h3>
 <ol>
 <li>
-<p>Besides HTTP(S) services that can ultize HTTP headers to determine the destination, other L4 services can't share the same ports.</p>
+<p>Besides HTTP(S) services that can ultize HTTP headers to determine the destination, other L4 services can&rsquo;t share the same ports.</p>
 </li>
 <li>
 <p>Also, by default,</p>

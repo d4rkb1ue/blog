@@ -10,9 +10,9 @@
 
 
 <meta property="og:description" content="页面权限控制 状态检查中间件 function checkLogin(req, res, next) { if (!req.session.user) { req.flash(&#39;error&#39;, &#39;未登录!&#39;); res.redirect(&#39;/login&#39;); } next(); } function checkNotLogin(req, res, next) { if (req.session.user) { req.flash(&#39;error&#39;, &#39;已登录!&#39;); res.redirect(&#39;back&#39;);//返回之前的页面  } next(); } 通过 next() 转移控制权.
- next() with no arguments says &ldquo;just kidding, I don&#39;t actual want to handle this&rdquo;. It goes back in and tries to find the next route that would match.
+ next() with no arguments says &ldquo;just kidding, I don&rsquo;t actual want to handle this&rdquo;. It goes back in and tries to find the next route that would match.
  正常情况下routes是按照顺序依次找匹配的，找到一个匹配的就进去。如果有send()就返回，没有就什么都不返回；加入next()之后，在这个app.VERB里如果运行到next()那么就会返回到routes继续向下查找。
-res.redirect(&#39;back&#39;); //返回之前的页面 这个&#39;back&#39;不错。很方便。
+res.redirect(&#39;back&#39;); //返回之前的页面 这个&rsquo;back&rsquo;不错。很方便。
 修改后的 index.js var crypto = require(&#39;crypto&#39;), User = require(&#39;." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://drkbl.com/posts/admission-control-middleware-next-routes-prototype/" />
@@ -29,7 +29,7 @@ res.redirect(&#39;back&#39;); //返回之前的页面 这个&#39;back&#39;不错
 
 
 
-<meta name="generator" content="Hugo 0.62.2" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 <style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
@@ -101,11 +101,11 @@ if (!doNotTrack) {
 }
 </code></pre></div><p>通过 <code>next()</code> 转移控制权.</p>
 <blockquote>
-<p>next() with no arguments says &ldquo;just kidding, I don't actual want to handle this&rdquo;. It goes back in and tries to find the next route that would match.</p>
+<p>next() with no arguments says &ldquo;just kidding, I don&rsquo;t actual want to handle this&rdquo;. It goes back in and tries to find the next route that would match.</p>
 </blockquote>
 <p>正常情况下routes是按照顺序依次找匹配的，找到一个匹配的就进去。如果有<code>send()</code>就返回，没有就什么都不返回；加入<code>next()</code>之后，在这个<code>app.VERB</code>里如果运行到<code>next()</code>那么就会返回到routes继续向下查找。</p>
 <p><code>res.redirect('back');</code> //返回之前的页面
-这个'back'不错。很方便。</p>
+这个&rsquo;back&rsquo;不错。很方便。</p>
 <h2 id="修改后的-indexjs">修改后的 index.js</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">crypto</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;crypto&#39;</span>),
     <span style="color:#a6e22e">User</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;../models/user.js&#39;</span>);

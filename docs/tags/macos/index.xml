@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Wed, 01 Feb 2017 17:19:55 +0000</lastBuildDate>
-    
-	<atom:link href="https://drkbl.com/tags/macos/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 01 Feb 2017 17:19:55 +0000</lastBuildDate><atom:link href="https://drkbl.com/tags/macos/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>用 macOS 的 Automator 做 AutoHotKey</title>
       <link>https://drkbl.com/posts/automator-as-autohotkey/</link>
