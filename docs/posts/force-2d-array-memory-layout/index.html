@@ -109,6 +109,29 @@ p2 --&gt; 244 245
 }
 </code></pre></div><h2 id="hint-for-debug">Hint For Debug</h2>
 <p><strong>Errors happen frequently during memory copy. To fix error data, try to trace the object/memory passed by each function call to find out when it gets copied.</strong></p>
+<p>In my case,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#75715e">#define ABC &#34;abc&#34;
+</span><span style="color:#75715e">#define DEF &#34;def&#34;
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">struct</span> s1 {
+    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>strs[<span style="color:#ae81ff">2</span>];
+    ...
+};
+
+<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> s1 abc_def <span style="color:#f92672">=</span> {
+    .strs <span style="color:#f92672">=</span> {ABC, DEF};
+    ...
+};
+<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> s1 def_abc <span style="color:#f92672">=</span> {
+    .strs <span style="color:#f92672">=</span> {DEF, ABC};
+    ...
+};z
+</code></pre></div><p>On x86, <code>abc_def.strs</code> in memory is continuous. Like,</p>
+<pre><code>+---+---+---+----+---+---+---+----+
+| A | B | C | \0 | D | E | F | \0 |
++---+---+---+----+---+---+---+----+
+</code></pre><p>But on aarch64, <strong>NO</strong>, Which of course, there&rsquo;s no guarantee that the memory layout should be continuous.</p>
+<p>(although with same GCC version 7.3.1, <code>-O0</code>)</p>
 <h2 id="snippet-for-print-memory">Snippet For Print Memory</h2>
 <p>If print char which is unprintable, may casue terminal to print unreadable chars, fix it by <code>reset</code> [<a href="https://www.cyberciti.biz/tips/bash-fix-the-display.html">ref</a>].</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_hex</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>s, u_int8_t len)

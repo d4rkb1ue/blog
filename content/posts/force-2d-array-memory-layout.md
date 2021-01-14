@@ -50,6 +50,39 @@ for (int i = 0, byte_offset = 0; i < 4; i++) {
 
 **Errors happen frequently during memory copy. To fix error data, try to trace the object/memory passed by each function call to find out when it gets copied.**
 
+In my case,
+
+```C
+#define ABC "abc"
+#define DEF "def"
+
+struct s1 {
+    const char *strs[2];
+    ...
+};
+
+static const struct s1 abc_def = {
+    .strs = {ABC, DEF};
+    ...
+};
+static const struct s1 def_abc = {
+    .strs = {DEF, ABC};
+    ...
+};z
+```
+
+On x86, `abc_def.strs` in memory is continuous. Like,
+
+```
++---+---+---+----+---+---+---+----+
+| A | B | C | \0 | D | E | F | \0 |
++---+---+---+----+---+---+---+----+
+```
+
+But on aarch64, **NO**, Which of course, there's no guarantee that the memory layout should be continuous. 
+
+(although with same GCC version 7.3.1, `-O0`)
+
 ## Snippet For Print Memory
 
 If print char which is unprintable, may casue terminal to print unreadable chars, fix it by `reset` [[ref](https://www.cyberciti.biz/tips/bash-fix-the-display.html)].
