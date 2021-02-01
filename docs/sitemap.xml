@@ -3,22 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://drkbl.com/</loc>
+    <lastmod>2021-02-01T06:34:03+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/</loc>
+    <lastmod>2021-02-01T06:34:03+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/oh-my-storages/</loc>
+    <lastmod>2021-02-01T06:34:03+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://drkbl.com/tags/c/</loc>
     <lastmod>2021-01-14T08:13:17+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://drkbl.com/</loc>
-    <lastmod>2021-01-14T08:13:17+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://drkbl.com/posts/force-2d-array-memory-layout/</loc>
-    <lastmod>2021-01-14T08:13:17+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/posts/</loc>
     <lastmod>2021-01-14T08:13:17+00:00</lastmod>
   </url>
   

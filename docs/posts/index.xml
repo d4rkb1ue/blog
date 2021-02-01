@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Thu, 14 Jan 2021 08:13:17 +0000</lastBuildDate><atom:link href="https://drkbl.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Feb 2021 06:34:03 +0000</lastBuildDate><atom:link href="https://drkbl.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我的存储们</title>
+      <link>https://drkbl.com/posts/oh-my-storages/</link>
+      <pubDate>Mon, 01 Feb 2021 06:34:03 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/oh-my-storages/</guid>
+      <description>空间    Model Size Crypt Usage     WD SN550 NVME SSD 1T 内容加密 系统 和 Time machine (本体加密)   Samsung 860 EVO SATA SSD 4T LUKS 主数据盘   Micron 1100 SATA SSD 2T LUKS 主数据盘热备份   Toshiba Portable HDD 2T 无 主数据盘冷备份之一   Samsung SATA HDD 2T 无 -   Samsung T3 Portable SSD 250GB 无 临时用 Time Machine 中转站   HGST SATA HDD 1TB 无 -   Google Drive (UC Irvine) ∞ 无 主数据盘冷备份之二   iCloud Drive 200GB 无 iPhone&amp;amp;iPad 备份 + 照片 + 桌面文件夹    加密 - 使用 LUKS 显示了分级的加密方式。LUKS 是位于 block system 层的加密。位于 filesystem (比如 EXT4) 之下。即加密之后的空间可以再被格式化为目标 filesystem。</description>
+    </item>
+    
     <item>
       <title>Force 2D Array Memory Layout</title>
       <link>https://drkbl.com/posts/force-2d-array-memory-layout/</link>
