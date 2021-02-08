@@ -1,5 +1,5 @@
 ---
-title: "折腾 Ubuntu 18.04 做 NAS"
+title: "Ubuntu 18.04 做 NAS 远程桌面"
 date: 2018-07-22 21:11:31
 tags: [Gadget, Linux]
 ---
@@ -9,9 +9,6 @@ tags: [Gadget, Linux]
 - 远程界面
 - 挂载 NTFS
 - 备份
-- 开启 SMB 服务
-- 开启 Time Machine 服务：[Time Machine On Ubuntu 18 with samba](https://drkbl.com/ubuntu-18-samba-time-machine/)
-
 
 # 远程界面
 
@@ -85,40 +82,3 @@ https://askubuntu.com/questions/46588/how-to-automount-ntfs-partitions
 ## Mount ExFAT
 
 https://www.howtogeek.com/235655/how-to-mount-and-use-an-exfat-drive-on-linux/
-
-# 备份
-
-```
-rsync -av /src /des
-```
-
-# SMB
-
-如果需要开启 Time Machine，不要直接这么安装，版本不够新，还得折腾。请看另一篇博客关于开启 Time Machine 的。
-
-[Install and Configure Samba | Ubuntu tutorials](https://tutorials.ubuntu.com/tutorial/install-and-configure-samba#0)
-
-```bash
-sudo apt update
-sudo apt install samba
-sudo nano /etc/samba/smb.conf
-
-#! /etc/samba/smb.conf
-#! sambashare will be the name of share path
-[sambashare] 
-    path = /path/to/share/folder
-    read only = no
-    browsable = yes
-# 	  valid users = user_only_can_access
-sudo service smbd restart
-
-# Username used must belong to a system account
-sudo smbpasswd -a username
-```
-
-On Windows,
-`\\ip-address\sambashare`
-
-On Mac,
-`smb://ip-address/` 
-

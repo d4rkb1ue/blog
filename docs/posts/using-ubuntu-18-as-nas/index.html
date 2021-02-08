@@ -4,13 +4,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta content='text/html; charset=utf-8' http-equiv='content-type' />
 
-  <title>折腾 Ubuntu 18.04 做 NAS - d4rkb1ue&#39;s Blog</title>
-  <meta content='折腾 Ubuntu 18.04 做 NAS - d4rkb1ue&#39;s Blog' property='title' />
-  <meta content='折腾 Ubuntu 18.04 做 NAS - d4rkb1ue&#39;s Blog' property='og:title' />
+  <title>Ubuntu 18.04 做 NAS 远程桌面 - d4rkb1ue&#39;s Blog</title>
+  <meta content='Ubuntu 18.04 做 NAS 远程桌面 - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Ubuntu 18.04 做 NAS 远程桌面 - d4rkb1ue&#39;s Blog' property='og:title' />
 
 
 <meta property="og:description" content="一直在用 Deskmini 搭了黑群晖，但是其实用不到群晖的生态系统，索性自己安装个 Ubuntu 还方便自己自由维护使用。
- 远程界面 挂载 NTFS 备份 开启 SMB 服务 开启 Time Machine 服务：Time Machine On Ubuntu 18 with samba  远程界面 Ubuntu 没有网页端的 GUI，有时候还是想用界面来操作。不能总连着个显示器。所以用远程桌面替代，可以满足的选择有很多。
+ 远程界面 挂载 NTFS 备份  远程界面 Ubuntu 没有网页端的 GUI，有时候还是想用界面来操作。不能总连着个显示器。所以用远程桌面替代，可以满足的选择有很多。
  18.04 自带了 vino，如果是 minimal install 需要自行安装， sudo apt-get install vino ssh  重启后进入设置，开启 sharing -&gt; desktop 开启密码。
 客户端：VNC Viewer https://www.realvnc.com/
 connect by,
@@ -18,7 +18,9 @@ connect by,
 (your ip ip:5900)
 Trouble Shooting encryption 登录失败 如果远程登录因为 encryption 的原因不成功，改一条设置即可，
 gsettings set org.gnome.Vino require-encryption false 注意安全，如果不暴露到外网还好。
-重启后无法登录 原因很简单，重启后未登录 Gnome 用户的情况下，服务进程还没启动，每次启动后在 Gnome 上登录一次就好了，但是还是很麻烦，每次重启要连一次键盘鼠标很淡疼啊，(ssh 登录没用)，解决办法：" />
+重启后无法登录 原因很简单，重启后未登录 Gnome 用户的情况下，服务进程还没启动，每次启动后在 Gnome 上登录一次就好了，但是还是很麻烦，每次重启要连一次键盘鼠标很淡疼啊，(ssh 登录没用)，解决办法：
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-ubuntu-18-04
+Mount NTFS In ubuntu 18, you can just using the stock app: &ldquo;Disks&rdquo; to mount and manage disks." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://drkbl.com/posts/using-ubuntu-18-as-nas/" />
 
@@ -78,7 +80,7 @@ if (!doNotTrack) {
 </nav>
   
 <main class="center mv4 content-width ph3">
-  <div class="f3 fw6 heading-color heading-font post-title">折腾 Ubuntu 18.04 做 NAS</div>
+  <div class="f3 fw6 heading-color heading-font post-title">Ubuntu 18.04 做 NAS 远程桌面</div>
   <p class="silver f6 mt1 mb4 post-meta">
     <time>22 Jul 2018</time> 
      | 
@@ -92,8 +94,6 @@ if (!doNotTrack) {
 <li>远程界面</li>
 <li>挂载 NTFS</li>
 <li>备份</li>
-<li>开启 SMB 服务</li>
-<li>开启 Time Machine 服务：<a href="https://drkbl.com/ubuntu-18-samba-time-machine/">Time Machine On Ubuntu 18 with samba</a></li>
 </ul>
 <h1 id="远程界面">远程界面</h1>
 <p>Ubuntu 没有网页端的 GUI，有时候还是想用界面来操作。不能总连着个显示器。所以用远程桌面替代，可以满足的选择有很多。</p>
@@ -137,30 +137,6 @@ sudo umount /media/ntfs
 <a href="https://askubuntu.com/questions/46588/how-to-automount-ntfs-partitions">https://askubuntu.com/questions/46588/how-to-automount-ntfs-partitions</a></p>
 <h2 id="mount-exfat">Mount ExFAT</h2>
 <p><a href="https://www.howtogeek.com/235655/how-to-mount-and-use-an-exfat-drive-on-linux/">https://www.howtogeek.com/235655/how-to-mount-and-use-an-exfat-drive-on-linux/</a></p>
-<h1 id="备份">备份</h1>
-<pre><code>rsync -av /src /des
-</code></pre><h1 id="smb">SMB</h1>
-<p>如果需要开启 Time Machine，不要直接这么安装，版本不够新，还得折腾。请看另一篇博客关于开启 Time Machine 的。</p>
-<p><a href="https://tutorials.ubuntu.com/tutorial/install-and-configure-samba#0">Install and Configure Samba | Ubuntu tutorials</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt update
-sudo apt install samba
-sudo nano /etc/samba/smb.conf
-
-<span style="color:#75715e">#! /etc/samba/smb.conf</span>
-<span style="color:#75715e">#! sambashare will be the name of share path</span>
-<span style="color:#f92672">[</span>sambashare<span style="color:#f92672">]</span> 
-    path <span style="color:#f92672">=</span> /path/to/share/folder
-    read only <span style="color:#f92672">=</span> no
-    browsable <span style="color:#f92672">=</span> yes
-<span style="color:#75715e"># 	  valid users = user_only_can_access</span>
-sudo service smbd restart
-
-<span style="color:#75715e"># Username used must belong to a system account</span>
-sudo smbpasswd -a username
-</code></pre></div><p>On Windows,
-<code>\\ip-address\sambashare</code></p>
-<p>On Mac,
-<code>smb://ip-address/</code></p>
 </div>
 </main>
  
