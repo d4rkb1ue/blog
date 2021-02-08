@@ -14,7 +14,8 @@
       <pubDate>Mon, 01 Feb 2021 06:34:03 +0000</pubDate>
       
       <guid>https://drkbl.com/posts/oh-my-storages/</guid>
-      <description>空间    Model Size Crypt Usage     WD SN550 NVME SSD 1T 内容加密 系统 和 Time machine (本体加密)   Samsung 860 EVO SATA SSD 4T LUKS 主数据盘   Micron 1100 SATA SSD 2T LUKS 主数据盘热备份   Toshiba Portable HDD 2T 无 主数据盘冷备份之一   Samsung SATA HDD 2T 无 -   Samsung T3 Portable SSD 250GB 无 临时用 Time Machine 中转站   HGST SATA HDD 1TB 无 -   Google Drive (UC Irvine) ∞ 无 主数据盘冷备份之二   iCloud Drive 200GB 无 iPhone&amp;amp;iPad 备份 + 照片 + 桌面文件夹    加密 - 使用 LUKS 显示了分级的加密方式。LUKS 是位于 block system 层的加密。位于 filesystem (比如 EXT4) 之下。即加密之后的空间可以再被格式化为目标 filesystem。</description>
+      <description>加密 - 使用 LUKS 显示了分级的加密方式. LUKS 是位于 block system 层的加密. 位于 filesystem (比如 EXT4) 之下. 即加密之后的空间可以再被格式化为目标 filesystem.
+| | | [ EXT4 ] | | | | | | | | | + | | +-- LUKS --+ | |  | | | | | +--- Partition ---+ | | | +----- Dev Disk -----+  Just make a partition to your liking, and put LUKS on top of it and a filesystem into the LUKS container</description>
     </item>
     
     <item>
@@ -225,18 +226,6 @@ hugo new posts/my-first-post.md echo &amp;#39;Hello Hugo!&amp;#39; &amp;gt;&amp;
 Netease Music  使用 Chrome+油猴脚本 网易云音乐怎么导出歌单？ - 知乎
   导出网易云音乐歌单  每次需要等待几秒按钮才会刷新出来。切换到新的歌单需要刷新。
 Douban FM let titles = []; document.querySelectorAll(&amp;#39;#app &amp;gt; div &amp;gt; div.explore &amp;gt; div.mine-page &amp;gt; div.section-content &amp;gt; div &amp;gt; div.container &amp;gt; ul &amp;gt; li &amp;gt; div.top &amp;gt; div.titles &amp;gt; h3&amp;#39;).forEach(a =&amp;gt; titles.push(a.innerText)); // 只选择第一个歌手，方便对齐 let artists = []; document.querySelectorAll(&amp;#39;#app &amp;gt; div &amp;gt; div.explore &amp;gt; div.mine-page &amp;gt; div.section-content &amp;gt; div &amp;gt; div.container &amp;gt; ul &amp;gt; li &amp;gt; div.</description>
-    </item>
-    
-    <item>
-      <title>Time Machine On Ubuntu 18 with samba</title>
-      <link>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</link>
-      <pubDate>Sun, 22 Jul 2018 21:49:46 +0000</pubDate>
-      
-      <guid>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</guid>
-      <description>Play with NAS Chapter 2 - config time machine base on smb at ubuntu 18.04
- Ref: HowTo make time machine backups on a samba fileserver without netatalk : homelab  Install Samba 4.8+ If you install older version of samba, uninstall it,
-sudo apt-get remove --purge samba compile prerequisites,
-sudo apt-get update sudo apt-get install acl attr autoconf bind9utils bison build-essential debhelper dnsutils docbook-xml docbook-xsl flex gdb libjansson-dev krb5-user \ libacl1-dev libaio-dev libarchive-dev libattr1-dev libblkid-dev libbsd-dev \ libcap-dev libcups2-dev libgnutls28-dev libgpgme11-dev libjson-perl \ libldap2-dev libncurses5-dev libpam0g-dev libparse-yapp-perl \ libpopt-dev libreadline-dev nettle-dev perl perl-modules pkg-config \ python-all-dev python-crypto python-dbg python-dev python-dnspython \ python3-dnspython python-markdown python3-markdown python3-dev xsltproc zlib1g-dev download,</description>
     </item>
     
     <item>

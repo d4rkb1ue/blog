@@ -7,19 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Sun, 22 Jul 2018 21:49:46 +0000</lastBuildDate><atom:link href="https://drkbl.com/tags/gadget/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Time Machine On Ubuntu 18 with samba</title>
-      <link>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</link>
-      <pubDate>Sun, 22 Jul 2018 21:49:46 +0000</pubDate>
-      
-      <guid>https://drkbl.com/posts/ubuntu-18-samba-time-machine/</guid>
-      <description>Play with NAS Chapter 2 - config time machine base on smb at ubuntu 18.04
- Ref: HowTo make time machine backups on a samba fileserver without netatalk : homelab  Install Samba 4.8+ If you install older version of samba, uninstall it,
-sudo apt-get remove --purge samba compile prerequisites,
-sudo apt-get update sudo apt-get install acl attr autoconf bind9utils bison build-essential debhelper dnsutils docbook-xml docbook-xsl flex gdb libjansson-dev krb5-user \ libacl1-dev libaio-dev libarchive-dev libattr1-dev libblkid-dev libbsd-dev \ libcap-dev libcups2-dev libgnutls28-dev libgpgme11-dev libjson-perl \ libldap2-dev libncurses5-dev libpam0g-dev libparse-yapp-perl \ libpopt-dev libreadline-dev nettle-dev perl perl-modules pkg-config \ python-all-dev python-crypto python-dbg python-dev python-dnspython \ python3-dnspython python-markdown python3-markdown python3-dev xsltproc zlib1g-dev download,</description>
-    </item>
-    
+    <lastBuildDate>Sun, 22 Jul 2018 21:11:31 +0000</lastBuildDate><atom:link href="https://drkbl.com/tags/gadget/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>折腾 Ubuntu 18.04 做 NAS</title>
       <link>https://drkbl.com/posts/using-ubuntu-18-as-nas/</link>

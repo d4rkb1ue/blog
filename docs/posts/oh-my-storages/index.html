@@ -9,7 +9,8 @@
   <meta content='我的存储们 - d4rkb1ue&#39;s Blog' property='og:title' />
 
 
-<meta property="og:description" content="空间    Model Size Crypt Usage     WD SN550 NVME SSD 1T 内容加密 系统 和 Time machine (本体加密)   Samsung 860 EVO SATA SSD 4T LUKS 主数据盘   Micron 1100 SATA SSD 2T LUKS 主数据盘热备份   Toshiba Portable HDD 2T 无 主数据盘冷备份之一   Samsung SATA HDD 2T 无 -   Samsung T3 Portable SSD 250GB 无 临时用 Time Machine 中转站   HGST SATA HDD 1TB 无 -   Google Drive (UC Irvine) ∞ 无 主数据盘冷备份之二   iCloud Drive 200GB 无 iPhone&amp;iPad 备份 &#43; 照片 &#43; 桌面文件夹    加密 - 使用 LUKS 显示了分级的加密方式。LUKS 是位于 block system 层的加密。位于 filesystem (比如 EXT4) 之下。即加密之后的空间可以再被格式化为目标 filesystem。" />
+<meta property="og:description" content="加密 - 使用 LUKS 显示了分级的加密方式. LUKS 是位于 block system 层的加密. 位于 filesystem (比如 EXT4) 之下. 即加密之后的空间可以再被格式化为目标 filesystem.
+| | | [ EXT4 ] | | | | | | | | | &#43; | | &#43;-- LUKS --&#43; | |  | | | | | &#43;--- Partition ---&#43; | | | &#43;----- Dev Disk -----&#43;  Just make a partition to your liking, and put LUKS on top of it and a filesystem into the LUKS container" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://drkbl.com/posts/oh-my-storages/" />
 
@@ -78,7 +79,187 @@ if (!doNotTrack) {
     tags: [  ]
     
   </p>
-  <div class="lh-copy post-content"><h2 id="空间">空间</h2>
+  <div class="lh-copy post-content"><h2 id="加密---使用-luks">加密 - 使用 LUKS</h2>
+<p><img src="/images/storage-stack.png" alt="storage-stack.png"></p>
+<p>显示了分级的加密方式. LUKS 是位于 block system 层的加密. 位于 filesystem (比如 EXT4) 之<strong>下</strong>. 即加密之后的空间可以再被格式化为目标 filesystem.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-diff" data-lang="diff">    |  |  |  [ EXT4 ]  |  |  |
+    |  |  |            |  |  |
+<span style="color:#a6e22e">+   |  |  +--  LUKS  --+  |  |
+</span><span style="color:#a6e22e"></span>    |  |                  |  |
+    |  +---  Partition ---+  |
+    |                        |
+    +-----   Dev Disk   -----+
+</code></pre></div><blockquote>
+<p>Just make a partition to your liking, and put LUKS on top of it and a filesystem into the LUKS container</p>
+</blockquote>
+<p>其实也可以省略掉 Partition 这层, 直接将整个 Disk 作为一个块设备加密. (<a href="https://gitlab.com/cryptsetup/cryptsetup/-/wikis/FrequentlyAskedQuestions">cryptsetup/FAQ</a>)</p>
+<blockquote>
+<p>For Fully encrypted raw block device, put LUKS on the raw device (e.g. <code>/dev/sda</code>)</p>
+</blockquote>
+<p>经过 LUKS 加密的磁盘层级是这样,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ lsblk
+<span style="color:#75715e"># encrypted</span>
+sda           8:0    <span style="color:#ae81ff">0</span>   1.9T  <span style="color:#ae81ff">0</span> disk
+└─sda1        8:1    <span style="color:#ae81ff">0</span>   1.9T  <span style="color:#ae81ff">0</span> part
+
+<span style="color:#75715e"># unencrypted</span>
+sda           8:0    <span style="color:#ae81ff">0</span>   1.9T  <span style="color:#ae81ff">0</span> disk
+└─sda1        8:1    <span style="color:#ae81ff">0</span>   1.9T  <span style="color:#ae81ff">0</span> part
+  └─m2t     253:0    <span style="color:#ae81ff">0</span>   1.9T  <span style="color:#ae81ff">0</span> crypt /media/m2t
+</code></pre></div><h3 id="创建加密分区">创建加密分区</h3>
+<p>使用 Ubuntu 20 的话, 直接 Disk GUI 工具操作创建分区设定大小并且勾选 LUKS 加密即可.</p>
+<p>或者手动操作,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 分区</span>
+$ ?
+<span style="color:#75715e"># 创建加密块</span>
+<span style="color:#75715e"># luks1 to force use LUKS version 1</span>
+$ cryptsetup luksFormat -M luks1 /dev/sda1
+<span style="color:#75715e"># 解密</span>
+$ cryptsetup open /dev/sda sda1
+<span style="color:#75715e"># 格式化</span>
+$ mkfs -t ext4 /dev/mapper/sda1
+</code></pre></div><p>创建结束后可以查看,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo apt install cryptsetup
+$ sudo cryptsetup luksDump /dev/sda1
+LUKS header information <span style="color:#66d9ef">for</span> /dev/sda1
+
+Version:        <span style="color:#ae81ff">1</span>
+Cipher name:    aes
+Cipher mode:    xts-plain64
+Hash spec:      sha256
+Payload offset: <span style="color:#ae81ff">4096</span>
+MK bits:        <span style="color:#ae81ff">512</span>
+MK digest:      fc <span style="color:#ae81ff">26</span> e2 a5 <span style="color:#ae81ff">85</span> cd c9 <span style="color:#ae81ff">49</span> 4a ce da <span style="color:#ae81ff">84</span> fc <span style="color:#ae81ff">43</span> ab <span style="color:#ae81ff">14</span> 8c 4a ca 7f
+MK salt:        ff ec a7 cf <span style="color:#ae81ff">98</span> 5e c6 aa <span style="color:#ae81ff">27</span> <span style="color:#ae81ff">51</span> 0e <span style="color:#ae81ff">98</span> 6c a6 f7 7d
+                8b 1b fe <span style="color:#ae81ff">76</span> 1b <span style="color:#ae81ff">80</span> <span style="color:#ae81ff">14</span> <span style="color:#ae81ff">04</span> <span style="color:#ae81ff">91</span> 2a c8 <span style="color:#ae81ff">59</span> <span style="color:#ae81ff">27</span> 0c <span style="color:#ae81ff">84</span> aa
+MK iterations:  <span style="color:#ae81ff">87614</span>
+UUID:           bfe1bc96-fee1-4b1e-8f89-6ac2cb09a97f
+
+Key Slot 0: ENABLED
+        Iterations:             <span style="color:#ae81ff">1418912</span>
+        Salt:                   9b c2 d0 <span style="color:#ae81ff">59</span> 7a b8 9d e7 bd 7b d1 3a a6 <span style="color:#ae81ff">41</span> 8f fd
+                                ab 8e d4 <span style="color:#ae81ff">32</span> <span style="color:#ae81ff">27</span> <span style="color:#ae81ff">87</span> 5d 2f ee e2 f0 <span style="color:#ae81ff">24</span> ad 6a <span style="color:#ae81ff">51</span> 8f
+        Key material offset:    <span style="color:#ae81ff">8</span>
+        AF stripes:             <span style="color:#ae81ff">4000</span>
+Key Slot 1: DISABLED
+Key Slot 2: DISABLED
+Key Slot 3: DISABLED
+Key Slot 4: DISABLED
+Key Slot 5: DISABLED
+Key Slot 6: DISABLED
+Key Slot 7: DISABLED
+</code></pre></div><p>每个 Key Slot 即是一个新的密钥. 对一个加密分区可以设置独立(或)密钥, 每个都可以开锁.</p>
+<p>使用 <code>cryptsetup</code> 的命令来增删改密码,</p>
+<pre><code>cryptsetup  luksAddKey
+            luksChangeKey
+            luksRemoveKey
+</code></pre><p>解密和挂载,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 在未解密的情况下</span>
+$ sudo mount /dev/sda1 /media/m2t
+mount: /media/m2t: unknown filesystem type <span style="color:#e6db74">&#39;crypto_LUKS&#39;</span>.
+
+<span style="color:#75715e"># 解密</span>
+$ sudo cryptsetup open /dev/sda1 m2t    <span style="color:#75715e"># map to /dev/mapper/m2t</span>
+
+<span style="color:#75715e"># 挂载</span>
+$ sudo mount /dev/mapper/m2t /media/m2t <span style="color:#75715e"># mount to /media/m2t</span>
+
+<span style="color:#75715e"># 看看</span>
+$ df -h
+/dev/mapper/m2t  1.9T   77M  1.8T   1% /media/m2t
+</code></pre></div><p>手动关闭,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ umount /media/m2t
+$ cryptsetup close sda1
+</code></pre></div><p>其实很少需要, 因为一旦关机(gracefully 或者拔电源)依旧是加密状态, 数据不会因此就暴露了. 原理是</p>
+<blockquote>
+<p>For the purposes of disk encryption, each blockdevice (or individual file in the case of stacked filesystem encryption) is divided into sectors of equal length, for example 512 bytes (4,096 bits). The encryption/decryption then happens on a per-sector basis, so the n&rsquo;th sector of the blockdevice/file on disk will store the encrypted version of the n&rsquo;th sector of the original data.
+Whenever the operating system or an application requests a certain fragment of data from the blockdevice/file, the whole sector (or sectors) that contains <strong>the data will be read from disk, decrypted <em>on-the-fly</em>, and temporarily stored in memory</strong>:</p>
+<pre><code>           ╔═══════╗
+  sector 1 ║&quot;???..&quot;║
+           ╠═══════╣         ╭┈┈┈┈┈╮
+  sector 2 ║&quot;???..&quot;║         ┊ key ┊
+           ╠═══════╣         ╰┈┈┬┈┈╯
+           :       :            │
+           ╠═══════╣            ▼             ┣┉┉┉┉┉┉┉┫
+  sector n ║&quot;???..&quot;║━━━━━━━(decryption)━━━━━━▶┋&quot;abc..&quot;┋ sector n
+           ╠═══════╣                          ┣┉┉┉┉┉┉┉┫
+           :       :
+           ╚═══════╝
+  
+           encrypted                          unencrypted
+      blockdevice or                          data in RAM
+        file on disk
+</code></pre><p>Similarly, on each write operation, all sectors that are affected must be re-encrypted completely (while the rest of the sectors remain untouched).</p>
+<p>(<a href="https://wiki.archlinux.org/index.php/Data-at-rest_encryption">archlinux/Data-at-rest_encryption</a>)</p>
+</blockquote>
+<h2 id="todo-云备份">TODO 云备份</h2>
+<p>在 Ubuntu 下如果希望忽略 <code>lost+found</code> 文件夹,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ rsync -a --info<span style="color:#f92672">=</span>progress2 --exclude <span style="color:#e6db74">&#34;lost+found&#34;</span> /media/sum4t/doc /media/m2t
+</code></pre></div><h2 id="smb">SMB</h2>
+<p>启动 SMB Docker container,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 使用 env 是为了方便改成 --env-file</span>
+<span style="color:#75715e"># SHARE 的参数格式 name;path;browsable;readonly;guest;users;admins;writelist;comment</span>
+<span style="color:#75715e"># dperson/samba 支持多个 USER/SHARE 变量, 直接以 USER1, USER2, ... 为名传入</span>
+<span style="color:#75715e"># 比如 -e SHARE2=&#39;share2;/mount/m2t2;yes;no;no;user1;user1;user1&#39;</span>
+
+$ docker run --restart<span style="color:#f92672">=</span>always -d <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -e USER<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;user1;badpass&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -e SHARE<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;share1;/mount/m2t;yes;no;no;user1;user1;user1&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -p 139:139 -p 445:445 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -v /media/m2t:/mount/m2t <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -v /media/tm:/mount/tm <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  dperson/samba
+</code></pre></div><p>访问,
+(替换 <code>deskmini.local</code> 为你的 server 名字, 本地 LAN 上可以尝试用 hostname.local 看看有没有自动的 DDNS 设定, 不然就直接上 IP)</p>
+<ul>
+<li><code>smb://deskmini.local/share1</code> 来访问 <code>share1</code> 用户名 <code>user1</code> 密码 <code>badpass</code></li>
+</ul>
+<h2 id="time-machine">Time Machine</h2>
+<p>Time Machine 也可以用 Docker container 来建立.</p>
+<p>因为 macOS 无法使用自定义的 SMB 端口, 只能是默认的 <code>445</code>, 所以我们需要为我们的新 Time Machine container 开一个新的 IP.</p>
+<p>在此我们使用 MACVLAN 来复用我的小 Deskmini 上的唯一的物理 Ethernet 端口, 来模拟多个 MAC 地址/NIC 因此可以获取多个 IP 来供新的 container 使用.</p>
+<p>首先来创建 MACVLAN, 先确认我本地的 IP 段, 网关, 网卡名,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ip r | grep ^default
+default via 192.168.164.1 dev enp0s31f6 proto dhcp metric <span style="color:#ae81ff">100</span>
+
+$ ip a | grep 192.168.
+    inet 192.168.164.214/24 brd 192.168.164.255 scope global dynamic noprefixroute enp0s31f6
+
+<span style="color:#75715e"># so I should use CIDR 192.168.164.0/24, gateway 192.168.164.1, device enp0s31f6</span>
+
+$ docker network create -d macvlan --subnet<span style="color:#f92672">=</span>192.168.164.0/24 --gateway<span style="color:#f92672">=</span>192.168.164.1 -o parent<span style="color:#f92672">=</span>enp0s31f6 macvlan1
+</code></pre></div><p>Then start the container,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker run --restart<span style="color:#f92672">=</span>always -d <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --name timemachine <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --hostname timemachine <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --network macvlan1 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --ip 192.168.164.2 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -p 137:137/udp <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -p 138:138/udp <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -p 139:139 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -p 445:445 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -e TM_USERNAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;user2&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -e PASSWORD<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;badpass2&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -e SET_PERMISSIONS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -e SHARE_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;TimeMachine&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -v /media/tm:/opt/timemachine <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -v timemachine-var-lib-samba:/var/lib/samba <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -v timemachine-var-cache-samba:/var/cache/samba <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -v timemachine-run-samba:/run/samba <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    mbentley/timemachine:smb
+</code></pre></div><p>在 macOS 上设定 Time Machine 前, 我们最好先把我们指定的 IP <code>192.168.164.2</code> 在路由器上设定为静态 IP. 这样就不会被路由器的 DHCP 意外的分配给其他设备.</p>
+<p>最后, 在 macOS 上的 &ldquo;Time Machine&rdquo; 应该可以直接看到名为 <code>TimeMachine</code> 的磁盘, 记得打开 &ldquo;Encrypt backups&rdquo;.</p>
+<h2 id="refs">Refs.</h2>
+<ol>
+<li><a href="https://nova.moe/encrypt-disk-with-luks/">保护数据, 用 LUKS 给磁盘全盘加密</a></li>
+<li><a href="https://blog.cloudflare.com/speeding-up-linux-disk-encryption/">cloudflare/Speeding up Linux disk encryption</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system">archlinux/dm-crypt/Encrypting an entire system</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Data-at-rest_encryption">archlinux/Data-at-rest_encryption</a></li>
+<li><a href="https://gitlab.com/cryptsetup/cryptsetup/-/wikis/FrequentlyAskedQuestions">cryptsetup/FAQ</a></li>
+<li><a href="https://github.com/dperson/samba">github/dperson/samba</a></li>
+<li><a href="https://github.com/mbentley/docker-timemachine">github/mbentley/docker-timemachine</a></li>
+</ol>
+<h2 id="我的空间记录">我的空间记录</h2>
 <table>
 <thead>
 <tr>
@@ -145,128 +326,6 @@ if (!doNotTrack) {
 </tr>
 </tbody>
 </table>
-<h2 id="加密---使用-luks">加密 - 使用 LUKS</h2>
-<p><img src="/images/storage-stack.png" alt="storage-stack.png"></p>
-<p>显示了分级的加密方式。LUKS 是位于 block system 层的加密。位于 filesystem (比如 EXT4) 之<strong>下</strong>。即加密之后的空间可以再被格式化为目标 filesystem。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-diff" data-lang="diff">    |  |  |  [ EXT4 ]  |  |  |
-    |  |  |            |  |  |
-<span style="color:#a6e22e">+   |  |  +--  LUKS  --+  |  |
-</span><span style="color:#a6e22e"></span>    |  |                  |  |
-    |  +---  Partition ---+  |
-    |                        |
-    +-----   Dev Disk   -----+
-</code></pre></div><blockquote>
-<p>Just make a partition to your liking, and put LUKS on top of it and a filesystem into the LUKS container</p>
-</blockquote>
-<p>其实也可以省略掉 Partition 这层，直接将整个 Disk 作为一个块设备加密。(<a href="https://gitlab.com/cryptsetup/cryptsetup/-/wikis/FrequentlyAskedQuestions">cryptsetup/FAQ</a>)</p>
-<blockquote>
-<p>For Fully encrypted raw block device, put LUKS on the raw device (e.g. <code>/dev/sda</code>)</p>
-</blockquote>
-<p>经过 LUKS 加密的磁盘层级是这样，</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ lsblk
-<span style="color:#75715e"># encrypted</span>
-sda           8:0    <span style="color:#ae81ff">0</span>   1.9T  <span style="color:#ae81ff">0</span> disk
-└─sda1        8:1    <span style="color:#ae81ff">0</span>   1.9T  <span style="color:#ae81ff">0</span> part
-
-<span style="color:#75715e"># unencrypted</span>
-sda           8:0    <span style="color:#ae81ff">0</span>   1.9T  <span style="color:#ae81ff">0</span> disk
-└─sda1        8:1    <span style="color:#ae81ff">0</span>   1.9T  <span style="color:#ae81ff">0</span> part
-  └─m2t     253:0    <span style="color:#ae81ff">0</span>   1.9T  <span style="color:#ae81ff">0</span> crypt /media/m2t
-</code></pre></div><h3 id="创建加密分区">创建加密分区</h3>
-<p>使用 Ubuntu 20 的话，直接 Disk GUI 工具操作创建分区设定大小并且勾选 LUKS 加密即可。</p>
-<p>或者手动操作，</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 分区</span>
-$ ?
-<span style="color:#75715e"># 创建加密块</span>
-$ cryptsetup luksFormat /dev/sda1
-<span style="color:#75715e"># 解密</span>
-$ cryptsetup open /dev/sda sda1
-<span style="color:#75715e"># 格式化</span>
-$ mkfs -t ext4 /dev/mapper/sda1
-</code></pre></div><p>创建结束后可以查看，</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo apt install cryptsetup
-$ sudo cryptsetup luksDump /dev/sda1
-LUKS header information <span style="color:#66d9ef">for</span> /dev/sda1
-
-Version:        <span style="color:#ae81ff">1</span>
-Cipher name:    aes
-Cipher mode:    xts-plain64
-Hash spec:      sha256
-Payload offset: <span style="color:#ae81ff">4096</span>
-MK bits:        <span style="color:#ae81ff">512</span>
-MK digest:      fc <span style="color:#ae81ff">26</span> e2 a5 <span style="color:#ae81ff">85</span> cd c9 <span style="color:#ae81ff">49</span> 4a ce da <span style="color:#ae81ff">84</span> fc <span style="color:#ae81ff">43</span> ab <span style="color:#ae81ff">14</span> 8c 4a ca 7f
-MK salt:        ff ec a7 cf <span style="color:#ae81ff">98</span> 5e c6 aa <span style="color:#ae81ff">27</span> <span style="color:#ae81ff">51</span> 0e <span style="color:#ae81ff">98</span> 6c a6 f7 7d
-                8b 1b fe <span style="color:#ae81ff">76</span> 1b <span style="color:#ae81ff">80</span> <span style="color:#ae81ff">14</span> <span style="color:#ae81ff">04</span> <span style="color:#ae81ff">91</span> 2a c8 <span style="color:#ae81ff">59</span> <span style="color:#ae81ff">27</span> 0c <span style="color:#ae81ff">84</span> aa
-MK iterations:  <span style="color:#ae81ff">87614</span>
-UUID:           bfe1bc96-fee1-4b1e-8f89-6ac2cb09a97f
-
-Key Slot 0: ENABLED
-        Iterations:             <span style="color:#ae81ff">1418912</span>
-        Salt:                   9b c2 d0 <span style="color:#ae81ff">59</span> 7a b8 9d e7 bd 7b d1 3a a6 <span style="color:#ae81ff">41</span> 8f fd
-                                ab 8e d4 <span style="color:#ae81ff">32</span> <span style="color:#ae81ff">27</span> <span style="color:#ae81ff">87</span> 5d 2f ee e2 f0 <span style="color:#ae81ff">24</span> ad 6a <span style="color:#ae81ff">51</span> 8f
-        Key material offset:    <span style="color:#ae81ff">8</span>
-        AF stripes:             <span style="color:#ae81ff">4000</span>
-Key Slot 1: DISABLED
-Key Slot 2: DISABLED
-Key Slot 3: DISABLED
-Key Slot 4: DISABLED
-Key Slot 5: DISABLED
-Key Slot 6: DISABLED
-Key Slot 7: DISABLED
-</code></pre></div><p>每个 Key Slot 即是一个新的密钥。对一个加密分区可以设置独立(或)密钥，每个都可以开锁。</p>
-<p>使用 <code>cryptsetup</code> 的命令来增删改密码，</p>
-<pre><code>cryptsetup  luksAddKey
-            luksChangeKey
-            luksRemoveKey
-</code></pre><p>解密和挂载，</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># 在未解密的情况下</span>
-$ sudo mount /dev/sda1 /media/m2t
-mount: /media/m2t: unknown filesystem type <span style="color:#e6db74">&#39;crypto_LUKS&#39;</span>.
-
-<span style="color:#75715e"># 解密</span>
-$ sudo cryptsetup open /dev/sda1 m2t    <span style="color:#75715e"># map to /dev/mapper/m2t</span>
-
-<span style="color:#75715e"># 挂载</span>
-$ sudo mount /dev/mapper/m2t /media/m2t <span style="color:#75715e"># mount to /media/m2t</span>
-
-<span style="color:#75715e"># 看看</span>
-$ df -h
-/dev/mapper/m2t  1.9T   77M  1.8T   1% /media/m2t
-</code></pre></div><p>手动关闭，</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ umount /media/m2t
-$ cryptsetup close sda1
-</code></pre></div><p>其实很少需要，因为一旦关机(gracefully 或者拔电源)依旧是加密状态，数据不会因此就暴露了。原理是</p>
-<blockquote>
-<p>For the purposes of disk encryption, each blockdevice (or individual file in the case of stacked filesystem encryption) is divided into sectors of equal length, for example 512 bytes (4,096 bits). The encryption/decryption then happens on a per-sector basis, so the n&rsquo;th sector of the blockdevice/file on disk will store the encrypted version of the n&rsquo;th sector of the original data.
-Whenever the operating system or an application requests a certain fragment of data from the blockdevice/file, the whole sector (or sectors) that contains <strong>the data will be read from disk, decrypted <em>on-the-fly</em>, and temporarily stored in memory</strong>:</p>
-<pre><code>           ╔═══════╗
-  sector 1 ║&quot;???..&quot;║
-           ╠═══════╣         ╭┈┈┈┈┈╮
-  sector 2 ║&quot;???..&quot;║         ┊ key ┊
-           ╠═══════╣         ╰┈┈┬┈┈╯
-           :       :            │
-           ╠═══════╣            ▼             ┣┉┉┉┉┉┉┉┫
-  sector n ║&quot;???..&quot;║━━━━━━━(decryption)━━━━━━▶┋&quot;abc..&quot;┋ sector n
-           ╠═══════╣                          ┣┉┉┉┉┉┉┉┫
-           :       :
-           ╚═══════╝
-  
-           encrypted                          unencrypted
-      blockdevice or                          data in RAM
-        file on disk
-</code></pre><p>Similarly, on each write operation, all sectors that are affected must be re-encrypted completely (while the rest of the sectors remain untouched).</p>
-<p>(<a href="https://wiki.archlinux.org/index.php/Data-at-rest_encryption">archlinux/Data-at-rest_encryption</a>)</p>
-</blockquote>
-<h2 id="todo-云备份">TODO 云备份</h2>
-<h2 id="todo-time-machine--smb--ftp-存取">TODO Time Machine + SMB + FTP 存取</h2>
-<h2 id="refs">Refs.</h2>
-<ol>
-<li><a href="https://nova.moe/encrypt-disk-with-luks/">保护数据，用 LUKS 给磁盘全盘加密</a></li>
-<li><a href="https://blog.cloudflare.com/speeding-up-linux-disk-encryption/">cloudflare/Speeding up Linux disk encryption</a></li>
-<li><a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system">archlinux/dm-crypt/Encrypting an entire system</a></li>
-<li><a href="https://wiki.archlinux.org/index.php/Data-at-rest_encryption">archlinux/Data-at-rest_encryption</a></li>
-<li><a href="https://gitlab.com/cryptsetup/cryptsetup/-/wikis/FrequentlyAskedQuestions">cryptsetup/FAQ</a></li>
-</ol>
 </div>
 </main>
  
