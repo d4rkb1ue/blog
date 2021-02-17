@@ -12,9 +12,8 @@
 <meta property="og:description" content="经典问题 比如要求设计,
  Chat Messenger Twitter Feed Distributed Key-Value Global Object ID  典型流程 解答这样的问题, 可以这样一步步边确认边回答,
 1. Data model/schema - 设计多种单体数据模型, 数据库关联关系 关键要考虑的数据特征是,
- 数据量 关联性 读写分布 mutablity 数据均匀性  例子1 - 设计一个屏蔽词查询系统 这可以理解为就是一个 超大 Set.
- 于是数据模型就很简单, 全局就一种模型, key-value, 无模型间关联/关系. 而这个系统中, 数据量极大, 读操作远远大于写操作, 而且基本只是增加新项目, 这对后面的 读 API 设计是一个很好的考量点 - 毕竟读一个很少变的数据库比频繁变的数据库简单多了. 不过数据显然非常不均匀, 有些 key 一定超级频繁, 比如问候对方家人相关的屏蔽词 - 这会影响后面 Cache 的设计.  例子2 - 设计一个电子银行系统 至少我们需要 User, Account, Transaction.
- Account 应该包含, ID, UserIdRef, Balances, TransactionIdRefs 于是就能画出来一个 Class Diagram." />
+ 数据量 关联性 - 1:1, 1:N, N:N 读写分布 可变性 mutability 数据均匀性 - 读写均匀, 1:N?  例子1 - 设计一个屏蔽词查询系统 这可以理解为就是一个 超大 Set.
+ 于是数据模型就很简单, 全局就一种 Data Class, 无模型间关联/关系. 而这个系统中, 数据量极大, 读操作远远大于写操作, 而且基本只是增加新项目, 这对后面的 读 API 的设计来说是一个很好的考量点 - 毕竟读一个很少变的数据库比频繁变的数据库简单多了. 不过数据显然非常不均匀, 有些 key 一定超级频繁, 比如问候对方家人相关的屏蔽词 - 这会影响后面 Cache 的设计.  例子2 - 设计一个电子银行系统 至少我们需要 User, Account, Transaction." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://drkbl.com/posts/pass-system-design-interview/" />
 
@@ -97,16 +96,16 @@ if (!doNotTrack) {
 <p>关键要考虑的数据特征是,</p>
 <ul>
 <li>数据量</li>
-<li>关联性</li>
+<li>关联性 - 1:1, 1:N, N:N</li>
 <li>读写分布</li>
-<li>mutablity</li>
-<li>数据均匀性</li>
+<li>可变性 mutability</li>
+<li>数据均匀性 - 读写均匀, 1:N?</li>
 </ul>
 <h4 id="例子1---设计一个屏蔽词查询系统">例子1 - 设计一个屏蔽词查询系统</h4>
 <p>这可以理解为就是一个 <code>超大 Set</code>.</p>
 <ul>
-<li>于是数据模型就很简单, 全局就一种模型, <code>key-value</code>, 无模型间关联/关系.</li>
-<li>而这个系统中, 数据量极大, 读操作远远大于写操作, 而且基本只是增加新项目, 这对后面的 <code>读 API</code> 设计是一个很好的考量点 - 毕竟读一个很少变的数据库比频繁变的数据库简单多了.</li>
+<li>于是数据模型就很简单, 全局就一种 Data Class, 无模型间关联/关系.</li>
+<li>而这个系统中, 数据量极大, 读操作远远大于写操作, 而且基本只是增加新项目, 这对后面的 <code>读 API</code> 的设计来说是一个很好的考量点 - 毕竟读一个很少变的数据库比频繁变的数据库简单多了.</li>
 <li>不过数据显然非常不均匀, 有些 <code>key</code> 一定超级频繁, 比如问候对方家人相关的屏蔽词 - 这会影响后面 <code>Cache</code> 的设计.</li>
 </ul>
 <h4 id="例子2---设计一个电子银行系统">例子2 - 设计一个电子银行系统</h4>
@@ -117,32 +116,39 @@ if (!doNotTrack) {
 <li>这个问题的关键就在 OOD 上了, 数据量和读写分布不是关键要素, 主要是 <code>Transaction</code> 会很多, 讲究 Atomic 了.</li>
 </ul>
 <h3 id="2-traffic-estimate---系统中所有的数据流动">2. Traffic estimate - 系统中所有的数据流动</h3>
-<p>这个关系到我们的系统有多复杂. 比如设计一个淘宝系统因为其巨量的订单, 双 11 的爆发, 并发性, 稳定性的要求会撑爆我们的系统设计.</p>
+<p>这个关系到我们的系统有多复杂. 比如设计一个购物系统可以很简单也可以很难, 就算功能简单到 12315, 只要订单足够多足够密集(春运), 那么并发性, 稳定性的要求就足够撑爆我们的系统设计.</p>
 <p>关键要考虑的是,</p>
 <ul>
-<li>单个 request size, request per sec</li>
+<li>单个 request size</li>
+<li>request per sec</li>
 <li>访问的特征 - 读写分布, 关联访问, 常用 Top 1-20% 的 hot data</li>
 <li>突发 - 削峰用 MQ</li>
-<li>应对高计算/数据库操作压力的任务 - 要不提前准备, 要不排队, 要不牺牲点什么</li>
+<li>应对高计算/数据库操作压力的任务
+<ul>
+<li>要不提前准备</li>
+<li>要不排队</li>
+<li>要不牺牲点什么</li>
+</ul>
+</li>
 </ul>
 <h4 id="例子1---设计一个屏蔽词查询系统-1">例子1 - 设计一个屏蔽词查询系统</h4>
 <p>呼应我们数据模型设计中提到的, 依次回答,</p>
 <ul>
-<li>单个 request 很小, 于是我们可以把多个 key 的 check 打包在一个 request 中, 最后的大小也不会超过一个普通的 TCP MTU 1500 或者 IP 包 1470 Byte.</li>
-<li>request pre sec 非常高. 此时可以 do a math 显得专业, 如果每秒有 100 人打算发篇文章, 而每个文章 500 字, 可以分词成 300 个关键词, 那么每秒就需要支持 100*300 个请求.</li>
-<li>访问特征显然绝大多数都是读, 无关联访问, 常用的估计 10% 的关键词占掉了 90% 的 request 量</li>
+<li>单个 request 很小, 于是我们可以把多个 key 的 check 打包在一个 request 中, 最后的大小也不会超过一个普通的 Ethernet frame MTU 1500, 或者 IP packet 1480 Byte.</li>
+<li>Request/sec 非常高. 此时可以 Do The Math 显得专业, 如果每秒有 100 人打算发篇文章, 而每个文章 500 字, 可以分词成 300 个关键词, 那么每秒就需要支持 100*300 个请求.</li>
+<li>访问特征显然绝大多数都是读, 无关联访问, 估计常用的 10% 的关键词占掉了 90% 的 request 量</li>
 <li>大多数访问应该都是均匀的. 如果突发可以设计两级审核, 一轮即时审核只看 10% 的关键词, 让用户先发出去 + 一轮亡羊补牢再检查所有的关键词按需风控.</li>
 <li>这是一个纯关键词匹配问题, 没啥计算需求</li>
 </ul>
-<p>可以参考 <a href="https://www.educative.io/courses/grokking-the-system-design-interview,">https://www.educative.io/courses/grokking-the-system-design-interview,</a> 包括了更详细的 do the math 的流程.</p>
+<p>可以参考 <a href="https://www.educative.io/courses/grokking-the-system-design-interview,">https://www.educative.io/courses/grokking-the-system-design-interview,</a> 包括了更详细的 Do The Math 的流程.</p>
 <h4 id="例子3---设计一个全国温度收集系统">例子3 - 设计一个全国温度收集系统</h4>
-<p>这个是我在亚麻面试中遇到的, 也很有趣. 就是说我们在全国分布了上百万个温度 sensor, 现在需要设计一个系统收集这些数据并且实时展示出来 + 历史查询功能.</p>
+<p>这个是我在亚麻面试中遇到的. 说我们在全国分布了上百万个温度 sensor, 现在需要设计一个系统收集这些数据并且实时展示出来 + 历史查询功能.</p>
 <ul>
 <li>显然单个 request 也很小. 大约就是个 tuple <code>(latitude, longitude, timestamp, celsiusdegree)</code> 也就 20 Byte 最多了.</li>
-<li>频率和面试官确认下, 比如他说每秒汇报一次. 那么就是 1,000,000 个请求每秒了. 如果这是一个简单的 1 个中心节点直接汇聚 1,000,000 的数据点, 显然对这个中心节点的要求太高了. 于是此时可以提到, 我们可以设计一个两层的 map-reduce 架构. 中心节点只和 1000 个二级节点相连, 每个 sensor 节点可以 hash 一下自己的位置去访问最近的一个节点. 这样就变成 1:1,000:1,000,000 的关联关系了. 每个 server 都至多和 1000 个其他 server 通信</li>
-<li>还可以再提一个, 因为 sensor 节点会拓展/替换/IP 会变动, 我们最好选择 push model. sensor 节点主动去把自己的数据 push 到数据中心. scalability 会好很多.</li>
-<li>因为这显然是一个 immutable 数据模型, 我们可以用 ElasticSearch 做存储, 可以用 <code>latitude+longitude</code>, <code>timestamp</code> 做 index.</li>
-<li>因为最常用的查询就是实时查询, 面试官说我们会有个网页大家随时看, 这就是 hot data. 那么可以在中心节点上直接在内存中放一个实时 Cache 保存这一百万个节点的当时的数字. 其实大小也很小, <code>20Byte * 1M</code> 不过才 20MB 而的一个数据结构.</li>
+<li>频率和面试官确认下, 比如他说每秒汇报一次. 那么就是 1,000,000 个请求每秒了. 如果这是一个简单的 1 个中心节点直接汇聚 1,000,000 的数据点, 显然对这个中心节点的要求太高了. 于是此时可以提到, 我们可以设计一个两层的 map-reduce 架构. 中心节点只和 1,000 个二级节点相连, 每个 sensor 节点可以 hash 一下自己的位置去访问最近的一个节点. 这样就变成 1:1,000:1,000,000 的关联关系了. 每个服务器节点都至多接受来自 1,000 个其他下级节点的通信</li>
+<li>还可以再提一个, 因为 sensor 节点会拓展/替换/IP 会变动, 而中间服务器节点可以 load balancing, 固定 DNS 等等, 我们最好选择 push model. sensor 节点主动去把自己的数据 push 到数据中心. scalability 会好很多.</li>
+<li>因为这显然是一个 immutable 数据模型, 我们可以用 ElasticSearch 做存储, 可以用 <code>latitude+longitude</code>, 和 <code>timestamp</code> 做 index.</li>
+<li>因为最常用的查询就是实时查询, 面试官说我们会有个网页大家随时看, 这就是 Hot Data. 那么可以在中心节点上直接在内存中放一个实时 Cache 保存这一百万个节点的当时的数字. 其实大小也很小, 20Byte * 1M 不过才 20MB 而的一个数据结构.</li>
 <li>因为提供了历史查询功能, 那么其实是有计算需求的. 和面试官明确下查询的精度是什么, 比如只要求每个 sensor 每天的 <code>(min, max, avg)</code> 那么为了避免每次都去数据库 query 一天的 86400 个数据, 再做计算, 我们可以在当地时间 0 点时计算一下当天的这些数字然后以 <code>{(sensor+date): (min, max, avg)}</code> 这样的 <code>key-value</code> 组存下来.</li>
 </ul>
 <h3 id="3-设计关键-apis">3. 设计关键 APIs</h3>
@@ -150,68 +156,77 @@ if (!doNotTrack) {
 <h4 id="例子1---设计一个屏蔽词查询系统-2">例子1 - 设计一个屏蔽词查询系统</h4>
 <p>因为我们提到因为单个 request 太小, 可以支持多个 key 在一个 request 中,</p>
 <ul>
-<li><code>check([list of word]) -&gt; [list of boolean]</code></li>
+<li><code>check([list of word]) -&gt; [list of boolean] // True: is blocked</code></li>
 <li><code>add([list of word])</code> 可以再顺嘴提一句, 这个 API 被用的频率应该很小</li>
 </ul>
 <h4 id="例子3---设计一个全国温度收集系统-1">例子3 - 设计一个全国温度收集系统</h4>
 <ul>
-<li><code>get_now() -&gt; dict of {location: celsiusdegree)</code></li>
+<li><code>get_now() -&gt; dict {location -&gt; celsiusdegree}</code></li>
 <li><code>get_history(location, [list of date] or [date range]) -&gt; [list of (date, min, max, avg)]</code> - 因为上面和面试官确认查询精度最多到 <code>天</code></li>
-<li><code>put([list of (latitude, longitude, timestamp, celsiusdegree)])</code> 也就是 sensor/二级节点汇报用的 API. 因为每个数据太小, 在二级节点汇报时用 list 打包下显然能大大减少总 pkg 的数量.</li>
+<li><code>put([list of (latitude, longitude, timestamp, celsiusdegree)])</code> 也就是 sensor/二级节点汇报用的 API. 因为每个数据太小, 在二级节点汇报时用 <code>list</code> 打包下显然能大大减少总请求的数量.</li>
 </ul>
 <h3 id="4-考虑核心算法和业务性质主导的-distribution">4. 考虑核心算法和业务性质主导的 Distribution</h3>
 <p>这个指的是, 当我们通过设计 API 把需求抽象到代码层面之后, 下面可以用数据结构和算法, 分布式设计来进一步细化我们的设计.</p>
 <h4 id="例子3---设计一个全国温度收集系统-2">例子3 - 设计一个全国温度收集系统</h4>
 <p>其实对于这个例子, 刚刚已经在数据模型和数据流动中提到了关键的几点,</p>
 <ol>
-<li>数据的汇总是 push model 方便 scalabile</li>
+<li>数据的汇总是 push model 方便 scaling</li>
 <li>使用分级汇报的方式. 二级节点把 sensor 节点的数据都汇总一遍, 把 1000 个数据点 reduce 成一个 pkg 再 push 给中心节点, 于是中心节点每秒只需要支持 1000 次 <code>put()</code> API 的调用</li>
-<li>因为读实时是最常用的 API, 直接在中心节点放个实时的cache.</li>
+<li>因为读实时是最常用的 API, 直接在中心节点放个实时的 cache.</li>
 <li>cronjob 的计算下平均值把数据放在单独的数据库中, 避免重复计算.</li>
 </ol>
 <p>顺便, 我们可以分离读写的两个 server, 因为他们的特征差距很大, 天然完全分离 - <code>sensor -&gt; put_server -&gt; DB &lt;- get_server &lt;- user</code>.</p>
 <h4 id="例子4---global-object-id">例子4 - Global Object ID</h4>
-<p>这是一个超经典的问题. 即给每个 Object 分配一个全局唯一的 ID. 比如淘宝中, 每个产品一个 ID, 每个订单一个 ID. 在 Twitter 中, 每条 Twitte 一个 ID. ShortenURL 每个 ID 一个 URL. 关键是,</p>
+<p>这是一个超经典的问题. 即给每个 Object 分配一个全局唯一的 ID. 比如淘宝中, 每个产品一个 ID, 每个订单一个 ID. 在 Twitter 中, 每条 Twitte 一个 ID. Short-URL 每个 ID 一个 URL. 关键是,</p>
 <ol>
 <li>显然在一个分布式系统中, 会有多个服务器同时分配 ID, 那么怎么保证多服务器分配不冲突的 ID?</li>
-<li>ID 可以有意义吗, 有意义的 ID 做主键好搜索好排序啊. 是不是要求时间上后面分配的 ID 一定要大于前面的?</li>
-<li>不是绝对随机的 ID 分配会影响存取么? 如果 ID 和数据库节点绑定的话, 是不是会导致数据库节点被访问的频率不均匀? 如何设定 cache/batch?</li>
+<li>ID 需要有意义吗, 有意义的 ID 做主键好搜索好排序. 以及是不是要求时间上后面分配的 ID 一定要大于前面的?</li>
+<li>不是绝对随机的 ID 分配会影响存取么? 如果 ID 和数据库节点绑定的话, 是不是会导致数据库节点被访问的频率不均匀? 如何配置 cache 和 locality?</li>
 <li>分配之后呢, 在数据关联上, 有没有数据 affinity, 什么样的数据会同时被读取/搜索?</li>
 <li>在分布上, 这些 ID 是都等读等写的吗? 比如有没有特别高频被读/写的?</li>
 </ol>
 <p>这个问题的算法就很重要了.</p>
 <ol>
-<li>通过 Object 的属性 hash 出来 ID. 比如 Shorten Original URL - <code>base64(url)</code>. 或者订单 ID == <code>userid_productid_timestamp</code>. 不过也许我们并不想让 ID 是一个有逻辑的 ID, 可能会暴露数据本身, 有时我们并不想让 ID 可以被预测</li>
+<li>通过 Object 的属性 hash 出来 ID. 比如 Short-URL Original URL - <code>md5(url)</code>. 或者订单 <code>Order_ID == userid_productid_timestamp</code>. 不过也许我们并不想让 ID 是一个有逻辑的 ID, 可能会暴露数据本身, 有时我们并不想让 ID 可以被预测</li>
 <li>increasing sequence number. 这对于单个 server 是最简单的方法了.</li>
 <li>随机数字. 这个当然很简单, 不过有一些问题,
 <ol>
-<li>ID 长度必然有限制, 那么随机就会产生碰撞 (如果数据域太小的话，比如 8 位随机数字，其实 10000 个 ID 就很大概率出现碰撞了), 而对于关键系统, 比如订单, 任何碰撞都是受不了的. </li>
+<li>ID 长度必然有限制, 那么随机就会产生碰撞 (如果数据域太小的话，比如 8 位随机数字，其实 10,000 个 ID 就很大概率出现碰撞了), 而对于关键系统, 比如订单, 任何碰撞都是受不了的. </li>
 <li>再比如我们要求时间上后分配的 ID 要比前面的 ID 大方便 query. 随机无法满足这样的要求.</li>
 </ol>
 </li>
-<li>提前准备好批量取用. 这个是很棒的主意. 我们抽象出一个 Key Generation Service (KGS).
+<li>提前准备好批量取用. 这个是很棒的主意. 我们抽象出一个 Key Generation Service
 <ol>
 <li>直接生成大量 Key 放在数据库准备好. 就可以让一个进程完成, 于是没有冲突问题.</li>
-<li>一开始每个 API server 有一个 Key pool, 启动时去数据库里申领几千几万个 unique ID. 创建新的订单时在自己的 pool 里面拿一个. 当用完了, 比如 30min, 再去拿一次. 这样其实每个 server 的休息时间也很短.</li>
-<li>cornor case. 即便 server 突然断电, 也不过是浪费了一些 ID, which 是可接受的.</li>
+<li>一开始每个 API server 有一个 Key pool, 启动时去数据库里申领几千几万个 unique ID. 创建新的订单时在自己的 pool 里面拿一个. 当用完了, 比如 30min, 再去拿一次. 这样其实每个 server 的暂停服务的时间也很短, 配合下 LB.</li>
+<li>cornor case. 即便 server 突然断电, 也不过是浪费了一些 ID, 是可接受的.</li>
 </ol>
 </li>
 </ol>
 <h3 id="5-各种通用优化">5. 各种通用优化</h3>
 <p>基本上所有的系统都可以加上.</p>
 <h4 id="load-balancing">Load Balancing</h4>
-<p>For single point of failure, uniform, consistent, scale-up.</p>
+<p><strong>For single point of failure, uniform, consistent, scale-up.</strong></p>
+<ul>
+<li>
+<p>系统内部的 LB,</p>
 <ol>
-<li>系统内部的 LB - 在 database 和 app 之间, 在 API server 之间, 在 worker 和 API server 之间, etc. 比如数据库是抽象出来的, 数据库可以有多个地址. API server 之间可以用 service-mesh 服务发现来让每个组件都是高可用的.</li>
-<li>系统整体对用户间的 LB - 可以按网络模型安排多层 LB.
+<li>在 database 和 app 之间</li>
+<li>在 API server 之间</li>
+<li>在 worker 和 API server 之间, etc.</li>
+</ol>
+<p>比如数据库就是解耦出来的一个组件, 又明确的 API 层就可以加 LB 了. API servers 之间可以用 service-mesh 服务发现来让每个组件都是高可用的.</p>
+</li>
+<li>
+<p>系统整体对用户间的 LB - 可以按网络模型安排多层 LB.</p>
 <ol>
-<li>首先单个 API server 必然是有多个进程/线程的, 前面可以先有个 HTTP-Level LB 比如 Nginx 调度.</li>
-<li>然后多个 server 间可以用 Nginx 或者 HAProxy 做 API gateway.</li>
-<li>那么又要给多个 L4/7 的 API gateway 前面加上 L3 的 float IP 的 LB, 用 MACVLAN, IPVLAN 什么的.</li>
-<li>再前面又可以有 DNS 层的 LB. DNS 直接 round-robin 或者高级的 Consul.io 提供的自带健康监测/有状态 LB 算法 (Least Connection/Response time/Traffic/Round robin/Hashing) 的 DNS.</li>
+<li>首先单个 API server 必然是有多个进程/线程的, 前面可以先有个 HTTP-Level LB, 比如 Nginx, 进行调度.</li>
+<li>然后多个 servers 间可以用 Nginx 或者 HAProxy 做 LB/API gateway.</li>
+<li>那么又要给多个 L4/7 的 LB/API gateway 前面加上 L3 的 Float IP 的 LB, 用 MACVLAN, IPVLAN 什么的.</li>
+<li>再前面又可以有 DNS 层的 LB. DNS 直接 round-robin 或者高级的比如 Consul.io 自带健康监测/有状态 LB 算法 (Least Connection/Response time/Traffic/Round robin/Hashing) 的 DNS.</li>
 </ol>
 </li>
-</ol>
+</ul>
 <h4 id="stand-by">Stand-by</h4>
 <p>不至于/不方便上 LB 的地方统统来个 stand-by server, 比如上面提到的 Key Generation Service 因为一致性的原因, 上 LB 太麻烦. 那就 Stand-by 一下吧.</p>
 <h4 id="cache">Cache</h4>
@@ -249,11 +264,11 @@ if (!doNotTrack) {
 <ol>
 <li>实时性/一致性/可用性 的 trade off. 比如是不是可以给用户展示 5 分钟前的数据?</li>
 <li>顶级功能/次级功能, 高感知属性/次感知属性. 用户常用的功能优化下?</li>
-<li>精确. 比如在温度查询的例子里. 我们想要平均值可以需要计算一天 86400 个数据的平均, 或者, 只抽取每小时第一秒的数据计算平均值. 鉴于温度不会忽上忽下, 这样稍微牺牲了精度但是只要计算 24 个数据即可.</li>
+<li>精确. 比如在温度查询的例子里, 我们想要平均值可以需要计算一天 86400 个数据的平均, 或者, 只抽取每小时第一秒的数据计算平均值. 鉴于温度不会忽上忽下, 这样稍微牺牲了精度但是只要计算 24 个数据即可.</li>
 <li>性能. 那些地方运算多?</li>
 <li>稳定. LB 和 Stand-by 太贵的地方放弃下?</li>
 <li>备份. 冷备, 热备, 多地备</li>
-<li>可以异步做的高计算/高延迟步骤就异步做. 比如提前计算好每日的平均温度.</li>
+<li>可以异步做的高计算/高延迟步骤就异步做. 比如, 提前计算好每日的平均温度.</li>
 <li>感觉冲突/互相影响就分开, 中间加个同步机制.</li>
 <li>服务间 或 服务和 client 间的同步问题. pull model, push model, 或者混合.</li>
 </ol>

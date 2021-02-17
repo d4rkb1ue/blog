@@ -17,9 +17,8 @@
       <description>经典问题 比如要求设计,
  Chat Messenger Twitter Feed Distributed Key-Value Global Object ID  典型流程 解答这样的问题, 可以这样一步步边确认边回答,
 1. Data model/schema - 设计多种单体数据模型, 数据库关联关系 关键要考虑的数据特征是,
- 数据量 关联性 读写分布 mutablity 数据均匀性  例子1 - 设计一个屏蔽词查询系统 这可以理解为就是一个 超大 Set.
- 于是数据模型就很简单, 全局就一种模型, key-value, 无模型间关联/关系. 而这个系统中, 数据量极大, 读操作远远大于写操作, 而且基本只是增加新项目, 这对后面的 读 API 设计是一个很好的考量点 - 毕竟读一个很少变的数据库比频繁变的数据库简单多了. 不过数据显然非常不均匀, 有些 key 一定超级频繁, 比如问候对方家人相关的屏蔽词 - 这会影响后面 Cache 的设计.  例子2 - 设计一个电子银行系统 至少我们需要 User, Account, Transaction.
- Account 应该包含, ID, UserIdRef, Balances, TransactionIdRefs 于是就能画出来一个 Class Diagram.</description>
+ 数据量 关联性 - 1:1, 1:N, N:N 读写分布 可变性 mutability 数据均匀性 - 读写均匀, 1:N?  例子1 - 设计一个屏蔽词查询系统 这可以理解为就是一个 超大 Set.
+ 于是数据模型就很简单, 全局就一种 Data Class, 无模型间关联/关系. 而这个系统中, 数据量极大, 读操作远远大于写操作, 而且基本只是增加新项目, 这对后面的 读 API 的设计来说是一个很好的考量点 - 毕竟读一个很少变的数据库比频繁变的数据库简单多了. 不过数据显然非常不均匀, 有些 key 一定超级频繁, 比如问候对方家人相关的屏蔽词 - 这会影响后面 Cache 的设计.  例子2 - 设计一个电子银行系统 至少我们需要 User, Account, Transaction.</description>
     </item>
     
   </channel>
