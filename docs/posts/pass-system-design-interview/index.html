@@ -220,7 +220,7 @@ if (!doNotTrack) {
 <li>
 <p>系统整体对用户间的 LB - 可以按网络模型安排多层 LB.</p>
 <ol>
-<li>首先单个 API server 必然是有多个进程/线程的, 前面可以先有个 HTTP-Level LB, 比如 Nginx, 进行调度.</li>
+<li>首先单个 API server 本地可以先有个 Nginx 做 reverse proxy 进行 throttling 之类的保护.</li>
 <li>然后多个 servers 间可以用 Nginx 或者 HAProxy 做 LB/API gateway.</li>
 <li>那么又要给多个 L4/7 的 LB/API gateway 前面加上 L3 的 Float IP 的 LB, 用 MACVLAN, IPVLAN 什么的.</li>
 <li>再前面又可以有 DNS 层的 LB. DNS 直接 round-robin 或者高级的比如 Consul.io 自带健康监测/有状态 LB 算法 (Least Connection/Response time/Traffic/Round robin/Hashing) 的 DNS.</li>

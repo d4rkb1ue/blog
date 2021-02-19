@@ -148,7 +148,7 @@ tags: ['interview']
    
    比如数据库就是解耦出来的一个组件, 又明确的 API 层就可以加 LB 了. API servers 之间可以用 service-mesh 服务发现来让每个组件都是高可用的. 
 - 系统整体对用户间的 LB - 可以按网络模型安排多层 LB. 
-   1. 首先单个 API server 必然是有多个进程/线程的, 前面可以先有个 HTTP-Level LB, 比如 Nginx, 进行调度. 
+   1. 首先单个 API server 本地可以先有个 Nginx 做 reverse proxy 进行 throttling 之类的保护. 
    1. 然后多个 servers 间可以用 Nginx 或者 HAProxy 做 LB/API gateway. 
    1. 那么又要给多个 L4/7 的 LB/API gateway 前面加上 L3 的 Float IP 的 LB, 用 MACVLAN, IPVLAN 什么的. 
    1. 再前面又可以有 DNS 层的 LB. DNS 直接 round-robin 或者高级的比如 Consul.io 自带健康监测/有状态 LB 算法 (Least Connection/Response time/Traffic/Round robin/Hashing) 的 DNS. 
