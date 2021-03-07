@@ -230,7 +230,7 @@ $ ip a | grep 192.168.
 $ docker network create -d macvlan --subnet<span style="color:#f92672">=</span>192.168.164.0/24 --gateway<span style="color:#f92672">=</span>192.168.164.1 -o parent<span style="color:#f92672">=</span>enp0s31f6 macvlan1
 </code></pre></div><p>Then start the container,</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ docker run --restart<span style="color:#f92672">=</span>always -d <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --name timemachine <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --name tm <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --hostname timemachine <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --network macvlan1 <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --ip 192.168.164.2 <span style="color:#ae81ff">\
@@ -238,11 +238,11 @@ $ docker network create -d macvlan --subnet<span style="color:#f92672">=</span>1
 </span><span style="color:#ae81ff"></span>    -p 138:138/udp <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    -p 139:139 <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    -p 445:445 <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    -e TM_USERNAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;user2&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -e TM_USERNAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;username-sameto-sharename&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    -e PASSWORD<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;badpass2&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    -e SET_PERMISSIONS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;false&#34;</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    -e SHARE_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;TimeMachine&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    -v /media/tm:/opt/timemachine <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    -v /media/tm:/opt/username-sameto-sharename <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    -v timemachine-var-lib-samba:/var/lib/samba <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    -v timemachine-var-cache-samba:/var/cache/samba <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    -v timemachine-run-samba:/run/samba <span style="color:#ae81ff">\

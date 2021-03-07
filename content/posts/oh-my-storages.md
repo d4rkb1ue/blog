@@ -209,7 +209,7 @@ $ docker network create -d macvlan --subnet=192.168.164.0/24 --gateway=192.168.1
 Then start the container,
 ```sh
 $ docker run --restart=always -d \
-    --name timemachine \
+    --name tm \
     --hostname timemachine \
     --network macvlan1 \
     --ip 192.168.164.2 \
@@ -217,11 +217,11 @@ $ docker run --restart=always -d \
     -p 138:138/udp \
     -p 139:139 \
     -p 445:445 \
-    -e TM_USERNAME="user2" \
+    -e TM_USERNAME="username-sameto-sharename" \
     -e PASSWORD="badpass2" \
     -e SET_PERMISSIONS="false" \
     -e SHARE_NAME="TimeMachine" \
-    -v /media/tm:/opt/timemachine \
+    -v /media/tm:/opt/username-sameto-sharename \
     -v timemachine-var-lib-samba:/var/lib/samba \
     -v timemachine-var-cache-samba:/var/cache/samba \
     -v timemachine-run-samba:/run/samba \
