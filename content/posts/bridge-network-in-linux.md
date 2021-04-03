@@ -37,7 +37,7 @@ If we further connect this to the physical interfaces(name `eth0`, `eth1`...), b
 
 ```sh
 ip link set dev eth0 master br0
-ip link set dev eth0 master br1
+ip link set dev eth1 master br0
 ```
 
 these `eth*`s will become transparent in the `LAN`, just like the physical ports on a real switch(bridge). `eth*`'s MAC does not matter any more for `MAC address masking`. 
