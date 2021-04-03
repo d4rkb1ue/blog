@@ -103,7 +103,7 @@ if (!doNotTrack) {
 <p><code>veth0</code> should have a random virtual <code>MAC</code> when created, which will show in the <code>ip a</code> as the attributes of the <code>br0</code>.</p>
 <p>If we further connect this to the physical interfaces(name <code>eth0</code>, <code>eth1</code>&hellip;), by,</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ip link set dev eth0 master br0
-ip link set dev eth0 master br1
+ip link set dev eth1 master br0
 </code></pre></div><p>these <code>eth*</code>s will become transparent in the <code>LAN</code>, just like the physical ports on a real switch(bridge). <code>eth*</code>&rsquo;s MAC does not matter any more for <code>MAC address masking</code>.</p>
 <p>After this, the <code>veth0</code> become &ldquo;real&rdquo; in the <code>LAN</code> since it&rsquo;s now addressable and masking-able. In this case, for not conflicting with other devices on the LAN accidentally, <code>veth0</code> will choose to reuse one of the MACs of <code>eth*</code>s.</p>
 <p>Since the <code>eth*</code>s are connected to a single bridge, theoretically, any traffic comes from <code>eth*</code> will be either broadcasted, or selectively redirected to other <code>eth*</code> base on the MAC switching table. Software side, this can be implemented with the table and pipe with no magic.</p>
