@@ -4,12 +4,32 @@
   
   <url>
     <loc>https://drkbl.com/</loc>
-    <lastmod>2021-02-01T06:34:03+00:00</lastmod>
+    <lastmod>2021-03-15T00:52:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/linux/</loc>
+    <lastmod>2021-03-15T00:52:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/posts/perf-event-diff-arch/</loc>
+    <lastmod>2021-03-15T00:52:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/performance/</loc>
+    <lastmod>2021-03-15T00:52:10+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://drkbl.com/posts/</loc>
-    <lastmod>2021-02-01T06:34:03+00:00</lastmod>
+    <lastmod>2021-03-15T00:52:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://drkbl.com/tags/</loc>
+    <lastmod>2021-03-15T00:52:10+00:00</lastmod>
   </url>
   
   <url>
@@ -24,11 +44,6 @@
   
   <url>
     <loc>https://drkbl.com/posts/force-2d-array-memory-layout/</loc>
-    <lastmod>2021-01-14T08:13:17+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/</loc>
     <lastmod>2021-01-14T08:13:17+00:00</lastmod>
   </url>
   
@@ -70,11 +85,6 @@
   <url>
     <loc>https://drkbl.com/posts/pass-system-design-interview/</loc>
     <lastmod>2020-07-26T05:10:46-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://drkbl.com/tags/linux/</loc>
-    <lastmod>2020-07-19T03:25:38-07:00</lastmod>
   </url>
   
   <url>

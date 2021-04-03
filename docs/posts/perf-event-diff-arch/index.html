@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+
+  <title>Perf Event Diff Arch - d4rkb1ue&#39;s Blog</title>
+  <meta content='Perf Event Diff Arch - d4rkb1ue&#39;s Blog' property='title' />
+  <meta content='Perf Event Diff Arch - d4rkb1ue&#39;s Blog' property='og:title' />
+
+
+<meta property="og:description" content="Task To compare the performance of EC2 Load Balanche on-host TLS termination reverse proxy on x86 and Arm(aarch64).
+I devided TLS performance into two dimensions,
+ bulk data encryption. Mostly about symmetric crypto(cipher) perf like AES. TLS handshake. Mostly about asymmetric crypto perf like ECHDE, RSA.  Perf Event I learn Perf event from Brendan Gregg&rsquo;s blogs,
+http://www.brendangregg.com/perf.html Intro to perf evnets, which is the source of truth.
+http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html Flame Graph is just a way of representing the data we collected from perf event tools." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://drkbl.com/posts/perf-event-diff-arch/" />
+
+
+<meta property="article:published_time" content="2021-03-15T00:52:10&#43;00:00"/>
+
+<meta property="article:modified_time" content="2021-03-15T00:52:10&#43;00:00"/>
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0" />
+
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+<style type="text/css">/*https://coolors.co/afd5aa-f0f2ef-a69f98-3d3d3d-8c6057*/
+:root {
+  --main-color: #8C6056; 
+  --secondary-color: #AFD5AA;
+  --logo-text-color: #fff;
+  --body-text-color: #3d3d3d;
+  --heading-text-color: #383838;
+  --background-color: #fff;
+}</style>
+<link href='/css/tachyons.min.css' rel="stylesheet">
+<link href='/css/styles.css' rel="stylesheet">
+
+
+<link rel="icon" 
+ 
+  href='/favicon.ico'
+
+type="image/x-icon"/>
+
+<link href='/feed.xml' rel="alternate" type="application/atom+xml" title="d4rkb1ue&#39;s Blog" />
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74825078-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+<body class="global-font">
+  <nav class=" justify-between border-box pa3 pl3-l pr2-l mt1 mt0-ns" id="navbar">
+  <div class="flex">
+    <a class="f4 fw6 ttu no-underline dim bg-main-color pv1 ph2 br2" id="site-title" href='/' title="Home">d4rkb1ue&#39;s Blog</a>
+  </div>
+  
+</nav>
+  
+<main class="center mv4 content-width ph3">
+  <div class="f3 fw6 heading-color heading-font post-title">Perf Event Diff Arch</div>
+  <p class="silver f6 mt1 mb4 post-meta">
+    <time>15 Mar 2021</time> 
+     | 
+    
+    
+    tags: [ <a href='/tags/linux' class="link silver">Linux</a> <a href='/tags/performance' class="link silver">Performance</a>  ]
+    
+  </p>
+  <div class="lh-copy post-content"><h2 id="task">Task</h2>
+<p>To compare the performance of EC2 Load Balanche on-host TLS termination reverse proxy on x86 and Arm(aarch64).</p>
+<p>I devided TLS performance into two dimensions,</p>
+<ol>
+<li>bulk data encryption. Mostly about symmetric crypto(cipher) perf like AES.</li>
+<li>TLS handshake. Mostly about asymmetric crypto perf like ECHDE, RSA.</li>
+</ol>
+<h2 id="perf-event">Perf Event</h2>
+<p>I learn Perf event from Brendan Gregg&rsquo;s blogs,</p>
+<p><a href="http://www.brendangregg.com/perf.html">http://www.brendangregg.com/perf.html</a>
+Intro to perf evnets, which is the source of truth.</p>
+<p><a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html">http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html</a>
+Flame Graph is just a way of representing the data we collected from perf event tools.</p>
+<p><a href="http://www.brendangregg.com/blog/2014-06-22/perf-cpu-sample.html">http://www.brendangregg.com/blog/2014-06-22/perf-cpu-sample.html</a></p>
+<blockquote>
+<p>Higher sample rate causing higher overhead. Freqency value 99 and not 100 is to avoid lockstep sampling, which can produce skewed results.</p>
+</blockquote>
+<h3 id="troubleshooting---missing-function-name">Troubleshooting - Missing function name</h3>
+<p>If you are only seeing, for e.g. no function name but only address,</p>
+<pre><code>    57.14%     sshd  libc-2.15.so        [.] connect           
+                |
+                |--25.00%-- 0x7ff3c1cddf29
+</code></pre><p><a href="http://www.brendangregg.com/perf.html#Symbols">http://www.brendangregg.com/perf.html#Symbols</a></p>
+<blockquote>
+<p>Always compile with frame pointers.
+For C program, either</p>
+</blockquote>
+<ol>
+<li>Recompile with <code>-fno-omit-frame-pointer</code>.</li>
+<li>Install debuginfo for the software with DWARF data and use perf&rsquo;s DWARF stack walker.</li>
+</ol>
+<h3 id="what-is-frame-pointers">What is Frame pointers?</h3>
+<p>Actually the symbols we are able to see in the perf report, because,</p>
+<ol>
+<li>During function call, code will store a frame pointer (in fp register on Arm), which contain the stack pointer just before the function was called. <a href="https://en.wikipedia.org/wiki/Call_stack#Stack_and_frame_pointers">wiki</a></li>
+<li>So by just &ldquo;peeking&rdquo; on the current frame pointer periodically, we can know what the current running function and thus calculate the time period base on our &ldquo;peeking&rdquo; frequency.</li>
+<li>Since frame pointer is just an address, we need further translate the address to a human-readable function name.</li>
+</ol>
+<blockquote>
+<p><a href="http://blog.sina.com.cn/s/blog_a558c25a0101l9yd.html">Linux下Call Stack追溯的实现机制</a>
+大家都知道当发生函数调用的时候，函数的参数传递，返回值传递都要遵循一定的规则，在ARM体系架构下，这个规则叫做Procedure Call Standard for the ARM Architecture。在这个规则里规定了函数调用的时候，返回地址在LR里面，第一到第四个参数在r0~r3里面，第五到第八个参数在Stack里面，返回值在r0里面。这是基本规则，C编译器产生汇编指令是必须遵循这些规则，这也是ABI(Application Binary Interface）的一部分。另外，为了实现连续的函数调用，如fun_a()-&gt;func_b()-&gt;func_c()，每个函数的入口处必须先把LR压到stack里，否则func_b()调了func_c()之后，LR变成了func_c()的返回地址，而func_b()返回地址就丢失了。</p>
+</blockquote>
+<h3 id="perf-stat">Perf stat</h3>
+<p><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-perf1/">https://www.ibm.com/developerworks/cn/linux/l-cn-perf1/</a></p>
+<blockquote>
+<p>有些程序慢是因为计算量太大，其多数时间都应该在使用 CPU 进行计算，这叫做 CPU bound 型；有些程序慢是因为过多的 IO，这种时候其 CPU 利用率应该不高，这叫做 IO bound 型；对于 CPU bound 程序的调优和 IO bound 的调优是不同的。如果您认同这些说法的话，Perf stat 应该是您最先使用的一个工具。它通过概括精简的方式提供被调试程序运行的整体情况和汇总数据。</p>
+<pre><code>$ perf stat ./t1
+    262.738415 task-clock-msecs    # 0.991 CPUs 
+    2 context-switches             # 0.000 M/sec 
+    1 CPU-migrations               # 0.000 M/sec 
+    81 page-faults                 # 0.000 M/sec 
+    9478851 cycles                 # 36.077 M/sec (scaled from 98.24%) 
+    6771 instructions              # 0.001 IPC (scaled from 98.99%) 
+    111114049 branches             # 422.908 M/sec (scaled from 99.37%) 
+    8495 branch-misses             # 0.008 % (scaled from 95.91%) 
+    12152161 cache-references      # 46.252 M/sec (scaled from 96.16%) 
+    7245338 cache-misses           # 27.576 M/sec (scaled from 95.49%) 
+ 
+0.265238069 seconds time elapsed 
+</code></pre><p>上面告诉我们，程序 t1 是一个 CPU bound 型，因为 task-clock-msecs 接近 1。
+对 t1 进行调优应该要找到热点 ( 即最耗时的代码片段 )，再看看是否能够提高热点代码的效率。</p>
+<p>缺省情况下，除了 task-clock-msecs 之外，perf stat 还给出了其他几个最常用的统计信息：</p>
+<p>Task-clock-msecs: CPU 利用率，该值高，说明程序的多数时间花费在 CPU 计算上而非 IO。
+Context-switches: 进程切换次数，记录了程序运行过程中发生了多少次进程切换，频繁的进程切换是应该避免的。
+Cache-misses: 程序运行过程中总体的 cache 利用情况，如果该值过高，说明程序的 cache 利用不好
+CPU-migrations: 表示进程 t1 运行过程中发生了多少次 CPU 迁移，即被调度器从一个 CPU 转移到另外一个 CPU 上运行。
+Cycles: 处理器时钟，一条机器指令可能需要多个 cycles，
+Instructions: 机器指令数目。
+IPC: 是 Instructions/Cycles 的比值，该值越大越好，说明程序充分利用了处理器的特性。
+Cache-references: cache 命中的次数
+Cache-misses: cache 失效的次数。</p>
+</blockquote>
+<p><strong><a href="https://perf.wiki.kernel.org/index.php/Tutorial">https://perf.wiki.kernel.org/index.php/Tutorial</a></strong></p>
+<p><strong>THE MAN PAGE!</strong></p>
+<p><a href="https://perf.wiki.kernel.org/index.php/Tutorial#Attaching_to_a_running_process">https://perf.wiki.kernel.org/index.php/Tutorial#Attaching_to_a_running_process</a></p>
+<blockquote>
+<p>If no run during sampling time than 0 event.
+On any Intel or AMD processor, the cycle event does not count when the processor is idle, i.e., when it calls mwait().</p>
+</blockquote>
+<p><a href="https://perf.wiki.kernel.org/index.php/Tutorial#Sampling_with_perf_record">https://perf.wiki.kernel.org/index.php/Tutorial#Sampling_with_perf_record</a></p>
+<blockquote>
+<p>This generates an output file called perf.data. That file can then be analyzed, possibly on another machine, using the perf report and perf annotate commands. The model is fairly similar to that of OProfile.
+perf record by default using cycles like defined in perf stat.</p>
+</blockquote>
+<h2 id="how-i-use-perf-to-compare-the-same-app-on-diff-cpu">How I use perf to compare the same app on diff CPU?</h2>
+<p>It&rsquo;s actually tricky to do it. I choose to use perf because it&rsquo;s already known that our app has some performance regression on Arm but we just want to use why. So we want to break down the performance regression into different parts to give us detailed view.</p>
+<p>For e.g. we want to get some data like - function A perform 200% worse on Arm (cost 10ms CPU time on Intel vs. 20ms on Arm), contribute 25% of the regression (the total perf delta is 40ms, this 20-10=10ms delta is 25% of the reason).</p>
+<p>To achieve this,</p>
+<ol>
+<li>We need to make sure we are always benchmark under the same workload. For TLS handshake, if we perf record same amount of time, say 60 sec, we need to make sure the same number of handshake has been handled during this time, say 1 handshake per sec.</li>
+<li>Perf record as precisely as possible. Say if our app has a worker thread that is dedicated to TLS handshake, we can perf this only thread to avoid noise and overheads.</li>
+<li>Make sure that our app is running exactly the same workload by elimate all the possible variables. Like if we should turn off &ldquo;smart&rdquo; scheduler, task queue(which can lead delayed processing), async processors, Hyper Threading, other apps on the same CPU core/system, etc. All in all, we want to make sure the
+<ul>
+<li>exact same code has been executed,</li>
+<li>under exact same frequency,</li>
+<li>on the exact CPU(s)</li>
+</ul>
+</li>
+<li>In the case we can&rsquo;t enfore the same function operating freqency, we can record a longer period to cover all the workload to achieve eventual same workload,
+<ul>
+<li>e.g. During bulk data transfer test, both CPUs are trying best to do the encryption by use 100% CPU. However, result in a different MB/s of encryption. So even for same workload, say 1GB downloading test, one CPU is faster. So in this case, we can&rsquo;t <code>pref record</code> the same period of time, instead, we should start the recording before the task start and end recording after both CPUs got the job done.</li>
+<li>Say on Intel we use 100s and on Arm we use 250s, we can record for max(100, 250)=250 to make sure the <code>perf stat</code> still comparable, since <code>perf stat</code> is showing the absolute CPU cycle/task_cycle, no matter the total length of period.</li>
+<li>However, since recording time is longer than load testing time, the actual real-time CPU % usage is higher than what recorded in perf stat. For example, we might see 0.5 CPU utilized in <code>perf stat</code>, but actual real-time CPU usage show in <code>top</code> can be 75%. It might due to that the CPU % load in 20s has been &ldquo;amortized&rdquo; into 30s.</li>
+</ul>
+</li>
+<li>Since perf report only show the <strong>%</strong> taken by each symbol(e.g. function_name, dso_filename), how to compare a the <strong>CPU absolute time(aka. wall-time)</strong> taken by each symbol? For a CPU at 1% load, a task costing 50% overhead means it costs 0.5% cpu wall-time.
+<ol>
+<li>We can get CPU time for the whole process/thread</li>
+<li>We can get % for each symbol running in this process/thread</li>
+<li><strong>then, multiply % with CPU time for absolute CPU for each symbol!</strong></li>
+</ol>
+</li>
+</ol>
+<p>I didn&rsquo;t find there&rsquo;s any other ones did this <strong>multiply</strong> trick. So I first think about it.</p>
+<blockquote>
+<p><del><a href="https://stackoverflow.com/questions/6580789/profiling-for-wall-time-on-linux">stackoverflow/profiling-for-wall-time-on-linux</a></del><br>
+<del><a href="https://stackoverflow.com/questions/45251182/thread-utilization-profiling-on-linux">stackoverflow/thread-utilization-profiling-on-linux</a></del><br>
+<del><a href="https://stackoverflow.com/questions/33831350/using-perf-to-record-a-profile-that-includes-sleep-blocked-times">stackoverflow/using-perf-to-record-a-profile-that-includes-sleep-blocked-times</a></del><br>
+Off CPU profiling question?<br>
+<del><a href="https://stackoverflow.com/questions/27842281/unknown-events-in-nodejs-v8-flamegraph-using-perf-events/">stackoverflow/unknown-events-in-nodejs-v8-flamegraph-using-perf-events/</a></del><br>
+<del><a href="https://stackoverflow.com/questions/55132433/finding-threading-bottlenecks-and-optimizing-for-wall-time-with-perf">stackoverflow/finding-threading-bottlenecks-and-optimizing-for-wall-time-with-perf</a></del><br>
+<del><a href="https://stackoverflow.com/questions/60190228/best-event-counter-to-use-for-measuring-wall-clock-time-using-perf-tools">stackoverflow/best-event-counter-to-use-for-measuring-wall-clock-time-using-perf-tools</a></del><br>
+Acutally using <code>task-clock</code> is not right. It still can&rsquo;t tell us how many <code>task-clock</code> has been ticked in a wall time second, thus we still can&rsquo;t get the wall CPU time. Also btw,</p>
+<ul>
+<li><code>-e constant_tsc</code> not exist on Intel</li>
+<li><code>-e nonstop_tsc</code> not exist on Intel</li>
+<li><code>-e task-clock</code> seems better to be used for multiplier as it’s only triggered when task is ON-CPU.</li>
+</ul>
+<p><a href="https://stackoverflow.com/questions/23098153/how-to-use-linux-perf-tool-to-generate-off-cpu-profile">stackoverflow/how-to-use-linux-perf-tool-to-generate-off-cpu-profile</a><br>
+Brendan Gregg mentioned off-cpu time.
+<a href="https://github.com/brendangregg/FlameGraph/issues/218">https://github.com/brendangregg/FlameGraph/issues/218</a><br>
+Still off-cpu.<br>
+<del><a href="https://stackoverflow.com/questions/61442853/what-does-1-234-cpus-used-mean-in-perf-output">what-does-1-234-cpus-used-mean-in-perf-output</a></del><br>
+<del><a href="https://stackoverflow.com/questions/23965363/linux-perf-events-cpu-clock-and-task-clock-what-is-the-difference">linux-perf-events-cpu-clock-and-task-clock-what-is-the-difference</a></del><br>
+<del><a href="http://www.brendangregg.com/FlameGraphs/hotcoldflamegraphs.html">brendangregg.com/hotcoldflamegraphs</a></del><br>
+<del><a href="https://github.com/brendangregg/FlameGraph/issues/47#">github/FlameGraph/issues/47</a></del><br>
+<del><a href="http://www.brendangregg.com/blog/2015-02-26/linux-perf-off-cpu-flame-graph.html">brendangregg.com/linux-perf-off-cpu-flame-graph</a></del><br>
+<a href="http://www.brendangregg.com/offcpuanalysis.html">http://www.brendangregg.com/offcpuanalysis.html</a><br>
+<strong>Idle time also count as off-CPU!</strong><br>
+<a href="https://github.com/iovisor/bcc/blob/master/tools/offcputime_example.txt">github/iovisor/offcputime_example</a>
+<a href="https://stackoverflow.com/questions/21756067/profiling-sleep-times-with-perf">stackoverflow/profiling-sleep-times-with-perf</a>
+<a href="https://perf.wiki.kernel.org/index.php/Tutorial#Profiling_sleep_times">https://perf.wiki.kernel.org/index.php/Tutorial#Profiling_sleep_times</a>
+<a href="https://stackoverflow.com/questions/28631106/hot-to-get-absolute-values-instead-of-percentages-in-perf-s-annotate-view">how-to-get-absolute-values-instead-of-percentages-in-perf</a><br>
+<a href="https://stackoverflow.com/questions/58611685/get-total-cpu-usage-of-an-app-from-simpleperf-recording">get-total-cpu-usage-of-an-app-from-perf</a><br>
+<a href="https://stackoverflow.com/questions/51157938/perf-doesnt-add-up-to-100">perf-doesnt-add-up-to-100</a></p>
+</blockquote>
+<h2 id="result">Result</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Intel</th>
+<th>Arm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU wall-time by perf stat</td>
+<td>5%</td>
+<td>20%</td>
+</tr>
+<tr>
+<td>Relative ECDH</td>
+<td>15%</td>
+<td>50%</td>
+</tr>
+<tr>
+<td>Relative RSA</td>
+<td>55%</td>
+<td>40%</td>
+</tr>
+<tr>
+<td>Relative Others</td>
+<td>30%</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>Absolute ECDH</td>
+<td>0.75%</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>Absolute RSA</td>
+<td>2.75%</td>
+<td>8%</td>
+</tr>
+<tr>
+<td>Absolute Others</td>
+<td>1.5%</td>
+<td>2%</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>We get CPU wall-time by <code>perf stat</code></li>
+<li>We get &ldquo;Relative ECDH&rdquo; by <code>perf record</code> + <code>perf report</code> + Flame Graph to see the ECDH related function symbols consumed what % of CPU time out of 100%. Say on Intel, ECDH has a 15% bar on Flame graph.</li>
+<li><code>Absolute ECDH == CPU wall-time ✖️ Relative ECDH</code></li>
+</ol>
+<p><img src="/images/perf_event_diff_arch.png" alt="perf_event_diff_arch.png"></p>
+<p>So we can make a clear conclusion that for our app, Arm CPU work 400% &ldquo;harder&rdquo; to finish the same workload, and mostly &ldquo;struggle&rdquo; to finish ECDH and RSA related functions. But the &ldquo;absolute others&rdquo; are basically the same. So we can draw the conclusion that our Arm procressor is bad at asymmetric cryptos like RSA and ECDH.</p>
+<h2 id="one-liners">One-liners</h2>
+<ol>
+<li><code>perf report --sort=dso</code> report by dynamic shared object.</li>
+<li>get total event by <code>perf report -D -i perf.data | fgrep RECORD_SAMPLE | wc -l</code> . Be aware <code>sample_rate</code> is just target rate, not a stable rate.</li>
+<li>We can <code>perf stat</code> under different load and period to see if the load distribution is stable.</li>
+<li>view specific process and it&rsquo;s child processes/threads to find the worker threads <code>sudo top -H -p $PID</code>, <code>sudo pstree -lps $PID</code></li>
+<li>Perf a -<code>t</code>hread, <code>sudo perf record -F 249 -t worker_thread_pid --call-graph fp    -- sleep 30</code>, <code>sudo perf record -F 249 -t worker_thread_pid --call-graph dwarf -- sleep 30</code>, <code>sudo perf stat -t PID -- sleep 30</code></li>
+</ol>
+<h2 id="advance-topics">Advance Topics</h2>
+<p><a href="https://blog.openresty.com.cn/cn/dynamic-tracing/">动态追踪技术漫谈 - 章亦春</a>
+讲解了 Dynamic Tracing 的历史和所有技术。此文更加重视可编程的动态追踪，比固定的得到 Frame pointers 统计信息的 perf event 更加高效。</p>
+</div>
+</main>
+ 
+
+
+
+
+
+
+<div class="tl fixed list-pages lh-copy" id="contents-list"></div>
+
+
+
+<div class="pagination tc tr-l db fixed-l bottom-2-l right-2-l mb3 mb0-l">
+  
+<a id="scroll-to-top" class="f6 o-0 link br2 ph2 pv1 mb1 bg-main-color pointer" onclick="topFunction()" style="color: #fff; visibility: hidden; display: none; transition: opacity .5s, visibility .5s;" title="back to top">back to top</a>
+<br>
+  <p class="mb0 mt2">
+  <a href="https://drkbl.com/posts/oh-my-storages/">prev post</a>
+  
+  </p>
+</div>
+
+  <footer class="content-width mt0 mt5-l mb4 f6 center ph3 gray tc tl-l">
+  <hr class="dn db-l ml0-l gray w3"><br>
+  Powered by <a href="https://gohugo.io/" target="_blank" class="link gray dim">Hugo</a>, based on the <a href="https://github.com/lingxz/er" target="_blank" class="link gray dim">Er</a> theme. <br>
+  Contact me at 7874364@gmail.com
+</footer>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<style>.is-active-link::before { background-color: var(--secondary-color); }</style>
+
+
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+  var currentScrollPos = window.pageYOffset;
+
+  
+  if (document.getElementById("tag-cloud") !== null) { 
+    if (prevScrollpos > currentScrollPos) { 
+      document.getElementById("tag-cloud").style.visibility = "visible";
+      document.getElementById("tag-cloud").style.opacity = "1";
+    } else {
+      document.getElementById("tag-cloud").style.visibility = "hidden";
+      document.getElementById("tag-cloud").style.opacity = "0";
+    }
+  }
+  
+
+  
+  if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
+      document.getElementById("scroll-to-top").style.display = "inline";
+      document.getElementById("scroll-to-top").style.visibility = "visible";
+      document.getElementById("scroll-to-top").style.opacity = "1";
+  } else {
+      document.getElementById("scroll-to-top").style.visibility = "hidden";
+      document.getElementById("scroll-to-top").style.opacity = "0";
+  }
+  
+  prevScrollpos = currentScrollPos;
+}
+
+
+function topFunction() {
+  document.body.scrollTop = 0; 
+  document.documentElement.scrollTop = 0; 
+}
+
+
+
+
+
+
+if (document.getElementById("contents-list") !== null && document.getElementsByClassName("post-content").length !== 0) { 
+  tocbot.init({
+    
+    tocSelector: '#contents-list',
+    
+    contentSelector: '.post-content',
+    
+    headingSelector: 'h1, h2, h3',
+  });
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

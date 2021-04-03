@@ -7,7 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Contact me at 7874364@gmail.com</copyright>
-    <lastBuildDate>Sun, 19 Jul 2020 03:25:38 -0700</lastBuildDate><atom:link href="https://drkbl.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 Mar 2021 00:52:10 +0000</lastBuildDate><atom:link href="https://drkbl.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Perf Event Diff Arch</title>
+      <link>https://drkbl.com/posts/perf-event-diff-arch/</link>
+      <pubDate>Mon, 15 Mar 2021 00:52:10 +0000</pubDate>
+      
+      <guid>https://drkbl.com/posts/perf-event-diff-arch/</guid>
+      <description>Task To compare the performance of EC2 Load Balanche on-host TLS termination reverse proxy on x86 and Arm(aarch64).
+I devided TLS performance into two dimensions,
+ bulk data encryption. Mostly about symmetric crypto(cipher) perf like AES. TLS handshake. Mostly about asymmetric crypto perf like ECHDE, RSA.  Perf Event I learn Perf event from Brendan Gregg&amp;rsquo;s blogs,
+http://www.brendangregg.com/perf.html Intro to perf evnets, which is the source of truth.
+http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html Flame Graph is just a way of representing the data we collected from perf event tools.</description>
+    </item>
+    
     <item>
       <title>Socket Web Server With Multithread in Python</title>
       <link>https://drkbl.com/posts/socket-web-server-with-multithread-in-python/</link>
