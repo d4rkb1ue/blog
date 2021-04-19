@@ -68,21 +68,21 @@ output = {
 >>> from unittest.mock import Mock
 
 >>> json = Mock()
->>> json.loads(‘{“key”: “value”}’)
-<Mock name=‘mock.loads()’ id=‘4391026640’>
+>>> json.loads('{"key": "value"}')
+<Mock name='mock.loads()' id='4391026640'>
 
 >>> # Number of times you called loads():
 … json.loads.call_count
 1
 >>> # The last loads() call:
 … json.loads.call_args
-call(‘{“key”: “value”}’)
+call('{"key": "value"}')
 >>> # List of loads() calls:
 … json.loads.call_args_list
-[call(‘{“key”: “value”}’)]
->>> # List of calls to json’s methods (recursively):
+[call('{"key": "value"}')]
+>>> # List of calls to json's methods (recursively):
 … json.method_calls
-[call.loads(‘{“key”: “value”}’)]
+[call.loads('{"key": "value"}')]
 ```
 
 ## Test Spy - 黑盒子记录仪
