@@ -42,7 +42,7 @@ tags: ['interview']
 - 于是就能画出来一个 Class Diagram. 
 - 这个问题的关键就在 OOD 上了, 数据量和读写分布不是关键要素, 主要是 `Transaction` 会很多, 讲究 Atomic 了. 
 
-### 2. Traffic estimate - 估算系统中所有的数据流动
+### 2. Traffic/Data estimate - 估算系统中所有的数据/流动
 
 这个关系到我们的系统有多复杂. 比如设计一个购物系统可以很简单也可以很难, 就算功能简单到 12306, 只要订单足够多足够密集(春运), 那么并发性, 稳定性的要求就足够撑爆我们的系统设计. 
 
@@ -50,12 +50,26 @@ tags: ['interview']
 
 - 单个 request size
 - request per sec
-- 访问的特征 - 读写分布, 关联访问, 常用 Top 1-20% 的 hot data
+- 访问的特征 - 读写分布, 关联访问, 常用 Top 1-20% 的 hot data, 新旧数据分布
 - 突发 - 削峰用 MQ
 - 应对高计算/数据库操作压力的任务
    - 要不提前准备
    - 要不排队
    - 要不牺牲点什么
+
+随着系统用下去, 怎么保证在 10 年后系统数据超级多的时候还能顺畅运转? 首先我们要估算数据爆炸的数量级,  
+
+处理方式无非就是 Data partition 一下, 比如 1. time-based 2. userid-based 3. UserIP-based 的[数据分块](https://en.wikipedia.org/wiki/Partition_(database)),
+1. Shard 横向分, 分段分块. 按 Range 分, 比如 zipcode 10000-20000. HASH 分. 
+    - 比如屏蔽词检索. 按开头首字母各自有各自的 server. 
+    - 比如订单搜索. 按不同年份有不同的 server. 
+2. Vertical Partitioning/normalization 纵向分, 数据分表. 表只存一部分列, 其他列转移到另外的表. 
+3. 分层分级 - 一层指向一层, 指针, 指针组, 指向指针组的指针, 像 B+ Tree. 或者 Abstract metadata 数据表树形再分布. 
+    - 比如订单. 2020 年的一层, 每月的一层, 每日的一层, 每小时的... etc. 于是在 query 的时候, 一个请求会一步步转发到下一个 server. 当然也可以把这样的转发关系放在一个单独的 mapping service 里, 这个 server 的内存里就有这棵树, 可以根据时间戳直接返回应该去找哪个数据库节点. API server 直达那个节点, 避免层层转发. 
+    - 比如屏蔽词检索. `T` 开头的一个问一个 server, 再看是 `TM` 开头的, 再转发, 再转发负责 `TMD` 开头的 server, 一个 Tire 一样的服务器分配. 
+
+NoSQL 在 Scalibity 上更方便做. 
+
 
 #### 例子1 - 设计一个屏蔽词查询系统
 
@@ -100,6 +114,9 @@ tags: ['interview']
 
 这个指的是, 当我们通过设计 API 把需求抽象到代码层面之后, 下面可以用数据结构和算法, 分布式设计来进一步细化我们的设计. 
 
+讨论上可以分开 Control Plane 和 Data Plane. 比如 Short URL, Key-value 的存储和查询是 CP, 而做 301 转发的是 DP. 两边的 API 不一致, 而且构成可以完全不同, 天然分离. 
+
+
 #### 例子3 - 设计一个全国温度收集系统
 
 其实对于这个例子, 刚刚已经在数据模型和数据流动中提到了关键的几点, 
@@ -126,12 +143,13 @@ tags: ['interview']
 1. 通过 Object 的属性 hash 出来 ID. 比如 Short-URL Original URL - `md5(url)`. 或者订单 `Order_ID == userid_productid_timestamp`. 不过也许我们并不想让 ID 是一个有逻辑的 ID, 可能会暴露数据本身, 有时我们并不想让 ID 可以被预测
 2. increasing sequence number. 这对于单个 server 是最简单的方法了. 
 3. 随机数字. 这个当然很简单, 不过有一些问题, 
-   1. ID 长度必然有限制, 那么随机就会产生碰撞 (如果数据域太小的话，比如 8 位随机数字，其实 10,000 个 ID 就很大概率出现碰撞了), 而对于关键系统, 比如订单, 任何碰撞都是受不了的. 
+   1. ID 长度必然有限制, 那么随机就会产生碰撞 (如果数据域太小的话, 比如 8 位随机数字, 其实 10,000 个 ID 就很大概率出现碰撞了. Birthday problem), 而对于关键系统, 比如订单, 任何碰撞都是受不了的. 
    2. 再比如我们要求时间上后分配的 ID 要比前面的 ID 大方便 query. 随机无法满足这样的要求. 
 4. 提前准备好批量取用. 这个是很棒的主意. 我们抽象出一个 Key Generation Service 
    1. 直接生成大量 Key 放在数据库准备好. 就可以让一个进程完成, 于是没有冲突问题. 
    2. 一开始每个 API server 有一个 Key pool, 启动时去数据库里申领几千几万个 unique ID. 创建新的订单时在自己的 pool 里面拿一个. 当用完了, 比如 30min, 再去拿一次. 这样其实每个 server 的暂停服务的时间也很短, 配合下 LB. 
    3. cornor case. 即便 server 突然断电, 也不过是浪费了一些 ID, 是可接受的.  
+   4. KGS 本身可以有多个 replica 各自独立, 比如 2 台, 一台 generate odd, 一台 generate even ID. 可以选择任意质数台 replica. 
 
 ### 5. 各种通用优化
 
@@ -166,22 +184,6 @@ tags: ['interview']
 - 再上个 Distributed cache - Redis, Memcached
 - 需要计算的, 需要 query 的, 常用的 API 统统安排上 Cache
 
-#### 数据爆炸
-
-随着系统用下去, 怎么保证在 10 年后系统数据超级多的时候还能顺畅运转? 
-
-Data partition 一下, 比如
-- time-based
-- userid-based
-- UserIP-based
-
-分两类, 
-1. 横向分, 分段分块
-    - 比如屏蔽词检索. 按开头首字母各自有各自的 server. 
-    - 比如订单搜索. 按不同年份有不同的 server. 
-2. 纵向分, 分层分级 - 一层指向一层, 指针, 指针组, 指向指针组的指针, 像 B+ Tree. 或者 Abstract metadata 数据表树形再分布. 
-    - 比如订单. 2020 年的一层, 每月的一层, 每日的一层, 每小时的... etc. 于是在 query 的时候, 一个请求会一步步转发到下一个 server. 当然也可以把这样的转发关系放在一个单独的 mapping service 里, 这个 server 的内存里就有这棵树, 可以根据时间戳直接返回应该去找哪个数据库节点. API server 直达那个节点, 避免层层转发. 
-    - 比如屏蔽词检索. `T` 开头的一个问一个 server, 再看是 `TM` 开头的, 再转发, 再转发负责 `TMD` 开头的 server, 一个 Tire 一样的服务器分配. 
 
 ### 6. 收尾 Bonus - 业务性质导致可以牺牲的地方
 
@@ -194,7 +196,13 @@ Data partition 一下, 比如
 7. 可以异步做的高计算/高延迟步骤就异步做. 比如, 提前计算好每日的平均温度. 
 8. 感觉冲突/互相影响就分开, 中间加个同步机制. 
 9.  服务间 或 服务和 client 间的同步问题. pull model, push model, 或者混合.
-
+10. Tradeoffs
+   1. 延迟 vs throughput.
+   2. perf vs scalability
+   3. 可用性 vs 一致性
+11. coroutine, threading, multi-processing. Coroutine for I/O heavy 或者执行流程切换. threading 不持有任何资源, 但是是 CPU 调度的最小单位, 持有自己的 stack. 于是 CPU heavy 的任务可以善用多线程. 进程是持有 Memory, 文件（socket）的最小单元. 
+   1. 锁. 
+   2. 死锁. 饥饿. 
 
 ## Refs.
 
